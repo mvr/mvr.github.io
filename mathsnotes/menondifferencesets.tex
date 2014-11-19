@@ -1,0 +1,311 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\usepackage{amsthm}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{definition}[theorem]{Definition}
+
+\usepackage[backend=bibtex]{biblatex}
+\addbibresource{essay.bib}
+\nocite{*}
+
+\author{Mitchell Riley --- 42313942}
+\title{Difference Sets Satisfying $v = 4n$}
+\begin{document}
+\maketitle
+
+Combinatorial designs are well-studied objects with applications in fields as diverse as finite geometry, tournament scheduling and mathematical biology. A common way to construct combinatorial designs is to begin with a different object known as a difference set. A central question in this field is: for which sets of parameters does a difference set exist?
+
+Difference sets satisfying the relation $v = 4n$ form the richest source of known examples of difference sets. They were first explored by Menon\cite{menon1962difference}, who constructed an infinite family of such sets.
+
+After defining difference sets, we follow Menon's proof of the composition theorem and prove the existence of certain families of difference sets. Finally, we use the theorems in the paper to construct a Hadamard matrix of order 16.
+
+\section{Definitions}
+
+First we recall some basic definitions and results.
+
+\begin{definition}
+Given a $v$-element finite set of points $X$, a $(v, k, \lambda)$ balanced incomplete block design (BIBD) is a collection of $k$-element subsets of $X$ such that, for any two elements $x, y \in X$, exactly $\lambda$ blocks contain both $x$ and $y$.
+\end{definition}
+
+\begin{definition}
+A symmetric BIBD, (SBIBD) is a block design with an equal number of points and blocks.
+\end{definition}
+
+One way of constructing SBIBDs is to find a difference set with the same set of parameters.
+
+\begin{definition}
+A \emph{$(v, k, \lambda)$-difference set} is a subset $D$ of size $k$ of a group $G$ of order $v$ such that every nonzero element of $G$ can be expressed as a difference $d_1 d_2^{-1}$ exactly $\lambda$ ways.
+\end{definition}
+
+\begin{definition}
+The \emph{order $n$} of a difference set is defined to be $n = k - \lambda$.
+\end{definition}
+
+\begin{example}
+In the group $\mathbb{Z}_7$, the subset $D = \{1, 2, 4\}$ forms a $(7, 3, 1)$-difference set with order $n=2$.
+\end{example}
+
+We can characterise difference sets in another way. The set of differences between elements of $D$ hits every non-identity element $\lambda$ times, and the identity element $k$ times. Therefore, using multiset notation, a subset $D \subset G$ is a $(v, k, \lambda)$-difference set if and only if
+\begin{align*}
+DD^{-1} = (k-\lambda) e + \lambda G = n e + \lambda G,
+\end{align*}
+where $e$ is the identity element of $G$. 
+
+Given a $(v, k, \lambda)$-difference set $D$, we can construct a SBIBD$(v, k, \lambda)$ as follows. Given an element $g \in G$, the \emph{translate} $gD$ is the set $\{gd : d \in D\}$. The set of all translates, called the \emph{development} of $D$, is a SBIBD$(v, k, \lambda)$.
+
+\begin{example}
+The development of $D = \{1, 2, 4\}$ is the SBIBD$(7, 3, 1)$ with subsets
+\begin{align*}
+\{1,2,4\}, \{2,3,5\}, \{3,4,6\}, \{4,5,0\}, \{5,6,1\}, \{6,0,2\}, \{0,1,3\}
+\end{align*}
+\end{example}
+
+Not any set of parameters $(v, k, \lambda)$ supports the existence of a difference set.
+
+\begin{theorem}
+In any difference set $D$, $\lambda(v-1) = k(k-1)$.
+\end{theorem}
+\begin{proof}
+There are $k(k-1)$ ordered pairs of elements of $D$, and the differences of these must equal each of the $v-1$ nonzero elements of $G$ exactly $\lambda$ times.
+\end{proof}
+
+\begin{corollary}
+\label{k-identities}
+In any difference set, the following identities hold:
+\begin{align*}
+k^2 &= n + \lambda v \\
+k &= n + \lambda
+\end{align*}
+\end{corollary}
+
+Given a $(v, k, \lambda)$ difference set $D$, the set complement of $D$ inside the group $G$, written $\overline{D}$ is also a difference set.
+
+\begin{theorem}
+The complement of a $(v, k, \lambda)$-difference set is a $(v, v-k, v-2k+\lambda)$-difference set.
+\end{theorem}
+
+\begin{example}
+The complement of $D = \{1, 2, 4\}$ in $\mathbb{Z}_7$ is $\overline{D} = \{0, 3, 5, 6\}$, a $(7, 4, 2)$-difference set.
+\end{example}
+
+Note that a difference set and its complement have the same order $n = (v-k) - (v-2k+\lambda) = k-\lambda$.
+
+\section{Results}
+
+We now consider difference sets where the relation $v = 4n$ holds, as studied by Menon. Imposing this condition has some immediate consequences.
+
+Firstly, $v$ is even. By the famous Bruck-Ryser-Chowla theorem\cite{bruck1949nonexistence}, $n$ must be a perfect square, say
+\begin{align*}
+n = l^2.
+\end{align*}
+After combining this with Corollary \ref{k-identities} and performing some simple algebraic manipulations, we find there are only two classes of parameters for such a difference set.
+\begin{align*}
+v &= 4l^2, &k &= l(2l - 1), &\lambda &= l(l - 1), &n &= l^2 \\
+v &= 4l^2, &k &= l(2l + 1), &\lambda &= l(l + 1), &n &= l^2
+\end{align*}
+
+Menon notes that if a difference set of one class exists for a particular value of $l$, the complement is a difference set belonging to the other class. Also, changing the sign of $l$ reduces either class to the other, giving the following theorem.
+
+\begin{theorem}
+The parameters of a difference set satisfying $v = 4n$ are of the form
+\begin{align*}
+v &= 4l^2, &k &= l(2l - 1), &\lambda &= l(l - 1), &n &= l^2
+\end{align*}
+for some nonzero integer. Two complementary difference sets of this type have parameters that differ only by a change in the sign of $l$.
+\end{theorem}
+
+The following central theorem of the paper allows us to combine difference sets of this type in a natural way.
+
+\begin{theorem}
+Let $S_1, S_2$ be two difference sets in the groups $G_1, G_2$, and let $\overline{S_1}, \overline{S_2}$ be their complements. Let $G=(G_1, G_2)$ be the direct product of $G_1, G_2$, and $S$ the subset of $G$ given by the union of the subsets $(S_1, S_2)$ and $(\overline{S_1}, \overline{S_2})$.
+
+Then $S$ is a difference set if and only if the parameters of both $S_1$ and $S_2$ satisfy $v=4n$. Moreover, if $S$ is a difference set its parameters also satisfy $v=4n$.
+\end{theorem}
+\begin{proof}
+For $i = 1,2$, let $S_i$, $\overline{S_i}$ have the parameters
+\begin{align*}
+v_i, k_i, \lambda_i, n_i; && \overline{v_i}, \overline{k_i}, \overline{\lambda_i}, \overline{n_i}
+\end{align*}
+respectively. We have the following relations.
+\begin{align*}
+\overline{v_i} = v_i, && \overline{n_i} = n_i, && \lambda_i + \overline{\lambda_i} = \lambda_i + (v_i-2k_i+\lambda_i) = v_i - 2n_i
+\end{align*}
+
+Because $S_i, \overline{S_i}$ are difference sets, we know
+\begin{align*}
+S_i S_i^{-1} = n_i e_i + \lambda_i G_i \\
+\overline{S_i} \overline{S_i}^{-1} = n_i e_i + \overline{\lambda_i} G_i,
+\end{align*} 
+where $e_i$ is the identity element of $G_i$.
+
+Because $G_i$ is a group, $S_i G_i = S_i S_i^{-1} + S_i \overline{S_i}^{-1} = k_i G_i$. We therefore have
+\begin{align*}
+S_i \overline{S_i}^{-1} = \overline{S_i} S_i^{-1} &= k_i G_i - (n_i e_i + \lambda_i G_i) \\
+&= n_i (G_i - e_i)
+\end{align*}
+
+We can now combine there results to calculate $S S^{-1}$.
+\begin{align*}
+S S^{-1} &= (S_1 S_1^{-1}, S_2 S_2^{-1}) + (\overline{S_1}\overline{S_1}^{-1}, \overline{S_2} \overline{S_2}^{-1}) \\ 
+& \quad + (S_1 \overline{S_1}^{-1}, S_2 \overline{S_2}^{-1}) + (\overline{S_1} S_1^{-1}, \overline{S_2} S_2^{-1}) \\
+&= (n_1 e_1 + \lambda_1 G_1, n_2 e_2 + \lambda_2 G_2) + 
+(n_1 e_1 + \overline{\lambda_1} G_1, n_2 e_2 + \overline{\lambda_2} G_2) \\
+& \quad + 2(n_1 G_1 - n_1 e_1, n_2 G_2 - n_2 e_2) \\
+&= 4 n_1 n_2 (e_1, e_2) + n_1(\lambda_2 + \overline{\lambda_2} - 2 n_2) (e_1, G_2) \\
+& \quad + n_2(\lambda_1 + \overline{\lambda_1} - 2 n_1) (G_1, e_2) + (\lambda_1 \lambda_2 + \overline{\lambda}_1 \overline{\lambda}_2 + 2 n_1 n_2) (G_1, G_2)
+\end{align*}
+
+This satisfies the conditions for a difference set if and only if, for $i = 1, 2$,
+\begin{align*}
+\lambda_i + \overline{\lambda_i} = 2 n_i
+\end{align*}
+or, using the identity above, 
+\begin{align*}
+v_i = 4 n_i.
+\end{align*}
+
+Say the above holds, and let $v, k, \lambda, n$ be the parameters of $S$. As $G$ is the direct product of $G_1, G_2$, $v = v_1 v_2 = 16 n_1 n_2$. From above $n = 4 n_1 n_2$ so indeed $v = 4n$.
+\end{proof}
+
+We can immediately use this theorem to construct infinite families of difference sets.
+
+\begin{theorem}
+If there exists a difference set corresponding to $l_0$, there exists a difference set with parameter $l = 2^{r-1} l_0^r$ for $r \geq 0$.
+\end{theorem}
+\begin{proof}
+Take both $S_1$ and $S_2$ in the previous theorem to be this difference set. Then we get a new difference set with parameter $v = v_0^2$, corresponding to $l = 2 l_0^2$. Inductively combine this new difference set with the original, giving $v = v_0^r$ for all $r$, corresponding to $l = 2^{r-1} l_0^r$ for $r \geq 0$.
+\end{proof}
+
+We kickstart the process using the following base case.
+
+\begin{theorem}
+There exist difference sets with parameters corresponding to $l = 2^r$ for any $r \geq 0$.
+\end{theorem}
+\begin{proof}
+Let $C_4$ be the cyclic group of order 4, and $S$ a subset containing exactly one element. Then $S$ is a $(4,1,0)$-difference set corresponding to $l=1$. The result follows from the previous theorem.
+\end{proof}
+
+Menon also gives the following difference set corresponding to the case $l=3$. Let $G$ be the direct product of two copies of $C_6$, the cyclic group of order 6. The following subset forms a $(36, 15, 6)$-difference set, corresponding to $l = 3$.
+\begin{align*}
+(0, 0), (2, 4), (4, 2) \\
+(0, 1), (0, 3), (0, 5) \\
+(1, 0), (3, 0), (5, 0) \\
+(1, 3), (3, 5), (5, 1) \\
+(3, 1), (5, 3), (1, 5)
+\end{align*}
+
+It follows from the previous theorems that
+
+\begin{theorem}
+There exist difference sets corresponding to all values of $l$ of the form $2^s 3^r$, $s \geq r-1 \geq 0$.
+\end{theorem}
+
+\section{Applications}
+
+Menon difference sets are closely related to Hadamard matrices\cite{colbourn1996crc}.
+
+\begin{definition}
+A \emph{Hadamard matrix}, $H$, of order $n$ is a square $n \times n$ matrix with entries either $1$ or $-1$, such that $HH^t = nI$, i.e., the rows are pairwise orthogonal.
+
+A Hadamard matrix is \emph{regular} if the row and column sums are constant.
+\end{definition}
+
+\begin{example}
+The following matrices are Hadamard matrices with orders $n = 2, 4, 8$, where an entry $-$ represents $-1$. The second is regular.
+\begin{align*}
+\begin{pmatrix}
+1 & 1 \\
+1 & -
+\end{pmatrix}
+\qquad
+\begin{pmatrix}
+- & 1 & 1 & 1 \\
+1 & - & 1 & 1 \\
+1 & 1 & - & 1 \\
+1 & 1 & 1 & -
+\end{pmatrix}
+\end{align*}
+\end{example}
+
+The connection between Menon designs and Hadamard matrices is given in the following theorem.
+
+\begin{theorem}
+A Menon design SBIBD$(4u^2, 2u^2 - u, u^2 - u)$ exists if and only if there exists a regular Hadamard matrix of order $4u^2$.
+\end{theorem}
+\begin{proof}
+The proof proceeds by construction. Given a regular Hadamard matrix of order $4u^2$, replace all `$-1$' entries with `$0$' and consider the resulting matrix as the incidence matrix of a block design. Such a block design has parameters either $(4u^2, 2u^2 - u, u^2 - u)$ or $(4u^2, 2u^2 + u, u^2 + u)$. If the latter occurs, complement the design.
+
+The process can be reversed to recover a regular Hadamard matrix from a Menon design.
+\end{proof}
+
+\begin{example}
+Let us construct a regular Hadamard matrix of order $4 \cdot 2^2 = 16$. First we need a difference set corresponding to $l = 2$. We do this by applying the construction given in the previous section to the difference set $S_1 = S_2 = \{0\}$ in $C_4 = \{0, 1, 2, 3\}$.
+\begin{align*}
+S &= (S_1, S_2) + (\overline{S_1}, \overline{S_2}) \\
+&= \{ (0, 0), (1, 1), (1, 2), (1, 3), (2, 1), (2, 2), (2, 3), (3, 1), (3, 2), (3, 3) \}
+\end{align*}
+$S$ is a $(16, 10, 6)$-difference set. To simplify calculations, we consider its complement, a $(16, 6, 2)$-difference set:
+\begin{align*}
+\overline{S} = \{ (0, 1), (0, 2), (0, 3), (1, 0), (2, 0), (3, 0) \}
+\end{align*}
+
+We now calculate the corresponding SBIBD$(16, 6, 2)$, given by the development of $\overline{S}$.
+
+\begin{align*}
+\{ (0, 1), (0, 2), (0, 3), (1, 0), (2, 0), (3, 0) \}, \\
+\{ (1, 1), (1, 2), (1, 3), (2, 0), (3, 0), (0, 0) \}, \\
+\{ (2, 1), (2, 2), (2, 3), (3, 0), (0, 0), (1, 0) \}, \\
+\{ (3, 1), (3, 2), (3, 3), (0, 0), (1, 0), (2, 0) \}, \\
+\{ (0, 2), (0, 3), (0, 0), (1, 1), (2, 1), (3, 1) \}, \\
+\{ (1, 2), (1, 3), (1, 0), (2, 1), (3, 1), (0, 1) \}, \\
+\{ (2, 2), (2, 3), (2, 0), (3, 1), (0, 1), (1, 1) \}, \\
+\{ (3, 2), (3, 3), (3, 0), (0, 1), (1, 1), (2, 1) \}, \\
+\{ (0, 3), (0, 0), (0, 1), (1, 2), (2, 2), (3, 2) \}, \\
+\{ (1, 3), (1, 0), (1, 1), (2, 2), (3, 2), (0, 2) \}, \\
+\{ (2, 3), (2, 0), (2, 1), (3, 2), (0, 2), (1, 2) \}, \\
+\{ (3, 3), (3, 0), (3, 1), (0, 2), (1, 2), (2, 2) \}, \\
+\{ (0, 0), (0, 1), (0, 2), (1, 3), (2, 3), (3, 3) \}, \\
+\{ (1, 0), (1, 1), (1, 2), (2, 3), (3, 3), (0, 3) \}, \\
+\{ (2, 0), (2, 1), (2, 2), (3, 3), (0, 3), (1, 3) \}, \\
+\{ (3, 0), (3, 1), (3, 2), (0, 3), (1, 3), (2, 3) \},
+\end{align*}
+
+Finally, we calculate the incidence matrix of this block design and replace `0' with `$-1$' to get our Hadamard matrix of order 16:
+
+\setcounter{MaxMatrixCols}{20}
+\begin{align*}
+\begin{pmatrix}
+- & 1 & 1 & 1 & 1 & - & - & - & 1 & - & - & - & 1 & - & - & - \\
+1 & - & - & - & - & 1 & 1 & 1 & 1 & - & - & - & 1 & - & - & - \\
+1 & - & - & - & 1 & - & - & - & - & 1 & 1 & 1 & 1 & - & - & - \\
+1 & - & - & - & 1 & - & - & - & 1 & - & - & - & - & 1 & 1 & 1 \\
+1 & - & 1 & 1 & - & 1 & - & - & - & 1 & - & - & - & 1 & - & - \\
+- & 1 & - & - & 1 & - & 1 & 1 & - & 1 & - & - & - & 1 & - & - \\
+- & 1 & - & - & - & 1 & - & - & 1 & - & 1 & 1 & - & 1 & - & - \\
+- & 1 & - & - & - & 1 & - & - & - & 1 & - & - & 1 & - & 1 & 1 \\
+1 & 1 & - & 1 & - & - & 1 & - & - & - & 1 & - & - & - & 1 & - \\
+- & - & 1 & - & 1 & 1 & - & 1 & - & - & 1 & - & - & - & 1 & - \\
+- & - & 1 & - & - & - & 1 & - & 1 & 1 & - & 1 & - & - & 1 & - \\
+- & - & 1 & - & - & - & 1 & - & - & - & 1 & - & 1 & 1 & - & 1 \\
+1 & 1 & 1 & - & - & - & - & 1 & - & - & - & 1 & - & - & - & 1 \\
+- & - & - & 1 & 1 & 1 & 1 & - & - & - & - & 1 & - & - & - & 1 \\
+- & - & - & 1 & - & - & - & 1 & 1 & 1 & 1 & - & - & - & - & 1 \\
+- & - & - & 1 & - & - & - & 1 & - & - & - & 1 & 1 & 1 & 1 & - 
+\end{pmatrix}
+\end{align*}
+
+\end{example}
+
+Hadamard matrices can be used to create error correcting codes. ``Olivia MFSK'' is a digital amateur radio protocol that uses a Hadamard matrix of order 64 to encode characters before transmission.
+
+These matrices also find use in statistics and experimental design, where the orthogonality of the columns is used to isolate the effects of different factors.
+
+\printbibliography
+\end{document}

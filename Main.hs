@@ -28,8 +28,14 @@ main = hakyllWith config $ do
         >>= loadAndApplyTemplate "templates/posts.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
+
   -- Compile templates
   match "templates/*" $ compile templateCompiler
+
+  -- Copy some files verbatim
+  match "public/**" $ do
+    route $ gsubRoute "public/" (const "")
+    compile copyFileCompiler
 
 postCtx :: Context String
 postCtx = dateField "date" "%B %e, %Y" <> defaultContext

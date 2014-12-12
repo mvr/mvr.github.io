@@ -1,0 +1,86 @@
+body {
+    padding: 0;
+    margin: 0 auto;
+    height: 100%;
+    background-color: black;
+    color: #ff69b4;
+    text-align: center;
+    font-family: Arial, 'Liberation Sans', 'DejaVu Sans', sans-serif;
+    overflow: hidden;    
+}
+
+div {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+h1#heading {
+    font-family: 'Great Vibes';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 600%;
+    margin-top: 0;
+    padding-top: 50px;
+}
+
+#mmrInput {
+    font-size: 30px;
+    border: 0;
+    border-bottom: solid 1px lightgray;
+    outline: none;
+    background-color: black;
+    color: lightgray;
+    text-align: center;
+    width: 300px;
+}
+
+#inchResult {
+    margin-top: 50px;
+}
+
+#ruler {
+    border-style: none solid solid solid;
+    border-color: #ff69b4;
+    border-width: thin;
+    width: 100px;
+    height: 20px;
+    margin: 0 auto;
+}
+
+.wow {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 300px;
+    -webkit-animation: popup 5s;
+    animation: popup 5s;                          
+}
+
+@-webkit-keyframes popup {
+    0%  { bottom: -300px }
+    50% { bottom: -300px }
+    100% { bottom: 0 }
+}
+
+@keyframes popup {
+    0%  { bottom: -300px }
+    50% { bottom: -300px }
+    100% { bottom: 0 }
+}
+
+#footer {
+    display: block;
+    position: absolute;
+    width: 99%;
+    text-align: right;
+    color: lightgray;
+    bottom: 5px;
+
+}
+
+#footer a {
+    color: lightgray;
+}
+
+

@@ -9,13 +9,22 @@ import qualified Data.Set as S
 import Hakyll
 import Text.Pandoc.Options
 
--- Much is stolen from https://github.com/jaspervdj/jaspervdj
 main :: IO ()
-main = hakyllWith config $ do
-  tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+main = do
+  (action:_) <- getArgs
+  run action
+
+-- Much is stolen from https://github.com/jaspervdj/jaspervdj
+run :: String -> IO ()
+run action = hakyllWith config $ do
+  let postsPattern = if action == "watch"
+                     then "posts/*" .||. "inprogress/*"
+                     else "posts/*"
+
+  tags <- buildTags postsPattern (fromCapture "tags/*.html")
 
   -- Compile posts
-  match "posts/*" $ do
+  match postsPattern $ do
     route   $ setExtension ".html"
     compile $ pandocMathCompiler
       >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
@@ -26,7 +35,7 @@ main = hakyllWith config $ do
   create ["posts.html"] $ do
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAll "posts/*"
+      posts <- recentFirst =<< loadAll postsPattern
       let ctx = constField "title" "Posts" <>
                 listField "posts" (postCtx tags) (return posts) <>
                 defaultContext
@@ -39,7 +48,7 @@ main = hakyllWith config $ do
   match "index.html" $ do
     route idRoute
     compile $ do
-      posts <- fmap (take 3) . recentFirst =<< loadAll "posts/*"
+      posts <- fmap (take 3) . recentFirst =<< loadAll postsPattern
       let ctx = listField "posts" (postCtx tags) (return posts)
                 <> field "Tags" (\_ -> renderTagList tags)
                 <> defaultContext

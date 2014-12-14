@@ -75,6 +75,10 @@ run action = hakyllWith config $ do
   -- Compile templates
   match "templates/*" $ compile templateCompiler
 
+  match "css/*" $ do
+    route idRoute
+    compile compressCssCompiler
+
   -- Copy some files verbatim
   match "public/**" $ do
     route $ gsubRoute "public/" (const "")

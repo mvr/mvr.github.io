@@ -31,6 +31,8 @@ is exact and therefore $\tilde{H}_0(S^2 \setminus C) \cong \mathbb{Z}$, meaning 
 
 An induction argument can be used to prove that any $S^{n-1}$ shaped subset of $S^n$ splits $S^n$ into two components.
 
-You might also note that in the 2-dimensional case, the inside and outside of the curve are homeomorphic to the inside and outside of an ordinary circle drawn in the plane. An analogous statement is not always true in higher dimensions, as shown by the famous 'Alexander horned sphere'.
+You might also note that in the 2-dimensional case, the inside and outside of the curve are homeomorphic to the inside and outside of an ordinary circle drawn in the plane. An analogous statement is not always true in higher dimensions, as shown by the famous 'Alexander horned sphere'. The horned sphere is a peculiar embedding of $S^2$ into $\mathbb{R}^3$ such that the exterior of the sphere is not simply connected.
 
-TODO
+This embedding is much better shown than explained:
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/Pe2mnrLUYFU" frameborder="0" allowfullscreen></iframe>

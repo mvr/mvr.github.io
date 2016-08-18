@@ -1,10 +1,10 @@
 ---
 title: Songs
 published: April 27, 2015
-tags: music
+tags: note-to-self, music
 ---
 
-I am the type that gets a song stuck in their head for weeks at a time. I am hoping this list will make for interesting reading when I am older.
+I often get a song stuck in my head for weeks at a time. I am hoping this list will make for interesting reading when I am older.
 
 * Indigo Girls - Galileo
 * Foster The People - Houdini
@@ -21,3 +21,7 @@ I am the type that gets a song stuck in their head for weeks at a time. I am hop
 * Mark Seymour - Don't You Know Me
 * Colin Hay - Waiting for My Real Life to Begin
 * Neil Finn - Faster than Light
+* Flume - Insane
+* TMBG - ECNALUMBA
+* Kygo - Stay
+* Missy Higgins - 100 Round The Bends

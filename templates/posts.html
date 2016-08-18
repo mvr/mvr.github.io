@@ -1,10 +1,13 @@
-<h1>$title$</h1>
-<ul>
-    $for(posts)$
-    <li>
-        <p>
-            <a href="$url$">$title$</a> ‒ <span>$date$</span>
-        </p>
-    </li>
-    $endfor$
-</ul>
+$for(posts)$
+  <h1>$title$</h1>
+  <i>$date$ / $tags$</i>
+
+  $body$
+$endfor$
+
+$if(previousPageNum)$
+<a href="$previousPageUrl$">◀ Newer Entries</a>
+$endif$ &nbsp;
+$if(nextPageNum)$
+<a href="$nextPageUrl$">Older Entries ▶</a>
+$endif$&nbsp;

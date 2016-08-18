@@ -2,6 +2,7 @@
 
 module Main (main) where
 
+import Control.Monad (liftM)
 import Data.Monoid
 import System.Environment (getArgs)
 import qualified Data.Set as S
@@ -11,8 +12,16 @@ import Text.Pandoc.Options
 
 main :: IO ()
 main = do
-  (action:_) <- getArgs
-  run action
+  args <- getArgs
+  case args of
+    (h:_) -> run h
+    []    -> run "blank"
+
+grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
+grouper ids = (liftM (paginateEvery 10) . sortRecentFirst) ids
+
+makeId :: PageNumber -> Identifier
+makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ ".html"
 
 -- Much is stolen from https://github.com/jaspervdj/jaspervdj
 run :: String -> IO ()
@@ -21,6 +30,7 @@ run action = hakyllWith config $ do
                      then "posts/*" .||. "inprogress/*"
                      else "posts/*"
 
+  pag <- buildPaginateWith grouper postsPattern makeId
   tags <- buildTags postsPattern (fromCapture "tags/*.html")
 
   -- Compile posts
@@ -32,16 +42,31 @@ run action = hakyllWith config $ do
       >>= relativizeUrls
 
   -- Post list
-  create ["posts.html"] $ do
+  create ["archive.html"] $ do
     route idRoute
     compile $ do
       posts <- recentFirst =<< loadAll postsPattern
-      let ctx = constField "title" "Posts" <>
+      let ctx = constField "title" "All Posts" <>
                 listField "posts" (postCtx tags) (return posts) <>
                 defaultContext
       makeItem ""
-        >>= loadAndApplyTemplate "templates/posts.html" ctx
+        >>= loadAndApplyTemplate "templates/archive.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
+
+  -- Paginated pages
+  paginateRules pag $ \pageNum pattern -> do
+    route idRoute
+    compile $ do
+      posts <- recentFirst =<< loadAll pattern
+      let paginateCtx = paginateContext pag pageNum
+          ctx =
+            constField "title" ("Page " ++ (show pageNum)) <>
+            listField "posts" (postCtx tags) (return posts) <>
+            paginateCtx <>
+            defaultContext
+      makeItem ""
+        >>= loadAndApplyTemplate "templates/posts.html" ctx
         >>= relativizeUrls
 
   -- Index
@@ -50,7 +75,9 @@ run action = hakyllWith config $ do
     compile $ do
       posts <- fmap (take 3) . recentFirst =<< loadAll postsPattern
       let ctx = listField "posts" (postCtx tags) (return posts)
-                <> field "Tags" (\_ -> renderTagList tags)
+                <> field "tags" (\_ -> renderTagList tags)
+                <> constField "title" "Index"
+                <> paginateContext pag 1
                 <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx

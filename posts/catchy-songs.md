@@ -4,7 +4,8 @@ published: April 27, 2015
 tags: note-to-self, music
 ---
 
-I often get a song stuck in my head for weeks at a time. I am hoping this list will make for interesting reading when I am older.
+I often get songs stuck in my head for weeks at a time. I am hoping
+this list will make for interesting reading when I am older.
 
 * Indigo Girls - Galileo
 * Foster The People - Houdini
@@ -17,6 +18,7 @@ I often get a song stuck in my head for weeks at a time. I am hoping this list w
 * Tegan and Sara - Walking With A Ghost
 * Rilo Kiley - Execution of All Things
 * Phoenix - Everything is Everything
+* Time - The Whitlams
 * Split Enz - I Got You
 * Mark Seymour - Don't You Know Me
 * Colin Hay - Waiting for My Real Life to Begin
@@ -25,3 +27,4 @@ I often get a song stuck in my head for weeks at a time. I am hoping this list w
 * TMBG - ECNALUMBA
 * Kygo - Stay
 * Missy Higgins - 100 Round The Bends
+* Lemon Demon - Touch Tone Telephone

@@ -1,11 +1,45 @@
-$for(posts)$
-<p>
-    $body$
-</p>
-$endfor$
-Tags:
-$tags$
+<h1><a href="/">Mitchell Riley</a></h1>
 
-$if(nextPageNum)$
-<a href="$nextPageUrl$">Older Entries ▶</a>
-$endif$&nbsp;
+<div id="header">
+    <div id="headerl">
+
+        <!-- <img src="" width="200" height="140" alt="mvr"> -->
+
+        I am a PhD student at Wesleyan University in
+        Connecticut. I work on type theory, in particular <a href="">HoTT</a> and synthetic topology.
+
+    </div>
+
+    <div id="headerr">
+        <ul>
+            <li><a href="">Academic Website</a></li>
+            <li><a href="">Github</a></li>
+        </ul>
+        Contact:
+        <script type="text/javascript">
+         document.write(('<'+'a href="mailto:woyumsu.de">mitchell.v.rileyzgmail.com<'+'/a>').replace(/z/g, '@'));
+        </script>
+        <noscript>mitchell.v.riley at gmail</noscript>
+    </div>
+
+</div>
+<div id="main">
+
+    $for(posts)$
+        $body$
+    $endfor$
+
+
+    $if(nextPageNum)$
+    <a href="$nextPageUrl$">Older Entries ▶</a>
+    $endif$&nbsp;
+
+</div>
+
+<div id="side1" class="side">
+    <div class="section">
+        <h3>Tags</h3>
+
+        $tags$
+    </div>
+</div>

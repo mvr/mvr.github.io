@@ -4,9 +4,10 @@ published: April 27, 2015
 tags: note-to-self, music
 ---
 
-I often get songs stuck in my head for weeks at a time. I am hoping
-this list will make for interesting reading when I am older.
+I get songs stuck in my head for weeks at a time. I hope this list
+will make for interesting reading when I am older. Chronologically:
 
+* Belle & Sebastian - Step Into My Office, Baby
 * Indigo Girls - Galileo
 * Foster The People - Houdini
 * Guster - Keep It Together
@@ -28,3 +29,23 @@ this list will make for interesting reading when I am older.
 * Kygo - Stay
 * Missy Higgins - 100 Round The Bends
 * Lemon Demon - Touch Tone Telephone
+* Tame Impala - The Less I Know The Better
+* BORNS - Electric Love
+* OVERWERK - Winter
+* Cults - Always Forever
+* Miike Snow - Genghis Khan
+* UMO - Multi-Love
+* The Weeknd - I Feel It Coming
+* Big Data - Big Dater
+* The Finn Brothers - A Life Between Us
+* Big Data - Automatic
+* Jonathan Coulton - Don't Feed the Trolls
+* Barenaked Ladies - Bank Job
+* Young the Giant - Apartment
+* Genesis - That's All
+* Absofacto - Dissolve
+* Foster The People - Sit Next To Me
+* TMBG - The Statue Got Me High
+* George Harrison - Got My Mind Set On You
+* Electric Guest - Jenny
+* TMBG - I Love You for Psychological Reasons

@@ -18,7 +18,7 @@ main = do
     []    -> run "blank"
 
 grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
-grouper ids = (liftM (paginateEvery 10) . sortRecentFirst) ids
+grouper ids = (liftM (paginateEvery 5) . sortRecentFirst) ids
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ ".html"
@@ -36,9 +36,13 @@ run action = hakyllWith config $ do
   -- Compile posts
   match postsPattern $ do
     route   $ setExtension ".html"
+    let ctx = postCtx tags
     compile $ pandocMathCompiler
-      >>= loadAndApplyTemplate "templates/post.html" (postCtx tags)
-      >>= loadAndApplyTemplate "templates/default.html" defaultContext
+      >>= saveSnapshot "body"
+      >>= loadAndApplyTemplate "templates/post.html" ctx
+      >>= saveSnapshot "rendered"
+      >>= loadAndApplyTemplate "templates/post-page.html" ctx
+      >>= loadAndApplyTemplate "templates/default.html" ctx
       >>= relativizeUrls
 
   -- Post list
@@ -48,6 +52,7 @@ run action = hakyllWith config $ do
       posts <- recentFirst =<< loadAll postsPattern
       let ctx = constField "title" "All Posts" <>
                 listField "posts" (postCtx tags) (return posts) <>
+                boolField "body-style-minimal" (const True) <>
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
@@ -58,22 +63,24 @@ run action = hakyllWith config $ do
   paginateRules pag $ \pageNum pattern -> do
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAll pattern
+      posts <- recentFirst =<< loadAllSnapshots pattern "body"
       let paginateCtx = paginateContext pag pageNum
           ctx =
             constField "title" ("Page " ++ (show pageNum)) <>
             listField "posts" (postCtx tags) (return posts) <>
+            boolField "body-style-minimal" (const True) <>
             paginateCtx <>
             defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/posts.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   -- Index
   match "index.html" $ do
     route idRoute
     compile $ do
-      posts <- fmap (take 3) . recentFirst =<< loadAll postsPattern
+      posts <- fmap (take 3) . recentFirst =<< loadAllSnapshots postsPattern "rendered"
       let ctx = listField "posts" (postCtx tags) (return posts)
                 <> field "tags" (\_ -> renderTagList tags)
                 <> constField "title" "Index"
@@ -90,7 +97,7 @@ run action = hakyllWith config $ do
 
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAll pattern
+      posts <- recentFirst =<< loadAllSnapshots pattern "body"
       let ctx = constField "title" title <>
                 listField "posts" (postCtx tags) (return posts) <>
                 defaultContext
@@ -114,6 +121,7 @@ run action = hakyllWith config $ do
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
                <> tagsField "tags" tags
+               <> boolField "body-style-minimal" (const True)
                <> defaultContext
 
 pandocMathCompiler :: Compiler (Item String)
@@ -121,7 +129,7 @@ pandocMathCompiler =
     let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
                           Ext_latex_macros]
         defaultExtensions = writerExtensions defaultHakyllWriterOptions
-        newExtensions = foldr S.insert defaultExtensions mathExtensions
+        newExtensions = foldr enableExtension defaultExtensions mathExtensions
         writerOptions = defaultHakyllWriterOptions {
                           writerExtensions = newExtensions,
                           writerHTMLMathMethod = MathJax ""

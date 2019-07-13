@@ -1,5 +1,11 @@
+<div id="header">
+    <a href="/">&#171;</a> $title$
+</div>
+
+<div id="main">
+
 $for(posts)$
-  <h1>$title$</h1>
+  <h2>$title$</h2>
   <i>$date$ / $tags$</i>
 
   $body$
@@ -11,3 +17,5 @@ $endif$ &nbsp;
 $if(nextPageNum)$
 <a href="$nextPageUrl$">Older Entries ▶</a>
 $endif$&nbsp;
+
+</div>

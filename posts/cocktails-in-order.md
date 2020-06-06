@@ -8,6 +8,8 @@ Here are most of the cocktails in the IBA cocktail list ordered such
 that as you go down, at most one new cocktail ingredient each time is
 needed. (This doesn't include other ingredients such as fruit juices.)
 
+<!--more-->
+
 * Whiskey Sour: **Bourbon**
 * Mint Julep
 * Old Fashioned: **Angostura bitters**

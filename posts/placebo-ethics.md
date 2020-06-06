@@ -19,6 +19,8 @@ administering placebos&mdash;whether it is ethical to deceive a
 patient for their own good&mdash;but this is not what I am thinking
 of.
 
+<!--more-->
+
 Instead, if a placebo needs to be a secret to be effective, then just
 *knowing* about the existence of placebos changes their efficacy on
 you. If you are given a placebo to treat a condition, you may suspect

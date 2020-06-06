@@ -14,7 +14,7 @@ combinatorial games: chess, go, tic-tac-toe.
 The simplest way of thinking of these games is as a set of moves for
 the player Left, and a set of moves for the player Right. When a
 player chooses an option from their set, this new position can be
-considered another game. This gives us a tree-like structure:
+considered another game. This gives us a tree-like structure: <!--more-->
 
 > import Prelude hiding ((||))
 > import qualified Prelude ((||))

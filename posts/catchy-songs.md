@@ -7,6 +7,8 @@ tags: note-to-self, music
 I get songs stuck in my head for weeks at a time. I hope this list
 will make for interesting reading when I am older. Chronologically:
 
+<!--more-->
+
 * Belle & Sebastian - Step Into My Office, Baby
 * Indigo Girls - Galileo
 * Foster The People - Houdini
@@ -23,7 +25,7 @@ will make for interesting reading when I am older. Chronologically:
 * Split Enz - I Got You
 * Mark Seymour - Don't You Know Me
 * Colin Hay - Waiting for My Real Life to Begin
-* Neil Finn - Faster than Light
+* Neil Finn - Faster Than Light
 * Flume - Insane
 * TMBG - ECNALUMBA
 * Kygo - Stay
@@ -49,3 +51,6 @@ will make for interesting reading when I am older. Chronologically:
 * George Harrison - Got My Mind Set On You
 * Electric Guest - Jenny
 * TMBG - I Love You for Psychological Reasons
+* The Kooks - Do You Love Me Still?
+* The Bird and the Bee - Birthday
+* UMO - Swim and Sleep (Like a Shark)

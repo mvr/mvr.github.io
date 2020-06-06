@@ -36,7 +36,7 @@ run action = hakyllWith config $ do
   -- Compile posts
   match postsPattern $ do
     route   $ setExtension ".html"
-    let ctx = postCtx tags
+    let ctx = postCtx tags <> field "tags" (\_ -> renderTagList tags)
     compile $ pandocMathCompiler
       >>= saveSnapshot "body"
       >>= loadAndApplyTemplate "templates/post.html" ctx
@@ -66,28 +66,13 @@ run action = hakyllWith config $ do
       posts <- recentFirst =<< loadAllSnapshots pattern "body"
       let paginateCtx = paginateContext pag pageNum
           ctx =
+            field "tags" (\_ -> renderTagList tags) <>
             constField "title" ("Page " ++ (show pageNum)) <>
             listField "posts" (postCtx tags) (return posts) <>
-            boolField "body-style-minimal" (const True) <>
             paginateCtx <>
             defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/posts.html" ctx
-        >>= loadAndApplyTemplate "templates/default.html" ctx
-        >>= relativizeUrls
-
-  -- Index
-  match "index.html" $ do
-    route idRoute
-    compile $ do
-      posts <- fmap (take 3) . recentFirst =<< loadAllSnapshots postsPattern "rendered"
-      let ctx = listField "posts" (postCtx tags) (return posts)
-                <> field "tags" (\_ -> renderTagList tags)
-                <> constField "title" "Index"
-                <> paginateContext pag 1
-                <> defaultContext
-      getResourceBody
-        >>= applyAsTemplate ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
@@ -100,8 +85,26 @@ run action = hakyllWith config $ do
       posts <- recentFirst =<< loadAllSnapshots pattern "body"
       let ctx = constField "title" title <>
                 listField "posts" (postCtx tags) (return posts) <>
+                field "tags" (\_ -> renderTagList tags) <>
                 defaultContext
       makeItem ""
+        >>= loadAndApplyTemplate "templates/posts.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
+
+  -- Index
+  match "index.html" $ do
+    route idRoute
+    compile $ do
+      posts <- fmap (take 3) . recentFirst =<< loadAllSnapshots postsPattern "body"
+      let ctx = listField "posts" (postCtx tags) (return posts)
+                <> field "tags" (\_ -> renderTagList tags)
+                <> constField "title" "Index"
+                <> boolField "isIndex" (const True)
+                <> paginateContext pag 1
+                <> defaultContext
+      getResourceBody
+        >>= applyAsTemplate ctx
         >>= loadAndApplyTemplate "templates/posts.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
@@ -122,6 +125,7 @@ postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
                <> tagsField "tags" tags
                <> boolField "body-style-minimal" (const True)
+               <> teaserField "teaser" "body"
                <> defaultContext
 
 pandocMathCompiler :: Compiler (Item String)

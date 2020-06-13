@@ -1,0 +1,103 @@
+/* colours:
+   grey blue: rgb(138,185,209);
+   darker blue: rgb(36, 83, 107);
+   light grey: rgb(217, 217, 217);
+ */
+
+/* fonts:
+  font-family: "Calendas Plus","Crimson Text","Hoefler Text","Georgia",serif;
+  font-family: "Source Sans Pro","Open Sans","Helvetica Neue","Arial",sans-serif;
+   */
+
+
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
+    border: 0;
+    font: inherit;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    vertical-align: baseline
+}
+
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+    display: block
+}
+
+a {
+    text-decoration: none
+}
+
+a,a:visited,a:active {
+    color: rgb(138,185,209);
+}
+
+a:hover {
+    color: rgb(36, 83, 107);
+}
+
+body {
+    color:#060606;
+    background:#fff;
+    font-family: "Calendas Plus","Crimson Text","Hoefler Text","Georgia",serif;
+    /* font-family:"Source Serif Pro", Baskerville, "Libre Baskerville", serif; */
+
+    padding-top: 100px;
+    padding-left: 80px;
+}
+
+/* header#masthead { */
+/*     margin-top: 100px; */
+/*     /\* margin-left: 80px; *\/ */
+/* } */
+
+header#masthead h1 {
+    display: inline-block;
+    font-size: 3.5em;
+    border-bottom: 2px solid rgb(138,185,209);
+    margin-bottom: 20px;
+}
+
+header#masthead p {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+header#masthead #links a {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+section {
+    max-width: 850px;
+    margin-left: 100px;
+}
+
+ul#posts-list {
+    list-style-type: none;
+    margin-top: 50px;
+}
+
+li.post-entry {
+    margin-bottom: 66px;
+}
+
+
+h1.post-title {
+    font-size: 2em;
+}
+
+.post-date {
+    font-family: "Source Sans Pro","Open Sans","Helvetica Neue","Arial",sans-serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: rgb(217, 217, 217);
+}
+
+.post-content {
+    margin-top: 15px;
+}
+
+footer {
+    color: rgb(217, 217, 217);
+}

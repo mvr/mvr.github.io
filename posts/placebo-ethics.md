@@ -1,5 +1,5 @@
 ---
-title: The Ethics of Reporting on Placebos
+title: Should You Discuss The Placebo Effect?
 published: July 5, 2019
 tags: note-to-self, infohazard
 ---
@@ -22,31 +22,32 @@ of.
 <!--more-->
 
 Instead, if a placebo needs to be a secret to be effective, then just
-*knowing* about the existence of placebos changes their efficacy on
-you. If you are given a placebo to treat a condition, you may suspect
-that the treatment you are given is a placebo, making it less
+*knowing* about the existence of placebos could change their efficacy
+on you. If you are given a placebo to treat a condition, you may
+suspect that the treatment is a placebo, making it less
 effective. Worse, you may incorrectly guess that a real treatment is a
-placebo, making it less effective than it would have otherwise been!
+placebo, making it less effective than it should be!
 
 In science fiction, information that can harm you just by knowing it
 is sometimes called a `infohazard'. The placebo effect is the only
 example of a real-world infohazard that I know of. It is not clear to
 me whether the authors of pop-science articles on placebos considered
-this possible negative consequence of publishing the articles.
+this possible negative consequence of discussing placebos.
 
-It is difficult to say what the ideal way to handle placebos would
-be. A world where doctors and researches conspire to keep the placebo
-effect a secret would help in this limited sense, but of course this
-has its own ethical issues. Not to mention the potential damage caused
-by loss of trust in medicine if such a conspiracy were revealed.
+It is difficult to decide the best way to handle things. A world where
+doctors and researches conspire to keep the placebo effect a secret
+would help in this limited sense, but of course this has its own
+ethical issues. Not to mention, loss of trust in medicine if such a
+conspiracy were revealed would probably have far worse consequences
+than the current state of affairs.
 
 Some salvation comes in 2017. [Ahe
 study](https://journals.lww.com/pain/Citation/2017/12000/Is_the_rationale_more_important_than_deception__A.7.aspx)
 suggests that placebos can work when the patient knows about them, so
-long as the patient is told that they will work. Performing this
+long as the patient is still told that they will work. Performing this
 treatment is replacing one form of deception with another; rather than
 pretending the pill is real medicine, the doctor pretends that they
-know the placebo will work. Perhaps this is more palatable ethically!
+know the placebo will work. Maybe this is more palatable!
 
 We now have to turn to the ethics of writing *this* note. It is
 possible that reading this note might cause someone to second-guess
@@ -63,7 +64,7 @@ The idea of keeping placebos secret has a flip-side. The
 [nocebo](https://en.wikipedia.org/wiki/Nocebo) effect concerns
 patients whose conditions worsen due to their own negative
 expectations. For example, being told the side-effects of a drug can
-make it more likely for these side-effects to manifest. Popularising
-the nocebo effect could help counteract this: people may recognise
-that an effect they are feeling is due to their own expectations,
-helping them overcome it.
+make it more likely for these side-effects to manifest. Maybe there is
+a duty to popularise the nocebo effect as much as possible: people may
+recognise that an effect they are feeling is due to their own
+expectations, helping them overcome it.

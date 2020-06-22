@@ -1,6 +1,7 @@
 ---
 title: A Whirlwind Tour of Combinatorial Games in Haskell
 published: March 17, 2014
+tags: haskell
 ---
 
 Combinatorial games are an interesting class of games where two

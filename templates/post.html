@@ -1,9 +1,5 @@
-<div class="entry">
-    <h2><a href="$url$">$title$</a></h2>
-    <div class="entryheader">
-        <a href="?">Posted on $date$</a> / $tags$<br>
-    </div>
+<h1 class="post-title"><a href="$url$">$title$</a></h1>
+<p class="post-deets">$date$ $if(tags)$ / $tags$ $endif$</p>
+<div class="post-content">
     $body$
-
-    <div class="commentrequest">Please email me any comments!</div>
 </div>

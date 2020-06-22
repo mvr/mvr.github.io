@@ -16,5 +16,6 @@ executable mvr
                      , containers >= 0.5.5.1
                      , hakyll >= 4.6
                      , pandoc >= 1.13.1
+                     , titlecase
 
   default-language:    Haskell2010

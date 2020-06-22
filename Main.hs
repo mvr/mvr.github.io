@@ -6,6 +6,8 @@ import Control.Monad (liftM)
 import Data.Monoid
 import System.Environment (getArgs)
 import qualified Data.Set as S
+import qualified Data.Map as M
+import Data.Text.Titlecase
 
 import Hakyll
 import Text.Pandoc.Options
@@ -17,8 +19,11 @@ main = do
     (h:_) -> run h
     []    -> run "blank"
 
-grouper :: MonadMetadata m => [Identifier] -> m [[Identifier]]
-grouper ids = (liftM (paginateEvery 5) . sortRecentFirst) ids
+perPage :: Int
+perPage = 3
+
+grouper :: (MonadMetadata m, MonadFail m) => [Identifier] -> m [[Identifier]]
+grouper ids = (liftM (paginateEvery perPage) . sortRecentFirst) ids
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ ".html"
@@ -27,7 +32,7 @@ makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ ".html"
 run :: String -> IO ()
 run action = hakyllWith config $ do
   let postsPattern = if action == "watch"
-                     then "posts/*" .||. "inprogress/*"
+                     then "posts/*" -- .||. "inprogress/*"
                      else "posts/*"
 
   pag <- buildPaginateWith grouper postsPattern makeId
@@ -36,7 +41,7 @@ run action = hakyllWith config $ do
   -- Compile posts
   match postsPattern $ do
     route   $ setExtension ".html"
-    let ctx = postCtx tags <> field "tags" (\_ -> renderTagList tags)
+    let ctx = postCtx tags -- <> field "tags" (\_ -> renderTagList tags)
     compile $ pandocMathCompiler
       >>= saveSnapshot "body"
       >>= loadAndApplyTemplate "templates/post.html" ctx
@@ -52,12 +57,14 @@ run action = hakyllWith config $ do
       posts <- recentFirst =<< loadAll postsPattern
       let ctx = constField "title" "All Posts" <>
                 listField "posts" (postCtx tags) (return posts) <>
-                boolField "body-style-minimal" (const True) <>
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
+        >>= loadAndApplyTemplate "templates/post-list-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
+
+
 
   -- Paginated pages
   paginateRules pag $ \pageNum pattern -> do
@@ -72,13 +79,14 @@ run action = hakyllWith config $ do
             paginateCtx <>
             defaultContext
       makeItem ""
-        >>= loadAndApplyTemplate "templates/posts.html" ctx
+        >>= loadAndApplyTemplate "templates/post-list.html" ctx
+        >>= loadAndApplyTemplate "templates/post-list-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   -- Tags
   tagsRules tags $ \tag pattern -> do
-    let title = "Posts tagged " ++ tag
+    let title = "Posts Tagged ‘" ++ titlecase (fmap (\c -> if c == '-' then ' ' else c) tag) ++ "’"
 
     route idRoute
     compile $ do
@@ -88,7 +96,8 @@ run action = hakyllWith config $ do
                 field "tags" (\_ -> renderTagList tags) <>
                 defaultContext
       makeItem ""
-        >>= loadAndApplyTemplate "templates/posts.html" ctx
+        >>= loadAndApplyTemplate "templates/post-list.html" ctx
+        >>= loadAndApplyTemplate "templates/post-list-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
@@ -96,17 +105,23 @@ run action = hakyllWith config $ do
   match "index.html" $ do
     route idRoute
     compile $ do
-      posts <- fmap (take 3) . recentFirst =<< loadAllSnapshots postsPattern "body"
+      posts <- fmap (take perPage) . recentFirst =<< loadAllSnapshots postsPattern "body"
       let ctx = listField "posts" (postCtx tags) (return posts)
                 <> field "tags" (\_ -> renderTagList tags)
-                <> constField "title" "Index"
-                <> boolField "isIndex" (const True)
+                <> constField "title" "mvr"
+                -- <> boolField "isIndex" (const True)
                 <> paginateContext pag 1
                 <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
-        >>= loadAndApplyTemplate "templates/posts.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
+
+  match "projects.md" $ do
+    route (setExtension "html")
+    compile $ do
+      pandocMathCompiler
+        >>= loadAndApplyTemplate "templates/default.html" defaultContext
         >>= relativizeUrls
 
   -- Compile templates
@@ -124,7 +139,6 @@ run action = hakyllWith config $ do
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
                <> tagsField "tags" tags
-               <> boolField "body-style-minimal" (const True)
                <> teaserField "teaser" "body"
                <> defaultContext
 

@@ -45,7 +45,7 @@ run action = hakyllWith config $ do
     compile $ pandocMathCompiler
       >>= saveSnapshot "body"
       >>= loadAndApplyTemplate "templates/post.html" ctx
-      >>= saveSnapshot "rendered"
+      -- >>= saveSnapshot "rendered"
       >>= loadAndApplyTemplate "templates/post-page.html" ctx
       >>= loadAndApplyTemplate "templates/default.html" ctx
       >>= relativizeUrls
@@ -119,9 +119,10 @@ run action = hakyllWith config $ do
 
   match "projects.md" $ do
     route (setExtension "html")
+    let ctx = defaultContext <> constField "title" "Projects"
     compile $ do
       pandocMathCompiler
-        >>= loadAndApplyTemplate "templates/default.html" defaultContext
+        >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   -- Compile templates
@@ -135,6 +136,14 @@ run action = hakyllWith config $ do
   match "public/**" $ do
     route $ gsubRoute "public/" (const "")
     compile copyFileCompiler
+
+  create ["atom.xml"] $ do
+    route idRoute
+    compile $ do
+        let feedCtx = postCtx tags <> bodyField "description" 
+
+        posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "body"
+        renderAtom feedConfiguration feedCtx posts
 
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
@@ -159,3 +168,12 @@ config = defaultConfiguration
     -- { deployCommand = "rsync --checksum -ave 'ssh -p 2222' \
     --                   \_site/* jaspervdj@jaspervdj.be:jaspervdj.be"
     -- }
+
+feedConfiguration :: FeedConfiguration
+feedConfiguration = FeedConfiguration
+    { feedTitle       = "mvr"
+    , feedDescription = "Personal Site of Mitchell Riley"
+    , feedAuthorName  = "Mitchell Riley"
+    , feedAuthorEmail = "mitchell.v.riley@gmail.com"
+    , feedRoot        = "http://mvr.github.io"
+    }

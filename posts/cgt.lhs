@@ -5,12 +5,14 @@ tags: haskell
 ---
 
 Combinatorial games are an interesting class of games where two
-players take turns to make a move, changing the game from one position
-to another. In these games, both players have perfect information
-about the state of the game and there is no element of chance. In
-'normal play', the winner is declared when the other player is unable
-to move. A lot of famous strategy games can be analysed as
-combinatorial games: chess, go, tic-tac-toe.
+players take turns to make a move. In these games, both players have
+perfect information about the state of the game and there is no
+element of chance. In 'normal play', the winner is declared when the
+other player is unable to move. 
+
+Even games that don't exactly match these conditions can be analysed
+using techniques from combinatorial game theory, including chess and
+Go, and the pen-and-paper game Dots and Boxes.
 
 The simplest way of thinking of these games is as a set of moves for
 the player Left, and a set of moves for the player Right. When a
@@ -28,9 +30,9 @@ considered another game. This gives us a tree-like structure: <!--more-->
 >
 > data Game = Game { leftMoves :: [Game], rightMoves :: [Game] }
 
-We write { L | R } for the game where Left can choose a move from L,
-and Right can choose a move from R. For example, we have the zero
-game, where neither player has any moves they can make: zero = { | }
+We write `{ L | R }` for the game where Left can choose a move from
+`L`, and Right can choose a move from R. For example, we have the zero
+game, where neither player has any moves they can make: `zero = { | }`
 
 > zero = Game [] []
 
@@ -38,7 +40,7 @@ In this game, if it's Left's turn, he loses. If it's Right's turn, he
 loses. So this game encompases the idea of both players having 0 turns
 remaining.
 
-Here's the next simplest game, one = { zero | }
+Here's the next simplest game, `one = { zero | }`
 
 > one = Game [zero] []
 
@@ -57,17 +59,17 @@ options:
 3. The second player can always win
 4. The first player can always win
 
-We will write these four options as G > 0, G < 0, G = 0, G || 0. It's
-clear that zero = 0 and one > 0. We can combine these classes as
-usual. For example, G >= 0 means Left can always win if he's the
-second player, and in G <= 0 Right can always win if he's the second
+We will write these four options as `G > 0`, `G < 0`, `G = 0`, `G || 0`. 
+It's clear that `zero = 0` and `one > 0`. We can combine these classes as
+usual. For example, `G >= 0` means Left can always win if he's the
+second player, and in `G <= 0` Right can always win if he's the second
 player.
 
-These two are easy to implement. If G >= 0, Left can always win as
-second player and Right has no good opening move. A good opening move
-for Right is a position in R that right could win, i.e. a position
-R <= 0. The definition is similar for G <= 0, giving mutually recursive
-definitions:
+These two predicates are easy to implement. If `G >= 0`, Left can
+always win as second player and Right has no good opening move. A good
+opening move for Right is a position in `R` that right could win,
+i.e. a position `r <= 0`. The definition is similar for `G <= 0`, giving
+mutually recursive definitions:
 
 > gteqZero :: Game -> Bool
 > lteqZero :: Game -> Bool
@@ -79,8 +81,9 @@ definitions:
 >-- gteqZero one  ==> True
 >-- lteqZero one  ==> False
 
-These are guaranteed to terminate, as at every step we are looking at
-a smaller game. From these we can easily build the others:
+These are guaranteed to terminate (as long as our games are finite),
+as at every step we are looking at a smaller game. From these we can
+easily build the others:
 
 > eqZero g = gteqZero g && lteqZero g
 > gtZero g = gteqZero g && not (lteqZero g)
@@ -88,26 +91,26 @@ a smaller game. From these we can easily build the others:
 >
 > fuzzyZero g = not (gteqZero g) && not (lteqZero g)
 
-The last case is strange. We have a game G where neither G >= 0 nor
-G <= 0! This corresponds to G || 0 from above, and we say G is fuzzy to
-0. We can find such a game easily: ∗ = { zero | zero }. This game
+The last case is strange. We have a game `G` where neither `G >= 0` nor
+`G <= 0`! This corresponds to `G || 0` from above, and we say `G` is fuzzy to
+0. We can find such a game easily: `∗ = { zero | zero }`. This game
 clearly does not correspond to a number.
 
 > star = Game [zero] [zero]
 >
 >-- fuzzyZero star ==> True
 
-Now we consider the sum of two games. In the game G + H, a player has
+Now we consider the sum of two games. In the game `G + H`, a player has
 the choice of which component they wish to move in. For example, Left
-can choose one of the L moves in G, leaving H the same, or one of the
-L moves in H, leaving G the same.
+can choose one of the `L` moves in `G`, leaving `H` the same, or one of the
+`L` moves in `H`, leaving `G` the same.
 
 > instance Num Game where
 >   g + h = Game left right
 >     where left  = map (+ h) (leftMoves g)  ++ map (g +) (leftMoves h)
 >           right = map (+ h) (rightMoves g) ++ map (g +) (rightMoves h)
 
-We are also ready to negate games. In -G, Right can make all the moves
+We are also ready to negate games. In `-G`, Right can make all the moves
 Left could, and vice versa. This is just like spinning the board in
 chess.
 
@@ -115,7 +118,7 @@ chess.
 
 With these operations, games form an abelian group. Following the
 pattern earlier, converting from integers to games is easy. We have
-n = { n-1 | }. If we are given a negative number, we can just negate the
+`n = { n-1 | }`. If we are given a negative number, we can just negate the
 positive game.
 
 >   fromInteger i | i == 0 = zero
@@ -132,31 +135,32 @@ games are equal if their difference is 0.
 > instance Eq Game where
 >   g == h = eqZero (g - h)
 
-As we would hope, G = G for every game. Let's think about why this
-is. G = G is equivalent to G - G = 0 or G + (-G) = 0. If the first
-player makes a move in G, the second player can immediately reply with
-the same move in -G. No matter what move the first player makes, the
-second has a response in the other component. This can continue until
-the first player runs out of options and loses, meaning G + (-G) = 0.
+As we would hope, `G = G` for every game. Let's think about why this
+is. `G = G` is defined as to `G - G = 0`, i.e., `G + (-G) = 0`. If the
+first player makes a move in `G`, the second player can immediately
+reply with the same move in `-G`. No matter what move the first player
+makes, the second has a response in the other component. This can
+continue until the first player runs out of options and loses, meaning
+`G + (-G) = 0`.
 
-We're ready to show 1 + 1 = 2:
+We're ready to show `1 + 1 = 2`:
 
 >-- one + one == two ==> True
 >-- zero + one == one ==> True
 >-- two + two == two ==> False
 
-We see arithmetic behaves as you expect. What about ∗ from earlier?
+We see arithmetic behaves as you expect. What about `∗` from earlier?
 
 >-- star + star == zero ==> True
 
 This seems strange at first, but makes sense when we think about how
-∗ + ∗ would be played. The first player plays in a ∗, moving it to
-0. The other player is then free to play in the other ∗, leaving
-0 + 0 = 0, so the first player loses. The first player losing is how
-we defined G = 0, so indeed we get ∗ + ∗ = 0.
+` ∗ + ∗` would be played. The first player plays in one of the `∗`, 
+moving it to 0. The other player is then free to play in the other `∗`, leaving
+`0 + 0 = 0`, so the first player loses. The first player losing is how
+we defined `G = 0`, so indeed we get `∗ + ∗ = 0`.
 
 We can also compare games with each other. We have to cheat here
-because Ord is intended for total orders, but from ∗ || 0 it is clear
+because Ord is intended for total orders, but from `∗ || 0` it is clear
 we can't always put an order on two games.
 
 > instance Ord Game where
@@ -167,31 +171,31 @@ we can't always put an order on two games.
 >
 > g || h = fuzzyZero (g - h)
 
-Now let's consider the game G = { 0 | 1 }. What do we know about it?
+Now let's consider the game `G = { 0 | 1 }`. What do we know about it?
 
 > half = Game [zero] [one]
 >-- half > 0 ==> True
 >-- half < 1 ==> True
 
-We might guess that this game is 1/2. We can check:
+We might guess that this game is `1/2`. We can check:
 
 >-- half + half == 1 ==> True
 
-And so it is. We could also find a game representing 1/4:
+And so it is. We could also find a game representing `1/4`:
 
 > fourth = Game [zero] [half]
 >-- fourth + fourth + fourth + fourth == 1 ==> True
 
 Continuing like this we can construct every dyadic rational,
 i.e. rationals where the denominator is a power of two. The idea is,
-2p+1 / 2^n = { p / 2^(n-1) | (p+1) / 2^(n-1) }, so we're constructing
-dyadic rationals out of simpler ones. It turns out that every real
-number can be written as a game. To see how this is possible, notice
-that the dyadic rationals are dense in the reals. We could then
-squeeze every number between two infinite sequences of dyadic
-rationals. For example,
+`2p+1 / 2^n = { p / 2^(n-1) | (p+1) / 2^(n-1) }`, so we're
+constructing dyadic rationals out of simpler ones. It turns out that
+every real number can be written as a(n often infinite) game. To see
+how this is possible, notice that the dyadic rationals are dense in
+the reals, and we can squeeze every number between two infinite
+sequences of dyadic rationals. For example,
 
-2/3 = { 0, 1/2, 5/8, 21/32 ... | ... 43/64, 11/16, 3/4, 1 }
+`2/3 = { 0, 1/2, 5/8, 21/32 ... | ... 43/64, 11/16, 3/4, 1 }`
 
 The only reals with finite representations are the dyadic rationals,
 so we'll stick with those. Again we're going to cheat and use
@@ -226,7 +230,7 @@ definition, contain all the real numbers and much more besides.
 If we're given a game, we might like to know if it represents a
 number. The conditions for this are quite easy; a game is a number if
 all its Left and Right options are numbers, and also every Left option
-is < every Right option.
+is `<` every Right option.
 
 > isNumber :: Game -> Bool
 > isNumber (Game left right) =    all isNumber left
@@ -239,11 +243,11 @@ is < every Right option.
 
 It's time to go back and look at some strange infinitesimal games.
 
-Let's consider G = { 0 | ∗ }, written ↑. ↑ is clearly positive, as
+Let's consider `G = { 0 | ∗ }`, written `↑`. `↑` is clearly positive, as
 Left always wins. To see this, note that if Left moves first, he moves
 to zero and Right loses. If Right moves first, he has to move to star,
 where Left can move to zero and make him lose again. There is of
-course an equivalent game, ↓ for Right.
+course an equivalent game, `↓` for Right.
 
 > up   = Game [zero] [star]
 > down = Game [star] [zero] -- = -up
@@ -253,7 +257,7 @@ course an equivalent game, ↓ for Right.
 >-- isNumber up ==> False
 >-- isNumber down ==> False
 
-Just how positive is ↑?
+Just how positive is `↑`?
 
 >-- up < 1 ==> True
 >-- up < fromRational (1%2) ==> True
@@ -261,17 +265,17 @@ Just how positive is ↑?
 >-- up < fromRational (1%8) ==> True
 >-- up < fromRational (1%16) ==> True
 
-Not very positive. It turns out ↑ is smaller than every positive
-number. We can add ↑ to itself as many times as we like and it will
+Not very positive. It turns out `↑` is smaller than every positive
+number. We can add `↑` to itself as many times as we like and it will
 still be infinitesimally small.
 
-↑ > 0, but how does it compare to ∗?
+`↑ > 0`, but how does it compare to `∗`?
 
 >-- up > star ==> False
 >-- up || star ==> True
 >-- down || star ==> True
 
-∗'s fuzziness includes both ↑ and ↓. How about two copies of ↑?
+`∗`'s fuzziness includes both `↑` and `↓`. How about two copies of `↑`?
 
 >-- (up + up) > star ==> True
 >-- (down + down) < star ==> True
@@ -279,19 +283,19 @@ still be infinitesimally small.
 So ↑+↑, written ⇑, is no longer confused with ∗.
 
 So far, the games we've been considering are all infinitesimally close
-to an actual number, as ∗ and all multiples of ↑ are infinitesimally
+to an actual number, as `∗` and all multiples of `↑` are infinitesimally
 close to 0. This need not be the case in general, as can be seen in
-the game G = { 1 | -1 }.
+the game `G = { 1 | -1 }`.
 
 > switch = Game [1] [-1]
 
-This game is known as a switch game, and is written ±1. Both players
+This game is known as a switch game, and is written `±1`. Both players
 are desperate to play in this game, as the result for them is much
 better than if the other player makes their move first. Compare this
-with G = { -1 | 1 } = 0, where both players would rather not move as
+with `G = { -1 | 1 } = 0`, where both players would rather not move as
 it just makes them one move closer to a loss.
 
-±1 turns out to be fuzzy with all games between -1 and 1.
+`±1` turns out to be fuzzy with all games between `-1` and `1`.
 
 >-- switch < 2 ==> True
 >-- switch || 1 ==> True
@@ -299,11 +303,11 @@ it just makes them one move closer to a loss.
 >-- switch || -1 ==> True
 >-- switch > -2 ==> True
 
-This makes sense, as if you add ±1 to any game in that range, the
-outcome is still determined by whoever gets to play in ±1 first. For
-values outside that range, ±1 isn't enough to tip the scales in the
-other player's favour. For example, ±1 + 2 is still a win for Left,
-even if Right goes first and plays ±1 to -1.
+This makes sense, as if you add `±1` to any game in that range, the
+outcome is still determined by whoever gets to play in `±1` first. For
+values outside that range, `±1` isn't enough to tip the scales in the
+other player's favour. For example, `±1 + 2` is still a win for Left,
+even if Right goes first and plays `±1` to `-1`.
 
 An important class of games is that of all 'impartial' games. These
 are games where both players have the same set of moves they can
@@ -313,8 +317,8 @@ the game of Nim.
 
 In the game of Nim, the state of the game is represented as a few
 piles of chips. A valid move is one that removes some chips from a
-single pile. Say we had the piles [2, 4, 5], then a valid move could
-be to [2, 4, 2], reducing the pile of 5 to 2. First let's represent a
+single pile. Say we had the piles `[2, 4, 5]`, then a valid move could
+be to `[2, 4, 2]`, reducing the pile of 5 to 2. First let's represent a
 single Nim pile as a game. From a pile of size n, either player can
 move to any pile of size less than n. Of course, if the pile has size
 0, neither player can do anything. That suggests the following
@@ -325,7 +329,7 @@ definition.
 > nim n = Game options options
 >   where options = map nim [0..n-1]
 
-The value corresponding to 'nim n' is denoted ∗n, and is called a
+The value corresponding to 'nim n' is denoted `∗n`, and is called a
 nimber. All nimbers (except 0) are fuzzy, as the first player can take
 the whole pile and win. Now to build a full Nim position, we just sum
 up the values of the individual piles.
@@ -337,12 +341,12 @@ It's an amazing fact that every impartial game is equivalent to some
 nimber. In particular, the sum of two nimbers is another nimber. We
 might hope that this addition works like normal addition, but that's
 not the case. This is obvious when adding a nimber to itself, as
-impartial games are their own inverses meaning two copies of any
-nimber sum to zero. We do have that ∗1 + ∗2 = ∗3:
+impartial games are their own inverses, meaning two copies of any
+nimber sum to zero. We do have that `∗1 + ∗2 = ∗3`:
 
 >-- nim 1 + nim 2 == nim 3 ==> True
 
-But because ∗n = -∗n we can add ∗1 to both sides and get ∗2 = ∗3 + ∗1.
+But because `∗n = -∗n` we can add `∗1` to both sides and get `∗2 = ∗3 + ∗1`.
 
 >-- nim 1 + nim 3 == nim 2 ==> True
 
@@ -358,7 +362,7 @@ Even more impressive is that you can define a product on nimbers,
 meaning impartial games form a field.
 
 One issue we've skimmed over is that there are lots of different ways
-of representing a single game. For example, { 1 | } = { 0, 1 | } = 2
+of representing a single game. For example, `{ 1 | } = { 0, 1 | } = 2`
 
 >-- Game [one] [] == two ==> True
 >-- Game [zero, one] [] == two ==> True
@@ -367,15 +371,15 @@ We've really been using equivalence classes of games. For example, the
 'zero game' in our abelian group is really the equivalence class of
 all games equal to zero.
 
-The games we've been dealing with are all 'short' games; there are
-only finitely many positions the game can be in. Thankfully, every
-short game has a unique normal form, the simplest representation of
-the game. To get to this normal form, two simplifications are used:
+The games we've been dealing with have mostly been 'short' games;
+there are only finitely many positions the game can be in. Thankfully,
+every short game has a unique normal form, the simplest representation
+of the game. To get to this normal form, two simplifications are used:
 
-The first is removing 'dominated' options. Looking back at { 0, 1 | },
+The first is removing 'dominated' options. Looking back at `{ 0, 1 | }`, 
 Left has no reason to ever move to 0 when the better move 1 is
-available. In general, if Left has A and B as options, and A <= B,
-then A can be removed without changing the value of the game. We have
+available. In general, if Left has `A and B` as options, and `A <= B`,
+then `A` can be removed without changing the value of the game. We have
 to be careful here, it's not a matter of just choosing the 'maximum'
 options, because some moves could be fuzzy with others.
 
@@ -396,8 +400,9 @@ The other way of simplifying games is by removing 'reversible'
 moves. If Left has a move where Right's response gives a position
 better for Right than the original game, then Left's move is called
 reversible. If Left decides to make that move, he must anticipate that
-Right will reverse it into something better for him. We can bypass
-these and let Left jump straight to what he would do after that.
+Right will reverse it into that position that is better for him. We
+can bypass these and let Left jump straight to what he would do after
+that.
 
 > lReversible :: Game -> Game -> [Game]
 > lReversible g gl = maybe [gl] leftMoves (find (<= g) (rightMoves gl))
@@ -433,8 +438,8 @@ way to easily read off what the value of a game is, if it happens to
 correspond to some simple value that we already understand.
 
 Many of the games we find in real play are just the sum of a number, a
-multiple of ↑, and a nimber. Because this is so common, we will create
-a new type for it:
+multiple of `↑`, and a nimber. Because this is so common, we will
+create a new type for it:
 
 > data NumberUpStar = NUS { numberPart :: Rational, upPart :: Int, nimberPart :: Int } deriving (Eq, Ord)
 >
@@ -508,8 +513,8 @@ will give us the function we require.
 
 If we have one of these NumberUpStars, it's easy to print out a simple
 representation of it. It's standard when dealing with games to write
-3↑∗ for 3 + ↑ + ∗. We just need to be careful not to confuse this for
-multiplication.
+`3↑∗` for `3 + ↑ + ∗`. We just need to be careful not to confuse this
+for, say, adding 3 copies of `↑∗` together.
 
 > instance Show NumberUpStar where
 >   show (NUS 0 0 0) = "0"
@@ -553,11 +558,11 @@ Toad rightwards into an empty space, or hop over a Frog to the right
 of him to land in an empty space. Right's move are identical, but
 moving the fRogs in the other direction.
 
-For example, if our board is in the state [ T _ T F _ ], Left could
-either move the first Toad like this: [ _  T T F _ ] or hop the second
-Toad like this: [ T _ _ F T ].
+For example, if our board is in the state `[ T _ T F _ ]`, Left could
+either move the first Toad like this: `[ _  T T F _ ]` or hop the second
+Toad like this: `[ T _ _ F T ]`.
 
-A standard starting board might look like this [ T T _ _ F F ]. Let's
+A standard starting board might look like this `[ T T _ _ F F ]`. Let's
 use what we've developed above to tell us how to play this.
 
 First we will need a type to represent the state of a square and the
@@ -606,7 +611,7 @@ Some very strange values can appear as positions in Toads and Frogs:
 >-- boardToGame [E,T,T,T,E,F] ==> { 1∗ | 0 }
 >-- boardToGame [E,T,T,E,F,F,E] ==> { (1/4) | (-1/4) }
 
-You might recognise the last one as ±(1/4). The next obvious question
+You might recognise the last one as `±(1/4)`. The next obvious question
 is, what's the best move from a given position?
 
 > bestLeftMove :: Board -> (Board, Game)
@@ -624,11 +629,11 @@ anyone.
 For a much better written, much more rigorous and much more
 entertaining introduction to combinatorial games, see:
 
-Winning Ways for your Mathematical Plays (Academic Press, 1982)
+*Winning Ways for your Mathematical Plays* (Academic Press, 1982)
 by Berlekamp, Conway and Guy
 
 For an almost unbelievably fast implementation of operations on
 combinatorial games, see:
 
-Combinatorial Game Suite: http://cgsuite.sourceforge.net/
+*Combinatorial Game Suite*: http://cgsuite.sourceforge.net/
 by Aaron Siegel

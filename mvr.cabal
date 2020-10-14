@@ -12,10 +12,13 @@ cabal-version:       >=1.10
 
 executable mvr
   main-is:             Main.hs
-  build-depends:       base >=4.7 && <5.0
-                     , containers >= 0.5.5.1
-                     , hakyll >= 4.6
-                     , pandoc >= 1.13.1
-                     , titlecase
+  build-depends:       
+                         base >=4.7 && <5.0
+                       , containers >= 0.5.5.1
+                       , hakyll >= 4.6
+                       , pandoc >= 1.13.1
+                       , time
+                       , time-locale-compat
+                       , titlecase
 
   default-language:    Haskell2010

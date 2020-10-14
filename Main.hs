@@ -2,12 +2,17 @@
 
 module Main (main) where
 
-import Control.Monad (liftM)
+import Control.Monad (liftM, (<=<), msum)
+import Control.Applicative (empty)
 import Data.Monoid
 import System.Environment (getArgs)
 import qualified Data.Set as S
 import qualified Data.Map as M
 import Data.Text.Titlecase
+
+import Data.Time.Clock (UTCTime (..))
+import Data.Time.Format (formatTime, parseTimeM)
+import Data.Time.Locale.Compat (TimeLocale, defaultTimeLocale)
 
 import Hakyll
 import Text.Pandoc.Options
@@ -145,8 +150,36 @@ run action = hakyllWith config $ do
         posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "body"
         renderAtom feedConfiguration feedCtx posts
 
+maybeField :: String -> (Item a -> Compiler (Maybe String)) -> Context a
+maybeField key value = field key $ maybe empty return <=< value
+
+-- This is all duplicated from Hakyll source, because it can't be customised. So dumb!
+getWrittenUTC :: MonadMetadata m
+           => Identifier
+           -> m (Maybe UTCTime)
+getWrittenUTC i = do
+  metadata <- getMetadata i
+
+  let tryField k fmt = lookupString k metadata >>= parseTime' fmt
+      parseTime' = parseTimeM True defaultTimeLocale
+      formats = [ "%a, %d %b %Y %H:%M:%S %Z"
+                , "%Y-%m-%dT%H:%M:%S%Z"
+                , "%Y-%m-%d %H:%M:%S%Z"
+                , "%Y-%m-%d"
+                , "%B %e, %Y %l:%M %p"
+                , "%B %e, %Y"
+                , "%b %d, %Y"
+                ]
+  return $ msum $ [tryField "written" fmt | fmt <- formats]
+
+writtenField :: String -> String -> Context String
+writtenField key format = maybeField key $ \i -> do
+    time <- getWrittenUTC $ itemIdentifier i
+    return $ fmap (formatTime defaultTimeLocale format) time  
+
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
+               <> writtenField "written" "%B %e, %Y"
                <> tagsField "tags" tags
                <> teaserField "teaser" "body"
                <> defaultContext

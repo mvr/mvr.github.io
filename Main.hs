@@ -192,7 +192,7 @@ pandocMathCompiler =
         newExtensions = foldr enableExtension defaultExtensions mathExtensions
         writerOptions = defaultHakyllWriterOptions {
                           writerExtensions = newExtensions,
-                          writerHTMLMathMethod = MathJax ""
+                          writerHTMLMathMethod = KaTeX ""
                         }
     in pandocCompilerWith defaultHakyllReaderOptions writerOptions
 

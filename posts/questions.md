@@ -1,7 +1,7 @@
 ---
 title: Some Questions
 published: July 8, 2019
-tags: note-to-self
+tags: note-to-self, should-have-known
 ---
 
 These answers can be found just by Googling, but it's nice to have a
@@ -35,8 +35,8 @@ record of things I've wondered about.
   title page of old books?__
 
   Those are 'seals', just signatures in stamp form. The books I'm
-  thinking of must have once been owned by someone Asian who had their
-  own seal.
+  thinking of must have once been owned by someone who had their own
+  seal.
 
 * __What is the connection between barbers and red/white striped
   poles?__
@@ -75,14 +75,14 @@ record of things I've wondered about.
 
 * __What is the cause of the 'fingernails on a blackboard' response?__
 
-  The cause is unknown, but there are some guesses.
+  The cause is currently unknown, but there are some guesses.
 
-  One hypothesis is that the sound is similar to the alarm call of
-  some monkeys and the instinct to cringe dates back to early human
-  evolution. Another is that the sound is the ultimate "dissonance",
-  and is unpleasant for the same reason that dissonant music is
-  unpleasant.
+  <!-- One hypothesis is that the sound is similar to the alarm call of -->
+  <!-- some monkeys and the instinct to cringe dates back to early human -->
+  <!-- evolution. Another is that the sound is the ultimate "dissonance", -->
+  <!-- and is unpleasant for the same reason that dissonant music is -->
+  <!-- unpleasant. -->
 
-  Interestingly, tests showed that it is the middle frequencies
-  (2000Hz to 4000Hz) that cause the instinctive reaction, not the high
-  frequencies as one might expect.
+  <!-- Interestingly, tests showed that it is the middle frequencies -->
+  <!-- (2000Hz to 4000Hz) that cause the instinctive reaction, not the high -->
+  <!-- frequencies as one might expect. -->

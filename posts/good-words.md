@@ -1,7 +1,7 @@
 ---
 title: Good Words
 published: January 10, 2019
-tags: note-to-self
+tags: note-to-self, should-have-known
 ---
 
 * anomie -- a condition in which society provides little moral guidance to individuals
@@ -23,7 +23,7 @@ tags: note-to-self
 * ill-starred -- destined to fail or have many difficulties; unlucky
 * legerdemain -- slight of hand; deception, trickery.
 * diapason -- a grand swelling burst of harmony; another word for an octave
-* debauchee -- a person given to excessive indulgence in sensual pleasures
+* debauchee -- one who debauches
 * chalk and cheese -- things that look superficially similar
 * top drawer -- an expression of utmost praise
 * perfunctory -- (of an action or gesture) carried out with a minimum of effort or reflection
@@ -32,3 +32,5 @@ tags: note-to-self
 * casuistry -- the use of clever but unsound reasoning, especially in relation to moral questions; sophistry.
 * parochial -- having a limited or narrow outlook or scope
 * cryptid -- an animal whose existence or survival is disputed or unsubstantiated, such as the yeti
+
+(Some of these I definitely should have known...)

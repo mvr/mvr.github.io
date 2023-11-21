@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="LifeViewer" content="lv-viewer textarea">
+<style>
+body{
+    margin: 0px;
+}
+.lv-viewer{
+    height: 100vh;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+#lv-rle {
+    display: none;
+}
+#lv-canvas{
+    width: 80%;
+    height: 80%;
+}
+</style>
+</head>
+<body>
+<div class="lv-viewer">
+  <textarea id="lv-rle">bo$2bo$3o!</textarea>
+  <canvas id="lv-canvas"></canvas>
+</div>
+
+    <script>
+      var params = new URLSearchParams(window.location.search);
+      var rle = params.get('rle');
+      document.getElementById('lv-rle').innerHTML = rle + "\n[[ THEME BOOK ]]";
+
+      var canvas = document.getElementById('lv-canvas');
+      canvas.height = canvas.clientHeight;
+      canvas.width = canvas.clientWidth;
+    </script>
+    <script src="lv-plugin.js" defer></script>
+
+</body>
+</html>

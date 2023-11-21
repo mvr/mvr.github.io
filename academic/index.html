@@ -2,53 +2,191 @@
 <html>
     <head>
         <title>Mitchell Riley</title>
+        <base target="_blank">
+        <link rel="stylesheet" type="text/css" href="typesafe.css">
+        <style type="text/css">
+          ol li { padding-left: 1.5rem }
+        </style>
     </head>
     <body>
         <h1>Mitchell Riley</h1>
 
-        <p>I am a PhD student in Mathematics at Wesleyan University, working under the supervision of <a href="http://dlicata.web.wesleyan.edu/">Dan Licata</a>. My mathematical interests include (homotopy) type theory, applied category theory, and more generally anything at the interface of mathematics and computers.</p>
+        <p>I am a postdoc at NYU Abu Dhabi, working
+          under <a href="https://nyuad.nyu.edu/en/academics/divisions/science/faculty/hisham-sati.html">Hisham Sati</a> and <a href ="https://ncatlab.org/nlab/show/Urs+Schreiber">Urs Schreiber</a>.
+
+          My mathematical interests include (homotopy) type theory, applied
+          category theory, and more generally anything at the interface
+          of mathematics and computers.
+        </p>
 
         <h2>Contact</h2>
-        <table class="contact">
-            <tr><td>Email</td> <td><a href="mailto:mvriley@wesleyan.edu"><tt>mvriley@wesleyan.edu</tt> </td></tr>
-            <tr><td>Office</td> <td>Exley 638</td></tr>
+        <table class="contact" summary="">
+            <tr><td>Email</td> <td><a href="mailto:mitchell.v.riley@nyu.edu"><tt>mitchell.v.riley@nyu.edu</tt></a></td></tr>
+            <tr><td>Office</td> <td>A2-104F</td></tr>
             <tr><td>Mailing address</td>
                 <td>
-                    Department of Mathematics and Computer Science<br/>
-                    Wesleyan University<br/>
-                    Middletown, CT 06459
+                    Department of Mathematics<br/>
+                    NYU Abu Dhabi, Saadiyat Campus<br/>
+                    Abu Dhabi, United Arab Emirates
                 </td>
             </tr>
         </table>
 
+        <h2>Dissertation</h2>
+        <strong>A Bunched Homotopy Type Theory for Synthetic Stable Homotopy Theory</strong> <br>
+        Advisor: Dr. Daniel R. Licata <br>
+        Wesleyan University <br>
+        May 2022 <br>
+        <a href="pubs/thesis.pdf">[pdf]</a>
+
+        <h2>Projects</h2>
+        <h4>at: Effective Algebraic Topology in Haskell</h4>
+        <p>
+        A Haskell rewrite
+          of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a>,
+          a collection of algorithms for explicit constructions with
+          simplicial sets. Currently capable of computing
+          &#120587;&#8324; S&#179; and the homology of K(Z/m,n), among
+          other things.</p>
+        <a href="https://github.com/mvr/at">[code]</a>
+
+        <h4>Symmetric CatForce</h4>
+        <p>A search program for interesting patterns in Conway's Game
+        of Life, written in C++. Similar
+        to <a href="https://github.com/ceebo/ptbsearch">ptbsearch</a>
+        but much faster. Has been used to find
+        a <a href="https://conwaylife.com/wiki/74P34">huge</a>
+        <a href="https://conwaylife.com/wiki/84P199">number</a>
+        <a href="https://conwaylife.com/wiki/P84_honey_farm_hassler">of</a>
+        <a href="https://conwaylife.com/wiki/P129_R-pentomino_hassler">interesting</a>
+        <a href="https://conwaylife.com/wiki/108P59">oscillators</a>.</p>
+
+        <p>Originally based
+        on <a href="https://github.com/simsim314/CatForce">CatForce</a>,
+        but very little original code remains.</p>
+
+        <a href="https://github.com/mvr/CatForce/tree/depth-first">[code]</a>
+
         <h2>Papers and Preprints</h2>
         <ol>
+            <li value="5">
+                <strong>Commuting Cohesions</strong>, <br>
+                with David Jaz Myers. <br>
+                2023.<br>
+                <a href="https://arxiv.org/abs/2301.13780">[arXiv:2301.13780]</a>
+            </li>
+            <li value="4">
+                <strong>A Dependent Bunched Type Theory for Synthetic Stable Homotopy Theory</strong>, <br>
+                with Dan Licata. <br>
+                2022.<br>
+                In preparation.
+            </li>
+            <li value="3">
+                <strong>Synthetic Spectra via a Monadic and Comonadic Modality</strong>, <br>
+                with Eric Finster and Dan Licata. <br>
+                2021.<br>
+                <a href="https://arxiv.org/abs/2102.04099">[arXiv:2102.04099]</a>
+            </li>
             <li value="2">
-                <strong>Categories of Optics</strong>, <br />
-                2018.<br />
-                <a href="https://arxiv.org/abs/1809.00738">arXiv:1809.00738</a>,
+                <strong>Categories of Optics</strong>, <br>
+                2018.<br>
+                <a href="https://arxiv.org/abs/1809.00738">[arXiv:1809.00738]</a>
             </li>
             <li value="1">
-                <strong>A Fibrational Framework for Substructural and Modal Logics</strong>,
-                with Dan Licata and Mike Shulman. <br />
-                FSCD, 2017.<br />
+                <strong>A Fibrational Framework for Substructural and Modal Logics</strong>, <br>
+                with Dan Licata and Mike Shulman. <br>
+                FSCD, 2017.<br>
                 <a href = "pubs/lsr17multi.pdf">[short pdf]</a>
                 <a href = "pubs/lsr17multi-ex.pdf">[extended pdf]</a>
             </li>
         </ol>
 
-        <h2>Slides and Notes</h2>
+        <h2>Notes</h2>
         <ul>
-            <li><a href="notes/muri2020.pdf" target="_blank">A Type Theory for Parameterised Spectra</a>, focusing on the type theory. CMU, March 2020 </li>
-            <li><a href="notes/proposal.pdf" target="_blank">A Type Theory for Parameterised Spectra</a>, starting from scratch, no type theory background. Wesleyan University, February 2020</li>
-            <li><a href="notes/cgt.txt" target="_blank">A Whirlwind Tour of Combinatorial Games in Haskell</a></li>
+            <li><strong>A Whirlwind Tour of Combinatorial Games in Haskell</strong>, 2014. <br>
+                <a href="notes/cgt.txt">[literate haskell]</a>
+            </li>
         </ul>
+
+        <h2>Talks</h2>
+        <ul>
+            <li><strong>Commuting Cohesions</strong>.
+                <a href="https://hott.github.io/HoTT-2023/">HoTT 2023</a>, May 2023. <br>
+                <a href="slides/hott2023.pdf">[slides]</a>
+            </li>
+            <li><strong>Combining Bunched Type Theory with Dependent Types</strong>.
+                <a href="https://www.mathstat.dal.ca/~mamy/atcat.html">Atlantic Category Theory Seminar</a>, February 2022. <br>
+                <a href="slides/atcat2022.pdf">[slides]</a>
+            </li>p
+            <li><strong>Linear Homotopy Type Theory</strong>.
+                <a href="https://www.uwo.ca/math/faculty/kapulkin/seminars/hottest_junior_2022.html">HoTTEST Event for Junior Researchers</a>, January 2022. <br>
+                <a href="slides/hottest2022.pdf">[slides]</a>
+                <a href="https://www.youtube.com/watch?v=o2oWhHabjdM">[video]</a>
+            </li>
+            <li><strong>Constructive Mathematics for People Who Aren't Not Normal</strong>.
+                Wesleyan Graduate Student Seminar, November 2021.
+            </li>
+            <li><strong>Using Linear Homotopy Type Theory Informally</strong>.
+                CMU, October 2021. <br>
+                <a href="slides/muri2021.pdf">[slides]</a>
+            </li>
+            <li><strong>Good Categories with Bad Objects</strong>.
+                Wesleyan Graduate Student Seminar, September 2021.
+            </li>
+            <li><strong>Extending Homotopy Type Theory with Linear Type Formers</strong>.
+                <a href="https://the-au-forml-lab.github.io/past-colloquium/colloquium-Spring-2021.html">CCS Colloquium</a>, Augusta University, March 2021. <br>
+                <a href="slides/augusta2021.pdf">[slides]</a>
+                <a href="https://www.youtube.com/watch?v=sPxtdCtjSDc">[video]</a>
+            </li>
+            <li><strong>A Type Theory for Parameterised Spectra</strong>.
+                <a href="https://univalent-math.github.io/">ICMS Session on Univalent Mathematics</a>, July 2020. <br>
+                <a href="slides/icms2020.pdf">[slides]</a>
+            </li>
+
+            <li><strong>Synthetic Spectra via a Monadic and Comonadic Modality</strong>.
+                <a href="https://www.uwo.ca/math/faculty/kapulkin/seminars/hottest_conference_2020.html">HoTTEST Conference</a>, June 2020.  <br>
+                <a href="slides/hottest2020.pdf">[slides]</a>
+                <a href="https://www.youtube.com/watch?v=62HST7p-7hs">[video]</a>
+            </li>
+            <li><strong>A Type Theory for Parameterised Spectra</strong>,
+                focusing on the type theory. CMU, March 2020. <br>
+                <a href="slides/muri2020.pdf">[slides]</a>
+            </li>
+            <li><strong>A Type Theory for Parameterised Spectra</strong>,
+                starting from scratch, no type theory background. Wesleyan University, February 2020. <br>
+                <a href="slides/proposal.pdf">[slides]</a>
+            </li>
+            <li><strong>Combinatorial Game Theory</strong>.
+                Wesleyan Graduate Student Seminar, November 2019.
+            </li>
+            <li><strong>Categories of Optics</strong>,
+                <a href="http://brendanfong.com/seminar.html">MIT (Applied) Categories Seminar</a>, May 2019. <br>
+                <a href="https://www.youtube.com/watch?v=Qy7Y4-mgwbw">[video]</a>
+            </li>
+            <li><strong>Yoneda Arises Everywhere</strong>.
+                Wesleyan Graduate Student Seminar, January 2019.
+            </li>
+            <li>
+                <strong>Exact Real Arithmetic in Haskell</strong>,
+                Brisbane Functional Programming Group, May 2015. <br>
+                <a href="https://www.youtube.com/watch?v=LJQgYBQFtSE">[video]</a>
+                <a href="https://github.com/mvr/cf">[code]</a>
+            </li>
+        </ul>
+
+        <h2>Reviewing</h2>
+        I have acted as a reviewer for LICS, ACT and FSCD.
 
         <h2>Teaching</h2>
         <ul>
+            <li>Spring 2022: TA for COMP301, Automata Theory and Formal Languages</li>
+            <li>Fall 2021: TA for COMP321, Principles of Programming Languages</li>
+            <li>Spring 2021: TA for COMP212, Functional Programming</li>
+            <li>Fall 2020: TA for COMP301, Automata Theory and Formal Languages</li>
             <li>Spring 2020: TA for COMP212, Functional Programming</li>
             <li>Fall 2020: TA for COMP301, Automata Theory and Formal Languages</li>
-            <li>Fall 2018: TA for <a href="https://moodle1819.wesleyan.edu/course/view.php?id=6195">COMP112</a>, Introduction to Programming</li>
+            <li>Spring 2019: Lecturer for MATH120, Elements of Calculus, Part II</li>
+            <li>Fall 2018: TA for COMP112, Introduction to Programming</li>
             <li>Spring 2018: Lecturer for MATH118, Introductory Calculus II: Integration and Its Applications</li>
             <li>Spring 2017: TA for COMP312, Algorithms and Complexity</li>
             <li>Fall 2016: TA for COMP211, Computer Science I</li>

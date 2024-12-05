@@ -1,0 +1,962 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>2: Inductive Types - Introduction to Cubical Type Theory in Agda</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/Agda.css">
+        <link rel="stylesheet" href="theme/css/Agda-highlight.css">
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="index.html">Home</a></li><li class="chapter-item affix "><a href="INSTALLING_AGDA.html">Installing Agda</a></li><li class="chapter-item affix "><a href="USING_AGDA.html">Using Agda</a></li><li class="chapter-item affix "><li class="part-title">Type Theory</li><li class="chapter-item "><a href="1--Type-Theory.1-1--Types-and-Functions.html">1: Types and Functions</a></li><li class="chapter-item expanded "><a href="1--Type-Theory.1-2--Inductive-Types.html" class="active">2: Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html">3: Universes and More Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html">X: Record Types and Copatterns</a></li><li class="chapter-item "><a href="1--Type-Theory.1-4--Propositions-as-Types.html">4: Propositions as Types</a></li><li class="chapter-item affix "><li class="part-title">Paths and Identifications</li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-1--Paths.html">1: Paths</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html">2: Equivalences and Path Algebra</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html">3: Substitution and J</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html">4: Composition and Filling</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-5--Transport.html">5: Transport</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-6--Univalence.html">6: Univalence</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-7--Propositions.html">7: Propositions</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-8--Sets.html">8: Sets</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html">9: Contractible Maps</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-10--Higher-Types.html">10: Higher Types</a></li><li class="chapter-item affix "><li class="part-title">Topics</li><li class="chapter-item "><a href="3--Structures.3-1--Structure-Identity-Principle.html">1: The Structure Identity Principle</a></li><li class="chapter-item "><a href="3--Structures.3-2--Modalities.html">2: Modalities</a></li><li class="chapter-item "><a href="3--Structures.3-3--Constructive-Logic.html">3: Constructive Logic</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="Library.Primitive.html">Primitives</a></li><li class="chapter-item affix "><a href="Library.Prelude.html">Prelude</a></li><li class="chapter-item affix "><a href="Library.Univalence.html">Univalence</a></li><li class="chapter-item affix "><a href="UNICODE_DICTIONARY.html">Unicode Dictionary</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="ACKNOWLEDGEMENTS.html">Acknowledgements</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <!-- <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li> -->
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to Cubical Type Theory in Agda</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/CQTS/introduction-to-cubical" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                  <main>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<!--
+<pre class="Agda"><a id="10" class="Keyword">module</a> <a id="17" href="1--Type-Theory.1-2--Inductive-Types.html" class="Module">1--Type-Theory.1-2--Inductive-Types</a> <a id="53" class="Keyword">where</a>
+
+<a id="60" class="Keyword">open</a> <a id="65" class="Keyword">import</a> <a id="72" href="Library.Prelude.html" class="Module">Library.Prelude</a>
+</pre>-->
+<h1 id="lecture-1-2-inductive-types"><a class="header" href="#lecture-1-2-inductive-types">Lecture 1-2: Inductive Types</a></h1>
+<p>In the last lecture, we saw some abstract type theory. In this
+lecture, we’ll get to define our own concrete data types.</p>
+<h2 id="booleans"><a class="header" href="#booleans">Booleans</a></h2>
+<p>An inductive type is a type whose elements
+are built up out of “constructors”. Here is the inductive type of Booleans:</p>
+<pre class="Agda"><a id="390" class="Keyword">data</a> <a id="Bool"></a><a id="395" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="400" class="Symbol">:</a> <a id="402" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="407" class="Keyword">where</a>
+  <a id="Bool.true"></a><a id="415" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="421" class="Symbol">:</a> <a id="423" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+  <a id="Bool.false"></a><a id="430" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="436" class="Symbol">:</a> <a id="438" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+</pre>
+<p>This definition says, intuitively, that to construct a Boolean we
+either construct it out of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> or out of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code> —
+that is, a Boolean is either <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> or <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code>.</p>
+<p>What makes a data type “inductive” is its induction principle: <em>to use
+an element of an inductive type, it suffices to say what we would do
+if that element was given by each of its constructors</em>. This process
+is often called “case analysis”. For example, we may define the
+logical <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1032" class="Function">not</a></code> by saying what we should get in the case the Boolean
+is <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code>, and if in the case the Boolean is <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code>:</p>
+<pre class="Agda"><a id="not"></a><a id="1032" href="1--Type-Theory.1-2--Inductive-Types.html#1032" class="Function">not</a> <a id="1036" class="Symbol">:</a> <a id="1038" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="1043" class="Symbol">→</a> <a id="1045" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="1050" href="1--Type-Theory.1-2--Inductive-Types.html#1032" class="Function">not</a> <a id="1054" href="1--Type-Theory.1-2--Inductive-Types.html#1054" class="Bound">b</a> <a id="1056" class="Symbol">=</a> <a id="1058" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="1063" href="1--Type-Theory.1-2--Inductive-Types.html#1054" class="Bound">b</a> <a id="1065" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="1068" class="Symbol">λ</a>
+  <a id="1072" class="Symbol">{</a> <a id="1074" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="1080" class="Symbol">→</a> <a id="1082" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+  <a id="1090" class="Symbol">;</a> <a id="1092" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="1098" class="Symbol">→</a> <a id="1100" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+  <a id="1107" class="Symbol">}</a>
+</pre>
+<p>Here, the <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1032" class="Function">not</a></code> function accepts the argument <code>b</code> and then splits
+into cases depending on which constructor of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> was used to
+construct <code>b</code>.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+Induction may seem like an odd name if you are used to “proof by
+induction” from your discrete maths course, but we will see below that
+the induction principle for <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> is basically the mathematical
+induction you are used to.</p>
+</div>
+<p>If we do case analysis on a <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> which is literally <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> or
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code> rather than a variable or some other expression, then the
+case analysis will disappear leaving the value of the appropriate
+case. This is the “computation rule” for Booleans.</p>
+<p>For example, normalising the expression <code>not false</code> leads to the case
+analysis</p>
+<pre class="Agda"><a id="1845" href="1--Type-Theory.1-2--Inductive-Types.html#1845" class="Function">_</a> <a id="1847" class="Symbol">=</a> <a id="1849" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a>
+
+    <a id="1869" class="Symbol">(</a><a id="1870" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="1875" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="1881" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="1884" class="Symbol">λ</a>
+      <a id="1892" class="Symbol">{</a> <a id="1894" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="1900" class="Symbol">→</a> <a id="1902" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+      <a id="1914" class="Symbol">;</a> <a id="1916" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="1922" class="Symbol">→</a> <a id="1924" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+    <a id="1933" class="Symbol">})</a>
+
+    <a id="1941" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+</pre>
+<p>which as you can see does compute to the value <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code>. (Remember you
+can normalise any expression you want typing <code>C-c C-n</code> to test things.)</p>
+<p>We can construct other functions by nesting this kind of case
+analysis. Here’s one way we could write a Boolean <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#2231" class="Function">and</a></code>
+operation:</p>
+<pre class="Agda"><a id="_and_"></a><a id="2231" href="1--Type-Theory.1-2--Inductive-Types.html#2231" class="Function Operator">_and_</a> <a id="2237" class="Symbol">:</a> <a id="2239" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="2244" class="Symbol">→</a> <a id="2246" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="2251" class="Symbol">→</a> <a id="2253" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="2258" href="1--Type-Theory.1-2--Inductive-Types.html#2231" class="Function Operator">_and_</a> <a id="2264" href="1--Type-Theory.1-2--Inductive-Types.html#2264" class="Bound">x</a> <a id="2266" href="1--Type-Theory.1-2--Inductive-Types.html#2266" class="Bound">y</a> <a id="2268" class="Symbol">=</a> <a id="2270" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="2275" href="1--Type-Theory.1-2--Inductive-Types.html#2264" class="Bound">x</a> <a id="2277" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="2280" class="Symbol">λ</a>
+  <a id="2284" class="Symbol">{</a> <a id="2286" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="2292" class="Symbol">→</a> <a id="2294" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="2299" href="1--Type-Theory.1-2--Inductive-Types.html#2266" class="Bound">y</a> <a id="2301" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="2304" class="Symbol">λ</a>
+            <a id="2318" class="Symbol">{</a> <a id="2320" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="2326" class="Symbol">→</a> <a id="2328" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+            <a id="2345" class="Symbol">;</a> <a id="2347" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2353" class="Symbol">→</a> <a id="2355" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2361" class="Symbol">}</a>
+  <a id="2365" class="Symbol">;</a> <a id="2367" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2373" class="Symbol">→</a> <a id="2375" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+  <a id="2383" class="Symbol">}</a>
+
+<a id="_xor_"></a><a id="2386" href="1--Type-Theory.1-2--Inductive-Types.html#2386" class="Function Operator">_xor_</a> <a id="2392" class="Symbol">:</a> <a id="2394" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="2399" class="Symbol">→</a> <a id="2401" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="2406" class="Symbol">→</a> <a id="2408" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="2413" class="Comment">-- Exercise:</a>
+<a id="2426" class="Comment">-- x xor y = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="2457" href="1--Type-Theory.1-2--Inductive-Types.html#2386" class="Function Operator">_xor_</a> <a id="2463" href="1--Type-Theory.1-2--Inductive-Types.html#2463" class="Bound">x</a> <a id="2465" href="1--Type-Theory.1-2--Inductive-Types.html#2465" class="Bound">y</a> <a id="2467" class="Symbol">=</a> <a id="2469" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="2474" href="1--Type-Theory.1-2--Inductive-Types.html#2463" class="Bound">x</a> <a id="2476" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="2479" class="Symbol">λ</a>
+  <a id="2483" class="Symbol">{</a> <a id="2485" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="2491" class="Symbol">→</a> <a id="2493" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="2498" href="1--Type-Theory.1-2--Inductive-Types.html#2465" class="Bound">y</a> <a id="2500" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="2503" class="Symbol">λ</a>
+            <a id="2517" class="Symbol">{</a> <a id="2519" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="2525" class="Symbol">→</a> <a id="2527" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+            <a id="2545" class="Symbol">;</a> <a id="2547" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2553" class="Symbol">→</a> <a id="2555" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="2560" class="Symbol">}</a>
+  <a id="2564" class="Symbol">;</a> <a id="2566" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2572" class="Symbol">→</a> <a id="2574" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="2579" href="1--Type-Theory.1-2--Inductive-Types.html#2465" class="Bound">y</a> <a id="2581" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="2584" class="Symbol">λ</a>
+            <a id="2598" class="Symbol">{</a> <a id="2600" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="2606" class="Symbol">→</a> <a id="2608" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+            <a id="2625" class="Symbol">;</a> <a id="2627" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2633" class="Symbol">→</a> <a id="2635" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2641" class="Symbol">}</a>
+  <a id="2645" class="Symbol">}</a>
+
+</pre>-->
+<p>Agda considers definitions with names that contain underscores
+specially, and lets us use them in two ways: either normally, as in
+<code>_and_ x y</code>, or with the arguments taking the place of the
+underscores, as in <code>x and y</code>. We will use infix operators like this
+whenever it is closer to normal mathematical practice, like these
+Boolean operators or arithmetic operators operations <code class="Agda"><a href="Library.Prelude.html#3757" class="Function">·</a></code>, etc.</p>
+<p>It is not required to do case analysis on all the variables that are
+available. Try giving a definition of the logical “or” by case analysis only
+on the variable <code>x</code>.</p>
+<pre class="Agda"><a id="_or_"></a><a id="3227" href="1--Type-Theory.1-2--Inductive-Types.html#3227" class="Function Operator">_or_</a> <a id="3232" class="Symbol">:</a> <a id="3234" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="3239" class="Symbol">→</a> <a id="3241" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="3246" class="Symbol">→</a> <a id="3248" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="3253" class="Comment">-- Exercise:</a>
+<a id="3266" class="Comment">-- x or y = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="3296" href="1--Type-Theory.1-2--Inductive-Types.html#3296" class="Bound">x</a> <a id="3298" href="1--Type-Theory.1-2--Inductive-Types.html#3227" class="Function Operator">or</a> <a id="3301" href="1--Type-Theory.1-2--Inductive-Types.html#3301" class="Bound">y</a> <a id="3303" class="Symbol">=</a> <a id="3305" href="Library.Prelude.html#2398" class="Function Operator">case</a> <a id="3310" href="1--Type-Theory.1-2--Inductive-Types.html#3296" class="Bound">x</a> <a id="3312" href="Library.Prelude.html#2398" class="Function Operator">of</a> <a id="3315" class="Symbol">λ</a>
+  <a id="3319" class="Symbol">{</a> <a id="3321" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="3327" class="Symbol">→</a> <a id="3329" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+  <a id="3336" class="Symbol">;</a> <a id="3338" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="3344" class="Symbol">→</a> <a id="3346" href="1--Type-Theory.1-2--Inductive-Types.html#3301" class="Bound">y</a>
+  <a id="3350" class="Symbol">}</a>
+
+</pre>-->
+<div class="info">
+<p><span class="info-label">Aside:</span>
+The different choices for how we do case analysis in a definition can
+result in different computational behaviour. For example, with the
+above definition of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#3227" class="Function">or</a></code>, the expression <code>true or y</code> will compute to
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> and <code>false or y</code> will compute to <code>y</code>, but <code>x or true</code> and <code>x or false</code> will both be stuck waiting for the value of <code>x</code> to do case
+analysis on.</p>
+<pre class="Agda"><a id="3746" href="1--Type-Theory.1-2--Inductive-Types.html#3746" class="Function">_</a> <a id="3748" class="Symbol">=</a> <a id="3750" class="Symbol">λ</a> <a id="3752" class="Symbol">(</a><a id="3753" href="1--Type-Theory.1-2--Inductive-Types.html#3753" class="Bound">y</a> <a id="3755" class="Symbol">:</a> <a id="3757" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a><a id="3761" class="Symbol">)</a> <a id="3763" class="Symbol">→</a> <a id="3765" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="3780" class="Symbol">(</a><a id="3781" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="3786" href="1--Type-Theory.1-2--Inductive-Types.html#3227" class="Function Operator">or</a> <a id="3789" href="1--Type-Theory.1-2--Inductive-Types.html#3753" class="Bound">y</a><a id="3790" class="Symbol">)</a> <a id="3792" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="3797" href="1--Type-Theory.1-2--Inductive-Types.html#3797" class="Function">_</a> <a id="3799" class="Symbol">=</a> <a id="3801" class="Symbol">λ</a> <a id="3803" class="Symbol">(</a><a id="3804" href="1--Type-Theory.1-2--Inductive-Types.html#3804" class="Bound">y</a> <a id="3806" class="Symbol">:</a> <a id="3808" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a><a id="3812" class="Symbol">)</a> <a id="3814" class="Symbol">→</a> <a id="3816" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="3831" class="Symbol">(</a><a id="3832" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="3838" href="1--Type-Theory.1-2--Inductive-Types.html#3227" class="Function Operator">or</a> <a id="3841" href="1--Type-Theory.1-2--Inductive-Types.html#3804" class="Bound">y</a><a id="3842" class="Symbol">)</a> <a id="3844" href="1--Type-Theory.1-2--Inductive-Types.html#3804" class="Bound">y</a>
+<a id="3846" class="Comment">-- Won&#39;t work:</a>
+<a id="3861" class="Comment">-- _ = λ (x : Bool) → test-identical (x or true) true</a>
+<a id="3915" class="Comment">-- _ = λ (x : Bool) → test-identical (x or false) x</a>
+</pre>
+</div>
+<h2 id="pattern-matching"><a class="header" href="#pattern-matching">Pattern Matching</a></h2>
+<p>In all the above definitions we accept some elements of an inductive
+type as arguments and then immediately split into cases. This is
+overwhelmingly the most common situation when working with inductive
+types, so Agda gives us some pleasant syntax for it. Rather writing
+definitions with variable names on the left of the <code>=</code> sign, we can
+write multiple lines of definition, one for each possible constructor
+that could occur in that position.</p>
+<pre class="Agda"><a id="not&#39;"></a><a id="4447" href="1--Type-Theory.1-2--Inductive-Types.html#4447" class="Function">not&#39;</a> <a id="4452" class="Symbol">:</a> <a id="4454" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="4459" class="Symbol">→</a> <a id="4461" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="4466" href="1--Type-Theory.1-2--Inductive-Types.html#4447" class="Function">not&#39;</a> <a id="4471" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="4476" class="Symbol">=</a> <a id="4478" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="4484" href="1--Type-Theory.1-2--Inductive-Types.html#4447" class="Function">not&#39;</a> <a id="4489" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="4495" class="Symbol">=</a> <a id="4497" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+
+<a id="_and&#39;_"></a><a id="4503" href="1--Type-Theory.1-2--Inductive-Types.html#4503" class="Function Operator">_and&#39;_</a> <a id="4510" class="Symbol">:</a> <a id="4512" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="4517" class="Symbol">→</a> <a id="4519" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="4524" class="Symbol">→</a> <a id="4526" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="4531" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="4536" href="1--Type-Theory.1-2--Inductive-Types.html#4503" class="Function Operator">and&#39;</a> <a id="4541" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="4546" class="Symbol">=</a> <a id="4548" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="4553" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="4558" href="1--Type-Theory.1-2--Inductive-Types.html#4503" class="Function Operator">and&#39;</a> <a id="4563" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="4569" class="Symbol">=</a> <a id="4571" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="4577" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="4583" href="1--Type-Theory.1-2--Inductive-Types.html#4503" class="Function Operator">and&#39;</a> <a id="4588" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="4593" class="Symbol">=</a> <a id="4595" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="4601" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="4607" href="1--Type-Theory.1-2--Inductive-Types.html#4503" class="Function Operator">and&#39;</a> <a id="4612" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="4618" class="Symbol">=</a> <a id="4620" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+</pre>
+<p>Although there are multiple <code>=</code> signs, all of them together constitute
+a single definition. Agda uses a mechanism called “coverage checking”
+to make sure that every case is covered by your definition, and will
+complain if you missed something. If desired, it is always possible to
+rewrite such a definition as a single expression that does the
+case-splitting manually (at least in all the situations that occur in
+these notes!).</p>
+<p>The method of writing functions where we describe what they do on
+particular forms of their input is called “pattern matching”. We
+already saw an example of this in the previous lecture when writing
+functions with pair types as arguments. Agda has nice support for
+working with pattern matching — it can automatically write out all
+the cases that are needed to define a function out of an inductive
+data type. To have Agda do this for you, place your cursor in a hole
+and press <code>C-c C-c</code>. You will be prompted for the list of variables
+separated by spaces that you want to apply case-splitting to.</p>
+<p>Try this below: press <code>C-c C-c</code> in the hole for <code>xor'</code> below and
+enter <code>x y</code> to have Agda split this definition into all the cases you
+need to handle.</p>
+<pre class="Agda"><a id="_xor&#39;_"></a><a id="5820" href="1--Type-Theory.1-2--Inductive-Types.html#5820" class="Function Operator">_xor&#39;_</a> <a id="5827" class="Symbol">:</a> <a id="5829" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="5834" class="Symbol">→</a> <a id="5836" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="5841" class="Symbol">→</a> <a id="5843" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="5848" class="Comment">-- Exercise:</a>
+<a id="5861" class="Comment">-- x xor&#39; y = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="5893" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="5898" href="1--Type-Theory.1-2--Inductive-Types.html#5820" class="Function Operator">xor&#39;</a> <a id="5903" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="5908" class="Symbol">=</a> <a id="5910" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="5916" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="5921" href="1--Type-Theory.1-2--Inductive-Types.html#5820" class="Function Operator">xor&#39;</a> <a id="5926" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="5932" class="Symbol">=</a> <a id="5934" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="5939" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="5945" href="1--Type-Theory.1-2--Inductive-Types.html#5820" class="Function Operator">xor&#39;</a> <a id="5950" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="5955" class="Symbol">=</a> <a id="5957" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="5962" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="5968" href="1--Type-Theory.1-2--Inductive-Types.html#5820" class="Function Operator">xor&#39;</a> <a id="5973" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="5979" class="Symbol">=</a> <a id="5981" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+
+</pre>-->
+<p>As before, we don’t necessarily have to to case-split on all the
+variables. Try leaving <code>y</code> un-split as you did in <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#3227" class="Function">or</a></code>.</p>
+<pre class="Agda"><a id="_or&#39;_"></a><a id="6133" href="1--Type-Theory.1-2--Inductive-Types.html#6133" class="Function Operator">_or&#39;_</a> <a id="6139" class="Symbol">:</a> <a id="6141" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="6146" class="Symbol">→</a> <a id="6148" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="6153" class="Symbol">→</a> <a id="6155" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="6160" class="Comment">-- Exercise:</a>
+<a id="6173" class="Comment">-- x or&#39; y = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="6204" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="6209" href="1--Type-Theory.1-2--Inductive-Types.html#6133" class="Function Operator">or&#39;</a> <a id="6213" href="1--Type-Theory.1-2--Inductive-Types.html#6213" class="Bound">y</a> <a id="6215" class="Symbol">=</a> <a id="6217" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="6222" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="6228" href="1--Type-Theory.1-2--Inductive-Types.html#6133" class="Function Operator">or&#39;</a> <a id="6232" href="1--Type-Theory.1-2--Inductive-Types.html#6232" class="Bound">y</a> <a id="6234" class="Symbol">=</a> <a id="6236" href="1--Type-Theory.1-2--Inductive-Types.html#6232" class="Bound">y</a>
+
+</pre>-->
+<p>Here is the definition of logical implication. There is a strange
+feature of this definition which has a Latin name: “ex falso
+quodlibet” — <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code> implies anything.</p>
+<pre class="Agda"><a id="_implies_"></a><a id="6431" href="1--Type-Theory.1-2--Inductive-Types.html#6431" class="Function Operator">_implies_</a> <a id="6441" class="Symbol">:</a> <a id="6443" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="6448" class="Symbol">→</a> <a id="6450" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="6455" class="Symbol">→</a> <a id="6457" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="6462" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="6467" href="1--Type-Theory.1-2--Inductive-Types.html#6431" class="Function Operator">implies</a> <a id="6475" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>  <a id="6481" class="Symbol">=</a> <a id="6483" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="6488" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="6493" href="1--Type-Theory.1-2--Inductive-Types.html#6431" class="Function Operator">implies</a> <a id="6501" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="6507" class="Symbol">=</a> <a id="6509" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="6515" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="6521" href="1--Type-Theory.1-2--Inductive-Types.html#6431" class="Function Operator">implies</a> <a id="6529" class="Symbol">_</a>    <a id="6534" class="Symbol">=</a> <a id="6536" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+</pre>
+<p>Here we use a “wildcard” argument (the underscore <code>_</code>) to say that the
+definition we are giving is valid for anything we put in that spot, so
+we don’t have to bother giving the variable a name at all.</p>
+<p>There is nothing special about <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> having exactly two
+constructors, we can just as well define a type with seven elements:</p>
+<pre class="Agda"><a id="6881" class="Keyword">data</a> <a id="Day"></a><a id="6886" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a> <a id="6890" class="Symbol">:</a> <a id="6892" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="6897" class="Keyword">where</a>
+  <a id="Day.monday"></a><a id="6905" href="1--Type-Theory.1-2--Inductive-Types.html#6905" class="InductiveConstructor">monday</a>    <a id="6915" class="Symbol">:</a> <a id="6917" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+  <a id="Day.tuesday"></a><a id="6923" href="1--Type-Theory.1-2--Inductive-Types.html#6923" class="InductiveConstructor">tuesday</a>   <a id="6933" class="Symbol">:</a> <a id="6935" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+  <a id="Day.wednesday"></a><a id="6941" href="1--Type-Theory.1-2--Inductive-Types.html#6941" class="InductiveConstructor">wednesday</a> <a id="6951" class="Symbol">:</a> <a id="6953" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+  <a id="Day.thursday"></a><a id="6959" href="1--Type-Theory.1-2--Inductive-Types.html#6959" class="InductiveConstructor">thursday</a>  <a id="6969" class="Symbol">:</a> <a id="6971" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+  <a id="Day.friday"></a><a id="6977" href="1--Type-Theory.1-2--Inductive-Types.html#6977" class="InductiveConstructor">friday</a>    <a id="6987" class="Symbol">:</a> <a id="6989" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+  <a id="Day.saturday"></a><a id="6995" href="1--Type-Theory.1-2--Inductive-Types.html#6995" class="InductiveConstructor">saturday</a>  <a id="7005" class="Symbol">:</a> <a id="7007" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+  <a id="Day.sunday"></a><a id="7013" href="1--Type-Theory.1-2--Inductive-Types.html#7013" class="InductiveConstructor">sunday</a>    <a id="7023" class="Symbol">:</a> <a id="7025" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+</pre>
+<p>And define functions out of it by providing cases for each of the
+constructors:</p>
+<pre class="Agda"><a id="isWeekend"></a><a id="7119" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7129" class="Symbol">:</a> <a id="7131" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a> <a id="7135" class="Symbol">→</a> <a id="7137" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="7142" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7152" href="1--Type-Theory.1-2--Inductive-Types.html#6905" class="InductiveConstructor">monday</a>    <a id="7162" class="Symbol">=</a> <a id="7164" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="7170" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7180" href="1--Type-Theory.1-2--Inductive-Types.html#6923" class="InductiveConstructor">tuesday</a>   <a id="7190" class="Symbol">=</a> <a id="7192" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="7198" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7208" href="1--Type-Theory.1-2--Inductive-Types.html#6941" class="InductiveConstructor">wednesday</a> <a id="7218" class="Symbol">=</a> <a id="7220" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="7226" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7236" href="1--Type-Theory.1-2--Inductive-Types.html#6959" class="InductiveConstructor">thursday</a>  <a id="7246" class="Symbol">=</a> <a id="7248" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="7254" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7264" href="1--Type-Theory.1-2--Inductive-Types.html#6977" class="InductiveConstructor">friday</a>    <a id="7274" class="Symbol">=</a> <a id="7276" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="7282" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7292" href="1--Type-Theory.1-2--Inductive-Types.html#6995" class="InductiveConstructor">saturday</a>  <a id="7302" class="Symbol">=</a> <a id="7304" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="7309" href="1--Type-Theory.1-2--Inductive-Types.html#7119" class="Function">isWeekend</a> <a id="7319" href="1--Type-Theory.1-2--Inductive-Types.html#7013" class="InductiveConstructor">sunday</a>    <a id="7329" class="Symbol">=</a> <a id="7331" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+
+<a id="nextDay"></a><a id="7337" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7345" class="Symbol">:</a> <a id="7347" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a> <a id="7351" class="Symbol">→</a> <a id="7353" href="1--Type-Theory.1-2--Inductive-Types.html#6886" class="Datatype">Day</a>
+<a id="7357" class="Comment">-- Exercise:</a>
+<a id="7370" class="Comment">-- nextDay c = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="7403" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7411" href="1--Type-Theory.1-2--Inductive-Types.html#6905" class="InductiveConstructor">monday</a>    <a id="7421" class="Symbol">=</a> <a id="7423" href="1--Type-Theory.1-2--Inductive-Types.html#6923" class="InductiveConstructor">tuesday</a>
+<a id="7431" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7439" href="1--Type-Theory.1-2--Inductive-Types.html#6923" class="InductiveConstructor">tuesday</a>   <a id="7449" class="Symbol">=</a> <a id="7451" href="1--Type-Theory.1-2--Inductive-Types.html#6941" class="InductiveConstructor">wednesday</a>
+<a id="7461" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7469" href="1--Type-Theory.1-2--Inductive-Types.html#6941" class="InductiveConstructor">wednesday</a> <a id="7479" class="Symbol">=</a> <a id="7481" href="1--Type-Theory.1-2--Inductive-Types.html#6959" class="InductiveConstructor">thursday</a>
+<a id="7490" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7498" href="1--Type-Theory.1-2--Inductive-Types.html#6959" class="InductiveConstructor">thursday</a>  <a id="7508" class="Symbol">=</a> <a id="7510" href="1--Type-Theory.1-2--Inductive-Types.html#6977" class="InductiveConstructor">friday</a>
+<a id="7517" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7525" href="1--Type-Theory.1-2--Inductive-Types.html#6977" class="InductiveConstructor">friday</a>    <a id="7535" class="Symbol">=</a> <a id="7537" href="1--Type-Theory.1-2--Inductive-Types.html#6995" class="InductiveConstructor">saturday</a>
+<a id="7546" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7554" href="1--Type-Theory.1-2--Inductive-Types.html#6995" class="InductiveConstructor">saturday</a>  <a id="7564" class="Symbol">=</a> <a id="7566" href="1--Type-Theory.1-2--Inductive-Types.html#7013" class="InductiveConstructor">sunday</a>
+<a id="7573" href="1--Type-Theory.1-2--Inductive-Types.html#7337" class="Function">nextDay</a> <a id="7581" href="1--Type-Theory.1-2--Inductive-Types.html#7013" class="InductiveConstructor">sunday</a>    <a id="7591" class="Symbol">=</a> <a id="7593" href="1--Type-Theory.1-2--Inductive-Types.html#6905" class="InductiveConstructor">monday</a>
+
+</pre>-->
+<h2 id="the-unit"><a class="header" href="#the-unit">The Unit</a></h2>
+<p><code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> is a simple data type, but it isn’t the simplest. We can
+use even fewer constructors. With one constructor, we have the unit
+type <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code>, with its unique element <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a></code>:</p>
+<pre class="Agda"><a id="7815" class="Keyword">data</a> <a id="⊤"></a><a id="7820" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="7822" class="Symbol">:</a> <a id="7824" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="7829" class="Keyword">where</a>
+  <a id="⊤.tt"></a><a id="7837" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="7840" class="Symbol">:</a> <a id="7842" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+</pre>
+<p>To define a function <code>⊤ → A</code>, we just have to say what it does on the
+constructor <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a></code>. This is so simple that it is difficult to
+come up with interesting examples.</p>
+<pre class="Agda"><a id="pick-true"></a><a id="8021" href="1--Type-Theory.1-2--Inductive-Types.html#8021" class="Function">pick-true</a> <a id="8031" class="Symbol">:</a> <a id="8033" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="8035" class="Symbol">→</a> <a id="8037" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="8042" href="1--Type-Theory.1-2--Inductive-Types.html#8021" class="Function">pick-true</a> <a id="8052" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="8055" class="Symbol">=</a> <a id="8057" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+
+<a id="ignore-bool"></a><a id="8063" href="1--Type-Theory.1-2--Inductive-Types.html#8063" class="Function">ignore-bool</a> <a id="8075" class="Symbol">:</a> <a id="8077" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="8082" class="Symbol">→</a> <a id="8084" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+<a id="8086" href="1--Type-Theory.1-2--Inductive-Types.html#8063" class="Function">ignore-bool</a> <a id="8098" href="1--Type-Theory.1-2--Inductive-Types.html#8098" class="Bound">b</a> <a id="8100" class="Symbol">=</a> <a id="8102" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+</pre>
+<p>Because <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code> contains no information, maps into <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code> provide no
+information either.</p>
+<pre class="Agda"><a id="⊤-ump-in-to"></a><a id="8201" href="1--Type-Theory.1-2--Inductive-Types.html#8201" class="Function">⊤-ump-in-to</a> <a id="8213" class="Symbol">:</a> <a id="8215" class="Symbol">{</a><a id="8216" href="1--Type-Theory.1-2--Inductive-Types.html#8216" class="Bound">A</a> <a id="8218" class="Symbol">:</a> <a id="8220" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="8224" class="Symbol">}</a>
+  <a id="8228" class="Symbol">→</a> <a id="8230" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+  <a id="8234" class="Symbol">→</a> <a id="8236" class="Symbol">(</a><a id="8237" href="1--Type-Theory.1-2--Inductive-Types.html#8216" class="Bound">A</a> <a id="8239" class="Symbol">→</a> <a id="8241" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a><a id="8242" class="Symbol">)</a>
+<a id="8244" class="Comment">-- Exercise:</a>
+<a id="8257" class="Comment">-- ⊤-ump-in-to t = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="8294" href="1--Type-Theory.1-2--Inductive-Types.html#8201" class="Function">⊤-ump-in-to</a> <a id="8306" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="8309" class="Symbol">=</a> <a id="8311" class="Symbol">λ</a> <a id="8313" href="1--Type-Theory.1-2--Inductive-Types.html#8313" class="Bound">a</a> <a id="8315" class="Symbol">→</a> <a id="8317" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="⊤-ump-in-fro"></a><a id="8334" href="1--Type-Theory.1-2--Inductive-Types.html#8334" class="Function">⊤-ump-in-fro</a> <a id="8347" class="Symbol">:</a> <a id="8349" class="Symbol">{</a><a id="8350" href="1--Type-Theory.1-2--Inductive-Types.html#8350" class="Bound">A</a> <a id="8352" class="Symbol">:</a> <a id="8354" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="8358" class="Symbol">}</a>
+  <a id="8362" class="Symbol">→</a> <a id="8364" class="Symbol">(</a><a id="8365" href="1--Type-Theory.1-2--Inductive-Types.html#8350" class="Bound">A</a> <a id="8367" class="Symbol">→</a> <a id="8369" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a><a id="8370" class="Symbol">)</a>
+  <a id="8374" class="Symbol">→</a> <a id="8376" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+<a id="8378" class="Comment">-- Exercise:</a>
+<a id="8391" class="Comment">-- ⊤-ump-in-fro f = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="8429" href="1--Type-Theory.1-2--Inductive-Types.html#8334" class="Function">⊤-ump-in-fro</a> <a id="8442" href="1--Type-Theory.1-2--Inductive-Types.html#8442" class="Bound">f</a> <a id="8444" class="Symbol">=</a> <a id="8446" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+
+</pre>-->
+<p>These two functions constitute the universal “mapping-in” property of
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code>, like the one that we saw for <code class="Agda"><a href="Library.Prelude.html#1692" class="Function">×</a></code> in <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#21722" class="Function">×-ump-to</a></code> and
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#22061" class="Function">×-ump-fro</a></code>.</p>
+<h2 id="natural-numbers"><a class="header" href="#natural-numbers">Natural Numbers</a></h2>
+<p>Enough with the simple data types, let’s do some mathematics. We can
+define the natural numbers <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> as an inductive data type with two
+constructors. There is a constructor <code>zero : ℕ</code>, saying that zero is a
+natural number, and a constructor <code>suc : ℕ → ℕ</code>, which says that if
+<code>n</code> is already a natural number then <code>suc n</code> (the “successor” of <code>n</code>,
+i.e. <code>1 + n</code>) is also a natural number.</p>
+<p>We actually defined <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> behind the scenes so that we could use it in
+Lecture 1-1. On the website, you can click on its name to take you
+there. Its exact definition, copy-pasted, is:</p>
+<pre><code>data ℕ : Type where
+  zero : ℕ
+  suc  : ℕ → ℕ
+</code></pre>
+<p>(We leave it commented out, so that Agda doesn’t complain about
+defining a new type with the same name as an existing one.)</p>
+<p>Defining functions out of <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> is similar to defining functions
+out of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code>, we just have to give cases for the two
+constructors. The difference is that the <code class="Agda"><a href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a></code> constructor
+tells us which (other) natural number the provided argument is the
+successor of.</p>
+<p>Here’s a first example:</p>
+<pre class="Agda"><a id="isZero"></a><a id="9685" href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a> <a id="9692" class="Symbol">:</a> <a id="9694" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="9696" class="Symbol">→</a> <a id="9698" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="9703" href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a> <a id="9710" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="9715" class="Symbol">=</a> <a id="9717" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="9722" href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a> <a id="9729" class="Symbol">(</a><a id="9730" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="9734" href="1--Type-Theory.1-2--Inductive-Types.html#9734" class="Bound">n</a><a id="9735" class="Symbol">)</a> <a id="9737" class="Symbol">=</a> <a id="9739" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+
+<a id="9746" href="1--Type-Theory.1-2--Inductive-Types.html#9746" class="Function">_</a> <a id="9748" class="Symbol">=</a> <a id="9750" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="9765" class="Symbol">(</a><a id="9766" href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a> <a id="9773" class="Number">0</a><a id="9774" class="Symbol">)</a> <a id="9776" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="9781" href="1--Type-Theory.1-2--Inductive-Types.html#9781" class="Function">_</a> <a id="9783" class="Symbol">=</a> <a id="9785" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="9800" class="Symbol">(</a><a id="9801" href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a> <a id="9808" class="Number">19</a><a id="9810" class="Symbol">)</a> <a id="9812" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+</pre>
+<p>So, <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a></code> is <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> for zero, and <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code> for any successor.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+Agda throws in some secret-sauce that lets us write elements of <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>
+as numerals <code>1</code>, <code>2</code>, <code>3</code>, …, rather than having to write out <code>suc (suc (suc zero))</code> for <code>3</code>, for example.</p>
+</div>
+<p>For <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a></code> we didn’t need to use the variable <code>n</code>, but to do
+anything interesting we will. For example:</p>
+<pre class="Agda"><a id="doubleℕ"></a><a id="10203" href="1--Type-Theory.1-2--Inductive-Types.html#10203" class="Function">doubleℕ</a> <a id="10211" class="Symbol">:</a> <a id="10213" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="10215" class="Symbol">→</a> <a id="10217" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="10219" href="1--Type-Theory.1-2--Inductive-Types.html#10203" class="Function">doubleℕ</a> <a id="10227" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="10232" class="Symbol">=</a> <a id="10234" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="10239" href="1--Type-Theory.1-2--Inductive-Types.html#10203" class="Function">doubleℕ</a> <a id="10247" class="Symbol">(</a><a id="10248" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="10252" href="1--Type-Theory.1-2--Inductive-Types.html#10252" class="Bound">n</a><a id="10253" class="Symbol">)</a> <a id="10255" class="Symbol">=</a> <a id="10257" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="10261" class="Symbol">(</a><a id="10262" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="10266" class="Symbol">(</a><a id="10267" href="1--Type-Theory.1-2--Inductive-Types.html#10203" class="Function">doubleℕ</a> <a id="10275" href="1--Type-Theory.1-2--Inductive-Types.html#10252" class="Bound">n</a><a id="10276" class="Symbol">))</a>
+</pre>
+<p>Thinking mathematically, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>, covering the first case. For the
+second case, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>. To achieve the <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord">+</span></span></span></span> part,
+we use <code class="Agda"><a href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a></code> twice, and to achieve the <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> part, we use the
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#10203" class="Function">doubleℕ</a></code> function we are currently defining!</p>
+<p>Agda allows this kind of recursion so long as it is convinced that the
+argument that you provide to the recursive call is smaller than the
+argument that you started with. That is certainly the case here,
+because we go from <code>suc n</code> to just <code>n</code>.</p>
+<p>We can even do what is called “mutual” recursion, where two
+definitions depend on each other to make sense. Here is a definition
+of the proposition that a number is even, defined together with the
+proposition that a number is odd:</p>
+<pre class="Agda"><a id="isEven"></a><a id="11020" href="1--Type-Theory.1-2--Inductive-Types.html#11020" class="Function">isEven</a> <a id="11027" class="Symbol">:</a> <a id="11029" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11031" class="Symbol">→</a> <a id="11033" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="isOdd"></a><a id="11038" href="1--Type-Theory.1-2--Inductive-Types.html#11038" class="Function">isOdd</a>  <a id="11045" class="Symbol">:</a> <a id="11047" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11049" class="Symbol">→</a> <a id="11051" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+
+<a id="11057" href="1--Type-Theory.1-2--Inductive-Types.html#11020" class="Function">isEven</a> <a id="11064" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="11069" class="Symbol">=</a> <a id="11071" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="11076" href="1--Type-Theory.1-2--Inductive-Types.html#11020" class="Function">isEven</a> <a id="11083" class="Symbol">(</a><a id="11084" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="11088" href="1--Type-Theory.1-2--Inductive-Types.html#11088" class="Bound">n</a><a id="11089" class="Symbol">)</a> <a id="11091" class="Symbol">=</a> <a id="11093" href="1--Type-Theory.1-2--Inductive-Types.html#11038" class="Function">isOdd</a> <a id="11099" href="1--Type-Theory.1-2--Inductive-Types.html#11088" class="Bound">n</a>
+
+<a id="11102" href="1--Type-Theory.1-2--Inductive-Types.html#11038" class="Function">isOdd</a> <a id="11108" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="11113" class="Symbol">=</a> <a id="11115" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+<a id="11121" href="1--Type-Theory.1-2--Inductive-Types.html#11038" class="Function">isOdd</a> <a id="11127" class="Symbol">(</a><a id="11128" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="11132" href="1--Type-Theory.1-2--Inductive-Types.html#11132" class="Bound">n</a><a id="11133" class="Symbol">)</a> <a id="11135" class="Symbol">=</a> <a id="11137" href="1--Type-Theory.1-2--Inductive-Types.html#11020" class="Function">isEven</a> <a id="11144" href="1--Type-Theory.1-2--Inductive-Types.html#11132" class="Bound">n</a>
+</pre>
+<p>Using pattern matching, we can define the arithmetic operations on
+numbers:</p>
+<pre class="Agda"><a id="_+ℕ_"></a><a id="11232" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">_+ℕ_</a> <a id="11237" class="Symbol">:</a> <a id="11239" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11241" class="Symbol">→</a> <a id="11243" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11245" class="Symbol">→</a> <a id="11247" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="11249" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>    <a id="11257" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">+ℕ</a> <a id="11260" href="1--Type-Theory.1-2--Inductive-Types.html#11260" class="Bound">m</a> <a id="11262" class="Symbol">=</a> <a id="11264" href="1--Type-Theory.1-2--Inductive-Types.html#11260" class="Bound">m</a>
+<a id="11266" class="Symbol">(</a><a id="11267" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="11271" href="1--Type-Theory.1-2--Inductive-Types.html#11271" class="Bound">n</a><a id="11272" class="Symbol">)</a> <a id="11274" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">+ℕ</a> <a id="11277" href="1--Type-Theory.1-2--Inductive-Types.html#11277" class="Bound">m</a> <a id="11279" class="Symbol">=</a> <a id="11281" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="11285" class="Symbol">(</a><a id="11286" href="1--Type-Theory.1-2--Inductive-Types.html#11271" class="Bound">n</a> <a id="11288" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">+ℕ</a> <a id="11291" href="1--Type-Theory.1-2--Inductive-Types.html#11277" class="Bound">m</a><a id="11292" class="Symbol">)</a>
+
+<a id="11295" href="1--Type-Theory.1-2--Inductive-Types.html#11295" class="Function">_</a> <a id="11297" class="Symbol">=</a> <a id="11299" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="11314" class="Symbol">(</a><a id="11315" class="Number">2</a> <a id="11317" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">+ℕ</a> <a id="11320" class="Number">3</a><a id="11321" class="Symbol">)</a> <a id="11323" class="Number">5</a>
+</pre>
+<p>Remember that you can test any piece of code yourself by typing “C-c
+C-n” and then <code>2 +ℕ 3</code>, say.</p>
+<p>Here we have chosen to split into cases on the left side and leave the
+right side alone, but we could equally well split into cases on the
+right instead:</p>
+<pre class="Agda"><a id="_+ℕ&#39;_"></a><a id="11588" href="1--Type-Theory.1-2--Inductive-Types.html#11588" class="Function Operator">_+ℕ&#39;_</a> <a id="11594" class="Symbol">:</a> <a id="11596" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11598" class="Symbol">→</a> <a id="11600" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11602" class="Symbol">→</a> <a id="11604" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="11606" href="1--Type-Theory.1-2--Inductive-Types.html#11606" class="Bound">n</a> <a id="11608" href="1--Type-Theory.1-2--Inductive-Types.html#11588" class="Function Operator">+ℕ&#39;</a> <a id="11612" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="11617" class="Symbol">=</a> <a id="11619" href="1--Type-Theory.1-2--Inductive-Types.html#11606" class="Bound">n</a>
+<a id="11621" href="1--Type-Theory.1-2--Inductive-Types.html#11621" class="Bound">n</a> <a id="11623" href="1--Type-Theory.1-2--Inductive-Types.html#11588" class="Function Operator">+ℕ&#39;</a> <a id="11627" class="Symbol">(</a><a id="11628" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="11632" href="1--Type-Theory.1-2--Inductive-Types.html#11632" class="Bound">m</a><a id="11633" class="Symbol">)</a> <a id="11635" class="Symbol">=</a> <a id="11637" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="11641" class="Symbol">(</a><a id="11642" href="1--Type-Theory.1-2--Inductive-Types.html#11621" class="Bound">n</a> <a id="11644" href="1--Type-Theory.1-2--Inductive-Types.html#11588" class="Function Operator">+ℕ&#39;</a> <a id="11648" href="1--Type-Theory.1-2--Inductive-Types.html#11632" class="Bound">m</a><a id="11649" class="Symbol">)</a>
+
+<a id="11652" href="1--Type-Theory.1-2--Inductive-Types.html#11652" class="Function">_</a> <a id="11654" class="Symbol">=</a> <a id="11656" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="11671" class="Symbol">(</a><a id="11672" class="Number">2</a> <a id="11674" href="1--Type-Theory.1-2--Inductive-Types.html#11588" class="Function Operator">+ℕ&#39;</a> <a id="11678" class="Number">3</a><a id="11679" class="Symbol">)</a> <a id="11681" class="Number">5</a>
+</pre>
+<p>We will be able to show that these two versions of addition do produce
+the same result whenever they are handed two concrete elements of
+<code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>, but Agda isn’t able to automatically consider them <em>exactly</em>
+identical.</p>
+<pre class="Agda"><a id="11909" class="Comment">-- This will fail!</a>
+<a id="11928" class="Comment">-- _ = test-identical _+ℕ_ _+ℕ&#39;_</a>
+</pre>
+<p>One way they are not identical is that they have different
+computational behaviour:</p>
+<pre class="Agda"><a id="12055" href="1--Type-Theory.1-2--Inductive-Types.html#12055" class="Function">_</a> <a id="12057" class="Symbol">=</a> <a id="12059" class="Symbol">λ</a> <a id="12061" class="Symbol">(</a><a id="12062" href="1--Type-Theory.1-2--Inductive-Types.html#12062" class="Bound">m</a> <a id="12064" class="Symbol">:</a> <a id="12066" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="12067" class="Symbol">)</a> <a id="12069" class="Symbol">→</a> <a id="12071" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12086" class="Symbol">(</a><a id="12087" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="12092" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">+ℕ</a> <a id="12095" href="1--Type-Theory.1-2--Inductive-Types.html#12062" class="Bound">m</a><a id="12096" class="Symbol">)</a> <a id="12098" href="1--Type-Theory.1-2--Inductive-Types.html#12062" class="Bound">m</a>
+<a id="12100" class="Comment">-- Fails, because `+ℕ` case splits on `n`!</a>
+<a id="12143" class="Comment">-- _ = λ (n : ℕ) → test-identical (n +ℕ zero) n</a>
+<a id="12191" href="1--Type-Theory.1-2--Inductive-Types.html#12191" class="Function">_</a> <a id="12193" class="Symbol">=</a> <a id="12195" class="Symbol">λ</a> <a id="12197" class="Symbol">(</a><a id="12198" href="1--Type-Theory.1-2--Inductive-Types.html#12198" class="Bound">n</a> <a id="12200" class="Symbol">:</a> <a id="12202" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="12203" class="Symbol">)</a> <a id="12205" class="Symbol">→</a> <a id="12207" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12222" class="Symbol">(</a><a id="12223" href="1--Type-Theory.1-2--Inductive-Types.html#12198" class="Bound">n</a> <a id="12225" href="1--Type-Theory.1-2--Inductive-Types.html#11588" class="Function Operator">+ℕ&#39;</a> <a id="12229" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a><a id="12233" class="Symbol">)</a> <a id="12235" href="1--Type-Theory.1-2--Inductive-Types.html#12198" class="Bound">n</a>
+</pre>
+<p>Try some other ordinary operations on natural numbers. To figure out
+how these should go, calculate what the answer should be
+mathematically. For example, <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">m</span><span class="mclose">)</span></span></span></span>, and this can
+be turned into one of the cases for multiplication.</p>
+<pre class="Agda"><a id="12496" class="Comment">-- Multiplication</a>
+<a id="_·ℕ_"></a><a id="12514" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">_·ℕ_</a> <a id="12519" class="Symbol">:</a> <a id="12521" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="12523" class="Symbol">→</a> <a id="12525" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="12527" class="Symbol">→</a> <a id="12529" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="12531" class="Comment">-- Exercise:</a>
+<a id="12544" class="Comment">-- n ·ℕ m = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="12574" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="12579" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12582" href="1--Type-Theory.1-2--Inductive-Types.html#12582" class="Bound">m</a> <a id="12584" class="Symbol">=</a> <a id="12586" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="12591" class="Symbol">(</a><a id="12592" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="12596" href="1--Type-Theory.1-2--Inductive-Types.html#12596" class="Bound">n</a><a id="12597" class="Symbol">)</a> <a id="12599" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12602" href="1--Type-Theory.1-2--Inductive-Types.html#12602" class="Bound">m</a> <a id="12604" class="Symbol">=</a> <a id="12606" href="1--Type-Theory.1-2--Inductive-Types.html#12602" class="Bound">m</a> <a id="12608" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">+ℕ</a> <a id="12611" class="Symbol">(</a><a id="12612" href="1--Type-Theory.1-2--Inductive-Types.html#12596" class="Bound">n</a> <a id="12614" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12617" href="1--Type-Theory.1-2--Inductive-Types.html#12602" class="Bound">m</a><a id="12618" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="12634" href="1--Type-Theory.1-2--Inductive-Types.html#12634" class="Function">_</a> <a id="12636" class="Symbol">=</a> <a id="12638" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12653" class="Symbol">(</a><a id="12654" class="Number">0</a> <a id="12656" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12659" class="Number">1</a><a id="12660" class="Symbol">)</a> <a id="12662" class="Number">0</a>
+<a id="12664" href="1--Type-Theory.1-2--Inductive-Types.html#12664" class="Function">_</a> <a id="12666" class="Symbol">=</a> <a id="12668" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12683" class="Symbol">(</a><a id="12684" class="Number">2</a> <a id="12686" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12689" class="Number">3</a><a id="12690" class="Symbol">)</a> <a id="12692" class="Number">6</a>
+<a id="12694" href="1--Type-Theory.1-2--Inductive-Types.html#12694" class="Function">_</a> <a id="12696" class="Symbol">=</a> <a id="12698" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12713" class="Symbol">(</a><a id="12714" class="Number">3</a> <a id="12716" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12719" class="Number">2</a><a id="12720" class="Symbol">)</a> <a id="12722" class="Number">6</a>
+
+<a id="12725" class="Comment">-- Exponentiation</a>
+<a id="_^ℕ_"></a><a id="12743" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">_^ℕ_</a> <a id="12748" class="Symbol">:</a> <a id="12750" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="12752" class="Symbol">→</a> <a id="12754" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="12756" class="Symbol">→</a> <a id="12758" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="12760" class="Comment">-- Exercise:</a>
+<a id="12773" class="Comment">-- n ^ℕ m = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="12803" href="1--Type-Theory.1-2--Inductive-Types.html#12803" class="Bound">n</a> <a id="12805" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">^ℕ</a> <a id="12808" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="12813" class="Symbol">=</a> <a id="12815" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="12819" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="12824" href="1--Type-Theory.1-2--Inductive-Types.html#12824" class="Bound">n</a> <a id="12826" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">^ℕ</a> <a id="12829" class="Symbol">(</a><a id="12830" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="12834" href="1--Type-Theory.1-2--Inductive-Types.html#12834" class="Bound">m</a><a id="12835" class="Symbol">)</a> <a id="12837" class="Symbol">=</a> <a id="12839" href="1--Type-Theory.1-2--Inductive-Types.html#12824" class="Bound">n</a> <a id="12841" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">·ℕ</a> <a id="12844" class="Symbol">(</a><a id="12845" href="1--Type-Theory.1-2--Inductive-Types.html#12824" class="Bound">n</a> <a id="12847" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">^ℕ</a> <a id="12850" href="1--Type-Theory.1-2--Inductive-Types.html#12834" class="Bound">m</a><a id="12851" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="12867" href="1--Type-Theory.1-2--Inductive-Types.html#12867" class="Function">_</a> <a id="12869" class="Symbol">=</a> <a id="12871" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12886" class="Symbol">(</a><a id="12887" class="Number">1</a> <a id="12889" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">^ℕ</a> <a id="12892" class="Number">1</a><a id="12893" class="Symbol">)</a> <a id="12895" class="Number">1</a>
+<a id="12897" href="1--Type-Theory.1-2--Inductive-Types.html#12897" class="Function">_</a> <a id="12899" class="Symbol">=</a> <a id="12901" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12916" class="Symbol">(</a><a id="12917" class="Number">2</a> <a id="12919" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">^ℕ</a> <a id="12922" class="Number">3</a><a id="12923" class="Symbol">)</a> <a id="12925" class="Number">8</a>
+<a id="12927" href="1--Type-Theory.1-2--Inductive-Types.html#12927" class="Function">_</a> <a id="12929" class="Symbol">=</a> <a id="12931" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="12946" class="Symbol">(</a><a id="12947" class="Number">3</a> <a id="12949" href="1--Type-Theory.1-2--Inductive-Types.html#12743" class="Function Operator">^ℕ</a> <a id="12952" class="Number">2</a><a id="12953" class="Symbol">)</a> <a id="12955" class="Number">9</a>
+</pre>
+<p>Remember that you can test these manually using <code>C-c C-n</code>!</p>
+<p>We can also define a “predecessor” operation, which partially undoes
+the successor <code>suc : ℕ → ℕ</code>. Of course, it can’t fully undo it, since
+<code class="Agda"><a href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a></code> has nowhere to go except <code class="Agda"><a href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a></code> again.</p>
+<pre class="Agda"><a id="predℕ"></a><a id="13216" href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a> <a id="13222" class="Symbol">:</a> <a id="13224" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="13226" class="Symbol">→</a> <a id="13228" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="13230" class="Comment">-- Exercise:</a>
+<a id="13243" class="Comment">-- predℕ n = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="13274" href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a> <a id="13280" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="13285" class="Symbol">=</a> <a id="13287" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="13292" href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a> <a id="13298" class="Symbol">(</a><a id="13299" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="13303" href="1--Type-Theory.1-2--Inductive-Types.html#13303" class="Bound">n</a><a id="13304" class="Symbol">)</a> <a id="13306" class="Symbol">=</a> <a id="13308" href="1--Type-Theory.1-2--Inductive-Types.html#13303" class="Bound">n</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="13324" href="1--Type-Theory.1-2--Inductive-Types.html#13324" class="Function">_</a> <a id="13326" class="Symbol">=</a> <a id="13328" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13343" class="Symbol">(</a><a id="13344" href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a> <a id="13350" class="Number">0</a><a id="13351" class="Symbol">)</a> <a id="13353" class="Number">0</a>
+<a id="13355" href="1--Type-Theory.1-2--Inductive-Types.html#13355" class="Function">_</a> <a id="13357" class="Symbol">=</a> <a id="13359" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13374" class="Symbol">(</a><a id="13375" href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a> <a id="13381" class="Number">1</a><a id="13382" class="Symbol">)</a> <a id="13384" class="Number">0</a>
+<a id="13386" href="1--Type-Theory.1-2--Inductive-Types.html#13386" class="Function">_</a> <a id="13388" class="Symbol">=</a> <a id="13390" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13405" class="Symbol">(</a><a id="13406" href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a> <a id="13412" class="Number">19</a><a id="13414" class="Symbol">)</a> <a id="13416" class="Number">18</a>
+</pre>
+<h2 id="lists"><a class="header" href="#lists">Lists</a></h2>
+<p>If this were a course on functional programming, we would spend a lot
+more time working with lists. This isn’t a course on functional
+programming, but it’s worth seeing a little of how <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a></code>s are
+handled.</p>
+<pre class="Agda"><a id="13648" class="Keyword">data</a> <a id="List"></a><a id="13653" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="13658" class="Symbol">(</a><a id="13659" href="1--Type-Theory.1-2--Inductive-Types.html#13659" class="Bound">A</a> <a id="13661" class="Symbol">:</a> <a id="13663" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="13667" class="Symbol">)</a> <a id="13669" class="Symbol">:</a> <a id="13671" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="13676" class="Keyword">where</a>
+  <a id="List.[]"></a><a id="13684" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a>    <a id="13690" class="Symbol">:</a> <a id="13692" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="13697" href="1--Type-Theory.1-2--Inductive-Types.html#13659" class="Bound">A</a>                <a id="13714" class="Comment">-- The empty list</a>
+  <a id="List._::_"></a><a id="13734" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">_::_</a>  <a id="13740" class="Symbol">:</a> <a id="13742" href="1--Type-Theory.1-2--Inductive-Types.html#13659" class="Bound">A</a> <a id="13744" class="Symbol">→</a> <a id="13746" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="13751" href="1--Type-Theory.1-2--Inductive-Types.html#13659" class="Bound">A</a> <a id="13753" class="Symbol">→</a> <a id="13755" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="13760" href="1--Type-Theory.1-2--Inductive-Types.html#13659" class="Bound">A</a>   <a id="13764" class="Comment">-- The list with a head element and a tail remainder</a>
+</pre>
+<p>That is, a list is either the empty list <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a></code>, or the list <code>a :: l</code>
+which has <code>a</code> at the head and <code>l</code> as the remainder of the list. We use
+some reasonably common symbols as the names of the two constructors.
+Other functional languages might call these <code>nil</code> and <code>cons</code>.</p>
+<p>A list that we would typically write as <code>[1, 2, 3]</code> can be constructed
+by stringing together the <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor">::</a></code> constructor, and ending with the
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a></code> constructor:</p>
+<pre class="Agda"><a id="shortList"></a><a id="14257" href="1--Type-Theory.1-2--Inductive-Types.html#14257" class="Function">shortList</a> <a id="14267" class="Symbol">:</a> <a id="14269" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="14274" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="14276" href="1--Type-Theory.1-2--Inductive-Types.html#14257" class="Function">shortList</a> <a id="14286" class="Symbol">=</a> <a id="14288" class="Number">34</a> <a id="14291" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="14294" class="Number">19</a> <a id="14297" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="14300" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a>
+</pre>
+<p><code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a></code> is our first example of an “indexed” inductive type, a type
+constructor that requires an argument. Here, for any type <code>T</code>, there
+is an inductive type <code>List T</code> with those two constructors, where <code>T</code>
+has been substituted wherever <code>A</code> appears in the types of those
+constructors. This is what lets us use the <code>[]</code> constructor as though
+it has type <code>List ℕ</code>, and the <code>::</code> constructor as though it has type
+<code>ℕ → List ℕ → List ℕ</code> in the definition of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#14257" class="Function">shortList</a></code>.</p>
+<p>It is fairly common to create a list with a singleton element, so here
+is a helper that achieves that.</p>
+<pre class="Agda"><a id="[_]"></a><a id="14885" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">[_]</a> <a id="14889" class="Symbol">:</a> <a id="14891" class="Symbol">{</a><a id="14892" href="1--Type-Theory.1-2--Inductive-Types.html#14892" class="Bound">A</a> <a id="14894" class="Symbol">:</a> <a id="14896" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="14900" class="Symbol">}</a> <a id="14902" class="Symbol">→</a> <a id="14904" href="1--Type-Theory.1-2--Inductive-Types.html#14892" class="Bound">A</a> <a id="14906" class="Symbol">→</a> <a id="14908" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="14913" href="1--Type-Theory.1-2--Inductive-Types.html#14892" class="Bound">A</a>
+<a id="14915" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">[</a> <a id="14917" href="1--Type-Theory.1-2--Inductive-Types.html#14917" class="Bound">a</a> <a id="14919" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">]</a> <a id="14921" class="Symbol">=</a> <a id="14923" href="1--Type-Theory.1-2--Inductive-Types.html#14917" class="Bound">a</a> <a id="14925" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="14928" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a>
+</pre>
+<p>The type that we want to use for the elements of the list is accepted
+as an implicit argument. As usual, <code>List A</code> doesn’t make sense as a
+type unless we have defined what <code>A</code> is somewhere.</p>
+<p>Concatenation of lists is defined by pattern-matching. For example, the
+concatenation <code>[1, 2, 3] ++ [4, 5, 6]</code> is <code>[1, 2, 3, 4, 5, 6]</code>.</p>
+<pre class="Agda"><a id="_++_"></a><a id="15267" href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function Operator">_++_</a> <a id="15272" class="Symbol">:</a> <a id="15274" class="Symbol">{</a><a id="15275" href="1--Type-Theory.1-2--Inductive-Types.html#15275" class="Bound">A</a> <a id="15277" class="Symbol">:</a> <a id="15279" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15283" class="Symbol">}</a> <a id="15285" class="Symbol">→</a> <a id="15287" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="15292" href="1--Type-Theory.1-2--Inductive-Types.html#15275" class="Bound">A</a> <a id="15294" class="Symbol">→</a> <a id="15296" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="15301" href="1--Type-Theory.1-2--Inductive-Types.html#15275" class="Bound">A</a> <a id="15303" class="Symbol">→</a> <a id="15305" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="15310" href="1--Type-Theory.1-2--Inductive-Types.html#15275" class="Bound">A</a>
+<a id="15312" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a> <a id="15315" href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function Operator">++</a> <a id="15318" href="1--Type-Theory.1-2--Inductive-Types.html#15318" class="Bound">l2</a> <a id="15321" class="Symbol">=</a> <a id="15323" href="1--Type-Theory.1-2--Inductive-Types.html#15318" class="Bound">l2</a>
+<a id="15326" class="Symbol">(</a><a id="15327" href="1--Type-Theory.1-2--Inductive-Types.html#15327" class="Bound">x</a> <a id="15329" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="15332" href="1--Type-Theory.1-2--Inductive-Types.html#15332" class="Bound">l1</a><a id="15334" class="Symbol">)</a> <a id="15336" href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function Operator">++</a> <a id="15339" href="1--Type-Theory.1-2--Inductive-Types.html#15339" class="Bound">l2</a> <a id="15342" class="Symbol">=</a> <a id="15344" href="1--Type-Theory.1-2--Inductive-Types.html#15327" class="Bound">x</a> <a id="15346" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="15349" class="Symbol">(</a><a id="15350" href="1--Type-Theory.1-2--Inductive-Types.html#15332" class="Bound">l1</a> <a id="15353" href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function Operator">++</a> <a id="15356" href="1--Type-Theory.1-2--Inductive-Types.html#15339" class="Bound">l2</a><a id="15358" class="Symbol">)</a>
+</pre>
+<p>In words, concatenating the empty list to any list doesn’t change it,
+and when concatenating a list with a head to another list, the result
+has the same head, and the remainder is the concatenation with the
+remainder.</p>
+<p>Compare this to the definition of addition on <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>, the
+structure is <em>exactly</em> the same (if we rewrite the second case as
+<code>_::_ x l</code> rather than using the constructor infix). All that is
+different is keeping track of the element of <code>A</code>.</p>
+<p>With this in mind, try defining a function to calculate the <code>length</code>
+of a list.</p>
+<pre class="Agda"><a id="length"></a><a id="15908" href="1--Type-Theory.1-2--Inductive-Types.html#15908" class="Function">length</a> <a id="15915" class="Symbol">:</a> <a id="15917" class="Symbol">{</a><a id="15918" href="1--Type-Theory.1-2--Inductive-Types.html#15918" class="Bound">A</a> <a id="15920" class="Symbol">:</a> <a id="15922" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15926" class="Symbol">}</a> <a id="15928" class="Symbol">→</a> <a id="15930" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="15935" href="1--Type-Theory.1-2--Inductive-Types.html#15918" class="Bound">A</a> <a id="15937" class="Symbol">→</a> <a id="15939" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="15941" class="Comment">-- Exercise:</a>
+<a id="15954" class="Comment">-- length L = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="15986" href="1--Type-Theory.1-2--Inductive-Types.html#15908" class="Function">length</a> <a id="15993" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a> <a id="15996" class="Symbol">=</a> <a id="15998" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="16003" href="1--Type-Theory.1-2--Inductive-Types.html#15908" class="Function">length</a> <a id="16010" class="Symbol">(</a><a id="16011" href="1--Type-Theory.1-2--Inductive-Types.html#16011" class="Bound">x</a> <a id="16013" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16016" href="1--Type-Theory.1-2--Inductive-Types.html#16016" class="Bound">l</a><a id="16017" class="Symbol">)</a> <a id="16019" class="Symbol">=</a> <a id="16021" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="16025" class="Symbol">(</a><a id="16026" href="1--Type-Theory.1-2--Inductive-Types.html#15908" class="Function">length</a> <a id="16033" href="1--Type-Theory.1-2--Inductive-Types.html#16016" class="Bound">l</a><a id="16034" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="16050" href="1--Type-Theory.1-2--Inductive-Types.html#16050" class="Function">_</a> <a id="16052" class="Symbol">=</a> <a id="16054" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="16069" class="Symbol">(</a><a id="16070" href="1--Type-Theory.1-2--Inductive-Types.html#15908" class="Function">length</a> <a id="16077" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">[</a> <a id="16079" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="16082" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">]</a><a id="16083" class="Symbol">)</a> <a id="16085" class="Number">1</a>
+<a id="16087" href="1--Type-Theory.1-2--Inductive-Types.html#16087" class="Function">_</a> <a id="16089" class="Symbol">=</a> <a id="16091" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="16106" class="Symbol">(</a><a id="16107" href="1--Type-Theory.1-2--Inductive-Types.html#15908" class="Function">length</a> <a id="16114" class="Symbol">(</a><a id="16115" class="Number">1</a> <a id="16117" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16120" class="Number">2</a> <a id="16122" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16125" class="Number">3</a> <a id="16127" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16130" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a><a id="16132" class="Symbol">))</a> <a id="16135" class="Number">3</a>
+</pre>
+<p>In the other direction, a natural number can be seen as a list of tally marks.</p>
+<pre class="Agda"><a id="ℕ→List⊤"></a><a id="16226" href="1--Type-Theory.1-2--Inductive-Types.html#16226" class="Function">ℕ→List⊤</a> <a id="16234" class="Symbol">:</a> <a id="16236" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="16238" class="Symbol">→</a> <a id="16240" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="16245" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+<a id="16247" class="Comment">-- Exercise:</a>
+<a id="16260" class="Comment">-- ℕ→List⊤ n = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="16293" href="1--Type-Theory.1-2--Inductive-Types.html#16226" class="Function">ℕ→List⊤</a> <a id="16301" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="16306" class="Symbol">=</a> <a id="16308" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a>
+<a id="16311" href="1--Type-Theory.1-2--Inductive-Types.html#16226" class="Function">ℕ→List⊤</a> <a id="16319" class="Symbol">(</a><a id="16320" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="16324" href="1--Type-Theory.1-2--Inductive-Types.html#16324" class="Bound">n</a><a id="16325" class="Symbol">)</a> <a id="16327" class="Symbol">=</a> <a id="16329" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="16332" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16335" class="Symbol">(</a><a id="16336" href="1--Type-Theory.1-2--Inductive-Types.html#16226" class="Function">ℕ→List⊤</a> <a id="16344" href="1--Type-Theory.1-2--Inductive-Types.html#16324" class="Bound">n</a><a id="16345" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="16361" href="1--Type-Theory.1-2--Inductive-Types.html#16361" class="Function">_</a> <a id="16363" class="Symbol">=</a> <a id="16365" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="16380" class="Symbol">(</a><a id="16381" href="1--Type-Theory.1-2--Inductive-Types.html#16226" class="Function">ℕ→List⊤</a> <a id="16389" class="Number">0</a><a id="16390" class="Symbol">)</a> <a id="16392" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a>
+<a id="16395" href="1--Type-Theory.1-2--Inductive-Types.html#16395" class="Function">_</a> <a id="16397" class="Symbol">=</a> <a id="16399" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="16414" class="Symbol">(</a><a id="16415" href="1--Type-Theory.1-2--Inductive-Types.html#16226" class="Function">ℕ→List⊤</a> <a id="16423" class="Number">3</a><a id="16424" class="Symbol">)</a> <a id="16426" class="Symbol">(</a><a id="16427" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="16430" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16433" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="16436" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16439" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="16442" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16445" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a><a id="16447" class="Symbol">)</a>
+</pre>
+<p>Together with <code>length : List ⊤ → ℕ</code>, we have a bijection between the
+type of natural numbers and the type of lists of tally marks.</p>
+<p>As one final example, try using <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function">++</a></code> to define a <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a></code>
+function.</p>
+<pre class="Agda"><a id="reverse"></a><a id="16664" href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a> <a id="16672" class="Symbol">:</a> <a id="16674" class="Symbol">{</a><a id="16675" href="1--Type-Theory.1-2--Inductive-Types.html#16675" class="Bound">A</a> <a id="16677" class="Symbol">:</a> <a id="16679" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="16683" class="Symbol">}</a> <a id="16685" class="Symbol">→</a> <a id="16687" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="16692" href="1--Type-Theory.1-2--Inductive-Types.html#16675" class="Bound">A</a> <a id="16694" class="Symbol">→</a> <a id="16696" href="1--Type-Theory.1-2--Inductive-Types.html#13653" class="Datatype">List</a> <a id="16701" href="1--Type-Theory.1-2--Inductive-Types.html#16675" class="Bound">A</a>
+<a id="16703" class="Comment">-- Exercise:</a>
+<a id="16716" class="Comment">-- reverse x = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="16749" href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a> <a id="16757" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a> <a id="16760" class="Symbol">=</a> <a id="16762" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a>
+<a id="16765" href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a> <a id="16773" class="Symbol">(</a><a id="16774" href="1--Type-Theory.1-2--Inductive-Types.html#16774" class="Bound">x</a> <a id="16776" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16779" href="1--Type-Theory.1-2--Inductive-Types.html#16779" class="Bound">L</a><a id="16780" class="Symbol">)</a> <a id="16782" class="Symbol">=</a> <a id="16784" href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a> <a id="16792" href="1--Type-Theory.1-2--Inductive-Types.html#16779" class="Bound">L</a> <a id="16794" href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function Operator">++</a> <a id="16797" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">[</a> <a id="16799" href="1--Type-Theory.1-2--Inductive-Types.html#16774" class="Bound">x</a> <a id="16801" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">]</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="16817" href="1--Type-Theory.1-2--Inductive-Types.html#16817" class="Function">_</a> <a id="16819" class="Symbol">=</a> <a id="16821" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="16836" class="Symbol">(</a><a id="16837" href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a> <a id="16845" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">[</a> <a id="16847" class="Number">1</a> <a id="16849" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">]</a><a id="16850" class="Symbol">)</a> <a id="16852" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">[</a> <a id="16854" class="Number">1</a> <a id="16856" href="1--Type-Theory.1-2--Inductive-Types.html#14885" class="Function Operator">]</a>
+<a id="16858" href="1--Type-Theory.1-2--Inductive-Types.html#16858" class="Function">_</a> <a id="16860" class="Symbol">=</a> <a id="16862" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="16877" class="Symbol">(</a><a id="16878" href="1--Type-Theory.1-2--Inductive-Types.html#16664" class="Function">reverse</a> <a id="16886" class="Symbol">(</a><a id="16887" class="Number">1</a> <a id="16889" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16892" class="Number">2</a> <a id="16894" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16897" class="Number">3</a> <a id="16899" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16902" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a><a id="16904" class="Symbol">))</a> <a id="16907" class="Symbol">(</a><a id="16908" class="Number">3</a> <a id="16910" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16913" class="Number">2</a> <a id="16915" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16918" class="Number">1</a> <a id="16920" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">::</a> <a id="16923" href="1--Type-Theory.1-2--Inductive-Types.html#13684" class="InductiveConstructor">[]</a><a id="16925" class="Symbol">)</a>
+</pre>
+<h2 id="integers"><a class="header" href="#integers">Integers</a></h2>
+<p>We can use the type of natural numbers as a stepping stone to the
+integers. An integer is either a natural number or a <em>strictly</em>
+negative integer. We have to be careful here, we don’t want to
+accidentally have more than one way to represent 0! =Turning this into
+an inductive definition:</p>
+<pre class="Agda"><a id="17240" class="Keyword">data</a> <a id="ℤ"></a><a id="17245" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="17247" class="Symbol">:</a> <a id="17249" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="17254" class="Keyword">where</a>
+  <a id="ℤ.pos"></a><a id="17262" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a>    <a id="17269" class="Symbol">:</a> <a id="17271" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="17273" class="Symbol">→</a> <a id="17275" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+  <a id="ℤ.negsuc"></a><a id="17279" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="17286" class="Symbol">:</a> <a id="17288" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="17290" class="Symbol">→</a> <a id="17292" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+</pre>
+<p>The <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a></code> constructor represents the negative of the
+successor of a natural number, so <code>negsuc n</code> represents <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>.</p>
+<p>We can define integer versions of the various arithmetic operations
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function">+ℕ</a></code>, <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function">·ℕ</a></code>, and so on. First, we need a few helper functions. This
+first one negates a natural number into an integer. We can’t just
+define <code>negℕ n = negsuc n</code>, because this would send <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>!</p>
+<pre class="Agda"><a id="negℕ"></a><a id="17707" href="1--Type-Theory.1-2--Inductive-Types.html#17707" class="Function">negℕ</a> <a id="17712" class="Symbol">:</a> <a id="17714" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="17716" class="Symbol">→</a> <a id="17718" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="17720" href="1--Type-Theory.1-2--Inductive-Types.html#17707" class="Function">negℕ</a> <a id="17725" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="17730" class="Symbol">=</a> <a id="17732" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="17736" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="17741" href="1--Type-Theory.1-2--Inductive-Types.html#17707" class="Function">negℕ</a> <a id="17746" class="Symbol">(</a><a id="17747" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="17751" href="1--Type-Theory.1-2--Inductive-Types.html#17751" class="Bound">n</a><a id="17752" class="Symbol">)</a> <a id="17754" class="Symbol">=</a> <a id="17756" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="17763" href="1--Type-Theory.1-2--Inductive-Types.html#17751" class="Bound">n</a>
+</pre>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+The following code snippet hooks <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a></code> into the same mechanism as
+<code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> that lets us write numerals rather than chains of <code class="Agda"><a href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a></code> and
+<code class="Agda"><a href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a></code>. Pay no attention to the man behind the curtain!</p>
+<pre class="Agda"><a id="17978" class="Keyword">instance</a>
+  <a id="Number-ℤ"></a><a id="17989" href="1--Type-Theory.1-2--Inductive-Types.html#17989" class="Function">Number-ℤ</a> <a id="17998" class="Symbol">:</a> <a id="18000" href="Library.Prelude.html#4021" class="Record">Number</a> <a id="18007" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+  <a id="18011" href="1--Type-Theory.1-2--Inductive-Types.html#17989" class="Function">Number-ℤ</a> <a id="18020" class="Symbol">.</a><a id="18021" href="Library.Prelude.html#4076" class="Field">fromNat</a> <a id="18029" class="Symbol">=</a> <a id="18031" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a>
+
+  <a id="Negative-ℤ"></a><a id="18038" href="1--Type-Theory.1-2--Inductive-Types.html#18038" class="Function">Negative-ℤ</a> <a id="18049" class="Symbol">:</a> <a id="18051" href="Library.Prelude.html#4144" class="Record">Negative</a> <a id="18060" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+  <a id="18064" href="1--Type-Theory.1-2--Inductive-Types.html#18038" class="Function">Negative-ℤ</a> <a id="18075" class="Symbol">.</a><a id="18076" href="Library.Prelude.html#4201" class="Field">fromNeg</a> <a id="18084" class="Symbol">=</a> <a id="18086" href="1--Type-Theory.1-2--Inductive-Types.html#17707" class="Function">negℕ</a>
+
+<a id="18092" href="1--Type-Theory.1-2--Inductive-Types.html#18092" class="Function">_</a> <a id="18094" class="Symbol">=</a> <a id="18096" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="18111" class="Number">2</a> <a id="18113" class="Symbol">(</a><a id="18114" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18118" class="Symbol">(</a><a id="18119" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18123" class="Symbol">(</a><a id="18124" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18128" class="Symbol">(</a><a id="18129" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a><a id="18133" class="Symbol">))))</a>
+<a id="18138" href="1--Type-Theory.1-2--Inductive-Types.html#18138" class="Function">_</a> <a id="18140" class="Symbol">=</a> <a id="18142" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="18157" class="Number">-3</a> <a id="18160" class="Symbol">(</a><a id="18161" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18168" class="Symbol">(</a><a id="18169" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18173" class="Symbol">(</a><a id="18174" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18178" class="Symbol">(</a><a id="18179" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a><a id="18183" class="Symbol">))))</a>
+</pre>
+</div>
+<p>Next, the successor function which sends <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span> to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>, and similarly
+the predecessor function which sends <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span></span></span></span> to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>.</p>
+<pre class="Agda"><a id="sucℤ"></a><a id="18326" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="18331" class="Symbol">:</a> <a id="18333" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="18335" class="Symbol">→</a> <a id="18337" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="18339" class="Comment">-- Exercise:</a>
+<a id="18352" class="Comment">-- sucℤ z = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="18382" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="18387" class="Symbol">(</a><a id="18388" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18392" href="1--Type-Theory.1-2--Inductive-Types.html#18392" class="Bound">n</a><a id="18393" class="Symbol">)</a> <a id="18395" class="Symbol">=</a> <a id="18397" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18401" class="Symbol">(</a><a id="18402" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18406" href="1--Type-Theory.1-2--Inductive-Types.html#18392" class="Bound">n</a><a id="18407" class="Symbol">)</a>
+<a id="18409" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="18414" class="Symbol">(</a><a id="18415" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18422" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a><a id="18426" class="Symbol">)</a> <a id="18428" class="Symbol">=</a> <a id="18430" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18434" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="18439" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="18444" class="Symbol">(</a><a id="18445" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18452" class="Symbol">(</a><a id="18453" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18457" href="1--Type-Theory.1-2--Inductive-Types.html#18457" class="Bound">n</a><a id="18458" class="Symbol">))</a> <a id="18461" class="Symbol">=</a> <a id="18463" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18470" href="1--Type-Theory.1-2--Inductive-Types.html#18457" class="Bound">n</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="18486" href="1--Type-Theory.1-2--Inductive-Types.html#18486" class="Function">_</a> <a id="18488" class="Symbol">=</a> <a id="18490" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="18505" class="Symbol">(</a><a id="18506" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="18511" class="Number">19</a><a id="18513" class="Symbol">)</a> <a id="18515" class="Number">20</a>
+<a id="18518" href="1--Type-Theory.1-2--Inductive-Types.html#18518" class="Function">_</a> <a id="18520" class="Symbol">=</a> <a id="18522" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="18537" class="Symbol">(</a><a id="18538" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="18543" class="Number">-34</a><a id="18546" class="Symbol">)</a> <a id="18548" class="Number">-33</a>
+
+<a id="predℤ"></a><a id="18553" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="18559" class="Symbol">:</a> <a id="18561" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="18563" class="Symbol">→</a> <a id="18565" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="18567" class="Comment">-- Exercise:</a>
+<a id="18580" class="Comment">-- predℤ z = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="18611" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="18617" class="Symbol">(</a><a id="18618" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18622" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a><a id="18626" class="Symbol">)</a> <a id="18628" class="Symbol">=</a> <a id="18630" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18637" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="18642" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="18648" class="Symbol">(</a><a id="18649" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18653" class="Symbol">(</a><a id="18654" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18658" href="1--Type-Theory.1-2--Inductive-Types.html#18658" class="Bound">n</a><a id="18659" class="Symbol">))</a> <a id="18662" class="Symbol">=</a> <a id="18664" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="18668" href="1--Type-Theory.1-2--Inductive-Types.html#18658" class="Bound">n</a>
+<a id="18670" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="18676" class="Symbol">(</a><a id="18677" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18684" href="1--Type-Theory.1-2--Inductive-Types.html#18684" class="Bound">n</a><a id="18685" class="Symbol">)</a> <a id="18687" class="Symbol">=</a> <a id="18689" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="18696" class="Symbol">(</a><a id="18697" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="18701" href="1--Type-Theory.1-2--Inductive-Types.html#18684" class="Bound">n</a><a id="18702" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="18718" href="1--Type-Theory.1-2--Inductive-Types.html#18718" class="Function">_</a> <a id="18720" class="Symbol">=</a> <a id="18722" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="18737" class="Symbol">(</a><a id="18738" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="18744" class="Number">19</a><a id="18746" class="Symbol">)</a> <a id="18748" class="Number">18</a>
+<a id="18751" href="1--Type-Theory.1-2--Inductive-Types.html#18751" class="Function">_</a> <a id="18753" class="Symbol">=</a> <a id="18755" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="18770" class="Symbol">(</a><a id="18771" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="18777" class="Number">-34</a><a id="18780" class="Symbol">)</a> <a id="18782" class="Number">-35</a>
+</pre>
+<p>This was all preparation for addition of integers. Since the integers
+are a disjoint union of the natural numbers and the negative numbers,
+it helps to handle these two cases separately. You will have to use
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a></code> and <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a></code> in these definitions.</p>
+<pre class="Agda"><a id="19049" class="Comment">-- This should correspond to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>, where <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> is a natural number</a>
+<a id="_+pos_"></a><a id="19117" href="1--Type-Theory.1-2--Inductive-Types.html#19117" class="Function Operator">_+pos_</a> <a id="19124" class="Symbol">:</a> <a id="19126" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="19128" class="Symbol">→</a> <a id="19130" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="19132" class="Symbol">→</a> <a id="19134" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="19136" class="Comment">-- Exercise:</a>
+<a id="19149" class="Comment">-- z +pos n = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="19181" href="1--Type-Theory.1-2--Inductive-Types.html#19181" class="Bound">z</a> <a id="19183" href="1--Type-Theory.1-2--Inductive-Types.html#19117" class="Function Operator">+pos</a> <a id="19188" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="19193" class="Symbol">=</a> <a id="19195" href="1--Type-Theory.1-2--Inductive-Types.html#19181" class="Bound">z</a>
+<a id="19197" href="1--Type-Theory.1-2--Inductive-Types.html#19197" class="Bound">z</a> <a id="19199" href="1--Type-Theory.1-2--Inductive-Types.html#19117" class="Function Operator">+pos</a> <a id="19204" class="Symbol">(</a><a id="19205" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="19209" href="1--Type-Theory.1-2--Inductive-Types.html#19209" class="Bound">n</a><a id="19210" class="Symbol">)</a> <a id="19212" class="Symbol">=</a> <a id="19214" href="1--Type-Theory.1-2--Inductive-Types.html#18326" class="Function">sucℤ</a> <a id="19219" class="Symbol">(</a><a id="19220" href="1--Type-Theory.1-2--Inductive-Types.html#19197" class="Bound">z</a> <a id="19222" href="1--Type-Theory.1-2--Inductive-Types.html#19117" class="Function Operator">+pos</a> <a id="19227" href="1--Type-Theory.1-2--Inductive-Types.html#19209" class="Bound">n</a><a id="19228" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="19244" class="Comment">-- This should correspond to <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal" style="margin-right:0.04398em;">z</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">−</span><span class="mopen">(</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>, where <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> is a natural number</a>
+<a id="_+negsuc_"></a><a id="19317" href="1--Type-Theory.1-2--Inductive-Types.html#19317" class="Function Operator">_+negsuc_</a> <a id="19327" class="Symbol">:</a> <a id="19329" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="19331" class="Symbol">→</a> <a id="19333" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="19335" class="Symbol">→</a> <a id="19337" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="19339" class="Comment">-- Exercise:</a>
+<a id="19352" class="Comment">-- z +negsuc n = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="19387" href="1--Type-Theory.1-2--Inductive-Types.html#19387" class="Bound">z</a> <a id="19389" href="1--Type-Theory.1-2--Inductive-Types.html#19317" class="Function Operator">+negsuc</a> <a id="19397" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="19402" class="Symbol">=</a> <a id="19404" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="19410" href="1--Type-Theory.1-2--Inductive-Types.html#19387" class="Bound">z</a>
+<a id="19412" href="1--Type-Theory.1-2--Inductive-Types.html#19412" class="Bound">z</a> <a id="19414" href="1--Type-Theory.1-2--Inductive-Types.html#19317" class="Function Operator">+negsuc</a> <a id="19422" class="Symbol">(</a><a id="19423" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="19427" href="1--Type-Theory.1-2--Inductive-Types.html#19427" class="Bound">n</a><a id="19428" class="Symbol">)</a> <a id="19430" class="Symbol">=</a> <a id="19432" href="1--Type-Theory.1-2--Inductive-Types.html#18553" class="Function">predℤ</a> <a id="19438" class="Symbol">(</a><a id="19439" href="1--Type-Theory.1-2--Inductive-Types.html#19412" class="Bound">z</a> <a id="19441" href="1--Type-Theory.1-2--Inductive-Types.html#19317" class="Function Operator">+negsuc</a> <a id="19449" href="1--Type-Theory.1-2--Inductive-Types.html#19427" class="Bound">n</a><a id="19450" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="_+ℤ_"></a><a id="19466" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">_+ℤ_</a> <a id="19471" class="Symbol">:</a> <a id="19473" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="19475" class="Symbol">→</a> <a id="19477" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="19479" class="Symbol">→</a> <a id="19481" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="19483" href="1--Type-Theory.1-2--Inductive-Types.html#19483" class="Bound">m</a> <a id="19485" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19488" class="Symbol">(</a><a id="19489" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="19493" href="1--Type-Theory.1-2--Inductive-Types.html#19493" class="Bound">n</a><a id="19494" class="Symbol">)</a> <a id="19496" class="Symbol">=</a> <a id="19498" href="1--Type-Theory.1-2--Inductive-Types.html#19483" class="Bound">m</a> <a id="19500" href="1--Type-Theory.1-2--Inductive-Types.html#19117" class="Function Operator">+pos</a> <a id="19505" href="1--Type-Theory.1-2--Inductive-Types.html#19493" class="Bound">n</a>
+<a id="19507" href="1--Type-Theory.1-2--Inductive-Types.html#19507" class="Bound">m</a> <a id="19509" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19512" class="Symbol">(</a><a id="19513" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="19520" href="1--Type-Theory.1-2--Inductive-Types.html#19520" class="Bound">n</a><a id="19521" class="Symbol">)</a> <a id="19523" class="Symbol">=</a> <a id="19525" href="1--Type-Theory.1-2--Inductive-Types.html#19507" class="Bound">m</a> <a id="19527" href="1--Type-Theory.1-2--Inductive-Types.html#19317" class="Function Operator">+negsuc</a> <a id="19535" href="1--Type-Theory.1-2--Inductive-Types.html#19520" class="Bound">n</a>
+
+<a id="19538" href="1--Type-Theory.1-2--Inductive-Types.html#19538" class="Function">_</a> <a id="19540" class="Symbol">=</a> <a id="19542" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19557" class="Symbol">(</a><a id="19558" class="Number">0</a> <a id="19560" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19563" class="Number">0</a><a id="19564" class="Symbol">)</a> <a id="19566" class="Number">0</a>
+<a id="19568" href="1--Type-Theory.1-2--Inductive-Types.html#19568" class="Function">_</a> <a id="19570" class="Symbol">=</a> <a id="19572" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19587" class="Symbol">(</a><a id="19588" class="Number">0</a> <a id="19590" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19593" class="Number">1</a><a id="19594" class="Symbol">)</a> <a id="19596" class="Number">1</a>
+<a id="19598" href="1--Type-Theory.1-2--Inductive-Types.html#19598" class="Function">_</a> <a id="19600" class="Symbol">=</a> <a id="19602" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19617" class="Symbol">(</a><a id="19618" class="Number">1</a> <a id="19620" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19623" class="Number">0</a><a id="19624" class="Symbol">)</a> <a id="19626" class="Number">1</a>
+<a id="19628" href="1--Type-Theory.1-2--Inductive-Types.html#19628" class="Function">_</a> <a id="19630" class="Symbol">=</a> <a id="19632" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19647" class="Symbol">(</a><a id="19648" class="Number">19</a> <a id="19651" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19654" class="Number">34</a><a id="19656" class="Symbol">)</a> <a id="19658" class="Number">53</a>
+<a id="19661" href="1--Type-Theory.1-2--Inductive-Types.html#19661" class="Function">_</a> <a id="19663" class="Symbol">=</a> <a id="19665" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19680" class="Symbol">(</a><a id="19681" class="Number">-19</a> <a id="19685" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="19688" class="Number">34</a><a id="19690" class="Symbol">)</a> <a id="19692" class="Number">15</a>
+</pre>
+<p>We can negate an integer, and define the subtraction of integers in
+terms of addition and negation.</p>
+<pre class="Agda"><a id="-_"></a><a id="19805" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-_</a> <a id="19808" class="Symbol">:</a> <a id="19810" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="19812" class="Symbol">→</a> <a id="19814" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="19816" class="Comment">-- Exercise:</a>
+<a id="19829" class="Comment">-- - z = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="19856" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="19858" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="19862" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="19867" class="Symbol">=</a> <a id="19869" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="19873" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="19878" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="19880" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="19884" class="Symbol">(</a><a id="19885" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="19889" href="1--Type-Theory.1-2--Inductive-Types.html#19889" class="Bound">n</a><a id="19890" class="Symbol">)</a> <a id="19892" class="Symbol">=</a> <a id="19894" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="19901" href="1--Type-Theory.1-2--Inductive-Types.html#19889" class="Bound">n</a>
+<a id="19903" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="19905" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="19912" href="1--Type-Theory.1-2--Inductive-Types.html#19912" class="Bound">n</a> <a id="19914" class="Symbol">=</a> <a id="19916" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="19920" class="Symbol">(</a><a id="19921" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="19925" href="1--Type-Theory.1-2--Inductive-Types.html#19912" class="Bound">n</a><a id="19926" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="19942" href="1--Type-Theory.1-2--Inductive-Types.html#19942" class="Function">_</a> <a id="19944" class="Symbol">=</a> <a id="19946" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19961" class="Symbol">(</a><a id="19962" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="19964" class="Number">0</a><a id="19965" class="Symbol">)</a> <a id="19967" class="Number">0</a>
+<a id="19969" href="1--Type-Theory.1-2--Inductive-Types.html#19969" class="Function">_</a> <a id="19971" class="Symbol">=</a> <a id="19973" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="19988" class="Symbol">(</a><a id="19989" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="19991" class="Number">19</a><a id="19993" class="Symbol">)</a> <a id="19995" class="Symbol">(</a><a id="19996" class="Number">-19</a><a id="19999" class="Symbol">)</a>
+<a id="20001" href="1--Type-Theory.1-2--Inductive-Types.html#20001" class="Function">_</a> <a id="20003" class="Symbol">=</a> <a id="20005" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="20020" class="Symbol">(</a><a id="20021" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="20023" class="Symbol">(</a><a id="20024" class="Number">-34</a><a id="20027" class="Symbol">))</a> <a id="20030" class="Number">34</a>
+
+<a id="_-ℤ_"></a><a id="20034" href="1--Type-Theory.1-2--Inductive-Types.html#20034" class="Function Operator">_-ℤ_</a> <a id="20039" class="Symbol">:</a> <a id="20041" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="20043" class="Symbol">→</a> <a id="20045" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="20047" class="Symbol">→</a> <a id="20049" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="20051" href="1--Type-Theory.1-2--Inductive-Types.html#20051" class="Bound">m</a> <a id="20053" href="1--Type-Theory.1-2--Inductive-Types.html#20034" class="Function Operator">-ℤ</a> <a id="20056" href="1--Type-Theory.1-2--Inductive-Types.html#20056" class="Bound">n</a> <a id="20058" class="Symbol">=</a> <a id="20060" href="1--Type-Theory.1-2--Inductive-Types.html#20051" class="Bound">m</a> <a id="20062" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="20065" class="Symbol">(</a><a id="20066" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="20068" href="1--Type-Theory.1-2--Inductive-Types.html#20056" class="Bound">n</a><a id="20069" class="Symbol">)</a>
+</pre>
+<p>See if you can come up with the correct definition for multiplication
+of integers. This can be done by case-splitting on only one of the
+sides.</p>
+<pre class="Agda"><a id="_·ℤ_"></a><a id="20225" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">_·ℤ_</a> <a id="20230" class="Symbol">:</a> <a id="20232" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="20234" class="Symbol">→</a> <a id="20236" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a> <a id="20238" class="Symbol">→</a> <a id="20240" href="1--Type-Theory.1-2--Inductive-Types.html#17245" class="Datatype">ℤ</a>
+<a id="20242" class="Comment">-- Exercise:</a>
+<a id="20255" class="Comment">-- n ·ℤ m = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="20285" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="20289" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="20294" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20297" href="1--Type-Theory.1-2--Inductive-Types.html#20297" class="Bound">m</a> <a id="20299" class="Symbol">=</a> <a id="20301" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="20305" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a>
+<a id="20310" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="20314" class="Symbol">(</a><a id="20315" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="20319" href="1--Type-Theory.1-2--Inductive-Types.html#20319" class="Bound">n</a><a id="20320" class="Symbol">)</a> <a id="20322" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20325" href="1--Type-Theory.1-2--Inductive-Types.html#20325" class="Bound">m</a> <a id="20327" class="Symbol">=</a> <a id="20329" href="1--Type-Theory.1-2--Inductive-Types.html#20325" class="Bound">m</a> <a id="20331" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="20334" class="Symbol">(</a><a id="20335" href="1--Type-Theory.1-2--Inductive-Types.html#17262" class="InductiveConstructor">pos</a> <a id="20339" href="1--Type-Theory.1-2--Inductive-Types.html#20319" class="Bound">n</a> <a id="20341" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20344" href="1--Type-Theory.1-2--Inductive-Types.html#20325" class="Bound">m</a><a id="20345" class="Symbol">)</a>
+<a id="20347" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="20354" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="20359" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20362" href="1--Type-Theory.1-2--Inductive-Types.html#20362" class="Bound">m</a> <a id="20364" class="Symbol">=</a> <a id="20366" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="20368" href="1--Type-Theory.1-2--Inductive-Types.html#20362" class="Bound">m</a>
+<a id="20370" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="20377" class="Symbol">(</a><a id="20378" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="20382" href="1--Type-Theory.1-2--Inductive-Types.html#20382" class="Bound">n</a><a id="20383" class="Symbol">)</a> <a id="20385" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20388" href="1--Type-Theory.1-2--Inductive-Types.html#20388" class="Bound">m</a> <a id="20390" class="Symbol">=</a> <a id="20392" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-</a> <a id="20394" href="1--Type-Theory.1-2--Inductive-Types.html#20388" class="Bound">m</a> <a id="20396" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">+ℤ</a> <a id="20399" class="Symbol">(</a><a id="20400" href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a> <a id="20407" href="1--Type-Theory.1-2--Inductive-Types.html#20382" class="Bound">n</a> <a id="20409" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20412" href="1--Type-Theory.1-2--Inductive-Types.html#20388" class="Bound">m</a><a id="20413" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="20429" href="1--Type-Theory.1-2--Inductive-Types.html#20429" class="Function">_</a> <a id="20431" class="Symbol">=</a> <a id="20433" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="20448" class="Symbol">(</a><a id="20449" class="Number">0</a> <a id="20451" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20454" class="Number">0</a><a id="20455" class="Symbol">)</a> <a id="20457" class="Number">0</a>
+<a id="20459" href="1--Type-Theory.1-2--Inductive-Types.html#20459" class="Function">_</a> <a id="20461" class="Symbol">=</a> <a id="20463" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="20478" class="Symbol">(</a><a id="20479" class="Number">2</a> <a id="20481" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20484" class="Number">3</a><a id="20485" class="Symbol">)</a> <a id="20487" class="Number">6</a>
+<a id="20489" href="1--Type-Theory.1-2--Inductive-Types.html#20489" class="Function">_</a> <a id="20491" class="Symbol">=</a> <a id="20493" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="20508" class="Symbol">(</a><a id="20509" class="Number">2</a> <a id="20511" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20514" class="Number">-3</a><a id="20516" class="Symbol">)</a> <a id="20518" class="Number">-6</a>
+<a id="20521" href="1--Type-Theory.1-2--Inductive-Types.html#20521" class="Function">_</a> <a id="20523" class="Symbol">=</a> <a id="20525" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="20540" class="Symbol">(</a><a id="20541" class="Number">-2</a> <a id="20544" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20547" class="Number">3</a><a id="20548" class="Symbol">)</a> <a id="20550" class="Number">-6</a>
+<a id="20553" href="1--Type-Theory.1-2--Inductive-Types.html#20553" class="Function">_</a> <a id="20555" class="Symbol">=</a> <a id="20557" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="20572" class="Symbol">(</a><a id="20573" class="Number">-2</a> <a id="20576" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">·ℤ</a> <a id="20579" class="Number">-3</a><a id="20581" class="Symbol">)</a> <a id="20583" class="Number">6</a>
+</pre>
+<p>Make sure to test this one via <code>C-c C-n</code>, especially the
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#17279" class="InductiveConstructor">negsuc</a></code> cases! They are easy to get wrong.</p>
+<h2 id="recursion-principles"><a class="header" href="#recursion-principles">Recursion Principles</a></h2>
+<p>As we mentioned above, these inductive data types are characterised by
+their “induction principles”. In this lecture we focus on a simpler
+version of this principle, “recursion”, and will return to induction
+in Lecture 1-X.</p>
+<p>The recursion principle for a type packs together the data that is
+necessary to produce a function out of it into some other type. In the
+case of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code>, to construct a function <code>Bool → A</code> for any type <code>A</code>
+we just need two elements of <code>A</code> to serve as the values of the
+function when the <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> is <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> and <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code>. We can write out
+the recursion principle for <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> as follows:</p>
+<pre class="Agda"><a id="Bool-rec"></a><a id="21341" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="21350" class="Symbol">:</a> <a id="21352" class="Symbol">{</a><a id="21353" href="1--Type-Theory.1-2--Inductive-Types.html#21353" class="Bound">A</a> <a id="21355" class="Symbol">:</a> <a id="21357" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21361" class="Symbol">}</a>
+  <a id="21365" class="Symbol">→</a> <a id="21367" href="1--Type-Theory.1-2--Inductive-Types.html#21353" class="Bound">A</a>
+  <a id="21371" class="Symbol">→</a> <a id="21373" href="1--Type-Theory.1-2--Inductive-Types.html#21353" class="Bound">A</a>
+  <a id="21377" class="Symbol">→</a> <a id="21379" class="Symbol">(</a><a id="21380" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="21385" class="Symbol">→</a> <a id="21387" href="1--Type-Theory.1-2--Inductive-Types.html#21353" class="Bound">A</a><a id="21388" class="Symbol">)</a>
+<a id="21390" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="21399" href="1--Type-Theory.1-2--Inductive-Types.html#21399" class="Bound">a1</a> <a id="21402" href="1--Type-Theory.1-2--Inductive-Types.html#21402" class="Bound">a2</a> <a id="21405" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="21410" class="Symbol">=</a> <a id="21412" href="1--Type-Theory.1-2--Inductive-Types.html#21399" class="Bound">a1</a>
+<a id="21415" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="21424" href="1--Type-Theory.1-2--Inductive-Types.html#21424" class="Bound">a1</a> <a id="21427" href="1--Type-Theory.1-2--Inductive-Types.html#21427" class="Bound">a2</a> <a id="21430" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="21436" class="Symbol">=</a> <a id="21438" href="1--Type-Theory.1-2--Inductive-Types.html#21427" class="Bound">a2</a>
+</pre>
+<p>The <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> type is so simple that the name “recursion” feels
+inappropriate: the recursion principle doesn’t actually do any
+recursion! The name will make more sense when we do the same for
+<code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+The recursion principle for Booleans has a more familiar name: the
+“if/then/else” pattern familiar from almost every programming
+language:</p>
+<pre class="Agda"><a id="if-then-else"></a><a id="21800" href="1--Type-Theory.1-2--Inductive-Types.html#21800" class="Function">if-then-else</a> <a id="21813" class="Symbol">:</a> <a id="21815" class="Symbol">{</a><a id="21816" href="1--Type-Theory.1-2--Inductive-Types.html#21816" class="Bound">A</a> <a id="21818" class="Symbol">:</a> <a id="21820" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21824" class="Symbol">}</a>
+  <a id="21828" class="Symbol">→</a> <a id="21830" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+  <a id="21837" class="Symbol">→</a> <a id="21839" href="1--Type-Theory.1-2--Inductive-Types.html#21816" class="Bound">A</a>
+  <a id="21843" class="Symbol">→</a> <a id="21845" href="1--Type-Theory.1-2--Inductive-Types.html#21816" class="Bound">A</a>
+  <a id="21849" class="Symbol">→</a> <a id="21851" href="1--Type-Theory.1-2--Inductive-Types.html#21816" class="Bound">A</a>
+<a id="21853" href="1--Type-Theory.1-2--Inductive-Types.html#21800" class="Function">if-then-else</a> <a id="21866" href="1--Type-Theory.1-2--Inductive-Types.html#21866" class="Bound">b</a> <a id="21868" href="1--Type-Theory.1-2--Inductive-Types.html#21868" class="Bound">a1</a> <a id="21871" href="1--Type-Theory.1-2--Inductive-Types.html#21871" class="Bound">a2</a> <a id="21874" class="Symbol">=</a> <a id="21876" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="21885" href="1--Type-Theory.1-2--Inductive-Types.html#21868" class="Bound">a1</a> <a id="21888" href="1--Type-Theory.1-2--Inductive-Types.html#21871" class="Bound">a2</a> <a id="21891" href="1--Type-Theory.1-2--Inductive-Types.html#21866" class="Bound">b</a>
+</pre>
+</div>
+<p>This function is one side of a universal mapping property. Given two
+elements of <code>A</code>, we can make a function <code>Bool → A</code>. But from such a
+function we can also extract the two elements of <code>A</code> we started with:</p>
+<pre class="Agda"><a id="Bool-rec-fro"></a><a id="22114" href="1--Type-Theory.1-2--Inductive-Types.html#22114" class="Function">Bool-rec-fro</a> <a id="22127" class="Symbol">:</a> <a id="22129" class="Symbol">{</a><a id="22130" href="1--Type-Theory.1-2--Inductive-Types.html#22130" class="Bound">A</a> <a id="22132" class="Symbol">:</a> <a id="22134" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22138" class="Symbol">}</a>
+  <a id="22142" class="Symbol">→</a> <a id="22144" class="Symbol">(</a><a id="22145" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="22150" class="Symbol">→</a> <a id="22152" href="1--Type-Theory.1-2--Inductive-Types.html#22130" class="Bound">A</a><a id="22153" class="Symbol">)</a>
+  <a id="22157" class="Symbol">→</a> <a id="22159" href="1--Type-Theory.1-2--Inductive-Types.html#22130" class="Bound">A</a> <a id="22161" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="22163" href="1--Type-Theory.1-2--Inductive-Types.html#22130" class="Bound">A</a>
+<a id="22165" class="Comment">-- Exercise:</a>
+<a id="22178" class="Comment">-- Bool-rec-fro f = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="22216" href="1--Type-Theory.1-2--Inductive-Types.html#22114" class="Function">Bool-rec-fro</a> <a id="22229" href="1--Type-Theory.1-2--Inductive-Types.html#22229" class="Bound">f</a> <a id="22231" class="Symbol">=</a> <a id="22233" href="1--Type-Theory.1-2--Inductive-Types.html#22229" class="Bound">f</a> <a id="22235" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="22240" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="22242" href="1--Type-Theory.1-2--Inductive-Types.html#22229" class="Bound">f</a> <a id="22244" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+
+</pre>-->
+<p>We won’t usually need to use the recursion principle <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a></code> by
+that name: instead, we can just do an ordinary pattern match on an
+argument of type <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code>. But, for some practice, try using
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a></code> to re-implement these:</p>
+<pre class="Agda"><a id="not-fromRec"></a><a id="22506" href="1--Type-Theory.1-2--Inductive-Types.html#22506" class="Function">not-fromRec</a> <a id="22518" class="Symbol">:</a> <a id="22520" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="22525" class="Symbol">→</a> <a id="22527" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="22532" class="Comment">-- Exercise: (Don&#39;t pattern match on `x`!)</a>
+<a id="22575" class="Comment">-- not-fromRec x = Bool-rec {!!} {!!} {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="22631" href="1--Type-Theory.1-2--Inductive-Types.html#22506" class="Function">not-fromRec</a> <a id="22643" href="1--Type-Theory.1-2--Inductive-Types.html#22643" class="Bound">x</a> <a id="22645" class="Symbol">=</a> <a id="22647" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="22656" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="22662" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="22667" href="1--Type-Theory.1-2--Inductive-Types.html#22643" class="Bound">x</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="22683" class="Comment">-- You will need to use `Bool-rec` twice!</a>
+<a id="or-fromRec"></a><a id="22725" href="1--Type-Theory.1-2--Inductive-Types.html#22725" class="Function">or-fromRec</a> <a id="22736" class="Symbol">:</a> <a id="22738" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="22743" class="Symbol">→</a> <a id="22745" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="22750" class="Symbol">→</a> <a id="22752" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="22757" class="Comment">-- Exercise: (Don&#39;t pattern match on either `x` or `y`!)</a>
+<a id="22814" class="Comment">-- or-fromRec x y = Bool-rec {!!} {!!} {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="22871" href="1--Type-Theory.1-2--Inductive-Types.html#22725" class="Function">or-fromRec</a> <a id="22882" href="1--Type-Theory.1-2--Inductive-Types.html#22882" class="Bound">x</a> <a id="22884" href="1--Type-Theory.1-2--Inductive-Types.html#22884" class="Bound">y</a> <a id="22886" class="Symbol">=</a> <a id="22888" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="22897" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="22902" class="Symbol">(</a><a id="22903" href="1--Type-Theory.1-2--Inductive-Types.html#21341" class="Function">Bool-rec</a> <a id="22912" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="22917" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="22923" href="1--Type-Theory.1-2--Inductive-Types.html#22884" class="Bound">y</a><a id="22924" class="Symbol">)</a> <a id="22926" href="1--Type-Theory.1-2--Inductive-Types.html#22882" class="Bound">x</a>
+
+</pre>-->
+<p>The recursion principle for the unit type is even simpler. To define a
+function <code>⊤ → A</code>, it suffices to give an element of <code>A</code> (which is to
+be the image of the unique element <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a></code>), and that’s it.</p>
+<pre class="Agda"><a id="⊤-rec"></a><a id="23150" href="1--Type-Theory.1-2--Inductive-Types.html#23150" class="Function">⊤-rec</a> <a id="23156" class="Symbol">:</a> <a id="23158" class="Symbol">{</a><a id="23159" href="1--Type-Theory.1-2--Inductive-Types.html#23159" class="Bound">A</a> <a id="23161" class="Symbol">:</a> <a id="23163" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23167" class="Symbol">}</a>
+  <a id="23171" class="Symbol">→</a> <a id="23173" href="1--Type-Theory.1-2--Inductive-Types.html#23159" class="Bound">A</a>
+  <a id="23177" class="Symbol">→</a> <a id="23179" class="Symbol">(</a><a id="23180" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="23182" class="Symbol">→</a> <a id="23184" href="1--Type-Theory.1-2--Inductive-Types.html#23159" class="Bound">A</a><a id="23185" class="Symbol">)</a>
+<a id="23187" href="1--Type-Theory.1-2--Inductive-Types.html#23150" class="Function">⊤-rec</a> <a id="23193" href="1--Type-Theory.1-2--Inductive-Types.html#23193" class="Bound">a</a> <a id="23195" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="23198" class="Symbol">=</a> <a id="23200" href="1--Type-Theory.1-2--Inductive-Types.html#23193" class="Bound">a</a>
+</pre>
+<p>Again, we can go back: from such a function <code>⊤ → A</code>, we can recover
+the original value of <code>A</code>:</p>
+<pre class="Agda"><a id="⊤-rec-fro"></a><a id="23307" href="1--Type-Theory.1-2--Inductive-Types.html#23307" class="Function">⊤-rec-fro</a> <a id="23317" class="Symbol">:</a> <a id="23319" class="Symbol">{</a><a id="23320" href="1--Type-Theory.1-2--Inductive-Types.html#23320" class="Bound">A</a> <a id="23322" class="Symbol">:</a> <a id="23324" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23328" class="Symbol">}</a>
+  <a id="23332" class="Symbol">→</a> <a id="23334" class="Symbol">(</a><a id="23335" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="23337" class="Symbol">→</a> <a id="23339" href="1--Type-Theory.1-2--Inductive-Types.html#23320" class="Bound">A</a><a id="23340" class="Symbol">)</a>
+  <a id="23344" class="Symbol">→</a> <a id="23346" href="1--Type-Theory.1-2--Inductive-Types.html#23320" class="Bound">A</a>
+<a id="23348" href="1--Type-Theory.1-2--Inductive-Types.html#23307" class="Function">⊤-rec-fro</a> <a id="23358" href="1--Type-Theory.1-2--Inductive-Types.html#23358" class="Bound">f</a> <a id="23360" class="Symbol">=</a> <a id="23362" href="1--Type-Theory.1-2--Inductive-Types.html#23358" class="Bound">f</a> <a id="23364" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+</pre>
+<p>More excitingly, we have the recursion principle for <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>. To define
+a function <code>ℕ → A</code>, we need an element of a <code>A</code> to use for <code class="Agda"><a href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a></code>,
+and a function <code>A → A</code> that takes us from the value for <code>n</code> to the
+value for <code>suc n</code>. By ordinary mathematical induction, this will be
+enough to give a value to every element of <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>.</p>
+<pre class="Agda"><a id="ℕ-rec"></a><a id="23701" href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a> <a id="23707" class="Symbol">:</a> <a id="23709" class="Symbol">{</a><a id="23710" href="1--Type-Theory.1-2--Inductive-Types.html#23710" class="Bound">A</a> <a id="23712" class="Symbol">:</a> <a id="23714" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23718" class="Symbol">}</a>
+  <a id="23722" class="Symbol">→</a> <a id="23724" href="1--Type-Theory.1-2--Inductive-Types.html#23710" class="Bound">A</a>                 <a id="23742" class="Comment">-- The base casea</a>
+  <a id="23762" class="Symbol">→</a> <a id="23764" class="Symbol">(</a><a id="23765" href="1--Type-Theory.1-2--Inductive-Types.html#23710" class="Bound">A</a> <a id="23767" class="Symbol">→</a> <a id="23769" href="1--Type-Theory.1-2--Inductive-Types.html#23710" class="Bound">A</a><a id="23770" class="Symbol">)</a>           <a id="23782" class="Comment">-- The recursion law</a>
+  <a id="23805" class="Symbol">→</a> <a id="23807" class="Symbol">(</a><a id="23808" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="23810" class="Symbol">→</a> <a id="23812" href="1--Type-Theory.1-2--Inductive-Types.html#23710" class="Bound">A</a><a id="23813" class="Symbol">)</a>
+<a id="23815" href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a> <a id="23821" href="1--Type-Theory.1-2--Inductive-Types.html#23821" class="Bound">a</a> <a id="23823" href="1--Type-Theory.1-2--Inductive-Types.html#23823" class="Bound">r</a> <a id="23825" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="23830" class="Symbol">=</a> <a id="23832" href="1--Type-Theory.1-2--Inductive-Types.html#23821" class="Bound">a</a>
+<a id="23834" href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a> <a id="23840" href="1--Type-Theory.1-2--Inductive-Types.html#23840" class="Bound">a</a> <a id="23842" href="1--Type-Theory.1-2--Inductive-Types.html#23842" class="Bound">r</a> <a id="23844" class="Symbol">(</a><a id="23845" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="23849" href="1--Type-Theory.1-2--Inductive-Types.html#23849" class="Bound">n</a><a id="23850" class="Symbol">)</a> <a id="23852" class="Symbol">=</a> <a id="23854" href="1--Type-Theory.1-2--Inductive-Types.html#23842" class="Bound">r</a> <a id="23856" class="Symbol">(</a><a id="23857" href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a> <a id="23863" href="1--Type-Theory.1-2--Inductive-Types.html#23840" class="Bound">a</a> <a id="23865" href="1--Type-Theory.1-2--Inductive-Types.html#23842" class="Bound">r</a> <a id="23867" href="1--Type-Theory.1-2--Inductive-Types.html#23849" class="Bound">n</a><a id="23868" class="Symbol">)</a>
+</pre>
+<p>Try re-implementing <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a></code> using <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a></code>:</p>
+<pre class="Agda"><a id="double&#39;"></a><a id="23928" href="1--Type-Theory.1-2--Inductive-Types.html#23928" class="Function">double&#39;</a> <a id="23936" class="Symbol">:</a> <a id="23938" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="23940" class="Symbol">→</a> <a id="23942" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="23944" class="Comment">-- Exercise:</a>
+<a id="23957" class="Comment">-- double&#39; = ℕ-rec {!!} {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="23999" href="1--Type-Theory.1-2--Inductive-Types.html#23928" class="Function">double&#39;</a> <a id="24007" class="Symbol">=</a> <a id="24009" href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a> <a id="24015" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="24020" class="Symbol">(λ</a> <a id="24023" href="1--Type-Theory.1-2--Inductive-Types.html#24023" class="Bound">n</a> <a id="24025" class="Symbol">→</a> <a id="24027" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="24031" class="Symbol">(</a><a id="24032" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="24036" href="1--Type-Theory.1-2--Inductive-Types.html#24023" class="Bound">n</a><a id="24037" class="Symbol">))</a>
+
+</pre>-->
+<p>When pattern matching, in the <code class="Agda"><a href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a></code> case we are allowed access to
+access to the previous <code>n</code>: without this, functions like <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#13216" class="Function">predℕ</a></code> are
+a bit irritating to write. (Try it!)</p>
+<p>We can define an improved version of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a></code> that gives access to
+the current <code>n</code> in the inductive step.</p>
+<pre class="Agda"><a id="ℕ-rec&#39;"></a><a id="24347" href="1--Type-Theory.1-2--Inductive-Types.html#24347" class="Function">ℕ-rec&#39;</a> <a id="24354" class="Symbol">:</a> <a id="24356" class="Symbol">{</a><a id="24357" href="1--Type-Theory.1-2--Inductive-Types.html#24357" class="Bound">A</a> <a id="24359" class="Symbol">:</a> <a id="24361" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24365" class="Symbol">}</a>
+  <a id="24369" class="Symbol">→</a> <a id="24371" href="1--Type-Theory.1-2--Inductive-Types.html#24357" class="Bound">A</a>
+  <a id="24375" class="Symbol">→</a> <a id="24377" class="Symbol">(</a><a id="24378" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="24380" class="Symbol">→</a> <a id="24382" href="1--Type-Theory.1-2--Inductive-Types.html#24357" class="Bound">A</a> <a id="24384" class="Symbol">→</a> <a id="24386" href="1--Type-Theory.1-2--Inductive-Types.html#24357" class="Bound">A</a><a id="24387" class="Symbol">)</a>
+  <a id="24391" class="Symbol">→</a> <a id="24393" class="Symbol">(</a><a id="24394" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="24396" class="Symbol">→</a> <a id="24398" href="1--Type-Theory.1-2--Inductive-Types.html#24357" class="Bound">A</a><a id="24399" class="Symbol">)</a>
+<a id="24401" class="Comment">-- Exercise:</a>
+<a id="24414" class="Comment">-- ℕ-rec&#39; a r zero = {!!}</a>
+<a id="24440" class="Comment">-- ℕ-rec&#39; a r (suc n) = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="24482" href="1--Type-Theory.1-2--Inductive-Types.html#24347" class="Function">ℕ-rec&#39;</a> <a id="24489" href="1--Type-Theory.1-2--Inductive-Types.html#24489" class="Bound">a</a> <a id="24491" href="1--Type-Theory.1-2--Inductive-Types.html#24491" class="Bound">r</a> <a id="24493" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="24498" class="Symbol">=</a> <a id="24500" href="1--Type-Theory.1-2--Inductive-Types.html#24489" class="Bound">a</a>
+<a id="24502" href="1--Type-Theory.1-2--Inductive-Types.html#24347" class="Function">ℕ-rec&#39;</a> <a id="24509" href="1--Type-Theory.1-2--Inductive-Types.html#24509" class="Bound">a</a> <a id="24511" href="1--Type-Theory.1-2--Inductive-Types.html#24511" class="Bound">r</a> <a id="24513" class="Symbol">(</a><a id="24514" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="24518" href="1--Type-Theory.1-2--Inductive-Types.html#24518" class="Bound">n</a><a id="24519" class="Symbol">)</a> <a id="24521" class="Symbol">=</a> <a id="24523" href="1--Type-Theory.1-2--Inductive-Types.html#24511" class="Bound">r</a> <a id="24525" href="1--Type-Theory.1-2--Inductive-Types.html#24518" class="Bound">n</a> <a id="24527" class="Symbol">(</a><a id="24528" href="1--Type-Theory.1-2--Inductive-Types.html#24347" class="Function">ℕ-rec&#39;</a> <a id="24535" href="1--Type-Theory.1-2--Inductive-Types.html#24509" class="Bound">a</a> <a id="24537" href="1--Type-Theory.1-2--Inductive-Types.html#24511" class="Bound">r</a> <a id="24539" href="1--Type-Theory.1-2--Inductive-Types.html#24518" class="Bound">n</a><a id="24540" class="Symbol">)</a>
+
+</pre>-->
+<p>For an extra challenge, try defining this only in terms of the less powerful
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a></code>!</p>
+<pre class="Agda"><a id="ℕ-rec&#39;&#39;"></a><a id="24653" href="1--Type-Theory.1-2--Inductive-Types.html#24653" class="Function">ℕ-rec&#39;&#39;</a> <a id="24661" class="Symbol">:</a> <a id="24663" class="Symbol">{</a><a id="24664" href="1--Type-Theory.1-2--Inductive-Types.html#24664" class="Bound">A</a> <a id="24666" class="Symbol">:</a> <a id="24668" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24672" class="Symbol">}</a>
+  <a id="24676" class="Symbol">→</a> <a id="24678" href="1--Type-Theory.1-2--Inductive-Types.html#24664" class="Bound">A</a>                 <a id="24696" class="Comment">-- The base case</a>
+  <a id="24715" class="Symbol">→</a> <a id="24717" class="Symbol">(</a><a id="24718" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="24720" class="Symbol">→</a> <a id="24722" href="1--Type-Theory.1-2--Inductive-Types.html#24664" class="Bound">A</a> <a id="24724" class="Symbol">→</a> <a id="24726" href="1--Type-Theory.1-2--Inductive-Types.html#24664" class="Bound">A</a><a id="24727" class="Symbol">)</a>       <a id="24735" class="Comment">-- The recursion law</a>
+  <a id="24758" class="Symbol">→</a> <a id="24760" class="Symbol">(</a><a id="24761" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="24763" class="Symbol">→</a> <a id="24765" href="1--Type-Theory.1-2--Inductive-Types.html#24664" class="Bound">A</a><a id="24766" class="Symbol">)</a>
+<a id="24768" class="Comment">-- Exercise:</a>
+<a id="24781" class="Comment">-- ℕ-rec&#39;&#39; a r n = ℕ-rec {!!} {!!} {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="24834" href="1--Type-Theory.1-2--Inductive-Types.html#24653" class="Function">ℕ-rec&#39;&#39;</a> <a id="24842" href="1--Type-Theory.1-2--Inductive-Types.html#24842" class="Bound">a</a> <a id="24844" href="1--Type-Theory.1-2--Inductive-Types.html#24844" class="Bound">r</a> <a id="24846" href="1--Type-Theory.1-2--Inductive-Types.html#24846" class="Bound">n</a> <a id="24848" class="Symbol">=</a>
+  <a id="24852" href="1--Type-Theory.1-2--Inductive-Types.html#23701" class="Function">ℕ-rec</a> <a id="24858" class="Symbol">(</a><a id="24859" href="Library.Prelude.html#3646" class="InductiveConstructor">zero</a> <a id="24864" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24866" href="1--Type-Theory.1-2--Inductive-Types.html#24842" class="Bound">a</a><a id="24867" class="Symbol">)</a>
+        <a id="24877" class="Symbol">(λ</a> <a id="24880" href="1--Type-Theory.1-2--Inductive-Types.html#24880" class="Bound">x</a> <a id="24882" class="Symbol">→</a> <a id="24884" href="Library.Prelude.html#3657" class="InductiveConstructor">suc</a> <a id="24888" class="Symbol">(</a><a id="24889" href="1--Type-Theory.1-2--Inductive-Types.html#24880" class="Bound">x</a> <a id="24891" class="Symbol">.</a><a id="24892" href="Library.Prelude.html#1106" class="Field">fst</a><a id="24895" class="Symbol">)</a> <a id="24897" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24899" href="1--Type-Theory.1-2--Inductive-Types.html#24844" class="Bound">r</a> <a id="24901" class="Symbol">(</a><a id="24902" href="1--Type-Theory.1-2--Inductive-Types.html#24880" class="Bound">x</a> <a id="24904" class="Symbol">.</a><a id="24905" href="Library.Prelude.html#1106" class="Field">fst</a><a id="24908" class="Symbol">)</a> <a id="24910" class="Symbol">(</a><a id="24911" href="1--Type-Theory.1-2--Inductive-Types.html#24880" class="Bound">x</a> <a id="24913" class="Symbol">.</a><a id="24914" href="Library.Prelude.html#1118" class="Field">snd</a><a id="24917" class="Symbol">))</a>
+        <a id="24928" href="1--Type-Theory.1-2--Inductive-Types.html#24846" class="Bound">n</a>
+        <a id="24938" class="Symbol">.</a><a id="24939" href="Library.Prelude.html#1118" class="Field">snd</a>
+
+</pre>-->
+<h2 id="fixities"><a class="header" href="#fixities">Fixities</a></h2>
+<p>These final lines specify the precedence that each operator has, so
+that <code>a + b · c</code> is interpreted as <code>a + (b · c)</code>. They also specify
+whether it associates to the left or the right, so that <code>a + b + c</code> is
+interpreted as <code>(a + b) + c</code>, and <code>a :: b :: []</code> is interpreted as
+<code>a :: (b :: [])</code>.</p>
+<pre class="Agda"><a id="25272" class="Keyword">infix</a>  <a id="25279" class="Number">8</a> <a id="25281" href="1--Type-Theory.1-2--Inductive-Types.html#19805" class="Function Operator">-_</a>
+<a id="25284" class="Keyword">infixl</a> <a id="25291" class="Number">7</a> <a id="25293" href="1--Type-Theory.1-2--Inductive-Types.html#12514" class="Function Operator">_·ℕ_</a> <a id="25298" href="1--Type-Theory.1-2--Inductive-Types.html#20225" class="Function Operator">_·ℤ_</a>
+<a id="25303" class="Keyword">infixl</a> <a id="25310" class="Number">6</a> <a id="25312" href="1--Type-Theory.1-2--Inductive-Types.html#11232" class="Function Operator">_+ℕ_</a> <a id="25317" href="1--Type-Theory.1-2--Inductive-Types.html#19466" class="Function Operator">_+ℤ_</a> <a id="25322" href="1--Type-Theory.1-2--Inductive-Types.html#20034" class="Function Operator">_-ℤ_</a>
+
+<a id="25328" class="Keyword">infixr</a> <a id="25335" class="Number">5</a> <a id="25337" href="1--Type-Theory.1-2--Inductive-Types.html#13734" class="InductiveConstructor Operator">_::_</a>
+<a id="25342" class="Keyword">infixr</a> <a id="25349" class="Number">5</a> <a id="25351" href="1--Type-Theory.1-2--Inductive-Types.html#15267" class="Function Operator">_++_</a>
+</pre>
+<h2 id="references-and-further-reading"><a class="header" href="#references-and-further-reading">References and Further Reading</a></h2>
+<p>coverage checker
+Elaboration:
+https://jesper.sikanda.be/files/elaborating-dependent-copattern-matching.pdf
+https://pl.ewi.tudelft.nl/master-projects/master/2022/10/25/kayleigh-lieverse/
+https://jesper.sikanda.be/files/thesis-final-digital.pdf
+https://link.springer.com/chapter/10.1007/11780274_27</p>
+
+                  </main>
+                  <div class="sidetoc">
+                    <nav class="pagetoc"></nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

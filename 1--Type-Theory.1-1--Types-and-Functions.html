@@ -1,0 +1,1020 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>1: Types and Functions - Introduction to Cubical Type Theory in Agda</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/Agda.css">
+        <link rel="stylesheet" href="theme/css/Agda-highlight.css">
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="index.html">Home</a></li><li class="chapter-item affix "><a href="INSTALLING_AGDA.html">Installing Agda</a></li><li class="chapter-item affix "><a href="USING_AGDA.html">Using Agda</a></li><li class="chapter-item affix "><li class="part-title">Type Theory</li><li class="chapter-item expanded "><a href="1--Type-Theory.1-1--Types-and-Functions.html" class="active">1: Types and Functions</a></li><li class="chapter-item "><a href="1--Type-Theory.1-2--Inductive-Types.html">2: Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html">3: Universes and More Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html">X: Record Types and Copatterns</a></li><li class="chapter-item "><a href="1--Type-Theory.1-4--Propositions-as-Types.html">4: Propositions as Types</a></li><li class="chapter-item affix "><li class="part-title">Paths and Identifications</li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-1--Paths.html">1: Paths</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html">2: Equivalences and Path Algebra</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html">3: Substitution and J</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html">4: Composition and Filling</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-5--Transport.html">5: Transport</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-6--Univalence.html">6: Univalence</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-7--Propositions.html">7: Propositions</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-8--Sets.html">8: Sets</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html">9: Contractible Maps</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-10--Higher-Types.html">10: Higher Types</a></li><li class="chapter-item affix "><li class="part-title">Topics</li><li class="chapter-item "><a href="3--Structures.3-1--Structure-Identity-Principle.html">1: The Structure Identity Principle</a></li><li class="chapter-item "><a href="3--Structures.3-2--Modalities.html">2: Modalities</a></li><li class="chapter-item "><a href="3--Structures.3-3--Constructive-Logic.html">3: Constructive Logic</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="Library.Primitive.html">Primitives</a></li><li class="chapter-item affix "><a href="Library.Prelude.html">Prelude</a></li><li class="chapter-item affix "><a href="Library.Univalence.html">Univalence</a></li><li class="chapter-item affix "><a href="UNICODE_DICTIONARY.html">Unicode Dictionary</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="ACKNOWLEDGEMENTS.html">Acknowledgements</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <!-- <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li> -->
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to Cubical Type Theory in Agda</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/CQTS/introduction-to-cubical" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                  <main>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<!--
+<pre class="Agda"><a id="10" class="Keyword">module</a> <a id="17" href="1--Type-Theory.1-1--Types-and-Functions.html" class="Module">1--Type-Theory.1-1--Types-and-Functions</a> <a id="57" class="Keyword">where</a>
+
+<a id="64" class="Keyword">open</a> <a id="69" class="Keyword">import</a> <a id="76" href="Library.Prelude.html" class="Module">Library.Prelude</a>
+</pre>-->
+<h1 id="lecture-1-1-types-and-functions"><a class="header" href="#lecture-1-1-types-and-functions">Lecture 1-1: Types and Functions</a></h1>
+<p>A type theory is a formal system for keeping track of what type of
+thing every mathematical object is. This idea is familiar from
+computer science; since everything in a computer is stored as a chunk
+of bits, it is important to record what any given chunk of bits is
+supposed to mean. Is this chunk of bits meant to be a number or a
+piece of text? Or a program that can be run? If we don’t keep track of
+how we are supposed to use some chunk of bits, we run the risk of
+accidentally considering some text as a very large number and adding
+it to another number.</p>
+<p>When we say that some piece of data is “meant” to be a number, what we
+mean is that we intend to use it like a number: use it to perform some
+arithmetic, or control how many times we repeat a process, etc. A
+type theory, then, is a formal language for keeping track of our
+intentions with data.</p>
+<p>In this course, we will focus on mathematical aspects of type
+theory. With an expressive enough language for describing our
+intentions with data, it turns out that we can formalize essentially
+all of mathematics. The basic work of mathematics — defining
+concepts and structures, constructing examples, stating and proving
+propositions — can all be expressed in the language of the
+particular type theory we will be using: a variant of Martin-Löf type
+theory called “Cubical Type Theory”.</p>
+<p>To keep us honest, we will be using a program called Agda to check
+that the definitions we make in Cubical Type Theory are sensible. Agda
+is a so-called “proof assistant” that can not only verify our work,
+but help us craft our proofs and arguments in the first place. The
+file you are reading right now uses a format called “literate Agda”,
+which interleaves commentary and code: all the lines between the
+triple backticks are actual Agda code that can be loaded, which you
+should try now by pressing <code>C-c C-l</code>.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+Agda is a programming language but is unlike most programming
+languages used in practical software engineering. The most similar
+languages are “functional” languages like OCaml, Racket, and
+especially Haskell. (Agda is written in Haskell and its syntax has
+some similarities.)</p>
+</div>
+<p>The basic statement of any type theory is claims of the form “this <code>a</code>
+is a thing of type <code>A</code>”. We write this symbolically using a colon, so
+<code>a : A</code>. In the expression <code>a : A</code>, the <code>A</code> is the “type” and the <code>a</code>
+is the “element”.</p>
+<p>The vast majority of any Agda file consists of definitions, which have
+two parts. First, a declaration that specifies the name of the thing
+we are defining together with the type that we want it to have.
+Second, a list of equations that define the actual content of the
+definition.</p>
+<pre class="Agda"><a id="three"></a><a id="2813" href="1--Type-Theory.1-1--Types-and-Functions.html#2813" class="Function">three</a> <a id="2819" class="Symbol">:</a> <a id="2821" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>   <a id="2825" class="Comment">-- This line declares that `three` is a natural number.</a>
+<a id="2881" href="1--Type-Theory.1-1--Types-and-Functions.html#2813" class="Function">three</a> <a id="2887" class="Symbol">=</a> <a id="2889" class="Number">3</a>   <a id="2893" class="Comment">-- This line defines `three` to be the actual number 3</a>
+            <a id="2960" class="Comment">-- (Everything after a double dash in a line is a comment.)</a>
+</pre>
+<p>In this case there the definition only requires one equation, but we
+will soon see examples with more than one.</p>
+<p>In Lecture 1-2, we’ll see how to define specific types of data like
+the Booleans and natural numbers (like the number <code>3</code> we used in the
+above definition). For this lecture, we’ll focus on the most
+fundamental concepts in type theory: functions types and pair types.</p>
+<h2 id="functions"><a class="header" href="#functions">Functions</a></h2>
+<p>A function <code>f : A → B</code> may be thought of in (at least) two ways:</p>
+<ol>
+<li>An operation which takes an element <code>x : A</code> as input and produces
+an element <code>f(x) : B</code> as output.</li>
+<li>An element <code>f(x) : B</code> whose definition involves a variable element
+<code>x : A</code>.</li>
+</ol>
+<p>As in other functional programming languages, these are functions in
+the mathematical sense: providing the same input always yields the
+same output, and a function is not allowed to cause side-effects like
+changing the state of memory or performing IO.</p>
+<p>Here is our first Agda function: a function <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a></code> that has type
+<code>ℕ → ℕ</code>, which doubles the natural number that you give it.</p>
+<pre class="Agda"><a id="double"></a><a id="4062" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a> <a id="4069" class="Symbol">:</a> <a id="4071" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="4073" class="Symbol">→</a> <a id="4075" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="4077" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a> <a id="4084" href="1--Type-Theory.1-1--Types-and-Functions.html#4084" class="Bound">x</a> <a id="4086" class="Symbol">=</a> <a id="4088" class="Number">2</a> <a id="4090" href="Library.Prelude.html#3757" class="Function Operator">·</a> <a id="4092" href="1--Type-Theory.1-1--Types-and-Functions.html#4084" class="Bound">x</a>
+</pre>
+<p>Functions are defined by placing a variable name to the left of the
+<code>=</code> sign, which can then be used on the right. So here, <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a></code>
+accepts <code>x</code> as input and produces <code>2 · x</code> as output. (We have provided
+the actual definition of the multiplication of natural numbers <code class="Agda"><a href="Library.Prelude.html#3757" class="Function">·</a></code>
+behind the scenes.)</p>
+<p>We can apply a function <code>f : A → B</code> to an argument <code>a : A</code> by writing
+<code>f a : B</code> — note the lack of parentheses around <code>a</code>!</p>
+<pre class="Agda"><a id="hopefullySix"></a><a id="4525" href="1--Type-Theory.1-1--Types-and-Functions.html#4525" class="Function">hopefullySix</a> <a id="4538" class="Symbol">:</a> <a id="4540" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="4542" href="1--Type-Theory.1-1--Types-and-Functions.html#4525" class="Function">hopefullySix</a> <a id="4555" class="Symbol">=</a> <a id="4557" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a> <a id="4564" class="Number">3</a>
+</pre>
+<p>We can get Agda to actually compute this definition by pressing <code>C-c C-n</code> (for “normalise”) and typing <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4525" class="Function">hopefullySix</a></code>. Just to make
+absolutely sure, the following helper will test that Agda considers
+the expressions <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4525" class="Function">hopefullySix</a></code> and <code>6</code> identical.</p>
+<pre class="Agda"><a id="4830" href="1--Type-Theory.1-1--Types-and-Functions.html#4830" class="Function">_</a> <a id="4832" class="Symbol">=</a> <a id="4834" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="4849" href="1--Type-Theory.1-1--Types-and-Functions.html#4525" class="Function">hopefullySix</a> <a id="4862" class="Number">6</a>
+</pre>
+<p>Here we are witnessing the <em>computation rule</em> for functions. When
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a></code> is applied to an argument, that argument is substituted in
+for corresponding variable wherever it appears in the definition of
+the function. So in this case, <code>double 3</code> computes to <code>2 · 3</code>, which
+is indeed <code>6</code>. (And <code>2 · 3</code> is computed in just the same way,
+substituting <code>2</code> and <code>3</code> into our behind-the-scenes definition of
+<code class="Agda"><a href="Library.Prelude.html#3757" class="Function">·</a></code>.)</p>
+<p>Functions of multiple arguments can be defined by giving multiple
+variable names to the left of the <code>=</code> sign. For the type of the
+function, we chain together “<code>ℕ →</code>” to indicate that we are accepting
+several natural numbers, one at a time. (We’ll come back to this in a
+minute.)</p>
+<pre class="Agda"><a id="cents"></a><a id="5563" href="1--Type-Theory.1-1--Types-and-Functions.html#5563" class="Function">cents</a> <a id="5569" class="Symbol">:</a> <a id="5571" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="5573" class="Symbol">→</a> <a id="5575" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="5577" class="Symbol">→</a> <a id="5579" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="5581" class="Symbol">→</a> <a id="5583" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="5585" class="Symbol">→</a> <a id="5587" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="5589" href="1--Type-Theory.1-1--Types-and-Functions.html#5563" class="Function">cents</a> <a id="5595" href="1--Type-Theory.1-1--Types-and-Functions.html#5595" class="Bound">quarters</a> <a id="5604" href="1--Type-Theory.1-1--Types-and-Functions.html#5604" class="Bound">dimes</a> <a id="5610" href="1--Type-Theory.1-1--Types-and-Functions.html#5610" class="Bound">nickels</a> <a id="5618" href="1--Type-Theory.1-1--Types-and-Functions.html#5618" class="Bound">pennies</a> <a id="5626" class="Symbol">=</a>
+  <a id="5630" class="Symbol">(</a><a id="5631" class="Number">25</a> <a id="5634" href="Library.Prelude.html#3757" class="Function Operator">·</a> <a id="5636" href="1--Type-Theory.1-1--Types-and-Functions.html#5595" class="Bound">quarters</a><a id="5644" class="Symbol">)</a> <a id="5646" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="5648" class="Symbol">(</a><a id="5649" class="Number">10</a> <a id="5652" href="Library.Prelude.html#3757" class="Function Operator">·</a> <a id="5654" href="1--Type-Theory.1-1--Types-and-Functions.html#5604" class="Bound">dimes</a><a id="5659" class="Symbol">)</a> <a id="5661" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="5663" class="Symbol">(</a><a id="5664" class="Number">5</a> <a id="5666" href="Library.Prelude.html#3757" class="Function Operator">·</a> <a id="5668" href="1--Type-Theory.1-1--Types-and-Functions.html#5610" class="Bound">nickels</a><a id="5675" class="Symbol">)</a> <a id="5677" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="5679" href="1--Type-Theory.1-1--Types-and-Functions.html#5618" class="Bound">pennies</a>
+
+<a id="hopefullyOneDollar"></a><a id="5688" href="1--Type-Theory.1-1--Types-and-Functions.html#5688" class="Function">hopefullyOneDollar</a> <a id="5707" class="Symbol">:</a> <a id="5709" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="5711" href="1--Type-Theory.1-1--Types-and-Functions.html#5688" class="Function">hopefullyOneDollar</a> <a id="5730" class="Symbol">=</a> <a id="5732" href="1--Type-Theory.1-1--Types-and-Functions.html#5563" class="Function">cents</a> <a id="5738" class="Number">3</a> <a id="5740" class="Number">1</a> <a id="5742" class="Number">2</a> <a id="5744" class="Number">5</a>
+
+<a id="5747" href="1--Type-Theory.1-1--Types-and-Functions.html#5747" class="Function">_</a> <a id="5749" class="Symbol">=</a> <a id="5751" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="5766" href="1--Type-Theory.1-1--Types-and-Functions.html#5688" class="Function">hopefullyOneDollar</a> <a id="5785" class="Number">100</a>
+</pre>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+Agda doesn’t care if the definition spans multiple lines so long as
+there is some whitespace at the beginning of the line so that it
+doesn’t look like the start of a different definition.</p>
+</div>
+<p>For your very first exercise, try writing a function of two arguments
+that ignores the second argument and just gives back the first.</p>
+<pre class="Agda"><a id="constℕ"></a><a id="6137" href="1--Type-Theory.1-1--Types-and-Functions.html#6137" class="Function">constℕ</a> <a id="6144" class="Symbol">:</a> <a id="6146" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="6148" class="Symbol">→</a> <a id="6150" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="6152" class="Symbol">→</a> <a id="6154" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="6156" class="Comment">-- Exercise:</a>
+<a id="6169" class="Comment">-- constℕ a b = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="6203" href="1--Type-Theory.1-1--Types-and-Functions.html#6137" class="Function">constℕ</a> <a id="6210" href="1--Type-Theory.1-1--Types-and-Functions.html#6210" class="Bound">a</a> <a id="6212" href="1--Type-Theory.1-1--Types-and-Functions.html#6212" class="Bound">b</a> <a id="6214" class="Symbol">=</a> <a id="6216" href="1--Type-Theory.1-1--Types-and-Functions.html#6210" class="Bound">a</a>
+
+</pre>-->
+<p>The area contained within the curly brackets is known as a “hole”, a
+gap in the code where some expression is still required to make the
+definition complete. To fill in the hole, place your cursor between
+the brackets and enter your attempted definition. (Hint: it’s <code>a</code>). To
+ask Agda to accept it, type <code>C-c C-space</code>, which is the keybinding for
+“give solution”. If Agda is satisfied that your definition fits, the
+curly brackets will disappear and the hole will be replaced by what
+you have written.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+At the time of writing, MacOS may capture <code>C-space</code> and open the
+Spotlight search bar. If this happens to you, use <code>C-c C-r</code> for
+“refine” as a replacement.</p>
+</div>
+<p>In this case, you could also provide <code>b</code> as a solution, and Agda would
+also accept it! Agda can only check that your code is <em>type-correct</em>, and
+not that it actually does what you want. For most future exercises
+however, the types involved will be very constraining and you will
+struggle to provide any definition other than the intended one.</p>
+<p>So far our inputs and outputs have all been <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>, but there is no
+particular reason for this. We can even write functions that take
+other functions as input. Here’s a very simple example: the function
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#7604" class="Function">applyℕ</a></code> we show next accepts a function and a natural number as
+input, and give back the result of applying the function to that
+argument.</p>
+<pre class="Agda"><a id="applyℕ"></a><a id="7604" href="1--Type-Theory.1-1--Types-and-Functions.html#7604" class="Function">applyℕ</a> <a id="7611" class="Symbol">:</a> <a id="7613" class="Symbol">(</a><a id="7614" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="7616" class="Symbol">→</a> <a id="7618" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="7619" class="Symbol">)</a> <a id="7621" class="Symbol">→</a> <a id="7623" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="7625" class="Symbol">→</a> <a id="7627" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="7629" href="1--Type-Theory.1-1--Types-and-Functions.html#7604" class="Function">applyℕ</a> <a id="7636" href="1--Type-Theory.1-1--Types-and-Functions.html#7636" class="Bound">f</a> <a id="7638" href="1--Type-Theory.1-1--Types-and-Functions.html#7638" class="Bound">a</a> <a id="7640" class="Symbol">=</a> <a id="7642" href="1--Type-Theory.1-1--Types-and-Functions.html#7636" class="Bound">f</a> <a id="7644" href="1--Type-Theory.1-1--Types-and-Functions.html#7638" class="Bound">a</a>
+</pre>
+<p>Although we see the symbols <code>f a</code> appearing on both sides, they have
+different meanings in each location. On the left, we are specifying
+that the function <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#7604" class="Function">applyℕ</a></code> takes two arguments, <code>f</code> followed by <code>a</code>.
+On the right, we are using the function <code>f</code> by applying it to <code>a</code>.</p>
+<p>In fact, we have secretly written a couple of functions that give
+another function as output already. For example, the <code>→</code> operator on
+types associates to the right, so Agda actually reads the above type
+of <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#6137" class="Function">constℕ</a></code> as</p>
+<pre class="Agda"><a id="constℕ₂"></a><a id="8153" href="1--Type-Theory.1-1--Types-and-Functions.html#8153" class="Function">constℕ₂</a> <a id="8161" class="Symbol">:</a> <a id="8163" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="8165" class="Symbol">→</a> <a id="8167" class="Symbol">(</a><a id="8168" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="8170" class="Symbol">→</a> <a id="8172" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="8173" class="Symbol">)</a>
+<a id="8175" href="1--Type-Theory.1-1--Types-and-Functions.html#8153" class="Function">constℕ₂</a> <a id="8183" href="1--Type-Theory.1-1--Types-and-Functions.html#8183" class="Bound">a</a> <a id="8185" href="1--Type-Theory.1-1--Types-and-Functions.html#8185" class="Bound">b</a> <a id="8187" class="Symbol">=</a> <a id="8189" href="1--Type-Theory.1-1--Types-and-Functions.html#8183" class="Bound">a</a>
+</pre>
+<p>How do we make sense of this? The definitions of the functions
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#6137" class="Function">constℕ</a></code> and <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#8153" class="Function">constℕ₂</a></code> are literally identical to Agda,
+but the way we have written them suggests two different ways we can
+think of functions of multiple arguments:</p>
+<ul>
+<li>The function <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#6137" class="Function">constℕ</a></code> is a function of two variables <code>a</code> and <code>b</code>,
+yielding the one.</li>
+<li>The function <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#8153" class="Function">constℕ₂</a></code> is a function of a single variable <code>a</code>,
+which returns a new function <code>ℕ → ℕ</code> which takes <code>b : ℕ</code>, ignores it, and
+yields the original <code>a</code>.</li>
+</ul>
+<p>We can use some additional Agda syntax to this second perspective
+explicit. This is known formally as λ-abstraction.</p>
+<pre class="Agda"><a id="constℕ₃"></a><a id="8813" href="1--Type-Theory.1-1--Types-and-Functions.html#8813" class="Function">constℕ₃</a> <a id="8821" class="Symbol">:</a> <a id="8823" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="8825" class="Symbol">→</a> <a id="8827" class="Symbol">(</a><a id="8828" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="8830" class="Symbol">→</a> <a id="8832" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="8833" class="Symbol">)</a>
+<a id="8835" href="1--Type-Theory.1-1--Types-and-Functions.html#8813" class="Function">constℕ₃</a> <a id="8843" href="1--Type-Theory.1-1--Types-and-Functions.html#8843" class="Bound">a</a> <a id="8845" class="Symbol">=</a> <a id="8847" class="Symbol">λ</a> <a id="8849" class="Symbol">(</a><a id="8850" href="1--Type-Theory.1-1--Types-and-Functions.html#8850" class="Bound">b</a> <a id="8852" class="Symbol">:</a> <a id="8854" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="8855" class="Symbol">)</a> <a id="8857" class="Symbol">→</a> <a id="8859" href="1--Type-Theory.1-1--Types-and-Functions.html#8843" class="Bound">a</a>
+</pre>
+<p>In a lot of programming languages such expressions are called
+“anonymous functions”, so-called because the function doesn’t get a
+name.</p>
+<p><code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#8813" class="Function">constℕ₃</a></code> is now a function of a <em>single</em> argument that gives back a
+function of type <code>ℕ → ℕ</code>. This general technique of describing
+functions of multiple arguments via functions that return functions is
+called “currying”, after the computer scientist Haskell Curry (whose
+name is also immortalized in the programming language Haskell).</p>
+<p>The syntax <code>λ (x : A) → t</code> defines the function <code>A → B</code> which sends
+<code>x</code> to <code>t</code>, where <code>t : B</code> is some expression potentially involving the
+variable <code>x</code>. The <code>λ</code> (Greek letter lambda) comes to us from Church’s
+λ-calculus, an early formal system for defining functions intended as
+a model of general computability. Notice also that we are re-using the
+<code>→</code> symbol: in <code>A → B</code> this symbol forms a new type out of <code>A</code> and <code>B</code>
+and in <code>λ (x : A) → t</code> this introduces a function given a term <code>t</code>
+with a free variable <code>x</code>.</p>
+<p>To write the <code>λ</code> symbol in Emacs or VSCode, type <code>\Gl</code> (for “Greek
+l”), or <code>\lam</code>, or if you like, <code>\lambda</code>. And by the way, you can
+type the arrow <code>→</code> by typing <code>\to</code>. We will use a lot of Unicode
+symbols in these notes, and it will be useful to know how to type them
+quickly! The file <code>UNICODE_DICITONARY.md</code> contains all the symbols we
+use and how to input them.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+For any of the Unicode symbols in these notes, you can use your editor
+to lookup how they are entered in Agda-mode. In Emacs, place your
+cursor over the symbol and type <code>M-x describe-char</code>. A window will pop
+up with details about the symbol: the line beginning with <code>to input:</code>
+is what you want. In VSCode, use the command <code>C-x C-=</code>. A text box
+will appear that you can paste the character into. Test it out on the
+symbol here: <code>⊗</code>.</p>
+</div>
+<p>Let’s test out this perspective on functions by defining another
+function in two different ways. Try writing a function that adds one
+to a natural number, where the argument is accepted to the left of the
+<code>=</code> symbol.</p>
+<pre class="Agda"><a id="add-one₁"></a><a id="10896" href="1--Type-Theory.1-1--Types-and-Functions.html#10896" class="Function">add-one₁</a> <a id="10905" class="Symbol">:</a> <a id="10907" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="10909" class="Symbol">→</a> <a id="10911" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="10913" class="Comment">-- Exercise:</a>
+<a id="10926" class="Comment">-- add-one₁ x = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="10960" href="1--Type-Theory.1-1--Types-and-Functions.html#10896" class="Function">add-one₁</a> <a id="10969" href="1--Type-Theory.1-1--Types-and-Functions.html#10969" class="Bound">x</a> <a id="10971" class="Symbol">=</a> <a id="10973" href="1--Type-Theory.1-1--Types-and-Functions.html#10969" class="Bound">x</a> <a id="10975" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="10977" class="Number">1</a>
+
+</pre>-->
+<p>Now write it again but using a <code>λ</code> on the right of the <code>=</code>, in the
+same style as <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#8153" class="Function">constℕ₂</a></code>.</p>
+<pre class="Agda"><a id="add-one₂"></a><a id="11096" href="1--Type-Theory.1-1--Types-and-Functions.html#11096" class="Function">add-one₂</a> <a id="11105" class="Symbol">:</a> <a id="11107" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11109" class="Symbol">→</a> <a id="11111" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="11113" class="Comment">-- Exercise:</a>
+<a id="11126" class="Comment">-- add-one₂ = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="11158" href="1--Type-Theory.1-1--Types-and-Functions.html#11096" class="Function">add-one₂</a> <a id="11167" class="Symbol">=</a> <a id="11169" class="Symbol">λ</a> <a id="11171" class="Symbol">(</a><a id="11172" href="1--Type-Theory.1-1--Types-and-Functions.html#11172" class="Bound">x</a> <a id="11174" class="Symbol">:</a> <a id="11176" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="11177" class="Symbol">)</a> <a id="11179" class="Symbol">→</a> <a id="11181" href="1--Type-Theory.1-1--Types-and-Functions.html#11172" class="Bound">x</a> <a id="11183" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="11185" class="Number">1</a>
+
+</pre>-->
+<p>When applied to an argument, a function defined by λ-abstraction is
+computed in exactly the same way as an ordinary definition: the
+argument is substituted in for the variable wherever it appears.</p>
+<pre class="Agda"><a id="11407" href="1--Type-Theory.1-1--Types-and-Functions.html#11407" class="Function">_</a> <a id="11409" class="Symbol">=</a> <a id="11411" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="11426" class="Symbol">((λ</a> <a id="11430" class="Symbol">(</a><a id="11431" href="1--Type-Theory.1-1--Types-and-Functions.html#11431" class="Bound">x</a> <a id="11433" class="Symbol">:</a> <a id="11435" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="11436" class="Symbol">)</a> <a id="11438" class="Symbol">→</a> <a id="11440" href="1--Type-Theory.1-1--Types-and-Functions.html#11431" class="Bound">x</a> <a id="11442" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="11444" class="Number">1</a><a id="11445" class="Symbol">)</a> <a id="11447" href="1--Type-Theory.1-1--Types-and-Functions.html#2813" class="Function">three</a><a id="11452" class="Symbol">)</a> <a id="11454" class="Symbol">(</a><a id="11455" href="1--Type-Theory.1-1--Types-and-Functions.html#2813" class="Function">three</a> <a id="11461" href="Library.Prelude.html#3698" class="Function Operator">+</a> <a id="11463" class="Number">1</a><a id="11464" class="Symbol">)</a>
+</pre>
+<p>Finally, a slightly more complicated example with more than one
+argument. This function should hand the provided arguments to <code>f</code> in
+the opposite order. For the version using <code>λ</code>, you will have to use
+<code>λ</code> twice.</p>
+<pre class="Agda"><a id="flipℕ₁"></a><a id="11688" href="1--Type-Theory.1-1--Types-and-Functions.html#11688" class="Function">flipℕ₁</a> <a id="11695" class="Symbol">:</a> <a id="11697" class="Symbol">(</a><a id="11698" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11700" class="Symbol">→</a> <a id="11702" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11704" class="Symbol">→</a> <a id="11706" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="11707" class="Symbol">)</a>
+       <a id="11716" class="Symbol">→</a>  <a id="11719" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11721" class="Symbol">→</a> <a id="11723" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11725" class="Symbol">→</a> <a id="11727" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="11729" class="Comment">-- Exercise:</a>
+<a id="11742" class="Comment">-- flipℕ₁ f x y = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="11778" href="1--Type-Theory.1-1--Types-and-Functions.html#11688" class="Function">flipℕ₁</a> <a id="11785" href="1--Type-Theory.1-1--Types-and-Functions.html#11785" class="Bound">f</a> <a id="11787" href="1--Type-Theory.1-1--Types-and-Functions.html#11787" class="Bound">x</a> <a id="11789" href="1--Type-Theory.1-1--Types-and-Functions.html#11789" class="Bound">y</a> <a id="11791" class="Symbol">=</a> <a id="11793" href="1--Type-Theory.1-1--Types-and-Functions.html#11785" class="Bound">f</a> <a id="11795" href="1--Type-Theory.1-1--Types-and-Functions.html#11789" class="Bound">y</a> <a id="11797" href="1--Type-Theory.1-1--Types-and-Functions.html#11787" class="Bound">x</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="flipℕ₂"></a><a id="11813" href="1--Type-Theory.1-1--Types-and-Functions.html#11813" class="Function">flipℕ₂</a> <a id="11820" class="Symbol">:</a> <a id="11822" class="Symbol">(</a><a id="11823" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11825" class="Symbol">→</a> <a id="11827" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11829" class="Symbol">→</a> <a id="11831" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="11832" class="Symbol">)</a>
+       <a id="11841" class="Symbol">→</a> <a id="11843" class="Symbol">(</a><a id="11844" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11846" class="Symbol">→</a> <a id="11848" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="11850" class="Symbol">→</a> <a id="11852" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="11853" class="Symbol">)</a>
+<a id="11855" class="Comment">-- Exercise:</a>
+<a id="11868" class="Comment">-- flipℕ₂ f = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="11900" href="1--Type-Theory.1-1--Types-and-Functions.html#11813" class="Function">flipℕ₂</a> <a id="11907" href="1--Type-Theory.1-1--Types-and-Functions.html#11907" class="Bound">f</a> <a id="11909" class="Symbol">=</a> <a id="11911" class="Symbol">λ</a> <a id="11913" href="1--Type-Theory.1-1--Types-and-Functions.html#11913" class="Bound">x</a> <a id="11915" class="Symbol">→</a> <a id="11917" class="Symbol">λ</a> <a id="11919" href="1--Type-Theory.1-1--Types-and-Functions.html#11919" class="Bound">y</a> <a id="11921" class="Symbol">→</a> <a id="11923" href="1--Type-Theory.1-1--Types-and-Functions.html#11907" class="Bound">f</a> <a id="11925" href="1--Type-Theory.1-1--Types-and-Functions.html#11919" class="Bound">y</a> <a id="11927" href="1--Type-Theory.1-1--Types-and-Functions.html#11913" class="Bound">x</a>
+
+</pre>-->
+<div class="info">
+<p><span class="info-label">Aside:</span>
+We’ve broken the type declaration over multiple lines. This is also
+fine by Agda, as long as the subsequent lines begin with some
+whitespace.</p>
+</div>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+In the future, you should feel free to add arguments to the left of
+the <code>=</code> sign if that will lead to a nicer definition. But be warned:
+you will have to re-load the file via <code>C-c C-l</code> in order for Agda to
+pick up the new arguments, otherwise you will get errors claiming that
+the new variables are “not in scope”.</p>
+</div>
+<p>Having λ-abstraction available actually exposes a new concern. From
+any function <code>f : ℕ → ℕ</code> (or really any function between any two
+types), we can define a new function <code>ℕ → ℕ</code> which accepts a <code>ℕ</code> as
+input, and then immediately applies <code>f</code> to that input. Really, this a
+λ-abstraction version of <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#7604" class="Function">applyℕ</a></code> from above.</p>
+<pre class="Agda"><a id="applyℕ₂"></a><a id="12760" href="1--Type-Theory.1-1--Types-and-Functions.html#12760" class="Function">applyℕ₂</a> <a id="12768" class="Symbol">:</a> <a id="12770" class="Symbol">(</a><a id="12771" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="12773" class="Symbol">→</a> <a id="12775" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="12776" class="Symbol">)</a> <a id="12778" class="Symbol">→</a> <a id="12780" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="12782" class="Symbol">→</a> <a id="12784" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="12786" href="1--Type-Theory.1-1--Types-and-Functions.html#12760" class="Function">applyℕ₂</a> <a id="12794" href="1--Type-Theory.1-1--Types-and-Functions.html#12794" class="Bound">f</a> <a id="12796" class="Symbol">=</a> <a id="12798" class="Symbol">λ</a> <a id="12800" href="1--Type-Theory.1-1--Types-and-Functions.html#12800" class="Bound">x</a> <a id="12802" class="Symbol">→</a> <a id="12804" href="1--Type-Theory.1-1--Types-and-Functions.html#12794" class="Bound">f</a> <a id="12806" href="1--Type-Theory.1-1--Types-and-Functions.html#12800" class="Bound">x</a>
+</pre>
+<p>And there’s nothing stopping us from chaining this to produce more and
+more functions:</p>
+<pre><code>f  ~&gt;  (λ x → f x)  ~&gt;  (λ y → (λ x → f x) y)  ~&gt;  ...
+</code></pre>
+<p>The <em>uniqueness principle</em> for functions expresses that any function
+is identical to the version of it that is expanded using λ-abstraction
+in this way. So in fact, all these functions are equal. </p>
+<pre class="Agda"><a id="13163" href="1--Type-Theory.1-1--Types-and-Functions.html#13163" class="Function">_</a> <a id="13165" class="Symbol">=</a> <a id="13167" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13182" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a>   <a id="13191" class="Symbol">(λ</a> <a id="13194" class="Symbol">(</a><a id="13195" href="1--Type-Theory.1-1--Types-and-Functions.html#13195" class="Bound">x</a> <a id="13197" class="Symbol">:</a> <a id="13199" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="13200" class="Symbol">)</a> <a id="13202" class="Symbol">→</a> <a id="13204" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a> <a id="13211" href="1--Type-Theory.1-1--Types-and-Functions.html#13195" class="Bound">x</a><a id="13212" class="Symbol">)</a>
+<a id="13214" href="1--Type-Theory.1-1--Types-and-Functions.html#13214" class="Function">_</a> <a id="13216" class="Symbol">=</a> <a id="13218" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13233" href="1--Type-Theory.1-1--Types-and-Functions.html#10896" class="Function">add-one₁</a> <a id="13242" class="Symbol">(λ</a> <a id="13245" class="Symbol">(</a><a id="13246" href="1--Type-Theory.1-1--Types-and-Functions.html#13246" class="Bound">x</a> <a id="13248" class="Symbol">:</a> <a id="13250" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="13251" class="Symbol">)</a> <a id="13253" class="Symbol">→</a> <a id="13255" href="1--Type-Theory.1-1--Types-and-Functions.html#10896" class="Function">add-one₁</a> <a id="13264" href="1--Type-Theory.1-1--Types-and-Functions.html#13246" class="Bound">x</a><a id="13265" class="Symbol">)</a>
+
+<a id="13268" href="1--Type-Theory.1-1--Types-and-Functions.html#13268" class="Function">_</a> <a id="13270" class="Symbol">=</a> <a id="13272" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13287" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a>   <a id="13296" class="Symbol">(λ</a> <a id="13299" class="Symbol">(</a><a id="13300" href="1--Type-Theory.1-1--Types-and-Functions.html#13300" class="Bound">y</a> <a id="13302" class="Symbol">:</a> <a id="13304" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="13305" class="Symbol">)</a> <a id="13307" class="Symbol">→</a> <a id="13309" class="Symbol">(λ</a> <a id="13312" class="Symbol">(</a><a id="13313" href="1--Type-Theory.1-1--Types-and-Functions.html#13313" class="Bound">x</a> <a id="13315" class="Symbol">:</a> <a id="13317" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="13318" class="Symbol">)</a> <a id="13320" class="Symbol">→</a> <a id="13322" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a> <a id="13329" href="1--Type-Theory.1-1--Types-and-Functions.html#13313" class="Bound">x</a><a id="13330" class="Symbol">)</a> <a id="13332" href="1--Type-Theory.1-1--Types-and-Functions.html#13300" class="Bound">y</a><a id="13333" class="Symbol">)</a>
+<a id="13335" href="1--Type-Theory.1-1--Types-and-Functions.html#13335" class="Function">_</a> <a id="13337" class="Symbol">=</a> <a id="13339" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="13354" href="1--Type-Theory.1-1--Types-and-Functions.html#10896" class="Function">add-one₁</a> <a id="13363" class="Symbol">(λ</a> <a id="13366" class="Symbol">(</a><a id="13367" href="1--Type-Theory.1-1--Types-and-Functions.html#13367" class="Bound">y</a> <a id="13369" class="Symbol">:</a> <a id="13371" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="13372" class="Symbol">)</a> <a id="13374" class="Symbol">→</a> <a id="13376" class="Symbol">(λ</a> <a id="13379" class="Symbol">(</a><a id="13380" href="1--Type-Theory.1-1--Types-and-Functions.html#13380" class="Bound">x</a> <a id="13382" class="Symbol">:</a> <a id="13384" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="13385" class="Symbol">)</a> <a id="13387" class="Symbol">→</a> <a id="13389" href="1--Type-Theory.1-1--Types-and-Functions.html#10896" class="Function">add-one₁</a> <a id="13398" href="1--Type-Theory.1-1--Types-and-Functions.html#13380" class="Bound">x</a><a id="13399" class="Symbol">)</a> <a id="13401" href="1--Type-Theory.1-1--Types-and-Functions.html#13367" class="Bound">y</a><a id="13402" class="Symbol">)</a>
+</pre>
+<p>This shouldn’t be too surprising. If we apply <code>(λ x → f x)</code> to some
+argument <code>n</code>, first we substitute in for <code>x</code>, giving <code>f n</code>, which is
+exactly what we get if we use <code>f</code> directly.</p>
+<h2 id="generic-definitions"><a class="header" href="#generic-definitions">Generic Definitions</a></h2>
+<p>The functions we have written so far are all specialised to work with
+elements of the type <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>. For example, we have the “identity”
+(i.e. do-nothing) function</p>
+<pre class="Agda"><a id="idfunℕ"></a><a id="13782" href="1--Type-Theory.1-1--Types-and-Functions.html#13782" class="Function">idfunℕ</a> <a id="13789" class="Symbol">:</a> <a id="13791" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="13793" class="Symbol">→</a> <a id="13795" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="13797" href="1--Type-Theory.1-1--Types-and-Functions.html#13782" class="Function">idfunℕ</a> <a id="13804" href="1--Type-Theory.1-1--Types-and-Functions.html#13804" class="Bound">x</a> <a id="13806" class="Symbol">=</a> <a id="13808" href="1--Type-Theory.1-1--Types-and-Functions.html#13804" class="Bound">x</a>
+</pre>
+<p>Writing this to only work for <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> is overly restrictive, after
+all, we don’t actually use any properties of <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code> on the
+right-hand side. Instead, we can define an identity function <code>A → A</code>
+that works for any type <code>A</code> at all.</p>
+<pre class="Agda"><a id="idfunE"></a><a id="14048" href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a> <a id="14055" class="Symbol">:</a> <a id="14057" class="Symbol">(</a><a id="14058" href="1--Type-Theory.1-1--Types-and-Functions.html#14058" class="Bound">A</a> <a id="14060" class="Symbol">:</a> <a id="14062" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="14066" class="Symbol">)</a> <a id="14068" class="Symbol">→</a> <a id="14070" class="Symbol">(</a><a id="14071" href="1--Type-Theory.1-1--Types-and-Functions.html#14058" class="Bound">A</a> <a id="14073" class="Symbol">→</a> <a id="14075" href="1--Type-Theory.1-1--Types-and-Functions.html#14058" class="Bound">A</a><a id="14076" class="Symbol">)</a>
+<a id="14078" href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a> <a id="14085" href="1--Type-Theory.1-1--Types-and-Functions.html#14085" class="Bound">A</a> <a id="14087" href="1--Type-Theory.1-1--Types-and-Functions.html#14087" class="Bound">x</a> <a id="14089" class="Symbol">=</a> <a id="14091" href="1--Type-Theory.1-1--Types-and-Functions.html#14087" class="Bound">x</a>
+</pre>
+<p>Let’s understand why the type of <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a></code> is more complicated
+than just <code>idfunE : A → A</code>. The extra bit “<code>(A : Type) →</code>” is there
+because <code>A → A</code> itself involves a variable: the type <code>A</code>. This <code>A</code> is
+then an additional argument to the function, so it also appears on the
+left of the <code>=</code> in the definition on the next line.</p>
+<p>If we think in terms of currying, <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a></code> is a function of a
+variable <code>A</code>, which is a type. When applied, <code>idfunE A</code> gives
+back the identity function <code>A → A</code> for that type.</p>
+<p>Like every variable in Agda, <code>A</code> itself has a type, in this case the
+type <code class="Agda"><a href="Library.Primitive.html#422" class="Primitive">Type</a></code>. This is a type whose elements themselves are
+types, things like this are often called “type universes”.</p>
+<p>We can reconstruct <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#13782" class="Function">idfunℕ</a></code> back by providing <code>ℕ</code> to
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a></code>:</p>
+<pre class="Agda"><a id="idfunℕ₂"></a><a id="14862" href="1--Type-Theory.1-1--Types-and-Functions.html#14862" class="Function">idfunℕ₂</a> <a id="14870" class="Symbol">:</a> <a id="14872" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="14874" class="Symbol">→</a> <a id="14876" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="14878" href="1--Type-Theory.1-1--Types-and-Functions.html#14862" class="Function">idfunℕ₂</a> <a id="14886" class="Symbol">=</a> <a id="14888" href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a> <a id="14895" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+</pre>
+<p>And we can similarly generalise all the functions we have defined so far.</p>
+<pre class="Agda"><a id="constE"></a><a id="14981" href="1--Type-Theory.1-1--Types-and-Functions.html#14981" class="Function">constE</a> <a id="14988" class="Symbol">:</a> <a id="14990" class="Symbol">(</a><a id="14991" href="1--Type-Theory.1-1--Types-and-Functions.html#14991" class="Bound">A</a> <a id="14993" class="Symbol">:</a> <a id="14995" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="14999" class="Symbol">)</a> <a id="15001" class="Symbol">→</a> <a id="15003" class="Symbol">(</a><a id="15004" href="1--Type-Theory.1-1--Types-and-Functions.html#15004" class="Bound">B</a> <a id="15006" class="Symbol">:</a> <a id="15008" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15012" class="Symbol">)</a> <a id="15014" class="Symbol">→</a> <a id="15016" href="1--Type-Theory.1-1--Types-and-Functions.html#14991" class="Bound">A</a> <a id="15018" class="Symbol">→</a> <a id="15020" href="1--Type-Theory.1-1--Types-and-Functions.html#15004" class="Bound">B</a> <a id="15022" class="Symbol">→</a> <a id="15024" href="1--Type-Theory.1-1--Types-and-Functions.html#14991" class="Bound">A</a>
+<a id="15026" href="1--Type-Theory.1-1--Types-and-Functions.html#14981" class="Function">constE</a> <a id="15033" href="1--Type-Theory.1-1--Types-and-Functions.html#15033" class="Bound">A</a> <a id="15035" href="1--Type-Theory.1-1--Types-and-Functions.html#15035" class="Bound">B</a> <a id="15037" href="1--Type-Theory.1-1--Types-and-Functions.html#15037" class="Bound">a</a> <a id="15039" href="1--Type-Theory.1-1--Types-and-Functions.html#15039" class="Bound">b</a> <a id="15041" class="Symbol">=</a> <a id="15043" href="1--Type-Theory.1-1--Types-and-Functions.html#15037" class="Bound">a</a>
+
+<a id="applyE"></a><a id="15046" href="1--Type-Theory.1-1--Types-and-Functions.html#15046" class="Function">applyE</a> <a id="15053" class="Symbol">:</a> <a id="15055" class="Symbol">(</a><a id="15056" href="1--Type-Theory.1-1--Types-and-Functions.html#15056" class="Bound">A</a> <a id="15058" class="Symbol">:</a> <a id="15060" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15064" class="Symbol">)</a> <a id="15066" class="Symbol">→</a> <a id="15068" class="Symbol">(</a><a id="15069" href="1--Type-Theory.1-1--Types-and-Functions.html#15069" class="Bound">B</a> <a id="15071" class="Symbol">:</a> <a id="15073" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15077" class="Symbol">)</a> <a id="15079" class="Symbol">→</a> <a id="15081" class="Symbol">(</a><a id="15082" href="1--Type-Theory.1-1--Types-and-Functions.html#15056" class="Bound">A</a> <a id="15084" class="Symbol">→</a> <a id="15086" href="1--Type-Theory.1-1--Types-and-Functions.html#15069" class="Bound">B</a><a id="15087" class="Symbol">)</a> <a id="15089" class="Symbol">→</a> <a id="15091" href="1--Type-Theory.1-1--Types-and-Functions.html#15056" class="Bound">A</a> <a id="15093" class="Symbol">→</a> <a id="15095" href="1--Type-Theory.1-1--Types-and-Functions.html#15069" class="Bound">B</a>
+<a id="15097" href="1--Type-Theory.1-1--Types-and-Functions.html#15046" class="Function">applyE</a> <a id="15104" href="1--Type-Theory.1-1--Types-and-Functions.html#15104" class="Bound">A</a> <a id="15106" href="1--Type-Theory.1-1--Types-and-Functions.html#15106" class="Bound">B</a> <a id="15108" href="1--Type-Theory.1-1--Types-and-Functions.html#15108" class="Bound">f</a> <a id="15110" href="1--Type-Theory.1-1--Types-and-Functions.html#15110" class="Bound">a</a> <a id="15112" class="Symbol">=</a> <a id="15114" href="1--Type-Theory.1-1--Types-and-Functions.html#15108" class="Bound">f</a> <a id="15116" href="1--Type-Theory.1-1--Types-and-Functions.html#15110" class="Bound">a</a>
+</pre>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+This idea of accepting a type as an argument to a function is similar
+to but not quite the same as “parametric polymorphism”, which you may
+have seen in other programming languages. In a typical language with
+polymorphism, one can make generic definitions but there is a strict
+separation between the world of types and the world of elements. In a
+fully “dependently typed” language like Agda, types can be passed
+around and used like any other function argument.</p>
+</div>
+<p>Try the following. You will have to either write the argument lists
+yourself, or use a bunch of <code>λ</code> on the right-hand side. Remember to
+include the types in your list of arguments now!</p>
+<pre class="Agda"><a id="apply-twiceE"></a><a id="15793" href="1--Type-Theory.1-1--Types-and-Functions.html#15793" class="Function">apply-twiceE</a> <a id="15806" class="Symbol">:</a> <a id="15808" class="Symbol">(</a><a id="15809" href="1--Type-Theory.1-1--Types-and-Functions.html#15809" class="Bound">A</a> <a id="15811" class="Symbol">:</a> <a id="15813" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15817" class="Symbol">)</a>
+  <a id="15821" class="Symbol">→</a> <a id="15823" class="Symbol">(</a><a id="15824" href="1--Type-Theory.1-1--Types-and-Functions.html#15809" class="Bound">A</a> <a id="15826" class="Symbol">→</a> <a id="15828" href="1--Type-Theory.1-1--Types-and-Functions.html#15809" class="Bound">A</a><a id="15829" class="Symbol">)</a>
+  <a id="15833" class="Symbol">→</a> <a id="15835" href="1--Type-Theory.1-1--Types-and-Functions.html#15809" class="Bound">A</a>
+  <a id="15839" class="Symbol">→</a> <a id="15841" href="1--Type-Theory.1-1--Types-and-Functions.html#15809" class="Bound">A</a>
+<a id="15843" class="Comment">-- Exercise:</a>
+<a id="15856" class="Comment">-- apply-twiceE = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="15892" href="1--Type-Theory.1-1--Types-and-Functions.html#15793" class="Function">apply-twiceE</a> <a id="15905" href="1--Type-Theory.1-1--Types-and-Functions.html#15905" class="Bound">A</a> <a id="15907" href="1--Type-Theory.1-1--Types-and-Functions.html#15907" class="Bound">f</a> <a id="15909" href="1--Type-Theory.1-1--Types-and-Functions.html#15909" class="Bound">x</a> <a id="15911" class="Symbol">=</a> <a id="15913" href="1--Type-Theory.1-1--Types-and-Functions.html#15907" class="Bound">f</a> <a id="15915" class="Symbol">(</a><a id="15916" href="1--Type-Theory.1-1--Types-and-Functions.html#15907" class="Bound">f</a> <a id="15918" href="1--Type-Theory.1-1--Types-and-Functions.html#15909" class="Bound">x</a><a id="15919" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="flipE"></a><a id="15935" href="1--Type-Theory.1-1--Types-and-Functions.html#15935" class="Function">flipE</a> <a id="15941" class="Symbol">:</a> <a id="15943" class="Symbol">(</a><a id="15944" href="1--Type-Theory.1-1--Types-and-Functions.html#15944" class="Bound">A</a> <a id="15946" class="Symbol">:</a> <a id="15948" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15952" class="Symbol">)</a> <a id="15954" class="Symbol">→</a> <a id="15956" class="Symbol">(</a><a id="15957" href="1--Type-Theory.1-1--Types-and-Functions.html#15957" class="Bound">B</a> <a id="15959" class="Symbol">:</a> <a id="15961" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15965" class="Symbol">)</a> <a id="15967" class="Symbol">→</a> <a id="15969" class="Symbol">(</a><a id="15970" href="1--Type-Theory.1-1--Types-and-Functions.html#15970" class="Bound">C</a> <a id="15972" class="Symbol">:</a> <a id="15974" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="15978" class="Symbol">)</a>
+  <a id="15982" class="Symbol">→</a> <a id="15984" class="Symbol">(</a><a id="15985" href="1--Type-Theory.1-1--Types-and-Functions.html#15944" class="Bound">A</a> <a id="15987" class="Symbol">→</a> <a id="15989" href="1--Type-Theory.1-1--Types-and-Functions.html#15957" class="Bound">B</a> <a id="15991" class="Symbol">→</a> <a id="15993" href="1--Type-Theory.1-1--Types-and-Functions.html#15970" class="Bound">C</a><a id="15994" class="Symbol">)</a>
+  <a id="15998" class="Symbol">→</a> <a id="16000" class="Symbol">(</a><a id="16001" href="1--Type-Theory.1-1--Types-and-Functions.html#15957" class="Bound">B</a> <a id="16003" class="Symbol">→</a> <a id="16005" href="1--Type-Theory.1-1--Types-and-Functions.html#15944" class="Bound">A</a> <a id="16007" class="Symbol">→</a> <a id="16009" href="1--Type-Theory.1-1--Types-and-Functions.html#15970" class="Bound">C</a><a id="16010" class="Symbol">)</a>
+<a id="16012" class="Comment">-- Exercise:</a>
+<a id="16025" class="Comment">-- flipE = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="16054" href="1--Type-Theory.1-1--Types-and-Functions.html#15935" class="Function">flipE</a> <a id="16060" href="1--Type-Theory.1-1--Types-and-Functions.html#16060" class="Bound">A</a> <a id="16062" href="1--Type-Theory.1-1--Types-and-Functions.html#16062" class="Bound">B</a> <a id="16064" href="1--Type-Theory.1-1--Types-and-Functions.html#16064" class="Bound">C</a> <a id="16066" href="1--Type-Theory.1-1--Types-and-Functions.html#16066" class="Bound">f</a> <a id="16068" href="1--Type-Theory.1-1--Types-and-Functions.html#16068" class="Bound">y</a> <a id="16070" href="1--Type-Theory.1-1--Types-and-Functions.html#16070" class="Bound">x</a> <a id="16072" class="Symbol">=</a> <a id="16074" href="1--Type-Theory.1-1--Types-and-Functions.html#16066" class="Bound">f</a> <a id="16076" href="1--Type-Theory.1-1--Types-and-Functions.html#16070" class="Bound">x</a> <a id="16078" href="1--Type-Theory.1-1--Types-and-Functions.html#16068" class="Bound">y</a>
+
+</pre>-->
+<p>Let’s do one more important example, as a way to introduce a few more
+Agda hotkeys. For any three types, we can compose functions between
+them:</p>
+<pre class="Agda"><a id="composeE"></a><a id="16247" href="1--Type-Theory.1-1--Types-and-Functions.html#16247" class="Function">composeE</a> <a id="16256" class="Symbol">:</a> <a id="16258" class="Symbol">(</a><a id="16259" href="1--Type-Theory.1-1--Types-and-Functions.html#16259" class="Bound">A</a> <a id="16261" class="Symbol">:</a> <a id="16263" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="16267" class="Symbol">)</a> <a id="16269" class="Symbol">→</a> <a id="16271" class="Symbol">(</a><a id="16272" href="1--Type-Theory.1-1--Types-and-Functions.html#16272" class="Bound">B</a> <a id="16274" class="Symbol">:</a> <a id="16276" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="16280" class="Symbol">)</a> <a id="16282" class="Symbol">→</a> <a id="16284" class="Symbol">(</a><a id="16285" href="1--Type-Theory.1-1--Types-and-Functions.html#16285" class="Bound">C</a> <a id="16287" class="Symbol">:</a> <a id="16289" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="16293" class="Symbol">)</a>
+  <a id="16297" class="Symbol">→</a> <a id="16299" class="Symbol">(</a><a id="16300" href="1--Type-Theory.1-1--Types-and-Functions.html#16272" class="Bound">B</a> <a id="16302" class="Symbol">→</a> <a id="16304" href="1--Type-Theory.1-1--Types-and-Functions.html#16285" class="Bound">C</a><a id="16305" class="Symbol">)</a>
+  <a id="16309" class="Symbol">→</a> <a id="16311" class="Symbol">(</a><a id="16312" href="1--Type-Theory.1-1--Types-and-Functions.html#16259" class="Bound">A</a> <a id="16314" class="Symbol">→</a> <a id="16316" href="1--Type-Theory.1-1--Types-and-Functions.html#16272" class="Bound">B</a><a id="16317" class="Symbol">)</a>
+  <a id="16321" class="Symbol">→</a> <a id="16323" class="Symbol">(</a><a id="16324" href="1--Type-Theory.1-1--Types-and-Functions.html#16259" class="Bound">A</a> <a id="16326" class="Symbol">→</a> <a id="16328" href="1--Type-Theory.1-1--Types-and-Functions.html#16285" class="Bound">C</a><a id="16329" class="Symbol">)</a>
+<a id="16331" class="Comment">-- Exercise:</a>
+<a id="16344" class="Comment">-- composeE A B C g f = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="16386" href="1--Type-Theory.1-1--Types-and-Functions.html#16247" class="Function">composeE</a> <a id="16395" href="1--Type-Theory.1-1--Types-and-Functions.html#16395" class="Bound">A</a> <a id="16397" href="1--Type-Theory.1-1--Types-and-Functions.html#16397" class="Bound">B</a> <a id="16399" href="1--Type-Theory.1-1--Types-and-Functions.html#16399" class="Bound">C</a> <a id="16401" href="1--Type-Theory.1-1--Types-and-Functions.html#16401" class="Bound">g</a> <a id="16403" href="1--Type-Theory.1-1--Types-and-Functions.html#16403" class="Bound">f</a> <a id="16405" class="Symbol">=</a> <a id="16407" class="Symbol">λ</a> <a id="16409" href="1--Type-Theory.1-1--Types-and-Functions.html#16409" class="Bound">x</a> <a id="16411" class="Symbol">→</a> <a id="16413" href="1--Type-Theory.1-1--Types-and-Functions.html#16401" class="Bound">g</a> <a id="16415" class="Symbol">(</a><a id="16416" href="1--Type-Theory.1-1--Types-and-Functions.html#16403" class="Bound">f</a> <a id="16418" href="1--Type-Theory.1-1--Types-and-Functions.html#16409" class="Bound">x</a><a id="16419" class="Symbol">)</a>
+
+</pre>-->
+<p>You may be able to fill this in immedidately, but try the following.
+Place your cursor in the goal and type <code>C-c C-,</code>. Agda will show you
+the type of the goal, in this case <code>A → C</code>, and all of the variables
+you have available to construct it. Because the type of a goal is a
+function, Agda knows that a <code>λ</code> expression can go here. Type <code>C-c C-r</code>
+to “refine” the goal; this will automatically insert a <code>λ</code>:</p>
+<pre><code>composeE A B C g f = λ x → {!!}
+</code></pre>
+<p>Typing <code>C-c C-,</code> again, you will see that the goal is now a term of
+type just <code>C</code>. We know that we can get a term of <code>C</code> by applying <code>g</code>
+to something, so type <code>g</code> in the goal. Now, hit <code>C-c C-.</code>, which will
+show you both the goal type (<code>C</code>), and the type of what you have
+placed in the hole right now (<code>B → C</code>).</p>
+<p>These don’t line up, but Agda is clever enough to know that <code>g</code> is
+still progress: if you type <code>C-c C-r</code> again to refine the goal, Agda
+will accept <code>g</code> in place, and move it out of the hole.</p>
+<pre><code>composeE A B C g f = λ x → g {!!}
+</code></pre>
+<p>Now, <code>C-c C-,</code> again tells us that the goal is a term of type <code>B</code>, and
+this time we can produce one using <code>f</code>. Putting <code>f</code> and hitting <code>C-c C-r</code> again:</p>
+<pre><code>composeE A B C g f = λ x → g (f {!!})
+</code></pre>
+<p>Finally, the goal type is <code>A</code>, and we have <code>x</code> available, so we can
+put <code>x</code> in the hole and type <code>C-c C-space</code> to give it to Agda.</p>
+<pre><code>composeE A B C g f = λ x → g (f x)
+</code></pre>
+<p>This is the kind of interaction you should expect to do while solving
+more complicated exercises: repeatedly using <code>C-c C-,</code> to ask Agda
+what it expects to see, and then using <code>C-c C-r</code> to refine the goal or
+<code>C-c C-space</code> to give a solution that completes the goal immediately.</p>
+<h2 id="implicit-arguments"><a class="header" href="#implicit-arguments">Implicit Arguments</a></h2>
+<p>There are a couple more tricks before we reach the true definitions of
+<code class="Agda"><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#1936" class="Function">idfun</a></code>, <code class="Agda"><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#2668" class="Function">const</a></code> etc. that we will actually use. For each of these
+functions, the type arguments are necessary so that the function can
+know which types should be used in the input and output, but in some
+sense actually specifying these arguments is redundant. For example,
+the <code>x</code> argument to <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a></code> is of type <code>A</code>, so if we know what <code>x</code>
+is, we also know what <code>A</code> has to be.</p>
+<p>Agda lets us make arguments <em>implicit</em> so that they are automatically
+reconstructed from the other available information. Implicit arguments are
+notated by surrounding them in the type by curly braces rather than
+parentheses:</p>
+<pre class="Agda"><a id="idfunI"></a><a id="18786" href="1--Type-Theory.1-1--Types-and-Functions.html#18786" class="Function">idfunI</a> <a id="18793" class="Symbol">:</a> <a id="18795" class="Symbol">{</a><a id="18796" href="1--Type-Theory.1-1--Types-and-Functions.html#18796" class="Bound">A</a> <a id="18798" class="Symbol">:</a> <a id="18800" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="18804" class="Symbol">}</a> <a id="18806" class="Symbol">→</a> <a id="18808" href="1--Type-Theory.1-1--Types-and-Functions.html#18796" class="Bound">A</a> <a id="18810" class="Symbol">→</a> <a id="18812" href="1--Type-Theory.1-1--Types-and-Functions.html#18796" class="Bound">A</a>
+<a id="18814" href="1--Type-Theory.1-1--Types-and-Functions.html#18786" class="Function">idfunI</a> <a id="18821" href="1--Type-Theory.1-1--Types-and-Functions.html#18821" class="Bound">x</a> <a id="18823" class="Symbol">=</a> <a id="18825" href="1--Type-Theory.1-1--Types-and-Functions.html#18821" class="Bound">x</a>
+</pre>
+<p>In the actual definitions, we no longer write these implicit arguments
+on the left-hand side of the <code>=</code> sign. Formally, those arguments are
+still there: we are still defining a function that accepts some types
+as arguments: these arguments are just invisible in the code. This is
+just a cosmetic difference compared to <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a></code>, but these implicit
+arguments save a huge amount of typing in the long run.</p>
+<p>One more time, we can get <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#13782" class="Function">idfunℕ</a></code> by having Agda realise what
+the type <code>A</code> has to be:</p>
+<pre class="Agda"><a id="idfunℕ₃"></a><a id="19333" href="1--Type-Theory.1-1--Types-and-Functions.html#19333" class="Function">idfunℕ₃</a> <a id="19341" class="Symbol">:</a> <a id="19343" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="19345" class="Symbol">→</a> <a id="19347" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="19349" href="1--Type-Theory.1-1--Types-and-Functions.html#19333" class="Function">idfunℕ₃</a> <a id="19357" class="Symbol">=</a> <a id="19359" href="1--Type-Theory.1-1--Types-and-Functions.html#18786" class="Function">idfunI</a>
+</pre>
+<p>Agda will complain if it fails to reconstruct an implicit argument from
+the other arguments you provide, though if we choose carefully which
+arguments to make implicit then this will rarely happen. We can force it to
+use a particular choice of implicit argument by providing it also surrounded by
+curly braces, as follows:</p>
+<pre class="Agda"><a id="idfunℕ₄"></a><a id="19699" href="1--Type-Theory.1-1--Types-and-Functions.html#19699" class="Function">idfunℕ₄</a> <a id="19707" class="Symbol">:</a> <a id="19709" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="19711" class="Symbol">→</a> <a id="19713" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="19715" href="1--Type-Theory.1-1--Types-and-Functions.html#19699" class="Function">idfunℕ₄</a> <a id="19723" class="Symbol">=</a> <a id="19725" href="1--Type-Theory.1-1--Types-and-Functions.html#18786" class="Function">idfunI</a> <a id="19732" class="Symbol">{</a><a id="19733" class="Argument">A</a> <a id="19735" class="Symbol">=</a> <a id="19737" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="19738" class="Symbol">}</a>
+</pre>
+<p>Here is round 3 of defining our favourite functions:</p>
+<pre class="Agda"><a id="constI"></a><a id="19803" href="1--Type-Theory.1-1--Types-and-Functions.html#19803" class="Function">constI</a> <a id="19810" class="Symbol">:</a> <a id="19812" class="Symbol">{</a><a id="19813" href="1--Type-Theory.1-1--Types-and-Functions.html#19813" class="Bound">A</a> <a id="19815" class="Symbol">:</a> <a id="19817" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="19821" class="Symbol">}</a> <a id="19823" class="Symbol">→</a> <a id="19825" class="Symbol">{</a><a id="19826" href="1--Type-Theory.1-1--Types-and-Functions.html#19826" class="Bound">B</a> <a id="19828" class="Symbol">:</a> <a id="19830" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="19834" class="Symbol">}</a> <a id="19836" class="Symbol">→</a> <a id="19838" href="1--Type-Theory.1-1--Types-and-Functions.html#19813" class="Bound">A</a> <a id="19840" class="Symbol">→</a> <a id="19842" href="1--Type-Theory.1-1--Types-and-Functions.html#19826" class="Bound">B</a> <a id="19844" class="Symbol">→</a> <a id="19846" href="1--Type-Theory.1-1--Types-and-Functions.html#19813" class="Bound">A</a>
+<a id="19848" href="1--Type-Theory.1-1--Types-and-Functions.html#19803" class="Function">constI</a> <a id="19855" href="1--Type-Theory.1-1--Types-and-Functions.html#19855" class="Bound">a</a> <a id="19857" href="1--Type-Theory.1-1--Types-and-Functions.html#19857" class="Bound">b</a> <a id="19859" class="Symbol">=</a> <a id="19861" href="1--Type-Theory.1-1--Types-and-Functions.html#19855" class="Bound">a</a>
+
+<a id="applyI"></a><a id="19864" href="1--Type-Theory.1-1--Types-and-Functions.html#19864" class="Function">applyI</a> <a id="19871" class="Symbol">:</a> <a id="19873" class="Symbol">{</a><a id="19874" href="1--Type-Theory.1-1--Types-and-Functions.html#19874" class="Bound">A</a> <a id="19876" class="Symbol">:</a> <a id="19878" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="19882" class="Symbol">}</a> <a id="19884" class="Symbol">→</a> <a id="19886" class="Symbol">{</a><a id="19887" href="1--Type-Theory.1-1--Types-and-Functions.html#19887" class="Bound">B</a> <a id="19889" class="Symbol">:</a> <a id="19891" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="19895" class="Symbol">}</a> <a id="19897" class="Symbol">→</a> <a id="19899" class="Symbol">(</a><a id="19900" href="1--Type-Theory.1-1--Types-and-Functions.html#19874" class="Bound">A</a> <a id="19902" class="Symbol">→</a> <a id="19904" href="1--Type-Theory.1-1--Types-and-Functions.html#19887" class="Bound">B</a><a id="19905" class="Symbol">)</a> <a id="19907" class="Symbol">→</a> <a id="19909" href="1--Type-Theory.1-1--Types-and-Functions.html#19874" class="Bound">A</a> <a id="19911" class="Symbol">→</a> <a id="19913" href="1--Type-Theory.1-1--Types-and-Functions.html#19887" class="Bound">B</a>
+<a id="19915" href="1--Type-Theory.1-1--Types-and-Functions.html#19864" class="Function">applyI</a> <a id="19922" href="1--Type-Theory.1-1--Types-and-Functions.html#19922" class="Bound">f</a> <a id="19924" href="1--Type-Theory.1-1--Types-and-Functions.html#19924" class="Bound">a</a> <a id="19926" class="Symbol">=</a> <a id="19928" href="1--Type-Theory.1-1--Types-and-Functions.html#19922" class="Bound">f</a> <a id="19930" href="1--Type-Theory.1-1--Types-and-Functions.html#19924" class="Bound">a</a>
+
+<a id="apply-twiceI"></a><a id="19933" href="1--Type-Theory.1-1--Types-and-Functions.html#19933" class="Function">apply-twiceI</a> <a id="19946" class="Symbol">:</a> <a id="19948" class="Symbol">{</a><a id="19949" href="1--Type-Theory.1-1--Types-and-Functions.html#19949" class="Bound">A</a> <a id="19951" class="Symbol">:</a> <a id="19953" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="19957" class="Symbol">}</a>
+  <a id="19961" class="Symbol">→</a> <a id="19963" class="Symbol">(</a><a id="19964" href="1--Type-Theory.1-1--Types-and-Functions.html#19949" class="Bound">A</a> <a id="19966" class="Symbol">→</a> <a id="19968" href="1--Type-Theory.1-1--Types-and-Functions.html#19949" class="Bound">A</a><a id="19969" class="Symbol">)</a>
+  <a id="19973" class="Symbol">→</a> <a id="19975" href="1--Type-Theory.1-1--Types-and-Functions.html#19949" class="Bound">A</a>
+  <a id="19979" class="Symbol">→</a> <a id="19981" href="1--Type-Theory.1-1--Types-and-Functions.html#19949" class="Bound">A</a>
+<a id="19983" class="Comment">-- Exercise:</a>
+<a id="19996" class="Comment">-- apply-twiceI = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="20032" href="1--Type-Theory.1-1--Types-and-Functions.html#19933" class="Function">apply-twiceI</a> <a id="20045" href="1--Type-Theory.1-1--Types-and-Functions.html#20045" class="Bound">f</a> <a id="20047" href="1--Type-Theory.1-1--Types-and-Functions.html#20047" class="Bound">x</a> <a id="20049" class="Symbol">=</a> <a id="20051" href="1--Type-Theory.1-1--Types-and-Functions.html#20045" class="Bound">f</a> <a id="20053" class="Symbol">(</a><a id="20054" href="1--Type-Theory.1-1--Types-and-Functions.html#20045" class="Bound">f</a> <a id="20056" href="1--Type-Theory.1-1--Types-and-Functions.html#20047" class="Bound">x</a><a id="20057" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="flipI"></a><a id="20073" href="1--Type-Theory.1-1--Types-and-Functions.html#20073" class="Function">flipI</a> <a id="20079" class="Symbol">:</a> <a id="20081" class="Symbol">{</a><a id="20082" href="1--Type-Theory.1-1--Types-and-Functions.html#20082" class="Bound">A</a> <a id="20084" class="Symbol">:</a> <a id="20086" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20090" class="Symbol">}</a> <a id="20092" class="Symbol">→</a> <a id="20094" class="Symbol">{</a><a id="20095" href="1--Type-Theory.1-1--Types-and-Functions.html#20095" class="Bound">B</a> <a id="20097" class="Symbol">:</a> <a id="20099" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20103" class="Symbol">}</a> <a id="20105" class="Symbol">→</a> <a id="20107" class="Symbol">{</a><a id="20108" href="1--Type-Theory.1-1--Types-and-Functions.html#20108" class="Bound">C</a> <a id="20110" class="Symbol">:</a> <a id="20112" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20116" class="Symbol">}</a>
+  <a id="20120" class="Symbol">→</a> <a id="20122" class="Symbol">(</a><a id="20123" href="1--Type-Theory.1-1--Types-and-Functions.html#20082" class="Bound">A</a> <a id="20125" class="Symbol">→</a> <a id="20127" href="1--Type-Theory.1-1--Types-and-Functions.html#20095" class="Bound">B</a> <a id="20129" class="Symbol">→</a> <a id="20131" href="1--Type-Theory.1-1--Types-and-Functions.html#20108" class="Bound">C</a><a id="20132" class="Symbol">)</a>
+  <a id="20136" class="Symbol">→</a> <a id="20138" class="Symbol">(</a><a id="20139" href="1--Type-Theory.1-1--Types-and-Functions.html#20095" class="Bound">B</a> <a id="20141" class="Symbol">→</a> <a id="20143" href="1--Type-Theory.1-1--Types-and-Functions.html#20082" class="Bound">A</a> <a id="20145" class="Symbol">→</a> <a id="20147" href="1--Type-Theory.1-1--Types-and-Functions.html#20108" class="Bound">C</a><a id="20148" class="Symbol">)</a>
+<a id="20150" class="Comment">-- Exercise:</a>
+<a id="20163" class="Comment">-- flipI = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="20192" href="1--Type-Theory.1-1--Types-and-Functions.html#20073" class="Function">flipI</a> <a id="20198" href="1--Type-Theory.1-1--Types-and-Functions.html#20198" class="Bound">f</a> <a id="20200" href="1--Type-Theory.1-1--Types-and-Functions.html#20200" class="Bound">y</a> <a id="20202" href="1--Type-Theory.1-1--Types-and-Functions.html#20202" class="Bound">x</a> <a id="20204" class="Symbol">=</a> <a id="20206" href="1--Type-Theory.1-1--Types-and-Functions.html#20198" class="Bound">f</a> <a id="20208" href="1--Type-Theory.1-1--Types-and-Functions.html#20202" class="Bound">x</a> <a id="20210" href="1--Type-Theory.1-1--Types-and-Functions.html#20200" class="Bound">y</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="composeI"></a><a id="20226" href="1--Type-Theory.1-1--Types-and-Functions.html#20226" class="Function">composeI</a> <a id="20235" class="Symbol">:</a> <a id="20237" class="Symbol">{</a><a id="20238" href="1--Type-Theory.1-1--Types-and-Functions.html#20238" class="Bound">A</a> <a id="20240" class="Symbol">:</a> <a id="20242" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20246" class="Symbol">}</a> <a id="20248" class="Symbol">→</a> <a id="20250" class="Symbol">{</a><a id="20251" href="1--Type-Theory.1-1--Types-and-Functions.html#20251" class="Bound">B</a> <a id="20253" class="Symbol">:</a> <a id="20255" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20259" class="Symbol">}</a> <a id="20261" class="Symbol">→</a> <a id="20263" class="Symbol">{</a><a id="20264" href="1--Type-Theory.1-1--Types-and-Functions.html#20264" class="Bound">C</a> <a id="20266" class="Symbol">:</a> <a id="20268" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20272" class="Symbol">}</a>
+  <a id="20276" class="Symbol">→</a> <a id="20278" class="Symbol">(</a><a id="20279" href="1--Type-Theory.1-1--Types-and-Functions.html#20251" class="Bound">B</a> <a id="20281" class="Symbol">→</a> <a id="20283" href="1--Type-Theory.1-1--Types-and-Functions.html#20264" class="Bound">C</a><a id="20284" class="Symbol">)</a>
+  <a id="20288" class="Symbol">→</a> <a id="20290" class="Symbol">(</a><a id="20291" href="1--Type-Theory.1-1--Types-and-Functions.html#20238" class="Bound">A</a> <a id="20293" class="Symbol">→</a> <a id="20295" href="1--Type-Theory.1-1--Types-and-Functions.html#20251" class="Bound">B</a><a id="20296" class="Symbol">)</a>
+  <a id="20300" class="Symbol">→</a> <a id="20302" class="Symbol">(</a><a id="20303" href="1--Type-Theory.1-1--Types-and-Functions.html#20238" class="Bound">A</a> <a id="20305" class="Symbol">→</a> <a id="20307" href="1--Type-Theory.1-1--Types-and-Functions.html#20264" class="Bound">C</a><a id="20308" class="Symbol">)</a>
+<a id="20310" class="Comment">-- Exercise:</a>
+<a id="20323" class="Comment">-- composeI = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="20355" href="1--Type-Theory.1-1--Types-and-Functions.html#20226" class="Function">composeI</a> <a id="20364" href="1--Type-Theory.1-1--Types-and-Functions.html#20364" class="Bound">g</a> <a id="20366" href="1--Type-Theory.1-1--Types-and-Functions.html#20366" class="Bound">f</a> <a id="20368" class="Symbol">=</a> <a id="20370" class="Symbol">λ</a> <a id="20372" href="1--Type-Theory.1-1--Types-and-Functions.html#20372" class="Bound">a</a> <a id="20374" class="Symbol">→</a> <a id="20376" href="1--Type-Theory.1-1--Types-and-Functions.html#20364" class="Bound">g</a> <a id="20378" class="Symbol">(</a><a id="20379" href="1--Type-Theory.1-1--Types-and-Functions.html#20366" class="Bound">f</a> <a id="20381" href="1--Type-Theory.1-1--Types-and-Functions.html#20372" class="Bound">a</a><a id="20382" class="Symbol">)</a>
+
+</pre>-->
+<h2 id="pair-types"><a class="header" href="#pair-types">Pair Types</a></h2>
+<p>The other basic type forming operation we have is types of pairs. For
+any types <code>A</code> and <code>B</code>, this is the type <code>A × B</code>. The pair of the
+elements <code>a : A</code> and <code>b : B</code> is written <code>(a , b) : A × B</code>. The space
+before the comma in a pair is required: without it Agda thinks you are
+referring to a variable called <code>a,</code> (which almost certainly doesn’t
+exist).</p>
+<pre class="Agda"><a id="my-pair×"></a><a id="20774" href="1--Type-Theory.1-1--Types-and-Functions.html#20774" class="Function">my-pair×</a> <a id="20783" class="Symbol">:</a> <a id="20785" class="Symbol">{</a><a id="20786" href="1--Type-Theory.1-1--Types-and-Functions.html#20786" class="Bound">A</a> <a id="20788" class="Symbol">:</a> <a id="20790" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20794" class="Symbol">}</a> <a id="20796" class="Symbol">→</a> <a id="20798" class="Symbol">{</a><a id="20799" href="1--Type-Theory.1-1--Types-and-Functions.html#20799" class="Bound">B</a> <a id="20801" class="Symbol">:</a> <a id="20803" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="20807" class="Symbol">}</a> <a id="20809" class="Symbol">→</a> <a id="20811" href="1--Type-Theory.1-1--Types-and-Functions.html#20786" class="Bound">A</a> <a id="20813" class="Symbol">→</a> <a id="20815" href="1--Type-Theory.1-1--Types-and-Functions.html#20799" class="Bound">B</a> <a id="20817" class="Symbol">→</a> <a id="20819" class="Symbol">(</a><a id="20820" href="1--Type-Theory.1-1--Types-and-Functions.html#20786" class="Bound">A</a> <a id="20822" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="20824" href="1--Type-Theory.1-1--Types-and-Functions.html#20799" class="Bound">B</a><a id="20825" class="Symbol">)</a>
+<a id="20827" href="1--Type-Theory.1-1--Types-and-Functions.html#20774" class="Function">my-pair×</a> <a id="20836" href="1--Type-Theory.1-1--Types-and-Functions.html#20836" class="Bound">a</a> <a id="20838" href="1--Type-Theory.1-1--Types-and-Functions.html#20838" class="Bound">b</a> <a id="20840" class="Symbol">=</a> <a id="20842" class="Symbol">(</a><a id="20843" href="1--Type-Theory.1-1--Types-and-Functions.html#20836" class="Bound">a</a> <a id="20845" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="20847" href="1--Type-Theory.1-1--Types-and-Functions.html#20838" class="Bound">b</a><a id="20848" class="Symbol">)</a>
+</pre>
+<p>To use a pair, we can “project” the first and second components using
+the in-built <code class="Agda"><a href="Library.Prelude.html#1106" class="Field">fst</a></code> and <code class="Agda"><a href="Library.Prelude.html#1118" class="Field">snd</a></code> projections, which are written to the
+right of the element being projected from. This should remind you of
+the <code>.</code> syntax used to access members of a <code>struct</code> or object in
+programming languages like C or Java.</p>
+<pre class="Agda"><a id="my-fst×"></a><a id="21173" href="1--Type-Theory.1-1--Types-and-Functions.html#21173" class="Function">my-fst×</a> <a id="21181" class="Symbol">:</a> <a id="21183" class="Symbol">{</a><a id="21184" href="1--Type-Theory.1-1--Types-and-Functions.html#21184" class="Bound">A</a> <a id="21186" class="Symbol">:</a> <a id="21188" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21192" class="Symbol">}</a> <a id="21194" class="Symbol">→</a> <a id="21196" class="Symbol">{</a><a id="21197" href="1--Type-Theory.1-1--Types-and-Functions.html#21197" class="Bound">B</a> <a id="21199" class="Symbol">:</a> <a id="21201" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21205" class="Symbol">}</a> <a id="21207" class="Symbol">→</a> <a id="21209" class="Symbol">(</a><a id="21210" href="1--Type-Theory.1-1--Types-and-Functions.html#21184" class="Bound">A</a> <a id="21212" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="21214" href="1--Type-Theory.1-1--Types-and-Functions.html#21197" class="Bound">B</a><a id="21215" class="Symbol">)</a> <a id="21217" class="Symbol">→</a> <a id="21219" href="1--Type-Theory.1-1--Types-and-Functions.html#21184" class="Bound">A</a>
+<a id="21221" href="1--Type-Theory.1-1--Types-and-Functions.html#21173" class="Function">my-fst×</a> <a id="21229" href="1--Type-Theory.1-1--Types-and-Functions.html#21229" class="Bound">p</a> <a id="21231" class="Symbol">=</a> <a id="21233" href="1--Type-Theory.1-1--Types-and-Functions.html#21229" class="Bound">p</a> <a id="21235" class="Symbol">.</a><a id="21236" href="Library.Prelude.html#1106" class="Field">fst</a>
+
+<a id="my-snd×"></a><a id="21241" href="1--Type-Theory.1-1--Types-and-Functions.html#21241" class="Function">my-snd×</a> <a id="21249" class="Symbol">:</a> <a id="21251" class="Symbol">{</a><a id="21252" href="1--Type-Theory.1-1--Types-and-Functions.html#21252" class="Bound">A</a> <a id="21254" class="Symbol">:</a> <a id="21256" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21260" class="Symbol">}</a> <a id="21262" class="Symbol">→</a> <a id="21264" class="Symbol">{</a><a id="21265" href="1--Type-Theory.1-1--Types-and-Functions.html#21265" class="Bound">B</a> <a id="21267" class="Symbol">:</a> <a id="21269" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21273" class="Symbol">}</a> <a id="21275" class="Symbol">→</a> <a id="21277" class="Symbol">(</a><a id="21278" href="1--Type-Theory.1-1--Types-and-Functions.html#21252" class="Bound">A</a> <a id="21280" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="21282" href="1--Type-Theory.1-1--Types-and-Functions.html#21265" class="Bound">B</a><a id="21283" class="Symbol">)</a> <a id="21285" class="Symbol">→</a> <a id="21287" href="1--Type-Theory.1-1--Types-and-Functions.html#21265" class="Bound">B</a>
+<a id="21289" href="1--Type-Theory.1-1--Types-and-Functions.html#21241" class="Function">my-snd×</a> <a id="21297" href="1--Type-Theory.1-1--Types-and-Functions.html#21297" class="Bound">p</a> <a id="21299" class="Symbol">=</a> <a id="21301" href="1--Type-Theory.1-1--Types-and-Functions.html#21297" class="Bound">p</a> <a id="21303" class="Symbol">.</a><a id="21304" href="Library.Prelude.html#1118" class="Field">snd</a>
+</pre>
+<p>An important characteristic of pair types is their “universal mapping
+property”. For pairs, this is a “mapping in” property, meaning that it
+is especially easy to define maps that go <em>into</em> pair types. If we
+have a function into the first component <code>A</code>, and a function
+into the second component <code>B</code>, then to make a function into
+the pair <code>A × B</code> we apply each function separately and pair up the result.</p>
+<pre class="Agda"><a id="×-ump-to"></a><a id="21722" href="1--Type-Theory.1-1--Types-and-Functions.html#21722" class="Function">×-ump-to</a> <a id="21731" class="Symbol">:</a> <a id="21733" class="Symbol">{</a><a id="21734" href="1--Type-Theory.1-1--Types-and-Functions.html#21734" class="Bound">A</a> <a id="21736" class="Symbol">:</a> <a id="21738" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21742" class="Symbol">}</a> <a id="21744" class="Symbol">→</a> <a id="21746" class="Symbol">{</a><a id="21747" href="1--Type-Theory.1-1--Types-and-Functions.html#21747" class="Bound">B</a> <a id="21749" class="Symbol">:</a> <a id="21751" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21755" class="Symbol">}</a> <a id="21757" class="Symbol">→</a> <a id="21759" class="Symbol">{</a><a id="21760" href="1--Type-Theory.1-1--Types-and-Functions.html#21760" class="Bound">C</a> <a id="21762" class="Symbol">:</a> <a id="21764" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="21768" class="Symbol">}</a>
+  <a id="21772" class="Symbol">→</a> <a id="21774" class="Symbol">(</a><a id="21775" href="1--Type-Theory.1-1--Types-and-Functions.html#21760" class="Bound">C</a> <a id="21777" class="Symbol">→</a> <a id="21779" href="1--Type-Theory.1-1--Types-and-Functions.html#21734" class="Bound">A</a><a id="21780" class="Symbol">)</a> <a id="21782" class="Symbol">→</a> <a id="21784" class="Symbol">(</a><a id="21785" href="1--Type-Theory.1-1--Types-and-Functions.html#21760" class="Bound">C</a> <a id="21787" class="Symbol">→</a> <a id="21789" href="1--Type-Theory.1-1--Types-and-Functions.html#21747" class="Bound">B</a><a id="21790" class="Symbol">)</a> <a id="21792" class="Symbol">→</a> <a id="21794" class="Symbol">(</a><a id="21795" href="1--Type-Theory.1-1--Types-and-Functions.html#21760" class="Bound">C</a> <a id="21797" class="Symbol">→</a> <a id="21799" href="1--Type-Theory.1-1--Types-and-Functions.html#21734" class="Bound">A</a> <a id="21801" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="21803" href="1--Type-Theory.1-1--Types-and-Functions.html#21747" class="Bound">B</a><a id="21804" class="Symbol">)</a>
+<a id="21806" href="1--Type-Theory.1-1--Types-and-Functions.html#21722" class="Function">×-ump-to</a> <a id="21815" href="1--Type-Theory.1-1--Types-and-Functions.html#21815" class="Bound">f</a> <a id="21817" href="1--Type-Theory.1-1--Types-and-Functions.html#21817" class="Bound">g</a> <a id="21819" href="1--Type-Theory.1-1--Types-and-Functions.html#21819" class="Bound">c</a> <a id="21821" class="Symbol">=</a> <a id="21823" class="Symbol">(</a><a id="21824" href="1--Type-Theory.1-1--Types-and-Functions.html#21815" class="Bound">f</a> <a id="21826" href="1--Type-Theory.1-1--Types-and-Functions.html#21819" class="Bound">c</a> <a id="21828" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="21830" href="1--Type-Theory.1-1--Types-and-Functions.html#21817" class="Bound">g</a> <a id="21832" href="1--Type-Theory.1-1--Types-and-Functions.html#21819" class="Bound">c</a><a id="21833" class="Symbol">)</a>
+</pre>
+<p>We can easily go back: if we have a function into a pair type, then we
+can reconstruct the original functions by applying the provided
+function and extracting the result from the appropriate side of the
+result pair.</p>
+<pre class="Agda"><a id="×-ump-fro"></a><a id="22061" href="1--Type-Theory.1-1--Types-and-Functions.html#22061" class="Function">×-ump-fro</a> <a id="22071" class="Symbol">:</a> <a id="22073" class="Symbol">{</a><a id="22074" href="1--Type-Theory.1-1--Types-and-Functions.html#22074" class="Bound">A</a> <a id="22076" class="Symbol">:</a> <a id="22078" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22082" class="Symbol">}</a> <a id="22084" class="Symbol">→</a> <a id="22086" class="Symbol">{</a><a id="22087" href="1--Type-Theory.1-1--Types-and-Functions.html#22087" class="Bound">B</a> <a id="22089" class="Symbol">:</a> <a id="22091" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22095" class="Symbol">}</a> <a id="22097" class="Symbol">→</a> <a id="22099" class="Symbol">{</a><a id="22100" href="1--Type-Theory.1-1--Types-and-Functions.html#22100" class="Bound">C</a> <a id="22102" class="Symbol">:</a> <a id="22104" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22108" class="Symbol">}</a> <a id="22110" class="Symbol">→</a> <a id="22112" class="Symbol">(</a><a id="22113" href="1--Type-Theory.1-1--Types-and-Functions.html#22100" class="Bound">C</a> <a id="22115" class="Symbol">→</a> <a id="22117" href="1--Type-Theory.1-1--Types-and-Functions.html#22074" class="Bound">A</a> <a id="22119" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="22121" href="1--Type-Theory.1-1--Types-and-Functions.html#22087" class="Bound">B</a><a id="22122" class="Symbol">)</a> <a id="22124" class="Symbol">→</a> <a id="22126" class="Symbol">(</a><a id="22127" href="1--Type-Theory.1-1--Types-and-Functions.html#22100" class="Bound">C</a> <a id="22129" class="Symbol">→</a> <a id="22131" href="1--Type-Theory.1-1--Types-and-Functions.html#22074" class="Bound">A</a><a id="22132" class="Symbol">)</a> <a id="22134" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="22136" class="Symbol">(</a><a id="22137" href="1--Type-Theory.1-1--Types-and-Functions.html#22100" class="Bound">C</a> <a id="22139" class="Symbol">→</a> <a id="22141" href="1--Type-Theory.1-1--Types-and-Functions.html#22087" class="Bound">B</a><a id="22142" class="Symbol">)</a>
+<a id="22144" href="1--Type-Theory.1-1--Types-and-Functions.html#22061" class="Function">×-ump-fro</a> <a id="22154" href="1--Type-Theory.1-1--Types-and-Functions.html#22154" class="Bound">f</a> <a id="22156" class="Symbol">=</a> <a id="22158" class="Symbol">(λ</a> <a id="22161" href="1--Type-Theory.1-1--Types-and-Functions.html#22161" class="Bound">c</a> <a id="22163" class="Symbol">→</a> <a id="22165" href="1--Type-Theory.1-1--Types-and-Functions.html#22154" class="Bound">f</a> <a id="22167" href="1--Type-Theory.1-1--Types-and-Functions.html#22161" class="Bound">c</a> <a id="22169" class="Symbol">.</a><a id="22170" href="Library.Prelude.html#1106" class="Field">fst</a><a id="22173" class="Symbol">)</a> <a id="22175" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="22177" class="Symbol">(λ</a> <a id="22180" href="1--Type-Theory.1-1--Types-and-Functions.html#22180" class="Bound">c</a> <a id="22182" class="Symbol">→</a> <a id="22184" href="1--Type-Theory.1-1--Types-and-Functions.html#22154" class="Bound">f</a> <a id="22186" href="1--Type-Theory.1-1--Types-and-Functions.html#22180" class="Bound">c</a> <a id="22188" class="Symbol">.</a><a id="22189" href="Library.Prelude.html#1118" class="Field">snd</a><a id="22192" class="Symbol">)</a>
+</pre>
+<p>We will have a lot to say about mapping properties for the various
+types we discuss in these notes.</p>
+<p>Pair types also have a uniqueness principle. For functions, we had
+that any element of a function type is identical to a λ-abstraction.
+Here, any element of a pair type is identical to an actual pair. This
+might seem tautological, of course <code>(1 , 2)</code> is identical to an actual
+pair. But this continues to be true even when the pair is some unknown
+variable: Agda considers any pair equal to the pairing of its two
+components:</p>
+<pre class="Agda"><a id="22731" href="1--Type-Theory.1-1--Types-and-Functions.html#22731" class="Function">_</a> <a id="22733" class="Symbol">=</a> <a id="22735" class="Symbol">λ</a> <a id="22737" class="Symbol">{</a><a id="22738" href="1--Type-Theory.1-1--Types-and-Functions.html#22738" class="Bound">A</a> <a id="22740" class="Symbol">:</a> <a id="22742" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22746" class="Symbol">}</a> <a id="22748" class="Symbol">{</a><a id="22749" href="1--Type-Theory.1-1--Types-and-Functions.html#22749" class="Bound">B</a> <a id="22751" class="Symbol">:</a> <a id="22753" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22757" class="Symbol">}</a> <a id="22759" class="Symbol">(</a><a id="22760" href="1--Type-Theory.1-1--Types-and-Functions.html#22760" class="Bound">p</a> <a id="22762" class="Symbol">:</a> <a id="22764" href="1--Type-Theory.1-1--Types-and-Functions.html#22738" class="Bound">A</a> <a id="22766" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="22768" href="1--Type-Theory.1-1--Types-and-Functions.html#22749" class="Bound">B</a><a id="22769" class="Symbol">)</a> 
+  <a id="22774" class="Symbol">→</a> <a id="22776" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="22791" href="1--Type-Theory.1-1--Types-and-Functions.html#22760" class="Bound">p</a> <a id="22793" class="Symbol">(</a><a id="22794" href="1--Type-Theory.1-1--Types-and-Functions.html#22760" class="Bound">p</a> <a id="22796" class="Symbol">.</a><a id="22797" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="22801" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="22803" href="1--Type-Theory.1-1--Types-and-Functions.html#22760" class="Bound">p</a> <a id="22805" class="Symbol">.</a><a id="22806" href="Library.Prelude.html#1118" class="Field">snd</a><a id="22809" class="Symbol">)</a>
+</pre>
+<p>To work with nested pairs, we chain together the uses of the <code>,</code> and
+<code>fst</code>/<code>snd</code>.</p>
+<pre class="Agda"><a id="triple×"></a><a id="22903" href="1--Type-Theory.1-1--Types-and-Functions.html#22903" class="Function">triple×</a> <a id="22911" class="Symbol">:</a> <a id="22913" class="Symbol">{</a><a id="22914" href="1--Type-Theory.1-1--Types-and-Functions.html#22914" class="Bound">A</a> <a id="22916" href="1--Type-Theory.1-1--Types-and-Functions.html#22916" class="Bound">B</a> <a id="22918" href="1--Type-Theory.1-1--Types-and-Functions.html#22918" class="Bound">C</a> <a id="22920" class="Symbol">:</a> <a id="22922" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="22926" class="Symbol">}</a> <a id="22928" class="Symbol">→</a> <a id="22930" href="1--Type-Theory.1-1--Types-and-Functions.html#22914" class="Bound">A</a> <a id="22932" class="Symbol">→</a> <a id="22934" href="1--Type-Theory.1-1--Types-and-Functions.html#22916" class="Bound">B</a> <a id="22936" class="Symbol">→</a> <a id="22938" href="1--Type-Theory.1-1--Types-and-Functions.html#22918" class="Bound">C</a> <a id="22940" class="Symbol">→</a> <a id="22942" class="Symbol">((</a><a id="22944" href="1--Type-Theory.1-1--Types-and-Functions.html#22914" class="Bound">A</a> <a id="22946" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="22948" href="1--Type-Theory.1-1--Types-and-Functions.html#22916" class="Bound">B</a><a id="22949" class="Symbol">)</a> <a id="22951" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="22953" href="1--Type-Theory.1-1--Types-and-Functions.html#22918" class="Bound">C</a><a id="22954" class="Symbol">)</a>
+<a id="22956" href="1--Type-Theory.1-1--Types-and-Functions.html#22903" class="Function">triple×</a> <a id="22964" href="1--Type-Theory.1-1--Types-and-Functions.html#22964" class="Bound">a</a> <a id="22966" href="1--Type-Theory.1-1--Types-and-Functions.html#22966" class="Bound">b</a> <a id="22968" href="1--Type-Theory.1-1--Types-and-Functions.html#22968" class="Bound">c</a> <a id="22970" class="Symbol">=</a> <a id="22972" class="Symbol">((</a><a id="22974" href="1--Type-Theory.1-1--Types-and-Functions.html#22964" class="Bound">a</a> <a id="22976" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="22978" href="1--Type-Theory.1-1--Types-and-Functions.html#22966" class="Bound">b</a><a id="22979" class="Symbol">)</a> <a id="22981" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="22983" href="1--Type-Theory.1-1--Types-and-Functions.html#22968" class="Bound">c</a><a id="22984" class="Symbol">)</a>
+
+<a id="my-fst××"></a><a id="22987" href="1--Type-Theory.1-1--Types-and-Functions.html#22987" class="Function">my-fst××</a> <a id="22996" class="Symbol">:</a> <a id="22998" class="Symbol">{</a><a id="22999" href="1--Type-Theory.1-1--Types-and-Functions.html#22999" class="Bound">A</a> <a id="23001" href="1--Type-Theory.1-1--Types-and-Functions.html#23001" class="Bound">B</a> <a id="23003" href="1--Type-Theory.1-1--Types-and-Functions.html#23003" class="Bound">C</a> <a id="23005" class="Symbol">:</a> <a id="23007" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23011" class="Symbol">}</a> <a id="23013" class="Symbol">→</a> <a id="23015" class="Symbol">((</a><a id="23017" href="1--Type-Theory.1-1--Types-and-Functions.html#22999" class="Bound">A</a> <a id="23019" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23021" href="1--Type-Theory.1-1--Types-and-Functions.html#23001" class="Bound">B</a><a id="23022" class="Symbol">)</a> <a id="23024" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23026" href="1--Type-Theory.1-1--Types-and-Functions.html#23003" class="Bound">C</a><a id="23027" class="Symbol">)</a> <a id="23029" class="Symbol">→</a> <a id="23031" href="1--Type-Theory.1-1--Types-and-Functions.html#22999" class="Bound">A</a>
+<a id="23033" href="1--Type-Theory.1-1--Types-and-Functions.html#22987" class="Function">my-fst××</a> <a id="23042" href="1--Type-Theory.1-1--Types-and-Functions.html#23042" class="Bound">t</a> <a id="23044" class="Symbol">=</a> <a id="23046" href="1--Type-Theory.1-1--Types-and-Functions.html#23042" class="Bound">t</a> <a id="23048" class="Symbol">.</a><a id="23049" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="23053" class="Symbol">.</a><a id="23054" href="Library.Prelude.html#1106" class="Field">fst</a>
+
+<a id="my-snd××"></a><a id="23059" href="1--Type-Theory.1-1--Types-and-Functions.html#23059" class="Function">my-snd××</a> <a id="23068" class="Symbol">:</a> <a id="23070" class="Symbol">{</a><a id="23071" href="1--Type-Theory.1-1--Types-and-Functions.html#23071" class="Bound">A</a> <a id="23073" href="1--Type-Theory.1-1--Types-and-Functions.html#23073" class="Bound">B</a> <a id="23075" href="1--Type-Theory.1-1--Types-and-Functions.html#23075" class="Bound">C</a> <a id="23077" class="Symbol">:</a> <a id="23079" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23083" class="Symbol">}</a> <a id="23085" class="Symbol">→</a> <a id="23087" class="Symbol">((</a><a id="23089" href="1--Type-Theory.1-1--Types-and-Functions.html#23071" class="Bound">A</a> <a id="23091" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23093" href="1--Type-Theory.1-1--Types-and-Functions.html#23073" class="Bound">B</a><a id="23094" class="Symbol">)</a> <a id="23096" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23098" href="1--Type-Theory.1-1--Types-and-Functions.html#23075" class="Bound">C</a><a id="23099" class="Symbol">)</a> <a id="23101" class="Symbol">→</a> <a id="23103" href="1--Type-Theory.1-1--Types-and-Functions.html#23073" class="Bound">B</a>
+<a id="23105" href="1--Type-Theory.1-1--Types-and-Functions.html#23059" class="Function">my-snd××</a> <a id="23114" href="1--Type-Theory.1-1--Types-and-Functions.html#23114" class="Bound">t</a> <a id="23116" class="Symbol">=</a> <a id="23118" href="1--Type-Theory.1-1--Types-and-Functions.html#23114" class="Bound">t</a> <a id="23120" class="Symbol">.</a><a id="23121" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="23125" class="Symbol">.</a><a id="23126" href="Library.Prelude.html#1118" class="Field">snd</a>
+
+<a id="my-trd××"></a><a id="23131" href="1--Type-Theory.1-1--Types-and-Functions.html#23131" class="Function">my-trd××</a> <a id="23140" class="Symbol">:</a> <a id="23142" class="Symbol">{</a><a id="23143" href="1--Type-Theory.1-1--Types-and-Functions.html#23143" class="Bound">A</a> <a id="23145" href="1--Type-Theory.1-1--Types-and-Functions.html#23145" class="Bound">B</a> <a id="23147" href="1--Type-Theory.1-1--Types-and-Functions.html#23147" class="Bound">C</a> <a id="23149" class="Symbol">:</a> <a id="23151" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23155" class="Symbol">}</a> <a id="23157" class="Symbol">→</a> <a id="23159" class="Symbol">((</a><a id="23161" href="1--Type-Theory.1-1--Types-and-Functions.html#23143" class="Bound">A</a> <a id="23163" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23165" href="1--Type-Theory.1-1--Types-and-Functions.html#23145" class="Bound">B</a><a id="23166" class="Symbol">)</a> <a id="23168" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23170" href="1--Type-Theory.1-1--Types-and-Functions.html#23147" class="Bound">C</a><a id="23171" class="Symbol">)</a> <a id="23173" class="Symbol">→</a> <a id="23175" href="1--Type-Theory.1-1--Types-and-Functions.html#23147" class="Bound">C</a>
+<a id="23177" href="1--Type-Theory.1-1--Types-and-Functions.html#23131" class="Function">my-trd××</a> <a id="23186" href="1--Type-Theory.1-1--Types-and-Functions.html#23186" class="Bound">t</a> <a id="23188" class="Symbol">=</a> <a id="23190" href="1--Type-Theory.1-1--Types-and-Functions.html#23186" class="Bound">t</a> <a id="23192" class="Symbol">.</a><a id="23193" href="Library.Prelude.html#1118" class="Field">snd</a>
+
+<a id="23198" href="1--Type-Theory.1-1--Types-and-Functions.html#23198" class="Function">_</a> <a id="23200" class="Symbol">=</a> <a id="23202" class="Symbol">λ</a> <a id="23204" class="Symbol">{</a><a id="23205" href="1--Type-Theory.1-1--Types-and-Functions.html#23205" class="Bound">A</a> <a id="23207" href="1--Type-Theory.1-1--Types-and-Functions.html#23207" class="Bound">B</a> <a id="23209" href="1--Type-Theory.1-1--Types-and-Functions.html#23209" class="Bound">C</a> <a id="23211" class="Symbol">:</a> <a id="23213" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="23217" class="Symbol">}</a> <a id="23219" class="Symbol">(</a><a id="23220" href="1--Type-Theory.1-1--Types-and-Functions.html#23220" class="Bound">t</a> <a id="23222" class="Symbol">:</a> <a id="23224" class="Symbol">(</a><a id="23225" href="1--Type-Theory.1-1--Types-and-Functions.html#23205" class="Bound">A</a> <a id="23227" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23229" href="1--Type-Theory.1-1--Types-and-Functions.html#23207" class="Bound">B</a><a id="23230" class="Symbol">)</a> <a id="23232" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="23234" href="1--Type-Theory.1-1--Types-and-Functions.html#23209" class="Bound">C</a><a id="23235" class="Symbol">)</a> 
+  <a id="23240" class="Symbol">→</a> <a id="23242" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="23257" href="1--Type-Theory.1-1--Types-and-Functions.html#23220" class="Bound">t</a> <a id="23259" class="Symbol">((</a><a id="23261" href="1--Type-Theory.1-1--Types-and-Functions.html#23220" class="Bound">t</a> <a id="23263" class="Symbol">.</a><a id="23264" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="23268" class="Symbol">.</a><a id="23269" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="23273" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="23275" href="1--Type-Theory.1-1--Types-and-Functions.html#23220" class="Bound">t</a> <a id="23277" class="Symbol">.</a><a id="23278" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="23282" class="Symbol">.</a><a id="23283" href="Library.Prelude.html#1118" class="Field">snd</a><a id="23286" class="Symbol">)</a> <a id="23288" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="23290" href="1--Type-Theory.1-1--Types-and-Functions.html#23220" class="Bound">t</a> <a id="23292" class="Symbol">.</a><a id="23293" href="Library.Prelude.html#1118" class="Field">snd</a><a id="23296" class="Symbol">)</a>
+</pre>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+Agda allows us to specify arguments with identical types all at once,
+which we have used above to write <code>{A B C : Type} → ...</code> rather than
+<code>{A : Type} → {B : Type} → {C : Type} → ...</code> everywhere.</p>
+</div>
+<p>When the argument to a function is a nested pair type like this, it
+can be annoying to chain together <code class="Agda"><a href="Library.Prelude.html#1106" class="Field">fst</a></code>s and <code class="Agda"><a href="Library.Prelude.html#1118" class="Field">snd</a></code>s to
+get at the component that we actually want to use. Agda allows us to
+use “pattern matching” on an argument to decompose it into its
+components all at once. This also lets us give the components more
+meaningful names, rather than having to remember exactly which
+combination of <code class="Agda"><a href="Library.Prelude.html#1106" class="Field">fst</a></code> and <code class="Agda"><a href="Library.Prelude.html#1118" class="Field">snd</a></code> is needed to reach the
+thing we want. Here are some functions that use this style.</p>
+<pre class="Agda"><a id="pattern-fst×"></a><a id="24027" href="1--Type-Theory.1-1--Types-and-Functions.html#24027" class="Function">pattern-fst×</a> <a id="24040" class="Symbol">:</a> <a id="24042" class="Symbol">{</a><a id="24043" href="1--Type-Theory.1-1--Types-and-Functions.html#24043" class="Bound">A</a> <a id="24045" class="Symbol">:</a> <a id="24047" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24051" class="Symbol">}</a> <a id="24053" class="Symbol">→</a> <a id="24055" class="Symbol">{</a><a id="24056" href="1--Type-Theory.1-1--Types-and-Functions.html#24056" class="Bound">B</a> <a id="24058" class="Symbol">:</a> <a id="24060" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24064" class="Symbol">}</a> <a id="24066" class="Symbol">→</a> <a id="24068" class="Symbol">(</a><a id="24069" href="1--Type-Theory.1-1--Types-and-Functions.html#24043" class="Bound">A</a> <a id="24071" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24073" href="1--Type-Theory.1-1--Types-and-Functions.html#24056" class="Bound">B</a><a id="24074" class="Symbol">)</a> <a id="24076" class="Symbol">→</a> <a id="24078" href="1--Type-Theory.1-1--Types-and-Functions.html#24043" class="Bound">A</a>
+<a id="24080" href="1--Type-Theory.1-1--Types-and-Functions.html#24027" class="Function">pattern-fst×</a> <a id="24093" class="Symbol">(</a><a id="24094" href="1--Type-Theory.1-1--Types-and-Functions.html#24094" class="Bound">a</a> <a id="24096" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24098" href="1--Type-Theory.1-1--Types-and-Functions.html#24098" class="Bound">b</a><a id="24099" class="Symbol">)</a> <a id="24101" class="Symbol">=</a> <a id="24103" href="1--Type-Theory.1-1--Types-and-Functions.html#24094" class="Bound">a</a>
+
+<a id="pattern-snd×"></a><a id="24106" href="1--Type-Theory.1-1--Types-and-Functions.html#24106" class="Function">pattern-snd×</a> <a id="24119" class="Symbol">:</a> <a id="24121" class="Symbol">{</a><a id="24122" href="1--Type-Theory.1-1--Types-and-Functions.html#24122" class="Bound">A</a> <a id="24124" class="Symbol">:</a> <a id="24126" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24130" class="Symbol">}</a> <a id="24132" class="Symbol">→</a> <a id="24134" class="Symbol">{</a><a id="24135" href="1--Type-Theory.1-1--Types-and-Functions.html#24135" class="Bound">B</a> <a id="24137" class="Symbol">:</a> <a id="24139" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24143" class="Symbol">}</a> <a id="24145" class="Symbol">→</a> <a id="24147" class="Symbol">(</a><a id="24148" href="1--Type-Theory.1-1--Types-and-Functions.html#24122" class="Bound">A</a> <a id="24150" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24152" href="1--Type-Theory.1-1--Types-and-Functions.html#24135" class="Bound">B</a><a id="24153" class="Symbol">)</a> <a id="24155" class="Symbol">→</a> <a id="24157" href="1--Type-Theory.1-1--Types-and-Functions.html#24135" class="Bound">B</a>
+<a id="24159" href="1--Type-Theory.1-1--Types-and-Functions.html#24106" class="Function">pattern-snd×</a> <a id="24172" class="Symbol">(</a><a id="24173" href="1--Type-Theory.1-1--Types-and-Functions.html#24173" class="Bound">a</a> <a id="24175" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24177" href="1--Type-Theory.1-1--Types-and-Functions.html#24177" class="Bound">b</a><a id="24178" class="Symbol">)</a> <a id="24180" class="Symbol">=</a> <a id="24182" href="1--Type-Theory.1-1--Types-and-Functions.html#24177" class="Bound">b</a>
+
+<a id="×-assoc-toI"></a><a id="24185" href="1--Type-Theory.1-1--Types-and-Functions.html#24185" class="Function">×-assoc-toI</a> <a id="24197" class="Symbol">:</a> <a id="24199" class="Symbol">{</a><a id="24200" href="1--Type-Theory.1-1--Types-and-Functions.html#24200" class="Bound">A</a> <a id="24202" href="1--Type-Theory.1-1--Types-and-Functions.html#24202" class="Bound">B</a> <a id="24204" href="1--Type-Theory.1-1--Types-and-Functions.html#24204" class="Bound">C</a> <a id="24206" class="Symbol">:</a> <a id="24208" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24212" class="Symbol">}</a> <a id="24214" class="Symbol">→</a> <a id="24216" href="1--Type-Theory.1-1--Types-and-Functions.html#24200" class="Bound">A</a> <a id="24218" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24220" class="Symbol">(</a><a id="24221" href="1--Type-Theory.1-1--Types-and-Functions.html#24202" class="Bound">B</a> <a id="24223" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24225" href="1--Type-Theory.1-1--Types-and-Functions.html#24204" class="Bound">C</a><a id="24226" class="Symbol">)</a> <a id="24228" class="Symbol">→</a> <a id="24230" class="Symbol">(</a><a id="24231" href="1--Type-Theory.1-1--Types-and-Functions.html#24200" class="Bound">A</a> <a id="24233" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24235" href="1--Type-Theory.1-1--Types-and-Functions.html#24202" class="Bound">B</a><a id="24236" class="Symbol">)</a> <a id="24238" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24240" href="1--Type-Theory.1-1--Types-and-Functions.html#24204" class="Bound">C</a>
+<a id="24242" href="1--Type-Theory.1-1--Types-and-Functions.html#24185" class="Function">×-assoc-toI</a> <a id="24254" class="Symbol">(</a><a id="24255" href="1--Type-Theory.1-1--Types-and-Functions.html#24255" class="Bound">a</a> <a id="24257" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24259" class="Symbol">(</a><a id="24260" href="1--Type-Theory.1-1--Types-and-Functions.html#24260" class="Bound">b</a> <a id="24262" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24264" href="1--Type-Theory.1-1--Types-and-Functions.html#24264" class="Bound">c</a><a id="24265" class="Symbol">))</a> <a id="24268" class="Symbol">=</a> <a id="24270" class="Symbol">(</a><a id="24271" href="1--Type-Theory.1-1--Types-and-Functions.html#24255" class="Bound">a</a> <a id="24273" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24275" href="1--Type-Theory.1-1--Types-and-Functions.html#24260" class="Bound">b</a><a id="24276" class="Symbol">)</a> <a id="24278" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24280" href="1--Type-Theory.1-1--Types-and-Functions.html#24264" class="Bound">c</a>
+
+<a id="×-assoc-froI"></a><a id="24283" href="1--Type-Theory.1-1--Types-and-Functions.html#24283" class="Function">×-assoc-froI</a> <a id="24296" class="Symbol">:</a> <a id="24298" class="Symbol">{</a><a id="24299" href="1--Type-Theory.1-1--Types-and-Functions.html#24299" class="Bound">A</a> <a id="24301" href="1--Type-Theory.1-1--Types-and-Functions.html#24301" class="Bound">B</a> <a id="24303" href="1--Type-Theory.1-1--Types-and-Functions.html#24303" class="Bound">C</a> <a id="24305" class="Symbol">:</a> <a id="24307" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24311" class="Symbol">}</a> <a id="24313" class="Symbol">→</a> <a id="24315" class="Symbol">(</a><a id="24316" href="1--Type-Theory.1-1--Types-and-Functions.html#24299" class="Bound">A</a> <a id="24318" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24320" href="1--Type-Theory.1-1--Types-and-Functions.html#24301" class="Bound">B</a><a id="24321" class="Symbol">)</a> <a id="24323" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24325" href="1--Type-Theory.1-1--Types-and-Functions.html#24303" class="Bound">C</a> <a id="24327" class="Symbol">→</a> <a id="24329" href="1--Type-Theory.1-1--Types-and-Functions.html#24299" class="Bound">A</a> <a id="24331" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24333" class="Symbol">(</a><a id="24334" href="1--Type-Theory.1-1--Types-and-Functions.html#24301" class="Bound">B</a> <a id="24336" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24338" href="1--Type-Theory.1-1--Types-and-Functions.html#24303" class="Bound">C</a><a id="24339" class="Symbol">)</a>
+<a id="24341" class="Comment">-- Exercise: (Remember to put a spaces around the comma in a pair!)</a>
+<a id="24409" class="Comment">-- ×-assoc-froI = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="24445" href="1--Type-Theory.1-1--Types-and-Functions.html#24283" class="Function">×-assoc-froI</a> <a id="24458" class="Symbol">((</a><a id="24460" href="1--Type-Theory.1-1--Types-and-Functions.html#24460" class="Bound">a</a> <a id="24462" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24464" href="1--Type-Theory.1-1--Types-and-Functions.html#24464" class="Bound">b</a><a id="24465" class="Symbol">)</a> <a id="24467" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24469" href="1--Type-Theory.1-1--Types-and-Functions.html#24469" class="Bound">c</a><a id="24470" class="Symbol">)</a> <a id="24472" class="Symbol">=</a> <a id="24474" href="1--Type-Theory.1-1--Types-and-Functions.html#24460" class="Bound">a</a> <a id="24476" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24478" class="Symbol">(</a><a id="24479" href="1--Type-Theory.1-1--Types-and-Functions.html#24464" class="Bound">b</a> <a id="24481" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24483" href="1--Type-Theory.1-1--Types-and-Functions.html#24469" class="Bound">c</a><a id="24484" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="×-commI"></a><a id="24500" href="1--Type-Theory.1-1--Types-and-Functions.html#24500" class="Function">×-commI</a> <a id="24508" class="Symbol">:</a> <a id="24510" class="Symbol">{</a><a id="24511" href="1--Type-Theory.1-1--Types-and-Functions.html#24511" class="Bound">A</a> <a id="24513" href="1--Type-Theory.1-1--Types-and-Functions.html#24513" class="Bound">B</a> <a id="24515" href="1--Type-Theory.1-1--Types-and-Functions.html#24515" class="Bound">C</a> <a id="24517" class="Symbol">:</a> <a id="24519" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24523" class="Symbol">}</a> <a id="24525" class="Symbol">→</a> <a id="24527" class="Symbol">(</a><a id="24528" href="1--Type-Theory.1-1--Types-and-Functions.html#24511" class="Bound">A</a> <a id="24530" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24532" href="1--Type-Theory.1-1--Types-and-Functions.html#24513" class="Bound">B</a><a id="24533" class="Symbol">)</a> <a id="24535" class="Symbol">→</a> <a id="24537" class="Symbol">(</a><a id="24538" href="1--Type-Theory.1-1--Types-and-Functions.html#24513" class="Bound">B</a> <a id="24540" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24542" href="1--Type-Theory.1-1--Types-and-Functions.html#24511" class="Bound">A</a><a id="24543" class="Symbol">)</a>
+<a id="24545" class="Comment">-- Exercise:</a>
+<a id="24558" class="Comment">-- ×-commI = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="24589" href="1--Type-Theory.1-1--Types-and-Functions.html#24500" class="Function">×-commI</a> <a id="24597" class="Symbol">(</a><a id="24598" href="1--Type-Theory.1-1--Types-and-Functions.html#24598" class="Bound">a</a> <a id="24600" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24602" href="1--Type-Theory.1-1--Types-and-Functions.html#24602" class="Bound">b</a><a id="24603" class="Symbol">)</a> <a id="24605" class="Symbol">=</a> <a id="24607" href="1--Type-Theory.1-1--Types-and-Functions.html#24602" class="Bound">b</a> <a id="24609" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24611" href="1--Type-Theory.1-1--Types-and-Functions.html#24598" class="Bound">a</a>
+
+</pre>-->
+<p>mvrnote: functorial</p>
+<pre class="Agda"><a id="×-mapI"></a><a id="24656" href="1--Type-Theory.1-1--Types-and-Functions.html#24656" class="Function">×-mapI</a> <a id="24663" class="Symbol">:</a> <a id="24665" class="Symbol">{</a><a id="24666" href="1--Type-Theory.1-1--Types-and-Functions.html#24666" class="Bound">A</a> <a id="24668" href="1--Type-Theory.1-1--Types-and-Functions.html#24668" class="Bound">B</a> <a id="24670" href="1--Type-Theory.1-1--Types-and-Functions.html#24670" class="Bound">C</a> <a id="24672" href="1--Type-Theory.1-1--Types-and-Functions.html#24672" class="Bound">D</a> <a id="24674" class="Symbol">:</a> <a id="24676" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="24680" class="Symbol">}</a>
+  <a id="24684" class="Symbol">→</a> <a id="24686" class="Symbol">(</a><a id="24687" href="1--Type-Theory.1-1--Types-and-Functions.html#24666" class="Bound">A</a> <a id="24689" class="Symbol">→</a> <a id="24691" href="1--Type-Theory.1-1--Types-and-Functions.html#24668" class="Bound">B</a><a id="24692" class="Symbol">)</a>
+  <a id="24696" class="Symbol">→</a> <a id="24698" class="Symbol">(</a><a id="24699" href="1--Type-Theory.1-1--Types-and-Functions.html#24670" class="Bound">C</a> <a id="24701" class="Symbol">→</a> <a id="24703" href="1--Type-Theory.1-1--Types-and-Functions.html#24672" class="Bound">D</a><a id="24704" class="Symbol">)</a>
+  <a id="24708" class="Symbol">→</a> <a id="24710" class="Symbol">(</a><a id="24711" href="1--Type-Theory.1-1--Types-and-Functions.html#24666" class="Bound">A</a> <a id="24713" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24715" href="1--Type-Theory.1-1--Types-and-Functions.html#24670" class="Bound">C</a> <a id="24717" class="Symbol">→</a> <a id="24719" href="1--Type-Theory.1-1--Types-and-Functions.html#24668" class="Bound">B</a> <a id="24721" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="24723" href="1--Type-Theory.1-1--Types-and-Functions.html#24672" class="Bound">D</a><a id="24724" class="Symbol">)</a>
+<a id="24726" class="Comment">-- Exercise:</a>
+<a id="24739" class="Comment">-- ×-mapI = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="24769" href="1--Type-Theory.1-1--Types-and-Functions.html#24656" class="Function">×-mapI</a> <a id="24776" href="1--Type-Theory.1-1--Types-and-Functions.html#24776" class="Bound">f</a> <a id="24778" href="1--Type-Theory.1-1--Types-and-Functions.html#24778" class="Bound">g</a> <a id="24780" class="Symbol">(</a><a id="24781" href="1--Type-Theory.1-1--Types-and-Functions.html#24781" class="Bound">a</a> <a id="24783" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24785" href="1--Type-Theory.1-1--Types-and-Functions.html#24785" class="Bound">c</a><a id="24786" class="Symbol">)</a> <a id="24788" class="Symbol">=</a> <a id="24790" class="Symbol">(</a><a id="24791" href="1--Type-Theory.1-1--Types-and-Functions.html#24776" class="Bound">f</a> <a id="24793" href="1--Type-Theory.1-1--Types-and-Functions.html#24781" class="Bound">a</a> <a id="24795" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="24797" href="1--Type-Theory.1-1--Types-and-Functions.html#24778" class="Bound">g</a> <a id="24799" href="1--Type-Theory.1-1--Types-and-Functions.html#24785" class="Bound">c</a><a id="24800" class="Symbol">)</a>
+
+</pre>-->
+<p>With pair types we can make precise the currying and uncurrying idea
+from earlier, going from a function with a single pair argument to a
+function that returns a function, and vice versa.</p>
+<pre class="Agda"><a id="×-curry"></a><a id="25013" href="1--Type-Theory.1-1--Types-and-Functions.html#25013" class="Function">×-curry</a> <a id="25021" class="Symbol">:</a> <a id="25023" class="Symbol">{</a><a id="25024" href="1--Type-Theory.1-1--Types-and-Functions.html#25024" class="Bound">A</a> <a id="25026" href="1--Type-Theory.1-1--Types-and-Functions.html#25026" class="Bound">B</a> <a id="25028" href="1--Type-Theory.1-1--Types-and-Functions.html#25028" class="Bound">C</a> <a id="25030" class="Symbol">:</a> <a id="25032" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="25036" class="Symbol">}</a>
+  <a id="25040" class="Symbol">→</a> <a id="25042" class="Symbol">((</a><a id="25044" href="1--Type-Theory.1-1--Types-and-Functions.html#25024" class="Bound">A</a> <a id="25046" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="25048" href="1--Type-Theory.1-1--Types-and-Functions.html#25026" class="Bound">B</a><a id="25049" class="Symbol">)</a> <a id="25051" class="Symbol">→</a> <a id="25053" href="1--Type-Theory.1-1--Types-and-Functions.html#25028" class="Bound">C</a><a id="25054" class="Symbol">)</a>
+  <a id="25058" class="Symbol">→</a> <a id="25060" class="Symbol">(</a><a id="25061" href="1--Type-Theory.1-1--Types-and-Functions.html#25024" class="Bound">A</a> <a id="25063" class="Symbol">→</a> <a id="25065" href="1--Type-Theory.1-1--Types-and-Functions.html#25026" class="Bound">B</a> <a id="25067" class="Symbol">→</a> <a id="25069" href="1--Type-Theory.1-1--Types-and-Functions.html#25028" class="Bound">C</a><a id="25070" class="Symbol">)</a>
+<a id="25072" href="1--Type-Theory.1-1--Types-and-Functions.html#25013" class="Function">×-curry</a> <a id="25080" href="1--Type-Theory.1-1--Types-and-Functions.html#25080" class="Bound">f</a> <a id="25082" href="1--Type-Theory.1-1--Types-and-Functions.html#25082" class="Bound">x</a> <a id="25084" href="1--Type-Theory.1-1--Types-and-Functions.html#25084" class="Bound">y</a> <a id="25086" class="Symbol">=</a> <a id="25088" href="1--Type-Theory.1-1--Types-and-Functions.html#25080" class="Bound">f</a> <a id="25090" class="Symbol">(</a><a id="25091" href="1--Type-Theory.1-1--Types-and-Functions.html#25082" class="Bound">x</a> <a id="25093" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="25095" href="1--Type-Theory.1-1--Types-and-Functions.html#25084" class="Bound">y</a><a id="25096" class="Symbol">)</a>
+</pre>
+<p>Remember that</p>
+<pre><code>((A × B) → C) → (A → (B → C))
+</code></pre>
+<p>has exactly the same meaning as</p>
+<pre><code>((A × B) → C) → A → B → C
+</code></pre>
+<p>and so in the definition of <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#25013" class="Function">×-curry</a></code>, we can accept three arguments
+<code>f : ((A × B) → C)</code>, <code>x : A</code> and <code>y : B</code>, and produce a <code>C</code> on the
+right-hand side.</p>
+<pre class="Agda"><a id="×-uncurry"></a><a id="25377" href="1--Type-Theory.1-1--Types-and-Functions.html#25377" class="Function">×-uncurry</a> <a id="25387" class="Symbol">:</a> <a id="25389" class="Symbol">{</a><a id="25390" href="1--Type-Theory.1-1--Types-and-Functions.html#25390" class="Bound">A</a> <a id="25392" href="1--Type-Theory.1-1--Types-and-Functions.html#25392" class="Bound">B</a> <a id="25394" href="1--Type-Theory.1-1--Types-and-Functions.html#25394" class="Bound">C</a> <a id="25396" class="Symbol">:</a> <a id="25398" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="25402" class="Symbol">}</a>
+  <a id="25406" class="Symbol">→</a> <a id="25408" class="Symbol">(</a><a id="25409" href="1--Type-Theory.1-1--Types-and-Functions.html#25390" class="Bound">A</a> <a id="25411" class="Symbol">→</a> <a id="25413" href="1--Type-Theory.1-1--Types-and-Functions.html#25392" class="Bound">B</a> <a id="25415" class="Symbol">→</a> <a id="25417" href="1--Type-Theory.1-1--Types-and-Functions.html#25394" class="Bound">C</a><a id="25418" class="Symbol">)</a>
+  <a id="25422" class="Symbol">→</a> <a id="25424" class="Symbol">((</a><a id="25426" href="1--Type-Theory.1-1--Types-and-Functions.html#25390" class="Bound">A</a> <a id="25428" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="25430" href="1--Type-Theory.1-1--Types-and-Functions.html#25392" class="Bound">B</a><a id="25431" class="Symbol">)</a> <a id="25433" class="Symbol">→</a> <a id="25435" href="1--Type-Theory.1-1--Types-and-Functions.html#25394" class="Bound">C</a><a id="25436" class="Symbol">)</a>
+<a id="25438" href="1--Type-Theory.1-1--Types-and-Functions.html#25377" class="Function">×-uncurry</a> <a id="25448" href="1--Type-Theory.1-1--Types-and-Functions.html#25448" class="Bound">f</a> <a id="25450" href="1--Type-Theory.1-1--Types-and-Functions.html#25450" class="Bound">p</a> <a id="25452" class="Symbol">=</a> <a id="25454" href="1--Type-Theory.1-1--Types-and-Functions.html#25448" class="Bound">f</a> <a id="25456" class="Symbol">(</a><a id="25457" href="1--Type-Theory.1-1--Types-and-Functions.html#25450" class="Bound">p</a> <a id="25459" class="Symbol">.</a><a id="25460" href="Library.Prelude.html#1106" class="Field">fst</a><a id="25463" class="Symbol">)</a> <a id="25465" class="Symbol">(</a><a id="25466" href="1--Type-Theory.1-1--Types-and-Functions.html#25450" class="Bound">p</a> <a id="25468" class="Symbol">.</a><a id="25469" href="Library.Prelude.html#1118" class="Field">snd</a><a id="25472" class="Symbol">)</a>
+</pre>
+<p>There is nothing special about functions of two arguments here. Try
+writing similar functions for a function of three arguments. Agda can
+help us a lot, so we recommend using refine (<code>C-c C-r</code>) liberally when
+completing these. For <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#25997" class="Function">×-uncurry3</a></code>, writing <code>f</code> and refining will give
+three new holes, one for each argument that <code>f</code> expects.</p>
+<pre class="Agda"><a id="×-curry3"></a><a id="25823" href="1--Type-Theory.1-1--Types-and-Functions.html#25823" class="Function">×-curry3</a> <a id="25832" class="Symbol">:</a> <a id="25834" class="Symbol">{</a><a id="25835" href="1--Type-Theory.1-1--Types-and-Functions.html#25835" class="Bound">A</a> <a id="25837" href="1--Type-Theory.1-1--Types-and-Functions.html#25837" class="Bound">B</a> <a id="25839" href="1--Type-Theory.1-1--Types-and-Functions.html#25839" class="Bound">C</a> <a id="25841" href="1--Type-Theory.1-1--Types-and-Functions.html#25841" class="Bound">D</a> <a id="25843" class="Symbol">:</a> <a id="25845" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="25849" class="Symbol">}</a>
+  <a id="25853" class="Symbol">→</a> <a id="25855" class="Symbol">(((</a><a id="25858" href="1--Type-Theory.1-1--Types-and-Functions.html#25835" class="Bound">A</a> <a id="25860" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="25862" href="1--Type-Theory.1-1--Types-and-Functions.html#25837" class="Bound">B</a><a id="25863" class="Symbol">)</a> <a id="25865" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="25867" href="1--Type-Theory.1-1--Types-and-Functions.html#25839" class="Bound">C</a><a id="25868" class="Symbol">)</a> <a id="25870" class="Symbol">→</a> <a id="25872" href="1--Type-Theory.1-1--Types-and-Functions.html#25841" class="Bound">D</a><a id="25873" class="Symbol">)</a>
+  <a id="25877" class="Symbol">→</a> <a id="25879" class="Symbol">(</a><a id="25880" href="1--Type-Theory.1-1--Types-and-Functions.html#25835" class="Bound">A</a> <a id="25882" class="Symbol">→</a> <a id="25884" href="1--Type-Theory.1-1--Types-and-Functions.html#25837" class="Bound">B</a> <a id="25886" class="Symbol">→</a> <a id="25888" href="1--Type-Theory.1-1--Types-and-Functions.html#25839" class="Bound">C</a> <a id="25890" class="Symbol">→</a> <a id="25892" href="1--Type-Theory.1-1--Types-and-Functions.html#25841" class="Bound">D</a><a id="25893" class="Symbol">)</a>
+<a id="25895" class="Comment">-- Exercise:</a>
+<a id="25908" class="Comment">-- ×-curry3 f x y z = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="25948" href="1--Type-Theory.1-1--Types-and-Functions.html#25823" class="Function">×-curry3</a> <a id="25957" href="1--Type-Theory.1-1--Types-and-Functions.html#25957" class="Bound">f</a> <a id="25959" href="1--Type-Theory.1-1--Types-and-Functions.html#25959" class="Bound">x</a> <a id="25961" href="1--Type-Theory.1-1--Types-and-Functions.html#25961" class="Bound">y</a> <a id="25963" href="1--Type-Theory.1-1--Types-and-Functions.html#25963" class="Bound">z</a> <a id="25965" class="Symbol">=</a> <a id="25967" href="1--Type-Theory.1-1--Types-and-Functions.html#25957" class="Bound">f</a> <a id="25969" class="Symbol">((</a><a id="25971" href="1--Type-Theory.1-1--Types-and-Functions.html#25959" class="Bound">x</a> <a id="25973" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="25975" href="1--Type-Theory.1-1--Types-and-Functions.html#25961" class="Bound">y</a><a id="25976" class="Symbol">)</a> <a id="25978" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="25980" href="1--Type-Theory.1-1--Types-and-Functions.html#25963" class="Bound">z</a><a id="25981" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="×-uncurry3"></a><a id="25997" href="1--Type-Theory.1-1--Types-and-Functions.html#25997" class="Function">×-uncurry3</a> <a id="26008" class="Symbol">:</a> <a id="26010" class="Symbol">{</a><a id="26011" href="1--Type-Theory.1-1--Types-and-Functions.html#26011" class="Bound">A</a> <a id="26013" href="1--Type-Theory.1-1--Types-and-Functions.html#26013" class="Bound">B</a> <a id="26015" href="1--Type-Theory.1-1--Types-and-Functions.html#26015" class="Bound">C</a> <a id="26017" href="1--Type-Theory.1-1--Types-and-Functions.html#26017" class="Bound">D</a> <a id="26019" class="Symbol">:</a> <a id="26021" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="26025" class="Symbol">}</a>
+  <a id="26029" class="Symbol">→</a> <a id="26031" class="Symbol">(</a><a id="26032" href="1--Type-Theory.1-1--Types-and-Functions.html#26011" class="Bound">A</a> <a id="26034" class="Symbol">→</a> <a id="26036" href="1--Type-Theory.1-1--Types-and-Functions.html#26013" class="Bound">B</a> <a id="26038" class="Symbol">→</a> <a id="26040" href="1--Type-Theory.1-1--Types-and-Functions.html#26015" class="Bound">C</a> <a id="26042" class="Symbol">→</a> <a id="26044" href="1--Type-Theory.1-1--Types-and-Functions.html#26017" class="Bound">D</a><a id="26045" class="Symbol">)</a>
+  <a id="26049" class="Symbol">→</a> <a id="26051" class="Symbol">(((</a><a id="26054" href="1--Type-Theory.1-1--Types-and-Functions.html#26011" class="Bound">A</a> <a id="26056" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="26058" href="1--Type-Theory.1-1--Types-and-Functions.html#26013" class="Bound">B</a><a id="26059" class="Symbol">)</a> <a id="26061" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="26063" href="1--Type-Theory.1-1--Types-and-Functions.html#26015" class="Bound">C</a><a id="26064" class="Symbol">)</a> <a id="26066" class="Symbol">→</a> <a id="26068" href="1--Type-Theory.1-1--Types-and-Functions.html#26017" class="Bound">D</a><a id="26069" class="Symbol">)</a>
+<a id="26071" class="Comment">-- Exercise:</a>
+<a id="26084" class="Comment">-- ×-uncurry3 f ((x , y) , z) = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="26134" href="1--Type-Theory.1-1--Types-and-Functions.html#25997" class="Function">×-uncurry3</a> <a id="26145" href="1--Type-Theory.1-1--Types-and-Functions.html#26145" class="Bound">f</a> <a id="26147" class="Symbol">((</a><a id="26149" href="1--Type-Theory.1-1--Types-and-Functions.html#26149" class="Bound">x</a> <a id="26151" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="26153" href="1--Type-Theory.1-1--Types-and-Functions.html#26153" class="Bound">y</a><a id="26154" class="Symbol">)</a> <a id="26156" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="26158" href="1--Type-Theory.1-1--Types-and-Functions.html#26158" class="Bound">z</a><a id="26159" class="Symbol">)</a> <a id="26161" class="Symbol">=</a> <a id="26163" href="1--Type-Theory.1-1--Types-and-Functions.html#26145" class="Bound">f</a> <a id="26165" href="1--Type-Theory.1-1--Types-and-Functions.html#26149" class="Bound">x</a> <a id="26167" href="1--Type-Theory.1-1--Types-and-Functions.html#26153" class="Bound">y</a> <a id="26169" href="1--Type-Theory.1-1--Types-and-Functions.html#26158" class="Bound">z</a>
+
+</pre>-->
+<h2 id="dependent-types-and-dependent-functions"><a class="header" href="#dependent-types-and-dependent-functions">Dependent Types and Dependent Functions</a></h2>
+<p>We can think of a function <code>f : A → B</code> as an element <code>f x : B</code> that
+depends on an element <code>x : A</code> for its definition. What sets Agda (and
+other dependently typed languages) apart from ordinary functional
+programming languages is that we can have types that depend on
+elements for their definition.</p>
+<p>As a slightly contrived mathematical example, suppose <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6889em;"></span><span class="mord amsrm">N</span></span></span></span> is a
+number and consider the set <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord amsrm">N</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">∃</span><span class="mord mathnormal">i</span><span class="mord">.</span><span class="mord mathnormal">m</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">n</span><span class="mpunct">⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">i</span><span class="mclose">}</span></span></span></span> of numbers
+which are multiples of <span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>. We can define this as an Agda type
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#26804" class="Function">MultiplesOf</a></code>. (Don’t worry about the actual definition for now.)</p>
+<pre class="Agda"><a id="MultiplesOf"></a><a id="26804" href="1--Type-Theory.1-1--Types-and-Functions.html#26804" class="Function">MultiplesOf</a> <a id="26816" class="Symbol">:</a> <a id="26818" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="26820" class="Symbol">→</a> <a id="26822" href="Library.Primitive.html#422" class="Primitive">Type</a>
+<a id="26827" href="1--Type-Theory.1-1--Types-and-Functions.html#26804" class="Function">MultiplesOf</a> <a id="26839" href="1--Type-Theory.1-1--Types-and-Functions.html#26839" class="Bound">n</a> <a id="26841" class="Symbol">=</a> <a id="26843" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="26846" href="1--Type-Theory.1-1--Types-and-Functions.html#26846" class="Bound">m</a> <a id="26848" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="26850" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="26852" href="Library.Prelude.html#1429" class="Function">]</a> <a id="26854" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="26857" href="1--Type-Theory.1-1--Types-and-Functions.html#26857" class="Bound">i</a> <a id="26859" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="26861" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="26863" href="Library.Prelude.html#1429" class="Function">]</a> <a id="26865" href="1--Type-Theory.1-1--Types-and-Functions.html#26846" class="Bound">m</a> <a id="26867" href="Library.Prelude.html#2004" class="Function Operator">≡</a> <a id="26869" href="1--Type-Theory.1-1--Types-and-Functions.html#26857" class="Bound">i</a> <a id="26871" href="Library.Prelude.html#3757" class="Function Operator">·</a> <a id="26873" href="1--Type-Theory.1-1--Types-and-Functions.html#26839" class="Bound">n</a>
+</pre>
+<p>Notice that the elements that <code>MultiplesOf n</code> has will <em>depend</em> on the
+value of <code>n</code> that we choose: different choices will yield genuinely
+different sets of numbers, and generally speaking an element of
+<code>MultiplesOf n₁</code> will not also be an element of <code>MultiplesOf n₂</code> for
+some other <code>n₂</code>. In other words, we are describing a function from
+natural numbers to types, i.e. a function <code>ℕ → Type</code>. A function of
+this shape (<code>A → Type</code>) is often called a “type family over <code>A</code>”.</p>
+<p>Dependent types let us make our functions more powerful. For ordinary
+functions <code>A → B</code>, the output type of the function is always an
+element of <code>B</code>. If instead of a single type <code>B : Type</code> we have a type
+family <code>B : A → Type</code>, Agda allows us to form the type of <em>dependent</em>
+functions <code>(x : A) → B x</code> which send an element <code>x : A</code> to an element
+<code>f x : B x</code>.</p>
+<p>As a first example, we can refine our <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a></code> function to remember
+more information about the result. Sure, the result is always an
+element of <code class="Agda"><a href="Library.Prelude.html#3629" class="Datatype">ℕ</a></code>, but we can record the fact that the result is always
+a multiple of the input:</p>
+<pre class="Agda"><a id="doubleDep"></a><a id="27948" href="1--Type-Theory.1-1--Types-and-Functions.html#27948" class="Function">doubleDep</a> <a id="27958" class="Symbol">:</a> <a id="27960" class="Symbol">(</a><a id="27961" href="1--Type-Theory.1-1--Types-and-Functions.html#27961" class="Bound">n</a> <a id="27963" class="Symbol">:</a> <a id="27965" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="27966" class="Symbol">)</a> <a id="27968" class="Symbol">→</a> <a id="27970" href="1--Type-Theory.1-1--Types-and-Functions.html#26804" class="Function">MultiplesOf</a> <a id="27982" href="1--Type-Theory.1-1--Types-and-Functions.html#27961" class="Bound">n</a>
+<a id="27984" href="1--Type-Theory.1-1--Types-and-Functions.html#27948" class="Function">doubleDep</a> <a id="27994" href="1--Type-Theory.1-1--Types-and-Functions.html#27994" class="Bound">n</a> <a id="27996" class="Symbol">=</a> <a id="27998" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a> <a id="28005" href="1--Type-Theory.1-1--Types-and-Functions.html#27994" class="Bound">n</a> <a id="28007" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="28009" class="Number">2</a> <a id="28011" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="28013" class="Symbol">(λ</a> <a id="28016" href="1--Type-Theory.1-1--Types-and-Functions.html#28016" class="Bound">i</a> <a id="28018" class="Symbol">→</a> <a id="28020" class="Number">2</a> <a id="28022" href="Library.Prelude.html#3757" class="Function Operator">·</a> <a id="28024" href="1--Type-Theory.1-1--Types-and-Functions.html#27994" class="Bound">n</a><a id="28025" class="Symbol">)</a>
+</pre>
+<p>(Again, don’t worry about the actual definition for now.)</p>
+<pre class="Agda"><a id="tenAsMultiple"></a><a id="28095" href="1--Type-Theory.1-1--Types-and-Functions.html#28095" class="Function">tenAsMultiple</a> <a id="28109" class="Symbol">:</a> <a id="28111" href="1--Type-Theory.1-1--Types-and-Functions.html#26804" class="Function">MultiplesOf</a> <a id="28123" class="Number">5</a>
+<a id="28125" href="1--Type-Theory.1-1--Types-and-Functions.html#28095" class="Function">tenAsMultiple</a> <a id="28139" class="Symbol">=</a> <a id="28141" href="1--Type-Theory.1-1--Types-and-Functions.html#27948" class="Function">doubleDep</a> <a id="28151" class="Number">5</a>
+</pre>
+<p>Non-dependent functions are a special case of dependent functions,
+where the type family that we use is constantly the same type.</p>
+<pre class="Agda"><a id="ConstantℕFamily"></a><a id="28293" href="1--Type-Theory.1-1--Types-and-Functions.html#28293" class="Function">ConstantℕFamily</a> <a id="28309" class="Symbol">:</a> <a id="28311" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="28313" class="Symbol">→</a> <a id="28315" href="Library.Primitive.html#422" class="Primitive">Type</a>
+<a id="28320" href="1--Type-Theory.1-1--Types-and-Functions.html#28293" class="Function">ConstantℕFamily</a> <a id="28336" href="1--Type-Theory.1-1--Types-and-Functions.html#28336" class="Bound">n</a> <a id="28338" class="Symbol">=</a> <a id="28340" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="28342" class="Comment">-- `n` is ignored</a>
+
+<a id="doubleNonDep"></a><a id="28361" href="1--Type-Theory.1-1--Types-and-Functions.html#28361" class="Function">doubleNonDep</a> <a id="28374" class="Symbol">:</a> <a id="28376" class="Symbol">(</a><a id="28377" href="1--Type-Theory.1-1--Types-and-Functions.html#28377" class="Bound">n</a> <a id="28379" class="Symbol">:</a> <a id="28381" href="Library.Prelude.html#3629" class="Datatype">ℕ</a><a id="28382" class="Symbol">)</a> <a id="28384" class="Symbol">→</a> <a id="28386" href="1--Type-Theory.1-1--Types-and-Functions.html#28293" class="Function">ConstantℕFamily</a> <a id="28402" href="1--Type-Theory.1-1--Types-and-Functions.html#28377" class="Bound">n</a>
+<a id="28404" href="1--Type-Theory.1-1--Types-and-Functions.html#28361" class="Function">doubleNonDep</a> <a id="28417" class="Symbol">=</a> <a id="28419" href="1--Type-Theory.1-1--Types-and-Functions.html#4062" class="Function">double</a>
+</pre>
+<p>Most of the functions in this file have actually been dependent
+function types already! In <code>idfunE : (A : Type) → (A → A)</code>, the type
+<code>A → A</code> depends on <code>A : Type</code> to make sense at all, so this is a
+dependent function where the target is the type family</p>
+<pre class="Agda"><a id="idfun-family"></a><a id="28689" href="1--Type-Theory.1-1--Types-and-Functions.html#28689" class="Function">idfun-family</a> <a id="28702" class="Symbol">:</a> <a id="28704" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="28709" class="Symbol">→</a> <a id="28711" href="Library.Primitive.html#422" class="Primitive">Type</a>
+<a id="28716" href="1--Type-Theory.1-1--Types-and-Functions.html#28689" class="Function">idfun-family</a> <a id="28729" href="1--Type-Theory.1-1--Types-and-Functions.html#28729" class="Bound">A</a> <a id="28731" class="Symbol">=</a> <a id="28733" href="1--Type-Theory.1-1--Types-and-Functions.html#28729" class="Bound">A</a> <a id="28735" class="Symbol">→</a> <a id="28737" href="1--Type-Theory.1-1--Types-and-Functions.html#28729" class="Bound">A</a>
+</pre>
+<p>That is, when we provide <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#14048" class="Function">idfunE</a></code> with some type <code>A</code>, the
+resulting function we get back is the identity function for that
+specific type <code>A</code>. Notice that <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#28689" class="Function">idfun-family</a></code> is a type family
+over <code class="Agda"><a href="Library.Primitive.html#422" class="Primitive">Type</a></code>: nothing stops us from having <code class="Agda"><a href="Library.Primitive.html#422" class="Primitive">Type</a></code> on both
+sides of the <code>→</code>.</p>
+<p>Here is function composition again, where the two functions involved
+are now allowed to be dependent.</p>
+<pre class="Agda"><a id="depCompose"></a><a id="29121" href="1--Type-Theory.1-1--Types-and-Functions.html#29121" class="Function">depCompose</a> <a id="29132" class="Symbol">:</a>
+      <a id="29140" class="Symbol">{</a><a id="29141" href="1--Type-Theory.1-1--Types-and-Functions.html#29141" class="Bound">A</a> <a id="29143" class="Symbol">:</a> <a id="29145" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="29149" class="Symbol">}</a>
+    <a id="29155" class="Symbol">→</a> <a id="29157" class="Symbol">{</a><a id="29158" href="1--Type-Theory.1-1--Types-and-Functions.html#29158" class="Bound">B</a> <a id="29160" class="Symbol">:</a> <a id="29162" href="1--Type-Theory.1-1--Types-and-Functions.html#29141" class="Bound">A</a> <a id="29164" class="Symbol">→</a> <a id="29166" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="29170" class="Symbol">}</a>
+    <a id="29176" class="Symbol">→</a> <a id="29178" class="Symbol">{</a><a id="29179" href="1--Type-Theory.1-1--Types-and-Functions.html#29179" class="Bound">C</a> <a id="29181" class="Symbol">:</a> <a id="29183" class="Symbol">(</a><a id="29184" href="1--Type-Theory.1-1--Types-and-Functions.html#29184" class="Bound">x</a> <a id="29186" class="Symbol">:</a> <a id="29188" href="1--Type-Theory.1-1--Types-and-Functions.html#29141" class="Bound">A</a><a id="29189" class="Symbol">)</a> <a id="29191" class="Symbol">→</a> <a id="29193" href="1--Type-Theory.1-1--Types-and-Functions.html#29158" class="Bound">B</a> <a id="29195" href="1--Type-Theory.1-1--Types-and-Functions.html#29184" class="Bound">x</a> <a id="29197" class="Symbol">→</a> <a id="29199" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="29203" class="Symbol">}</a>
+
+    <a id="29210" class="Symbol">→</a> <a id="29212" class="Symbol">(</a><a id="29213" href="1--Type-Theory.1-1--Types-and-Functions.html#29213" class="Bound">g</a> <a id="29215" class="Symbol">:</a> <a id="29217" class="Symbol">{</a><a id="29218" href="1--Type-Theory.1-1--Types-and-Functions.html#29218" class="Bound">a</a> <a id="29220" class="Symbol">:</a> <a id="29222" href="1--Type-Theory.1-1--Types-and-Functions.html#29141" class="Bound">A</a><a id="29223" class="Symbol">}</a> <a id="29225" class="Symbol">→</a> <a id="29227" class="Symbol">(</a><a id="29228" href="1--Type-Theory.1-1--Types-and-Functions.html#29228" class="Bound">b</a> <a id="29230" class="Symbol">:</a> <a id="29232" href="1--Type-Theory.1-1--Types-and-Functions.html#29158" class="Bound">B</a> <a id="29234" href="1--Type-Theory.1-1--Types-and-Functions.html#29218" class="Bound">a</a><a id="29235" class="Symbol">)</a> <a id="29237" class="Symbol">→</a> <a id="29239" href="1--Type-Theory.1-1--Types-and-Functions.html#29179" class="Bound">C</a> <a id="29241" href="1--Type-Theory.1-1--Types-and-Functions.html#29218" class="Bound">a</a> <a id="29243" href="1--Type-Theory.1-1--Types-and-Functions.html#29228" class="Bound">b</a><a id="29244" class="Symbol">)</a>
+    <a id="29250" class="Symbol">→</a> <a id="29252" class="Symbol">(</a><a id="29253" href="1--Type-Theory.1-1--Types-and-Functions.html#29253" class="Bound">f</a> <a id="29255" class="Symbol">:</a> <a id="29257" class="Symbol">(</a><a id="29258" href="1--Type-Theory.1-1--Types-and-Functions.html#29258" class="Bound">a</a> <a id="29260" class="Symbol">:</a> <a id="29262" href="1--Type-Theory.1-1--Types-and-Functions.html#29141" class="Bound">A</a><a id="29263" class="Symbol">)</a> <a id="29265" class="Symbol">→</a> <a id="29267" href="1--Type-Theory.1-1--Types-and-Functions.html#29158" class="Bound">B</a> <a id="29269" href="1--Type-Theory.1-1--Types-and-Functions.html#29258" class="Bound">a</a><a id="29270" class="Symbol">)</a>
+    <a id="29276" class="Symbol">→</a> <a id="29278" class="Symbol">(</a><a id="29279" href="1--Type-Theory.1-1--Types-and-Functions.html#29279" class="Bound">a</a> <a id="29281" class="Symbol">:</a> <a id="29283" href="1--Type-Theory.1-1--Types-and-Functions.html#29141" class="Bound">A</a><a id="29284" class="Symbol">)</a> <a id="29286" class="Symbol">→</a> <a id="29288" href="1--Type-Theory.1-1--Types-and-Functions.html#29179" class="Bound">C</a> <a id="29290" href="1--Type-Theory.1-1--Types-and-Functions.html#29279" class="Bound">a</a> <a id="29292" class="Symbol">(</a><a id="29293" href="1--Type-Theory.1-1--Types-and-Functions.html#29253" class="Bound">f</a> <a id="29295" href="1--Type-Theory.1-1--Types-and-Functions.html#29279" class="Bound">a</a><a id="29296" class="Symbol">)</a>
+<a id="29298" href="1--Type-Theory.1-1--Types-and-Functions.html#29121" class="Function">depCompose</a> <a id="29309" href="1--Type-Theory.1-1--Types-and-Functions.html#29309" class="Bound">g</a> <a id="29311" href="1--Type-Theory.1-1--Types-and-Functions.html#29311" class="Bound">f</a> <a id="29313" class="Symbol">=</a> <a id="29315" class="Symbol">λ</a> <a id="29317" href="1--Type-Theory.1-1--Types-and-Functions.html#29317" class="Bound">x</a> <a id="29319" class="Symbol">→</a> <a id="29321" href="1--Type-Theory.1-1--Types-and-Functions.html#29309" class="Bound">g</a> <a id="29323" class="Symbol">(</a><a id="29324" href="1--Type-Theory.1-1--Types-and-Functions.html#29311" class="Bound">f</a> <a id="29326" href="1--Type-Theory.1-1--Types-and-Functions.html#29317" class="Bound">x</a><a id="29327" class="Symbol">)</a>
+</pre>
+<p>The type of <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#29121" class="Function">depCompose</a></code> is a little gnarly, but you should see that
+the actual <em>definition</em> is exactly the same as before. You should work
+through the type of each of the intermediate pieces in the expression
+<code>λ x → g (f x)</code>:</p>
+<ul>
+<li><code>x</code> has type <code>A</code>, so</li>
+<li><code>f x</code> has type <code>B x</code>, so</li>
+<li><code>g (f x)</code> has type <code>C x (f x)</code></li>
+</ul>
+<h2 id="dependent-pairs"><a class="header" href="#dependent-pairs">Dependent Pairs</a></h2>
+<p>Just as function types generalise to dependent function types, pair
+types generalise to dependent pair types where the type of the second
+component is allowed to depend on the value in the first component. If
+<code>A : Type</code> and <code>B : A → Type</code>, then the dependent pair type is written
+<code>Σ[ x ∈ A ] B x</code>. These types are often called “sum types” hence the
+symbol <code>Σ</code>.</p>
+<p>Dependent pair types are used just like the non-dependent pair types:
+we use the comma <code class="Agda"><a href="Library.Prelude.html#1090" class="InductiveConstructor">,</a></code> to construct a pair and projections <code class="Agda"><a href="Library.Prelude.html#1106" class="Field">fst</a></code> and
+<code class="Agda"><a href="Library.Prelude.html#1118" class="Field">snd</a></code> to deconstruct a pair. Only the types of these things have
+changed:</p>
+<pre class="Agda"><a id="my-pairΣ"></a><a id="30253" href="1--Type-Theory.1-1--Types-and-Functions.html#30253" class="Function">my-pairΣ</a> <a id="30262" class="Symbol">:</a> <a id="30264" class="Symbol">{</a><a id="30265" href="1--Type-Theory.1-1--Types-and-Functions.html#30265" class="Bound">A</a> <a id="30267" class="Symbol">:</a> <a id="30269" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="30273" class="Symbol">}</a> <a id="30275" class="Symbol">→</a> <a id="30277" class="Symbol">{</a><a id="30278" href="1--Type-Theory.1-1--Types-and-Functions.html#30278" class="Bound">B</a> <a id="30280" class="Symbol">:</a> <a id="30282" href="1--Type-Theory.1-1--Types-and-Functions.html#30265" class="Bound">A</a> <a id="30284" class="Symbol">→</a> <a id="30286" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="30290" class="Symbol">}</a>
+         <a id="30301" class="Symbol">→</a> <a id="30303" class="Symbol">(</a><a id="30304" href="1--Type-Theory.1-1--Types-and-Functions.html#30304" class="Bound">x</a> <a id="30306" class="Symbol">:</a> <a id="30308" href="1--Type-Theory.1-1--Types-and-Functions.html#30265" class="Bound">A</a><a id="30309" class="Symbol">)</a>
+         <a id="30320" class="Symbol">→</a> <a id="30322" href="1--Type-Theory.1-1--Types-and-Functions.html#30278" class="Bound">B</a> <a id="30324" href="1--Type-Theory.1-1--Types-and-Functions.html#30304" class="Bound">x</a>
+         <a id="30335" class="Symbol">→</a> <a id="30337" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="30340" href="1--Type-Theory.1-1--Types-and-Functions.html#30340" class="Bound">x</a> <a id="30342" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="30344" href="1--Type-Theory.1-1--Types-and-Functions.html#30265" class="Bound">A</a> <a id="30346" href="Library.Prelude.html#1429" class="Function">]</a> <a id="30348" href="1--Type-Theory.1-1--Types-and-Functions.html#30278" class="Bound">B</a> <a id="30350" href="1--Type-Theory.1-1--Types-and-Functions.html#30340" class="Bound">x</a>
+<a id="30352" href="1--Type-Theory.1-1--Types-and-Functions.html#30253" class="Function">my-pairΣ</a> <a id="30361" href="1--Type-Theory.1-1--Types-and-Functions.html#30361" class="Bound">a</a> <a id="30363" href="1--Type-Theory.1-1--Types-and-Functions.html#30363" class="Bound">b</a> <a id="30365" class="Symbol">=</a> <a id="30367" class="Symbol">(</a><a id="30368" href="1--Type-Theory.1-1--Types-and-Functions.html#30361" class="Bound">a</a> <a id="30370" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="30372" href="1--Type-Theory.1-1--Types-and-Functions.html#30363" class="Bound">b</a><a id="30373" class="Symbol">)</a>
+
+<a id="my-fstΣ"></a><a id="30376" href="1--Type-Theory.1-1--Types-and-Functions.html#30376" class="Function">my-fstΣ</a> <a id="30384" class="Symbol">:</a> <a id="30386" class="Symbol">{</a><a id="30387" href="1--Type-Theory.1-1--Types-and-Functions.html#30387" class="Bound">A</a> <a id="30389" class="Symbol">:</a> <a id="30391" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="30395" class="Symbol">}</a> <a id="30397" class="Symbol">→</a> <a id="30399" class="Symbol">{</a><a id="30400" href="1--Type-Theory.1-1--Types-and-Functions.html#30400" class="Bound">B</a> <a id="30402" class="Symbol">:</a> <a id="30404" href="1--Type-Theory.1-1--Types-and-Functions.html#30387" class="Bound">A</a> <a id="30406" class="Symbol">→</a> <a id="30408" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="30412" class="Symbol">}</a>
+        <a id="30422" class="Symbol">→</a> <a id="30424" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="30427" href="1--Type-Theory.1-1--Types-and-Functions.html#30427" class="Bound">x</a> <a id="30429" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="30431" href="1--Type-Theory.1-1--Types-and-Functions.html#30387" class="Bound">A</a> <a id="30433" href="Library.Prelude.html#1429" class="Function">]</a> <a id="30435" href="1--Type-Theory.1-1--Types-and-Functions.html#30400" class="Bound">B</a> <a id="30437" href="1--Type-Theory.1-1--Types-and-Functions.html#30427" class="Bound">x</a>
+        <a id="30447" class="Symbol">→</a> <a id="30449" href="1--Type-Theory.1-1--Types-and-Functions.html#30387" class="Bound">A</a>
+<a id="30451" href="1--Type-Theory.1-1--Types-and-Functions.html#30376" class="Function">my-fstΣ</a> <a id="30459" href="1--Type-Theory.1-1--Types-and-Functions.html#30459" class="Bound">p</a> <a id="30461" class="Symbol">=</a> <a id="30463" href="1--Type-Theory.1-1--Types-and-Functions.html#30459" class="Bound">p</a> <a id="30465" class="Symbol">.</a><a id="30466" href="Library.Prelude.html#1106" class="Field">fst</a>
+
+<a id="my-sndΣ"></a><a id="30471" href="1--Type-Theory.1-1--Types-and-Functions.html#30471" class="Function">my-sndΣ</a> <a id="30479" class="Symbol">:</a> <a id="30481" class="Symbol">{</a><a id="30482" href="1--Type-Theory.1-1--Types-and-Functions.html#30482" class="Bound">A</a> <a id="30484" class="Symbol">:</a> <a id="30486" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="30490" class="Symbol">}</a> <a id="30492" class="Symbol">→</a> <a id="30494" class="Symbol">{</a><a id="30495" href="1--Type-Theory.1-1--Types-and-Functions.html#30495" class="Bound">B</a> <a id="30497" class="Symbol">:</a> <a id="30499" href="1--Type-Theory.1-1--Types-and-Functions.html#30482" class="Bound">A</a> <a id="30501" class="Symbol">→</a> <a id="30503" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="30507" class="Symbol">}</a>
+        <a id="30517" class="Symbol">→</a> <a id="30519" class="Symbol">(</a><a id="30520" href="1--Type-Theory.1-1--Types-and-Functions.html#30520" class="Bound">p</a> <a id="30522" class="Symbol">:</a> <a id="30524" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="30527" href="1--Type-Theory.1-1--Types-and-Functions.html#30527" class="Bound">x</a> <a id="30529" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="30531" href="1--Type-Theory.1-1--Types-and-Functions.html#30482" class="Bound">A</a> <a id="30533" href="Library.Prelude.html#1429" class="Function">]</a> <a id="30535" href="1--Type-Theory.1-1--Types-and-Functions.html#30495" class="Bound">B</a> <a id="30537" href="1--Type-Theory.1-1--Types-and-Functions.html#30527" class="Bound">x</a><a id="30538" class="Symbol">)</a>
+        <a id="30548" class="Symbol">→</a> <a id="30550" href="1--Type-Theory.1-1--Types-and-Functions.html#30495" class="Bound">B</a> <a id="30552" class="Symbol">(</a><a id="30553" href="1--Type-Theory.1-1--Types-and-Functions.html#30520" class="Bound">p</a> <a id="30555" class="Symbol">.</a><a id="30556" href="Library.Prelude.html#1106" class="Field">fst</a><a id="30559" class="Symbol">)</a>
+<a id="30561" href="1--Type-Theory.1-1--Types-and-Functions.html#30471" class="Function">my-sndΣ</a> <a id="30569" href="1--Type-Theory.1-1--Types-and-Functions.html#30569" class="Bound">p</a> <a id="30571" class="Symbol">=</a> <a id="30573" href="1--Type-Theory.1-1--Types-and-Functions.html#30569" class="Bound">p</a> <a id="30575" class="Symbol">.</a><a id="30576" href="Library.Prelude.html#1118" class="Field">snd</a>
+</pre>
+<p>The type of <code class="Agda"><a href="Library.Prelude.html#1118" class="Field">snd</a></code> is a little complicated! When we form <code>p .snd</code>,
+its type depends on what is in the first component <code>p .fst</code>. That is,
+the type of <code>p .snd</code> is the value of the input type family <code>B : A → Type</code> when evaluated at <code>p .fst</code>. To express that in the type of
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#30471" class="Function">my-sndΣ</a></code>, we have to use a dependent function so that <code>B (p .fst)</code>
+can refer to the pair <code>p</code>.</p>
+<p>Try writing the types for a dependently-typed version of
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#24656" class="Function">×-mapI</a></code>. All you need to do is replace the <code>×</code> from the
+previous definition with an appropriate <code>Σ</code>-type.</p>
+<pre class="Agda"><a id="31125" class="Comment">-- Exercise:</a>
+<a id="31138" class="Comment">-- Σ-mapI : {A : Type} {B : A → Type} {A&#39; : Type} {B&#39; : A&#39; → Type}</a>
+<a id="31205" class="Comment">--       → (f : A → A&#39;)</a>
+<a id="31229" class="Comment">--       → (g : (a : A) → B a → B&#39; (f a))</a>
+<a id="31271" class="Comment">--       → {!!} → {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="Σ-mapI"></a><a id="31307" href="1--Type-Theory.1-1--Types-and-Functions.html#31307" class="Function">Σ-mapI</a> <a id="31314" class="Symbol">:</a> <a id="31316" class="Symbol">{</a><a id="31317" href="1--Type-Theory.1-1--Types-and-Functions.html#31317" class="Bound">A</a> <a id="31319" class="Symbol">:</a> <a id="31321" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31325" class="Symbol">}</a> <a id="31327" class="Symbol">{</a><a id="31328" href="1--Type-Theory.1-1--Types-and-Functions.html#31328" class="Bound">B</a> <a id="31330" class="Symbol">:</a> <a id="31332" href="1--Type-Theory.1-1--Types-and-Functions.html#31317" class="Bound">A</a> <a id="31334" class="Symbol">→</a> <a id="31336" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31340" class="Symbol">}</a> <a id="31342" class="Symbol">{</a><a id="31343" href="1--Type-Theory.1-1--Types-and-Functions.html#31343" class="Bound">A&#39;</a> <a id="31346" class="Symbol">:</a> <a id="31348" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31352" class="Symbol">}</a> <a id="31354" class="Symbol">{</a><a id="31355" href="1--Type-Theory.1-1--Types-and-Functions.html#31355" class="Bound">B&#39;</a> <a id="31358" class="Symbol">:</a> <a id="31360" href="1--Type-Theory.1-1--Types-and-Functions.html#31343" class="Bound">A&#39;</a> <a id="31363" class="Symbol">→</a> <a id="31365" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31369" class="Symbol">}</a>
+      <a id="31377" class="Symbol">→</a> <a id="31379" class="Symbol">(</a><a id="31380" href="1--Type-Theory.1-1--Types-and-Functions.html#31380" class="Bound">f</a> <a id="31382" class="Symbol">:</a> <a id="31384" href="1--Type-Theory.1-1--Types-and-Functions.html#31317" class="Bound">A</a> <a id="31386" class="Symbol">→</a> <a id="31388" href="1--Type-Theory.1-1--Types-and-Functions.html#31343" class="Bound">A&#39;</a><a id="31390" class="Symbol">)</a>
+      <a id="31398" class="Symbol">→</a> <a id="31400" class="Symbol">(</a><a id="31401" href="1--Type-Theory.1-1--Types-and-Functions.html#31401" class="Bound">g</a> <a id="31403" class="Symbol">:</a> <a id="31405" class="Symbol">(</a><a id="31406" href="1--Type-Theory.1-1--Types-and-Functions.html#31406" class="Bound">a</a> <a id="31408" class="Symbol">:</a> <a id="31410" href="1--Type-Theory.1-1--Types-and-Functions.html#31317" class="Bound">A</a><a id="31411" class="Symbol">)</a> <a id="31413" class="Symbol">→</a> <a id="31415" href="1--Type-Theory.1-1--Types-and-Functions.html#31328" class="Bound">B</a> <a id="31417" href="1--Type-Theory.1-1--Types-and-Functions.html#31406" class="Bound">a</a> <a id="31419" class="Symbol">→</a> <a id="31421" href="1--Type-Theory.1-1--Types-and-Functions.html#31355" class="Bound">B&#39;</a> <a id="31424" class="Symbol">(</a><a id="31425" href="1--Type-Theory.1-1--Types-and-Functions.html#31380" class="Bound">f</a> <a id="31427" href="1--Type-Theory.1-1--Types-and-Functions.html#31406" class="Bound">a</a><a id="31428" class="Symbol">))</a>
+      <a id="31437" class="Symbol">→</a> <a id="31439" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="31442" href="1--Type-Theory.1-1--Types-and-Functions.html#31442" class="Bound">a</a> <a id="31444" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="31446" href="1--Type-Theory.1-1--Types-and-Functions.html#31317" class="Bound">A</a> <a id="31448" href="Library.Prelude.html#1429" class="Function">]</a> <a id="31450" href="1--Type-Theory.1-1--Types-and-Functions.html#31328" class="Bound">B</a> <a id="31452" href="1--Type-Theory.1-1--Types-and-Functions.html#31442" class="Bound">a</a> <a id="31454" class="Symbol">→</a> <a id="31456" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="31459" href="1--Type-Theory.1-1--Types-and-Functions.html#31459" class="Bound">a&#39;</a> <a id="31462" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="31464" href="1--Type-Theory.1-1--Types-and-Functions.html#31343" class="Bound">A&#39;</a> <a id="31467" href="Library.Prelude.html#1429" class="Function">]</a> <a id="31469" href="1--Type-Theory.1-1--Types-and-Functions.html#31355" class="Bound">B&#39;</a> <a id="31472" href="1--Type-Theory.1-1--Types-and-Functions.html#31459" class="Bound">a&#39;</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="31489" href="1--Type-Theory.1-1--Types-and-Functions.html#31307" class="Function">Σ-mapI</a> <a id="31496" href="1--Type-Theory.1-1--Types-and-Functions.html#31496" class="Bound">f</a> <a id="31498" href="1--Type-Theory.1-1--Types-and-Functions.html#31498" class="Bound">g</a> <a id="31500" class="Symbol">(</a><a id="31501" href="1--Type-Theory.1-1--Types-and-Functions.html#31501" class="Bound">a</a> <a id="31503" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="31505" href="1--Type-Theory.1-1--Types-and-Functions.html#31505" class="Bound">b</a><a id="31506" class="Symbol">)</a> <a id="31508" class="Symbol">=</a> <a id="31510" class="Symbol">(</a><a id="31511" href="1--Type-Theory.1-1--Types-and-Functions.html#31496" class="Bound">f</a> <a id="31513" href="1--Type-Theory.1-1--Types-and-Functions.html#31501" class="Bound">a</a> <a id="31515" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="31517" href="1--Type-Theory.1-1--Types-and-Functions.html#31498" class="Bound">g</a> <a id="31519" href="1--Type-Theory.1-1--Types-and-Functions.html#31501" class="Bound">a</a> <a id="31521" href="1--Type-Theory.1-1--Types-and-Functions.html#31505" class="Bound">b</a><a id="31522" class="Symbol">)</a>
+</pre>
+<p>Notice that the type of <code>g</code> has changed from the type it had back in
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#24656" class="Function">×-mapI</a></code>. Rather than giving a single funciton <code>B → B'</code>, we have to
+now give a function <code>B a → B' (f a)</code> for each possible <code>a : A</code>.</p>
+<p><code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#25013" class="Function">×-curry</a></code> and <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#25377" class="Function">×-uncurry</a></code> can be generalised to work with
+dependent pairs and functions.</p>
+<pre class="Agda"><a id="Σ-curryI"></a><a id="31831" href="1--Type-Theory.1-1--Types-and-Functions.html#31831" class="Function">Σ-curryI</a> <a id="31840" class="Symbol">:</a> <a id="31842" class="Symbol">{</a><a id="31843" href="1--Type-Theory.1-1--Types-and-Functions.html#31843" class="Bound">A</a> <a id="31845" class="Symbol">:</a> <a id="31847" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31851" class="Symbol">}</a> <a id="31853" class="Symbol">→</a> <a id="31855" class="Symbol">{</a><a id="31856" href="1--Type-Theory.1-1--Types-and-Functions.html#31856" class="Bound">B</a> <a id="31858" class="Symbol">:</a> <a id="31860" href="1--Type-Theory.1-1--Types-and-Functions.html#31843" class="Bound">A</a> <a id="31862" class="Symbol">→</a> <a id="31864" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31868" class="Symbol">}</a> <a id="31870" class="Symbol">→</a> <a id="31872" class="Symbol">{</a><a id="31873" href="1--Type-Theory.1-1--Types-and-Functions.html#31873" class="Bound">C</a> <a id="31875" class="Symbol">:</a> <a id="31877" class="Symbol">(</a><a id="31878" href="1--Type-Theory.1-1--Types-and-Functions.html#31878" class="Bound">x</a> <a id="31880" class="Symbol">:</a> <a id="31882" href="1--Type-Theory.1-1--Types-and-Functions.html#31843" class="Bound">A</a><a id="31883" class="Symbol">)</a> <a id="31885" class="Symbol">→</a> <a id="31887" href="1--Type-Theory.1-1--Types-and-Functions.html#31856" class="Bound">B</a> <a id="31889" href="1--Type-Theory.1-1--Types-and-Functions.html#31878" class="Bound">x</a> <a id="31891" class="Symbol">→</a> <a id="31893" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="31897" class="Symbol">}</a>
+  <a id="31901" class="Symbol">→</a> <a id="31903" class="Symbol">((</a><a id="31905" href="1--Type-Theory.1-1--Types-and-Functions.html#31905" class="Bound">p</a> <a id="31907" class="Symbol">:</a> <a id="31909" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="31912" href="1--Type-Theory.1-1--Types-and-Functions.html#31912" class="Bound">x</a> <a id="31914" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="31916" href="1--Type-Theory.1-1--Types-and-Functions.html#31843" class="Bound">A</a> <a id="31918" href="Library.Prelude.html#1429" class="Function">]</a> <a id="31920" href="1--Type-Theory.1-1--Types-and-Functions.html#31856" class="Bound">B</a> <a id="31922" href="1--Type-Theory.1-1--Types-and-Functions.html#31912" class="Bound">x</a><a id="31923" class="Symbol">)</a> <a id="31925" class="Symbol">→</a> <a id="31927" href="1--Type-Theory.1-1--Types-and-Functions.html#31873" class="Bound">C</a> <a id="31929" class="Symbol">(</a><a id="31930" href="1--Type-Theory.1-1--Types-and-Functions.html#31905" class="Bound">p</a> <a id="31932" class="Symbol">.</a><a id="31933" href="Library.Prelude.html#1106" class="Field">fst</a><a id="31936" class="Symbol">)</a> <a id="31938" class="Symbol">(</a><a id="31939" href="1--Type-Theory.1-1--Types-and-Functions.html#31905" class="Bound">p</a> <a id="31941" class="Symbol">.</a><a id="31942" href="Library.Prelude.html#1118" class="Field">snd</a><a id="31945" class="Symbol">))</a>
+  <a id="31950" class="Symbol">→</a> <a id="31952" class="Symbol">(</a><a id="31953" href="1--Type-Theory.1-1--Types-and-Functions.html#31953" class="Bound">x</a> <a id="31955" class="Symbol">:</a> <a id="31957" href="1--Type-Theory.1-1--Types-and-Functions.html#31843" class="Bound">A</a><a id="31958" class="Symbol">)</a> <a id="31960" class="Symbol">→</a> <a id="31962" class="Symbol">(</a><a id="31963" href="1--Type-Theory.1-1--Types-and-Functions.html#31963" class="Bound">y</a> <a id="31965" class="Symbol">:</a> <a id="31967" href="1--Type-Theory.1-1--Types-and-Functions.html#31856" class="Bound">B</a> <a id="31969" href="1--Type-Theory.1-1--Types-and-Functions.html#31953" class="Bound">x</a><a id="31970" class="Symbol">)</a> <a id="31972" class="Symbol">→</a> <a id="31974" href="1--Type-Theory.1-1--Types-and-Functions.html#31873" class="Bound">C</a> <a id="31976" href="1--Type-Theory.1-1--Types-and-Functions.html#31953" class="Bound">x</a> <a id="31978" href="1--Type-Theory.1-1--Types-and-Functions.html#31963" class="Bound">y</a>
+<a id="31980" href="1--Type-Theory.1-1--Types-and-Functions.html#31831" class="Function">Σ-curryI</a> <a id="31989" href="1--Type-Theory.1-1--Types-and-Functions.html#31989" class="Bound">f</a> <a id="31991" href="1--Type-Theory.1-1--Types-and-Functions.html#31991" class="Bound">x</a> <a id="31993" href="1--Type-Theory.1-1--Types-and-Functions.html#31993" class="Bound">y</a> <a id="31995" class="Symbol">=</a> <a id="31997" href="1--Type-Theory.1-1--Types-and-Functions.html#31989" class="Bound">f</a> <a id="31999" class="Symbol">(</a><a id="32000" href="1--Type-Theory.1-1--Types-and-Functions.html#31991" class="Bound">x</a> <a id="32002" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="32004" href="1--Type-Theory.1-1--Types-and-Functions.html#31993" class="Bound">y</a><a id="32005" class="Symbol">)</a>
+
+<a id="Σ-uncurryI"></a><a id="32008" href="1--Type-Theory.1-1--Types-and-Functions.html#32008" class="Function">Σ-uncurryI</a> <a id="32019" class="Symbol">:</a> <a id="32021" class="Symbol">{</a><a id="32022" href="1--Type-Theory.1-1--Types-and-Functions.html#32022" class="Bound">A</a> <a id="32024" class="Symbol">:</a> <a id="32026" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="32030" class="Symbol">}</a> <a id="32032" class="Symbol">→</a> <a id="32034" class="Symbol">{</a><a id="32035" href="1--Type-Theory.1-1--Types-and-Functions.html#32035" class="Bound">B</a> <a id="32037" class="Symbol">:</a> <a id="32039" href="1--Type-Theory.1-1--Types-and-Functions.html#32022" class="Bound">A</a> <a id="32041" class="Symbol">→</a> <a id="32043" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="32047" class="Symbol">}</a> <a id="32049" class="Symbol">→</a> <a id="32051" class="Symbol">{</a><a id="32052" href="1--Type-Theory.1-1--Types-and-Functions.html#32052" class="Bound">C</a> <a id="32054" class="Symbol">:</a> <a id="32056" class="Symbol">(</a><a id="32057" href="1--Type-Theory.1-1--Types-and-Functions.html#32057" class="Bound">x</a> <a id="32059" class="Symbol">:</a> <a id="32061" href="1--Type-Theory.1-1--Types-and-Functions.html#32022" class="Bound">A</a><a id="32062" class="Symbol">)</a> <a id="32064" class="Symbol">→</a> <a id="32066" href="1--Type-Theory.1-1--Types-and-Functions.html#32035" class="Bound">B</a> <a id="32068" href="1--Type-Theory.1-1--Types-and-Functions.html#32057" class="Bound">x</a> <a id="32070" class="Symbol">→</a> <a id="32072" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="32076" class="Symbol">}</a>
+  <a id="32080" class="Symbol">→</a> <a id="32082" class="Symbol">((</a><a id="32084" href="1--Type-Theory.1-1--Types-and-Functions.html#32084" class="Bound">x</a> <a id="32086" class="Symbol">:</a> <a id="32088" href="1--Type-Theory.1-1--Types-and-Functions.html#32022" class="Bound">A</a><a id="32089" class="Symbol">)</a> <a id="32091" class="Symbol">→</a> <a id="32093" class="Symbol">(</a><a id="32094" href="1--Type-Theory.1-1--Types-and-Functions.html#32094" class="Bound">y</a> <a id="32096" class="Symbol">:</a> <a id="32098" href="1--Type-Theory.1-1--Types-and-Functions.html#32035" class="Bound">B</a> <a id="32100" href="1--Type-Theory.1-1--Types-and-Functions.html#32084" class="Bound">x</a><a id="32101" class="Symbol">)</a> <a id="32103" class="Symbol">→</a> <a id="32105" href="1--Type-Theory.1-1--Types-and-Functions.html#32052" class="Bound">C</a> <a id="32107" href="1--Type-Theory.1-1--Types-and-Functions.html#32084" class="Bound">x</a> <a id="32109" href="1--Type-Theory.1-1--Types-and-Functions.html#32094" class="Bound">y</a><a id="32110" class="Symbol">)</a>
+  <a id="32114" class="Symbol">→</a> <a id="32116" class="Symbol">(</a><a id="32117" href="1--Type-Theory.1-1--Types-and-Functions.html#32117" class="Bound">p</a> <a id="32119" class="Symbol">:</a> <a id="32121" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="32124" href="1--Type-Theory.1-1--Types-and-Functions.html#32124" class="Bound">x</a> <a id="32126" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="32128" href="1--Type-Theory.1-1--Types-and-Functions.html#32022" class="Bound">A</a> <a id="32130" href="Library.Prelude.html#1429" class="Function">]</a> <a id="32132" href="1--Type-Theory.1-1--Types-and-Functions.html#32035" class="Bound">B</a> <a id="32134" href="1--Type-Theory.1-1--Types-and-Functions.html#32124" class="Bound">x</a><a id="32135" class="Symbol">)</a> <a id="32137" class="Symbol">→</a> <a id="32139" href="1--Type-Theory.1-1--Types-and-Functions.html#32052" class="Bound">C</a> <a id="32141" class="Symbol">(</a><a id="32142" href="1--Type-Theory.1-1--Types-and-Functions.html#32117" class="Bound">p</a> <a id="32144" class="Symbol">.</a><a id="32145" href="Library.Prelude.html#1106" class="Field">fst</a><a id="32148" class="Symbol">)</a> <a id="32150" class="Symbol">(</a><a id="32151" href="1--Type-Theory.1-1--Types-and-Functions.html#32117" class="Bound">p</a> <a id="32153" class="Symbol">.</a><a id="32154" href="Library.Prelude.html#1118" class="Field">snd</a><a id="32157" class="Symbol">)</a>
+<a id="32159" href="1--Type-Theory.1-1--Types-and-Functions.html#32008" class="Function">Σ-uncurryI</a> <a id="32170" href="1--Type-Theory.1-1--Types-and-Functions.html#32170" class="Bound">f</a> <a id="32172" href="1--Type-Theory.1-1--Types-and-Functions.html#32172" class="Bound">p</a> <a id="32174" class="Symbol">=</a> <a id="32176" href="1--Type-Theory.1-1--Types-and-Functions.html#32170" class="Bound">f</a> <a id="32178" class="Symbol">(</a><a id="32179" href="1--Type-Theory.1-1--Types-and-Functions.html#32172" class="Bound">p</a> <a id="32181" class="Symbol">.</a><a id="32182" href="Library.Prelude.html#1106" class="Field">fst</a><a id="32185" class="Symbol">)</a> <a id="32187" class="Symbol">(</a><a id="32188" href="1--Type-Theory.1-1--Types-and-Functions.html#32172" class="Bound">p</a> <a id="32190" class="Symbol">.</a><a id="32191" href="Library.Prelude.html#1118" class="Field">snd</a><a id="32194" class="Symbol">)</a>
+</pre>
+<p>Like <code>×</code>, we can chain <code>Σ</code> together however we like. The dependent
+types do make this a little more complicated though!</p>
+<p>Suppose we start with dependent types</p>
+<ul>
+<li><code>A : Type</code>,</li>
+<li><code>B : A → Type</code>, and</li>
+<li><code>C : (x : A) → B x → Type</code>.</li>
+</ul>
+<p>Say we already have an element <code>a : A</code> in mind. Then,
+we can use a Σ-type to form the type <code>Σ[ b ∈ B a ] C a b</code>. This is a
+type family that works for any <code>a : A</code>, so we can use another Σ-type
+to give <code>Σ[ a ∈ A ] (Σ[ b ∈ B a ] C a b)</code> in total. This is the
+type that corresponds to the non-dependent triple <code>A × (B × C)</code>.</p>
+<p>We can also start pairing on the other side, so using the first two
+types to form <code>Σ[ a ∈ A ] B a</code>. To combine this with <code>C</code> using another
+<code>Σ</code>, we now need a type family <code>Σ[ a ∈ A ] B a → Type</code>, which doesn’t
+match the type of <code>C</code>. But it’s easy to fix that mismatch by
+projecting the components where we need them:</p>
+<pre><code>Σ[ p ∈ (Σ[ a ∈ A ] B a) ] C (p .fst) (p .snd)
+</code></pre>
+<p>This corresponds to the non-dependent triple <code>(A × B) × C</code>.</p>
+<p>As with non-dependent pairs, these two types are interconvertible.</p>
+<pre class="Agda"><a id="33250" class="Comment">-- Exercise:</a>
+<a id="33263" class="Comment">-- Σ-assoc-toI : {A : Type} → {B : A → Type} → {C : (x : A) → B x → Type}</a>
+<a id="33337" class="Comment">--   → {!!}</a>
+<a id="33349" class="Comment">--   → {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="Σ-assoc-toI"></a><a id="33374" href="1--Type-Theory.1-1--Types-and-Functions.html#33374" class="Function">Σ-assoc-toI</a> <a id="33386" class="Symbol">:</a> <a id="33388" class="Symbol">{</a><a id="33389" href="1--Type-Theory.1-1--Types-and-Functions.html#33389" class="Bound">A</a> <a id="33391" class="Symbol">:</a> <a id="33393" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="33397" class="Symbol">}</a> <a id="33399" class="Symbol">→</a> <a id="33401" class="Symbol">{</a><a id="33402" href="1--Type-Theory.1-1--Types-and-Functions.html#33402" class="Bound">B</a> <a id="33404" class="Symbol">:</a> <a id="33406" href="1--Type-Theory.1-1--Types-and-Functions.html#33389" class="Bound">A</a> <a id="33408" class="Symbol">→</a> <a id="33410" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="33414" class="Symbol">}</a> <a id="33416" class="Symbol">→</a> <a id="33418" class="Symbol">{</a><a id="33419" href="1--Type-Theory.1-1--Types-and-Functions.html#33419" class="Bound">C</a> <a id="33421" class="Symbol">:</a> <a id="33423" class="Symbol">(</a><a id="33424" href="1--Type-Theory.1-1--Types-and-Functions.html#33424" class="Bound">x</a> <a id="33426" class="Symbol">:</a> <a id="33428" href="1--Type-Theory.1-1--Types-and-Functions.html#33389" class="Bound">A</a><a id="33429" class="Symbol">)</a> <a id="33431" class="Symbol">→</a> <a id="33433" href="1--Type-Theory.1-1--Types-and-Functions.html#33402" class="Bound">B</a> <a id="33435" href="1--Type-Theory.1-1--Types-and-Functions.html#33424" class="Bound">x</a> <a id="33437" class="Symbol">→</a> <a id="33439" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="33443" class="Symbol">}</a>
+  <a id="33447" class="Symbol">→</a> <a id="33449" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33452" href="1--Type-Theory.1-1--Types-and-Functions.html#33452" class="Bound">a</a> <a id="33454" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33456" href="1--Type-Theory.1-1--Types-and-Functions.html#33389" class="Bound">A</a> <a id="33458" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33460" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33463" href="1--Type-Theory.1-1--Types-and-Functions.html#33463" class="Bound">b</a> <a id="33465" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33467" href="1--Type-Theory.1-1--Types-and-Functions.html#33402" class="Bound">B</a> <a id="33469" href="1--Type-Theory.1-1--Types-and-Functions.html#33452" class="Bound">a</a> <a id="33471" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33473" href="1--Type-Theory.1-1--Types-and-Functions.html#33419" class="Bound">C</a> <a id="33475" href="1--Type-Theory.1-1--Types-and-Functions.html#33452" class="Bound">a</a> <a id="33477" href="1--Type-Theory.1-1--Types-and-Functions.html#33463" class="Bound">b</a>
+  <a id="33481" class="Symbol">→</a> <a id="33483" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33486" href="1--Type-Theory.1-1--Types-and-Functions.html#33486" class="Bound">p</a> <a id="33488" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33490" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33493" href="1--Type-Theory.1-1--Types-and-Functions.html#33493" class="Bound">a</a> <a id="33495" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33497" href="1--Type-Theory.1-1--Types-and-Functions.html#33389" class="Bound">A</a> <a id="33499" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33501" href="1--Type-Theory.1-1--Types-and-Functions.html#33402" class="Bound">B</a> <a id="33503" href="1--Type-Theory.1-1--Types-and-Functions.html#33493" class="Bound">a</a> <a id="33505" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33507" href="1--Type-Theory.1-1--Types-and-Functions.html#33419" class="Bound">C</a> <a id="33509" class="Symbol">(</a><a id="33510" href="1--Type-Theory.1-1--Types-and-Functions.html#33486" class="Bound">p</a> <a id="33512" class="Symbol">.</a><a id="33513" href="Library.Prelude.html#1106" class="Field">fst</a><a id="33516" class="Symbol">)</a> <a id="33518" class="Symbol">(</a><a id="33519" href="1--Type-Theory.1-1--Types-and-Functions.html#33486" class="Bound">p</a> <a id="33521" class="Symbol">.</a><a id="33522" href="Library.Prelude.html#1118" class="Field">snd</a><a id="33525" class="Symbol">)</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="33541" href="1--Type-Theory.1-1--Types-and-Functions.html#33374" class="Function">Σ-assoc-toI</a> <a id="33553" class="Symbol">(</a><a id="33554" href="1--Type-Theory.1-1--Types-and-Functions.html#33554" class="Bound">a</a> <a id="33556" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33558" class="Symbol">(</a><a id="33559" href="1--Type-Theory.1-1--Types-and-Functions.html#33559" class="Bound">b</a> <a id="33561" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33563" href="1--Type-Theory.1-1--Types-and-Functions.html#33563" class="Bound">c</a><a id="33564" class="Symbol">))</a> <a id="33567" class="Symbol">=</a> <a id="33569" class="Symbol">(</a><a id="33570" href="1--Type-Theory.1-1--Types-and-Functions.html#33554" class="Bound">a</a> <a id="33572" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33574" href="1--Type-Theory.1-1--Types-and-Functions.html#33559" class="Bound">b</a><a id="33575" class="Symbol">)</a> <a id="33577" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33579" href="1--Type-Theory.1-1--Types-and-Functions.html#33563" class="Bound">c</a>
+
+<a id="33582" class="Comment">-- Exercise:</a>
+<a id="33595" class="Comment">-- Σ-assoc-froI : {A : Type} → {B : A → Type} → {C : (x : A) → B x → Type}</a>
+<a id="33670" class="Comment">--   → {!!}</a>
+<a id="33682" class="Comment">--   → {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="Σ-assoc-froI"></a><a id="33707" href="1--Type-Theory.1-1--Types-and-Functions.html#33707" class="Function">Σ-assoc-froI</a> <a id="33720" class="Symbol">:</a> <a id="33722" class="Symbol">{</a><a id="33723" href="1--Type-Theory.1-1--Types-and-Functions.html#33723" class="Bound">A</a> <a id="33725" class="Symbol">:</a> <a id="33727" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="33731" class="Symbol">}</a> <a id="33733" class="Symbol">→</a> <a id="33735" class="Symbol">{</a><a id="33736" href="1--Type-Theory.1-1--Types-and-Functions.html#33736" class="Bound">B</a> <a id="33738" class="Symbol">:</a> <a id="33740" href="1--Type-Theory.1-1--Types-and-Functions.html#33723" class="Bound">A</a> <a id="33742" class="Symbol">→</a> <a id="33744" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="33748" class="Symbol">}</a> <a id="33750" class="Symbol">→</a> <a id="33752" class="Symbol">{</a><a id="33753" href="1--Type-Theory.1-1--Types-and-Functions.html#33753" class="Bound">C</a> <a id="33755" class="Symbol">:</a> <a id="33757" class="Symbol">(</a><a id="33758" href="1--Type-Theory.1-1--Types-and-Functions.html#33758" class="Bound">x</a> <a id="33760" class="Symbol">:</a> <a id="33762" href="1--Type-Theory.1-1--Types-and-Functions.html#33723" class="Bound">A</a><a id="33763" class="Symbol">)</a> <a id="33765" class="Symbol">→</a> <a id="33767" href="1--Type-Theory.1-1--Types-and-Functions.html#33736" class="Bound">B</a> <a id="33769" href="1--Type-Theory.1-1--Types-and-Functions.html#33758" class="Bound">x</a> <a id="33771" class="Symbol">→</a> <a id="33773" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="33777" class="Symbol">}</a>
+  <a id="33781" class="Symbol">→</a> <a id="33783" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33786" href="1--Type-Theory.1-1--Types-and-Functions.html#33786" class="Bound">p</a> <a id="33788" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33790" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33793" href="1--Type-Theory.1-1--Types-and-Functions.html#33793" class="Bound">a</a> <a id="33795" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33797" href="1--Type-Theory.1-1--Types-and-Functions.html#33723" class="Bound">A</a> <a id="33799" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33801" href="1--Type-Theory.1-1--Types-and-Functions.html#33736" class="Bound">B</a> <a id="33803" href="1--Type-Theory.1-1--Types-and-Functions.html#33793" class="Bound">a</a> <a id="33805" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33807" href="1--Type-Theory.1-1--Types-and-Functions.html#33753" class="Bound">C</a> <a id="33809" class="Symbol">(</a><a id="33810" href="1--Type-Theory.1-1--Types-and-Functions.html#33786" class="Bound">p</a> <a id="33812" class="Symbol">.</a><a id="33813" href="Library.Prelude.html#1106" class="Field">fst</a><a id="33816" class="Symbol">)</a> <a id="33818" class="Symbol">(</a><a id="33819" href="1--Type-Theory.1-1--Types-and-Functions.html#33786" class="Bound">p</a> <a id="33821" class="Symbol">.</a><a id="33822" href="Library.Prelude.html#1118" class="Field">snd</a><a id="33825" class="Symbol">)</a>
+  <a id="33829" class="Symbol">→</a> <a id="33831" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33834" href="1--Type-Theory.1-1--Types-and-Functions.html#33834" class="Bound">a</a> <a id="33836" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33838" href="1--Type-Theory.1-1--Types-and-Functions.html#33723" class="Bound">A</a> <a id="33840" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33842" href="Library.Prelude.html#1429" class="Function">Σ[</a> <a id="33845" href="1--Type-Theory.1-1--Types-and-Functions.html#33845" class="Bound">b</a> <a id="33847" href="Library.Prelude.html#1429" class="Function">∈</a> <a id="33849" href="1--Type-Theory.1-1--Types-and-Functions.html#33736" class="Bound">B</a> <a id="33851" href="1--Type-Theory.1-1--Types-and-Functions.html#33834" class="Bound">a</a> <a id="33853" href="Library.Prelude.html#1429" class="Function">]</a> <a id="33855" href="1--Type-Theory.1-1--Types-and-Functions.html#33753" class="Bound">C</a> <a id="33857" href="1--Type-Theory.1-1--Types-and-Functions.html#33834" class="Bound">a</a> <a id="33859" href="1--Type-Theory.1-1--Types-and-Functions.html#33845" class="Bound">b</a>
+
+</pre>-->
+<pre class="Agda">
+<a id="33875" href="1--Type-Theory.1-1--Types-and-Functions.html#33707" class="Function">Σ-assoc-froI</a> <a id="33888" class="Symbol">((</a><a id="33890" href="1--Type-Theory.1-1--Types-and-Functions.html#33890" class="Bound">a</a> <a id="33892" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33894" href="1--Type-Theory.1-1--Types-and-Functions.html#33894" class="Bound">b</a><a id="33895" class="Symbol">)</a> <a id="33897" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33899" href="1--Type-Theory.1-1--Types-and-Functions.html#33899" class="Bound">c</a><a id="33900" class="Symbol">)</a> <a id="33902" class="Symbol">=</a> <a id="33904" href="1--Type-Theory.1-1--Types-and-Functions.html#33890" class="Bound">a</a> <a id="33906" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33908" class="Symbol">(</a><a id="33909" href="1--Type-Theory.1-1--Types-and-Functions.html#33894" class="Bound">b</a> <a id="33911" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="33913" href="1--Type-Theory.1-1--Types-and-Functions.html#33899" class="Bound">c</a><a id="33914" class="Symbol">)</a>
+</pre>
+<h2 id="references-and-further-reading"><a class="header" href="#references-and-further-reading">References and Further Reading</a></h2>
+<p>mvrnote:
+currying
+dependency
+https://www.cs.bham.ac.uk/~mhe/HoTT-UF-in-Agda-Lecture-Notes/HoTT-UF-Agda.html#sigmatypes</p>
+
+                  </main>
+                  <div class="sidetoc">
+                    <nav class="pagetoc"></nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

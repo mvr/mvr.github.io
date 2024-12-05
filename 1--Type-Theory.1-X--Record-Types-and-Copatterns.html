@@ -1,0 +1,435 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>X: Record Types and Copatterns - Introduction to Cubical Type Theory in Agda</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/Agda.css">
+        <link rel="stylesheet" href="theme/css/Agda-highlight.css">
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="index.html">Home</a></li><li class="chapter-item affix "><a href="INSTALLING_AGDA.html">Installing Agda</a></li><li class="chapter-item affix "><a href="USING_AGDA.html">Using Agda</a></li><li class="chapter-item affix "><li class="part-title">Type Theory</li><li class="chapter-item "><a href="1--Type-Theory.1-1--Types-and-Functions.html">1: Types and Functions</a></li><li class="chapter-item "><a href="1--Type-Theory.1-2--Inductive-Types.html">2: Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html">3: Universes and More Inductive Types</a></li><li class="chapter-item expanded "><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html" class="active">X: Record Types and Copatterns</a></li><li class="chapter-item "><a href="1--Type-Theory.1-4--Propositions-as-Types.html">4: Propositions as Types</a></li><li class="chapter-item affix "><li class="part-title">Paths and Identifications</li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-1--Paths.html">1: Paths</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html">2: Equivalences and Path Algebra</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html">3: Substitution and J</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html">4: Composition and Filling</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-5--Transport.html">5: Transport</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-6--Univalence.html">6: Univalence</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-7--Propositions.html">7: Propositions</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-8--Sets.html">8: Sets</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html">9: Contractible Maps</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-10--Higher-Types.html">10: Higher Types</a></li><li class="chapter-item affix "><li class="part-title">Topics</li><li class="chapter-item "><a href="3--Structures.3-1--Structure-Identity-Principle.html">1: The Structure Identity Principle</a></li><li class="chapter-item "><a href="3--Structures.3-2--Modalities.html">2: Modalities</a></li><li class="chapter-item "><a href="3--Structures.3-3--Constructive-Logic.html">3: Constructive Logic</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="Library.Primitive.html">Primitives</a></li><li class="chapter-item affix "><a href="Library.Prelude.html">Prelude</a></li><li class="chapter-item affix "><a href="Library.Univalence.html">Univalence</a></li><li class="chapter-item affix "><a href="UNICODE_DICTIONARY.html">Unicode Dictionary</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="ACKNOWLEDGEMENTS.html">Acknowledgements</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <!-- <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li> -->
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to Cubical Type Theory in Agda</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/CQTS/introduction-to-cubical" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                  <main>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<!--
+<pre class="Agda"><a id="10" class="Keyword">module</a> <a id="17" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html" class="Module">1--Type-Theory.1-X--Record-Types-and-Copatterns</a> <a id="65" class="Keyword">where</a>
+
+<a id="72" class="Keyword">open</a> <a id="77" class="Keyword">import</a> <a id="84" href="Library.Prelude.html" class="Module">Library.Prelude</a>
+<a id="100" class="Keyword">open</a> <a id="105" class="Keyword">import</a> <a id="112" href="1--Type-Theory.1-1--Types-and-Functions.html" class="Module">1--Type-Theory.1-1--Types-and-Functions</a>
+<a id="152" class="Keyword">open</a> <a id="157" class="Keyword">import</a> <a id="164" href="1--Type-Theory.1-2--Inductive-Types.html" class="Module">1--Type-Theory.1-2--Inductive-Types</a>
+<a id="200" class="Keyword">open</a> <a id="205" class="Keyword">import</a> <a id="212" href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html" class="Module">1--Type-Theory.1-3--Universes-and-More-Inductive-Types</a>
+</pre>-->
+<h1 id="lecture-1-x-record-types-and-copatterns"><a class="header" href="#lecture-1-x-record-types-and-copatterns">Lecture 1-X: Record Types and Copatterns</a></h1>
+<p>mvrnote: somewhat under construction</p>
+<p>On occasion we will want to package together some collection of data
+into a single larger type. This is an extremely common pattern in
+ordinary programming: think of <code>struct</code>s in C or C++, <code>dataclass</code>es in
+Python, or simply rows in a database.</p>
+<p>We already have a way of doing this by nesting Σ-types, which we have
+had a taste of in <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#33374" class="Function">Σ-assoc-toI</a></code> and <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#33707" class="Function">Σ-assoc-froI</a></code>. But Agda
+provides a facility known as <em>record</em>x types which make these compound
+types much more pleasant to use, and which are the topic of this
+(fairly short) lecture.</p>
+<h2 id="defining-records"><a class="header" href="#defining-records">Defining Records</a></h2>
+<p>Whereas an inductive type is specified by a list of constructors, a
+record type is specified by a list of <em>fields</em> and their types. An
+element of the record type will consist of an element of each of the
+field types.</p>
+<p>Suppose for some reason we want to package a natural number, Boolean,
+and element of the unit type into a single type.</p>
+<pre class="Agda"><a id="1264" class="Keyword">record</a> <a id="Triple"></a><a id="1271" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a> <a id="1278" class="Symbol">:</a> <a id="1280" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="1285" class="Keyword">where</a>
+  <a id="1293" class="Keyword">field</a>
+    <a id="Triple.one"></a><a id="1303" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="1307" class="Symbol">:</a> <a id="1309" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+    <a id="Triple.two"></a><a id="1315" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="1319" class="Symbol">:</a> <a id="1321" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+    <a id="Triple.thr"></a><a id="1330" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="1334" class="Symbol">:</a> <a id="1336" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+</pre>
+<p>The following line allows us to refer to <code class="Agda"><a href="2--Paths-and-Identifications.2-7--Propositions.html#3560" class="InductiveConstructor">one</a></code>, <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a></code> and <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a></code>
+without qualifying them as <code>Triple.one</code>, <code>Triple.two</code> and <code>Triple.thr</code>
+everywhere. We will be <code>open</code>ing all our records, so we’ll have to
+make sure we give the fields descriptive names.</p>
+<pre class="Agda"><a id="1604" class="Keyword">open</a> <a id="1609" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Module">Triple</a>
+</pre>
+<p>Accessing the fields of a record is done by using the field names as
+projections, as we saw for Σ-types in Lecture 1-1.</p>
+<pre class="Agda"><a id="get-one"></a><a id="1746" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1746" class="Function">get-one</a> <a id="1754" class="Symbol">:</a> <a id="1756" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a> <a id="1763" class="Symbol">→</a> <a id="1765" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+<a id="1767" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1746" class="Function">get-one</a> <a id="1775" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1775" class="Bound">p</a> <a id="1777" class="Symbol">=</a> <a id="1779" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1775" class="Bound">p</a> <a id="1781" class="Symbol">.</a><a id="1782" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a>
+
+<a id="get-two"></a><a id="1787" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1787" class="Function">get-two</a> <a id="1795" class="Symbol">:</a> <a id="1797" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a> <a id="1804" class="Symbol">→</a> <a id="1806" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="1811" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1787" class="Function">get-two</a> <a id="1819" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1819" class="Bound">p</a> <a id="1821" class="Symbol">=</a> <a id="1823" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1819" class="Bound">p</a> <a id="1825" class="Symbol">.</a><a id="1826" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a>
+
+<a id="get-thr"></a><a id="1831" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1831" class="Function">get-thr</a> <a id="1839" class="Symbol">:</a> <a id="1841" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a> <a id="1848" class="Symbol">→</a> <a id="1850" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+<a id="1852" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1831" class="Function">get-thr</a> <a id="1860" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1860" class="Bound">p</a> <a id="1862" class="Symbol">=</a> <a id="1864" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1860" class="Bound">p</a> <a id="1866" class="Symbol">.</a><a id="1867" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a>
+</pre>
+<p>It is occasionally useful to refer to a projection as a function out
+of the record, for example when composing the function with something
+else or passing it to a higher-order function. This can be done by
+leaving off the dot.</p>
+<pre class="Agda"><a id="one-isZero"></a><a id="2108" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2108" class="Function">one-isZero</a> <a id="2119" class="Symbol">:</a> <a id="2121" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a> <a id="2128" class="Symbol">→</a> <a id="2130" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="2135" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2108" class="Function">one-isZero</a> <a id="2146" class="Symbol">=</a> <a id="2148" href="1--Type-Theory.1-2--Inductive-Types.html#9685" class="Function">isZero</a> <a id="2155" href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#3734" class="Function Operator">∘</a> <a id="2157" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a>
+</pre>
+<p>This is shorthand for an anonymous function that does the projection
+properly.</p>
+<pre class="Agda"><a id="2250" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2250" class="Function">_</a> <a id="2252" class="Symbol">=</a> <a id="2254" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="2269" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="2273" class="Symbol">(λ</a> <a id="2276" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2276" class="Bound">p</a> <a id="2278" class="Symbol">→</a> <a id="2280" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2276" class="Bound">p</a> <a id="2282" class="Symbol">.</a><a id="2283" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a><a id="2286" class="Symbol">)</a>
+</pre>
+<p>Constructing an element of a record type is done via a mirror-image
+process to case-splitting on inductive types. For each field of the
+record, we provide a value for that field.</p>
+<pre class="Agda"><a id="favourite-triple"></a><a id="2477" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2477" class="Function">favourite-triple</a> <a id="2494" class="Symbol">:</a> <a id="2496" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a>
+<a id="2503" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2477" class="Function">favourite-triple</a> <a id="2520" class="Symbol">=</a> <a id="2522" class="Keyword">record</a>
+  <a id="2531" class="Symbol">{</a> <a id="2533" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="2537" class="Symbol">=</a> <a id="2539" class="Number">19</a>
+  <a id="2544" class="Symbol">;</a> <a id="2546" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="2550" class="Symbol">=</a> <a id="2552" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+  <a id="2559" class="Symbol">;</a> <a id="2561" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="2565" class="Symbol">=</a> <a id="2567" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+  <a id="2572" class="Symbol">}</a>
+</pre>
+<p>Records have their own computation rule. If you have a <code>record</code>
+expression and project one of its fields, you get exactly what was
+placed in that field:</p>
+<pre class="Agda"><a id="2737" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2737" class="Function">_</a> <a id="2739" class="Symbol">=</a> <a id="2741" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a>
+    <a id="2760" class="Symbol">(</a><a id="2761" class="Keyword">record</a>
+     <a id="2773" class="Symbol">{</a> <a id="2775" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="2779" class="Symbol">=</a> <a id="2781" class="Number">19</a>
+     <a id="2789" class="Symbol">;</a> <a id="2791" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="2795" class="Symbol">=</a> <a id="2797" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+     <a id="2807" class="Symbol">;</a> <a id="2809" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="2813" class="Symbol">=</a> <a id="2815" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+     <a id="2823" class="Symbol">}</a> <a id="2825" class="Symbol">.</a><a id="2826" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a><a id="2829" class="Symbol">)</a>
+    <a id="2835" class="Number">19</a>
+
+<a id="2839" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#2839" class="Function">_</a> <a id="2841" class="Symbol">=</a> <a id="2843" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a>
+    <a id="2862" class="Symbol">(</a><a id="2863" class="Keyword">record</a>
+     <a id="2875" class="Symbol">{</a> <a id="2877" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="2881" class="Symbol">=</a> <a id="2883" class="Number">19</a>
+     <a id="2891" class="Symbol">;</a> <a id="2893" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="2897" class="Symbol">=</a> <a id="2899" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+     <a id="2909" class="Symbol">;</a> <a id="2911" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="2915" class="Symbol">=</a> <a id="2917" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+     <a id="2925" class="Symbol">}</a> <a id="2927" class="Symbol">.</a><a id="2928" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a><a id="2931" class="Symbol">)</a>
+    <a id="2937" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+</pre>
+<p>Using records has some downsides over iterated Σ-types. When we prove
+general facts about Σ-types, they will not automatically apply to any
+of the record types we have defined. We will have to manually convert
+to and from the corresponding Σ-type to make use of those proofs, via
+maps along the lines of the following.</p>
+<pre class="Agda"><a id="Triple-to"></a><a id="3271" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3271" class="Function">Triple-to</a> <a id="3281" class="Symbol">:</a> <a id="3283" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a> <a id="3290" class="Symbol">→</a> <a id="3292" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="3294" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="3296" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="3301" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="3303" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+<a id="3305" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3271" class="Function">Triple-to</a> <a id="3315" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3315" class="Bound">t</a> <a id="3317" class="Symbol">=</a> <a id="3319" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3315" class="Bound">t</a> <a id="3321" class="Symbol">.</a><a id="3322" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="3326" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="3328" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3315" class="Bound">t</a> <a id="3330" class="Symbol">.</a><a id="3331" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="3335" href="Library.Prelude.html#1090" class="InductiveConstructor Operator">,</a> <a id="3337" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3315" class="Bound">t</a> <a id="3339" class="Symbol">.</a><a id="3340" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a>
+
+<a id="Triple-fro"></a><a id="3345" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3345" class="Function">Triple-fro</a> <a id="3356" class="Symbol">:</a> <a id="3358" href="Library.Prelude.html#3629" class="Datatype">ℕ</a> <a id="3360" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="3362" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="3367" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="3369" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="3371" class="Symbol">→</a> <a id="3373" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a>
+<a id="3380" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3345" class="Function">Triple-fro</a> <a id="3391" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3391" class="Bound">s</a> <a id="3393" class="Symbol">=</a> <a id="3395" class="Keyword">record</a>
+  <a id="3404" class="Symbol">{</a> <a id="3406" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="3410" class="Symbol">=</a> <a id="3412" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3391" class="Bound">s</a> <a id="3414" class="Symbol">.</a><a id="3415" href="Library.Prelude.html#1106" class="Field">fst</a>
+  <a id="3421" class="Symbol">;</a> <a id="3423" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="3427" class="Symbol">=</a> <a id="3429" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3391" class="Bound">s</a> <a id="3431" class="Symbol">.</a><a id="3432" href="Library.Prelude.html#1118" class="Field">snd</a> <a id="3436" class="Symbol">.</a><a id="3437" href="Library.Prelude.html#1106" class="Field">fst</a>
+  <a id="3443" class="Symbol">;</a> <a id="3445" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="3449" class="Symbol">=</a> <a id="3451" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3391" class="Bound">s</a> <a id="3453" class="Symbol">.</a><a id="3454" href="Library.Prelude.html#1118" class="Field">snd</a> <a id="3458" class="Symbol">.</a><a id="3459" href="Library.Prelude.html#1118" class="Field">snd</a>
+  <a id="3465" class="Symbol">}</a>
+</pre>
+<p>Packing some values into a record like this is a common situation.
+Agda lets us name a constructor for a record type, so that we don’t
+have to use non-descriptive <code>record</code> keyword each time. This has to be
+done at the moment the record type is declared, so here is a new
+version of <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a></code> where we have done this:</p>
+<pre class="Agda"><a id="3795" class="Keyword">record</a> <a id="Triple&#39;"></a><a id="3802" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3802" class="Record">Triple&#39;</a> <a id="3810" class="Symbol">:</a> <a id="3812" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="3817" class="Keyword">where</a>
+  <a id="3825" class="Keyword">constructor</a> <a id="triple&#39;"></a><a id="3837" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3837" class="InductiveConstructor">triple&#39;</a>
+  <a id="3847" class="Keyword">field</a>
+    <a id="Triple&#39;.one&#39;"></a><a id="3857" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3857" class="Field">one&#39;</a> <a id="3862" class="Symbol">:</a> <a id="3864" href="Library.Prelude.html#3629" class="Datatype">ℕ</a>
+    <a id="Triple&#39;.two&#39;"></a><a id="3870" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3870" class="Field">two&#39;</a> <a id="3875" class="Symbol">:</a> <a id="3877" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+    <a id="Triple&#39;.thr&#39;"></a><a id="3886" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3886" class="Field">thr&#39;</a> <a id="3891" class="Symbol">:</a> <a id="3893" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+
+<a id="3896" class="Keyword">open</a> <a id="3901" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3802" class="Module">Triple&#39;</a>
+</pre>
+<p>The constructor <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3837" class="InductiveConstructor">triple’</a></code> is now a function that accepts the fields
+of the <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3802" class="Record">Triple’</a></code> record one at a time, and gives back a triple.</p>
+<pre class="Agda"><a id="favourite-triple&#39;"></a><a id="4055" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4055" class="Function">favourite-triple&#39;</a> <a id="4073" class="Symbol">:</a> <a id="4075" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3802" class="Record">Triple&#39;</a>
+<a id="4083" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4055" class="Function">favourite-triple&#39;</a> <a id="4101" class="Symbol">=</a> <a id="4103" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#3837" class="InductiveConstructor">triple&#39;</a> <a id="4111" class="Number">19</a> <a id="4114" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="4119" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+</pre>
+<h2 id="uniqueness-principle"><a class="header" href="#uniqueness-principle">Uniqueness Principle</a></h2>
+<p>Records have one additional rule which can come in handy: a
+<em>uniqueness</em> principle. This states that any element of a record type
+can be unpacked into its fields and repacked into a record, and the
+result is identical to the record we started with. One gloss on this
+is that there is no extra information that can be carried by an
+element of a record type: the fields are sufficient to capture
+everything.</p>
+<pre class="Agda"><a id="4564" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4564" class="Function">_</a> <a id="4566" class="Symbol">=</a> <a id="4568" class="Symbol">λ</a> <a id="4570" class="Symbol">(</a><a id="4571" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4571" class="Bound">t</a> <a id="4573" class="Symbol">:</a> <a id="4575" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a><a id="4581" class="Symbol">)</a> <a id="4583" class="Symbol">→</a> <a id="4585" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a>
+      <a id="4606" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4571" class="Bound">t</a>
+      <a id="4614" class="Keyword">record</a>
+       <a id="4628" class="Symbol">{</a> <a id="4630" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="4634" class="Symbol">=</a> <a id="4636" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4571" class="Bound">t</a> <a id="4638" class="Symbol">.</a><a id="4639" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a>
+       <a id="4650" class="Symbol">;</a> <a id="4652" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="4656" class="Symbol">=</a> <a id="4658" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4571" class="Bound">t</a> <a id="4660" class="Symbol">.</a><a id="4661" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a>
+       <a id="4672" class="Symbol">;</a> <a id="4674" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="4678" class="Symbol">=</a> <a id="4680" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#4571" class="Bound">t</a> <a id="4682" class="Symbol">.</a><a id="4683" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a>
+       <a id="4694" class="Symbol">}</a>
+</pre>
+<p>For an inductive type like <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code>, a simple uniqueness principle
+would look something like the following:</p>
+<pre><code>_ = λ (b : Bool) → test-identical
+      b
+      (case b of λ
+       { true  → true
+       ; false → false
+       })
+</code></pre>
+<p>That is, every Boolean element can be replaced by one where you do
+case analysis on the Boolean immediately.</p>
+<p>Unfortunately, it is not possible to support this kind of uniqueness
+principle for inductive types and maintain other desirable properties
+of the type system. We’ve taken for granted that Agda can check that
+our definitions match the types that we claim they have, and it
+doesn’t get stuck in an infinite loop or give up. As innocent as this
+uniqueness principle looks, general uniqueness for inductive types
+ruins the “decidability” of typechecking. (See the references below).</p>
+<p>Worse (arguably), a uniqueness principle for all inductive types
+destroys all the “higher dimensional” structure of types, which was
+one of the motivations for creating Homotopy Type Theory in the first
+place!</p>
+<p>There is some consolation: we can still prove that, for example, any
+element of <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code> must equal <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> or <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code>, as we do later
+in <code class="Agda"><a href="1--Type-Theory.1-4--Propositions-as-Types.html#13299" class="Function">≡Bool-LEM</a></code>. We just can’t arrange things so Agda knows
+automatically that every Boolean is literally identical to one of
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a></code> or <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a></code>.</p>
+<p>To summarise this section, there is a nice duality between inductive
+types and record types.</p>
+<div class="table-wrapper"><table><thead><tr><th>Inductive Types</th><th>Record Types</th></tr></thead><tbody>
+<tr><td>Specified by the types of <em>constructors</em></td><td>Specified by the types of <em>fields</em></td></tr>
+<tr><td>Created by choosing <em>one</em> constructor</td><td>Created by giving a value for <em>every</em> field</td></tr>
+<tr><td>Eliminated by giving a value for <em>every</em> constructor</td><td>Eliminated by choosing <em>one</em> field</td></tr>
+<tr><td>Eliminating a constructor computes to the corresponding value</td><td>Projecting the constructor computes to the corresponding value</td></tr>
+<tr><td>-</td><td>A record is uniquely determined by its projections</td></tr>
+</tbody></table>
+</div>
+<h2 id="copatterns"><a class="header" href="#copatterns">Copatterns</a></h2>
+<p>There is an analogy with another type constructor we would like to
+make: records are quite similar to functions, in that you define one
+them by explaining what happens when you eliminate it.</p>
+<p>Let’s extend the above table:</p>
+<div class="table-wrapper"><table><thead><tr><th>Record Types</th><th>Function Types</th></tr></thead><tbody>
+<tr><td>Specified by the types of <em>fields</em></td><td>Specified by the types of <em>argument and result</em></td></tr>
+<tr><td>Created by giving a value for <em>every</em> field</td><td>Created by giving a value for <em>every</em> argument</td></tr>
+<tr><td>Eliminated by choosing <em>one</em> field</td><td>Eliminated by choosing <em>one</em> argument</td></tr>
+<tr><td>Projecting the constructor computes to the corresponding value</td><td>Applying a λ computes to the corresponding value</td></tr>
+<tr><td>A record is uniquely determined by its projections</td><td>A function is uniquely determined by its applications</td></tr>
+</tbody></table>
+</div>
+<p>Agda takes this analogy seriously, and lets us create records using
+the built-in definition syntax we have been using from the start. Just
+as the definition of a function gives an equation for what happens
+when you apply the function, in this style the definition of a record
+gives an equation for what happens when you project the record.</p>
+<pre class="Agda"><a id="favourite-triple&#39;&#39;"></a><a id="8499" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#8499" class="Function">favourite-triple&#39;&#39;</a> <a id="8518" class="Symbol">:</a> <a id="8520" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1271" class="Record">Triple</a>
+<a id="8527" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#8499" class="Function">favourite-triple&#39;&#39;</a> <a id="8546" class="Symbol">.</a><a id="8547" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1303" class="Field">one</a> <a id="8551" class="Symbol">=</a> <a id="8553" class="Number">19</a>
+<a id="8556" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#8499" class="Function">favourite-triple&#39;&#39;</a> <a id="8575" class="Symbol">.</a><a id="8576" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1315" class="Field">two</a> <a id="8580" class="Symbol">=</a> <a id="8582" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+<a id="8587" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#8499" class="Function">favourite-triple&#39;&#39;</a> <a id="8606" class="Symbol">.</a><a id="8607" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#1330" class="Field">thr</a> <a id="8611" class="Symbol">=</a> <a id="8613" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a>
+</pre>
+<p>Definition clauses like this are called <em>copatterns</em>. Ordinary pattern
+matching explains what a function does when its input is a particular
+constructor. Copattern matching explains what a function does its
+output used by a particular <em>eliminator</em>.</p>
+<p>Using copatterns can really help when working with nested record
+types, as we do later in this course. Just as patterns can be nested
+to pull apart nested inductive types (look at, for example,
+<code class="Agda"><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#14740" class="Function">⊎-assoc-to</a></code>), copatterns can construct nested record types:</p>
+<pre class="Agda"><a id="triple×-again"></a><a id="9133" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9133" class="Function">triple×-again</a> <a id="9147" class="Symbol">:</a> <a id="9149" class="Symbol">{</a><a id="9150" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9150" class="Bound">A</a> <a id="9152" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9152" class="Bound">B</a> <a id="9154" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9154" class="Bound">C</a> <a id="9156" class="Symbol">:</a> <a id="9158" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="9162" class="Symbol">}</a> <a id="9164" class="Symbol">→</a> <a id="9166" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9150" class="Bound">A</a> <a id="9168" class="Symbol">→</a> <a id="9170" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9152" class="Bound">B</a> <a id="9172" class="Symbol">→</a> <a id="9174" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9154" class="Bound">C</a> <a id="9176" class="Symbol">→</a> <a id="9178" class="Symbol">((</a><a id="9180" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9150" class="Bound">A</a> <a id="9182" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="9184" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9152" class="Bound">B</a><a id="9185" class="Symbol">)</a> <a id="9187" href="Library.Prelude.html#1692" class="Function Operator">×</a> <a id="9189" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9154" class="Bound">C</a><a id="9190" class="Symbol">)</a>
+<a id="9192" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9133" class="Function">triple×-again</a> <a id="9206" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9206" class="Bound">a</a> <a id="9208" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9208" class="Bound">b</a> <a id="9210" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9210" class="Bound">c</a> <a id="9212" class="Symbol">.</a><a id="9213" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="9217" class="Symbol">.</a><a id="9218" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="9222" class="Symbol">=</a> <a id="9224" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9206" class="Bound">a</a>
+<a id="9226" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9133" class="Function">triple×-again</a> <a id="9240" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9240" class="Bound">a</a> <a id="9242" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9242" class="Bound">b</a> <a id="9244" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9244" class="Bound">c</a> <a id="9246" class="Symbol">.</a><a id="9247" href="Library.Prelude.html#1106" class="Field">fst</a> <a id="9251" class="Symbol">.</a><a id="9252" href="Library.Prelude.html#1118" class="Field">snd</a> <a id="9256" class="Symbol">=</a> <a id="9258" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9242" class="Bound">b</a>
+<a id="9260" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9133" class="Function">triple×-again</a> <a id="9274" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9274" class="Bound">a</a> <a id="9276" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9276" class="Bound">b</a> <a id="9278" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9278" class="Bound">c</a> <a id="9280" class="Symbol">.</a><a id="9281" href="Library.Prelude.html#1118" class="Field">snd</a>      <a id="9290" class="Symbol">=</a> <a id="9292" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9278" class="Bound">c</a>
+</pre>
+<p>mvrnote: https://agda.readthedocs.io/en/v2.7.0.1/language/pattern-synonyms.html</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+In the type-theory literature, types which are determined by their
+eliminators are often called <em>negative</em> types, as opposed to
+<em>positive</em> types such as inductive types, which are determined by
+their constructors. mvrnote: more</p>
+</div>
+<h2 id="-as-a-record-and-Σ-as-an-inductive-type"><a class="header" href="#-as-a-record-and-Σ-as-an-inductive-type">⊤ as a Record and Σ as an Inductive Type</a></h2>
+<p>For some types, there is wiggle room in when to use an inductive type
+vs a record type. For example, we could have defined the unit type
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code> as a record without any fields:</p>
+<pre class="Agda"><a id="9851" class="Keyword">record</a> <a id="Record-⊤"></a><a id="9858" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9858" class="Record">Record-⊤</a> <a id="9867" class="Symbol">:</a> <a id="9869" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="9874" class="Keyword">where</a>
+  <a id="9882" class="Keyword">constructor</a> <a id="Record-tt"></a><a id="9894" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9894" class="InductiveConstructor">Record-tt</a>
+  <a id="9906" class="Comment">-- No fields!</a>
+</pre>
+<p>The named constructor <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9894" class="InductiveConstructor">Record-tt</a></code> is a function that accepts the
+fields in order and gives an element of <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9858" class="Record">Record-⊤</a></code>. But there are no
+fields, so already <code>Record-tt : Record-⊤</code>.</p>
+<p>This definition has the advantage that, because of the uniqueness that
+comes with record types, <em>any</em> element of <code class="Agda"><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9858" class="Record">Record-⊤</a></code> is identical to
+<code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a></code> without needing to do a pattern match to reveal this fact.</p>
+<pre class="Agda"><a id="10320" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10320" class="Function">_</a> <a id="10322" class="Symbol">=</a> <a id="10324" class="Symbol">λ</a> <a id="10326" class="Symbol">(</a><a id="10327" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10327" class="Bound">u</a> <a id="10329" class="Symbol">:</a> <a id="10331" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9858" class="Record">Record-⊤</a><a id="10339" class="Symbol">)</a> <a id="10341" class="Symbol">→</a> <a id="10343" href="Library.Prelude.html#2894" class="InductiveConstructor">test-identical</a> <a id="10358" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10327" class="Bound">u</a> <a id="10360" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#9894" class="InductiveConstructor">Record-tt</a>
+<a id="10370" class="Comment">-- Fails!</a>
+<a id="10380" class="Comment">-- _ = λ (u : ⊤) → test-identical u tt</a>
+</pre>
+<p>This is occasionally helpful, but missing it is not a big deal.</p>
+<p>Back in Lecture 1-1 (and revisited in Lecture 1-X), we saw the operations
+<code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#25013" class="Function">×-curry</a></code> and <code class="Agda"><a href="1--Type-Theory.1-1--Types-and-Functions.html#25377" class="Function">×-uncurry</a></code> which are mutual inverses. Putting
+dependency aside, these state that to produce a map out of a pair type
+<code>A × B → C</code>, it is enough to produce a map <code>A → B → C</code>. This looks
+awfully like the universal mapping property of an inductive type, and
+indeed we can create another version of the <code class="Agda"><a href="Library.Prelude.html#1692" class="Function">×</a></code> type as follows.</p>
+<pre class="Agda"><a id="10908" class="Keyword">data</a> <a id="Inductive-×"></a><a id="10913" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10913" class="Datatype">Inductive-×</a> <a id="10925" class="Symbol">{</a><a id="10926" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10926" class="Bound">ℓ</a> <a id="10928" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10928" class="Bound">ℓ&#39;</a> <a id="10931" class="Symbol">:</a> <a id="10933" href="Library.Primitive.html#1060" class="Postulate">Level</a><a id="10938" class="Symbol">}</a> <a id="10940" class="Symbol">(</a><a id="10941" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10941" class="Bound">A</a> <a id="10943" class="Symbol">:</a> <a id="10945" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="10950" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10926" class="Bound">ℓ</a><a id="10951" class="Symbol">)</a> <a id="10953" class="Symbol">(</a><a id="10954" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10954" class="Bound">B</a> <a id="10956" class="Symbol">:</a> <a id="10958" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="10963" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10928" class="Bound">ℓ&#39;</a><a id="10965" class="Symbol">)</a> <a id="10967" class="Symbol">:</a> <a id="10969" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="10974" class="Symbol">(</a><a id="10975" href="Library.Primitive.html#1128" class="Primitive">ℓ-max</a> <a id="10981" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10926" class="Bound">ℓ</a> <a id="10983" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10928" class="Bound">ℓ&#39;</a><a id="10985" class="Symbol">)</a> <a id="10987" class="Keyword">where</a>
+  <a id="Inductive-×.comma"></a><a id="10995" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10995" class="InductiveConstructor">comma</a> <a id="11001" class="Symbol">:</a> <a id="11003" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10941" class="Bound">A</a> <a id="11005" class="Symbol">→</a> <a id="11007" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10954" class="Bound">B</a> <a id="11009" class="Symbol">→</a> <a id="11011" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10913" class="Datatype">Inductive-×</a> <a id="11023" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10941" class="Bound">A</a> <a id="11025" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10954" class="Bound">B</a>
+
+<a id="Inductive-fst"></a><a id="11028" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11028" class="Function">Inductive-fst</a> <a id="11042" class="Symbol">:</a> <a id="11044" class="Symbol">{</a><a id="11045" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11045" class="Bound">A</a> <a id="11047" class="Symbol">:</a> <a id="11049" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="11053" class="Symbol">}</a> <a id="11055" class="Symbol">{</a><a id="11056" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11056" class="Bound">B</a> <a id="11058" class="Symbol">:</a> <a id="11060" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="11064" class="Symbol">}</a> <a id="11066" class="Symbol">→</a> <a id="11068" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10913" class="Datatype">Inductive-×</a> <a id="11080" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11045" class="Bound">A</a> <a id="11082" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11056" class="Bound">B</a> <a id="11084" class="Symbol">→</a> <a id="11086" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11045" class="Bound">A</a>
+<a id="11088" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11028" class="Function">Inductive-fst</a> <a id="11102" class="Symbol">(</a><a id="11103" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10995" class="InductiveConstructor">comma</a> <a id="11109" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11109" class="Bound">a</a> <a id="11111" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11111" class="Bound">b</a><a id="11112" class="Symbol">)</a> <a id="11114" class="Symbol">=</a> <a id="11116" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11109" class="Bound">a</a>
+
+<a id="Inductive-snd"></a><a id="11119" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11119" class="Function">Inductive-snd</a> <a id="11133" class="Symbol">:</a> <a id="11135" class="Symbol">{</a><a id="11136" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11136" class="Bound">A</a> <a id="11138" class="Symbol">:</a> <a id="11140" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="11144" class="Symbol">}</a> <a id="11146" class="Symbol">{</a><a id="11147" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11147" class="Bound">B</a> <a id="11149" class="Symbol">:</a> <a id="11151" href="Library.Primitive.html#422" class="Primitive">Type</a><a id="11155" class="Symbol">}</a> <a id="11157" class="Symbol">→</a> <a id="11159" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10913" class="Datatype">Inductive-×</a> <a id="11171" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11136" class="Bound">A</a> <a id="11173" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11147" class="Bound">B</a> <a id="11175" class="Symbol">→</a> <a id="11177" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11147" class="Bound">B</a>
+<a id="11179" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11119" class="Function">Inductive-snd</a> <a id="11193" class="Symbol">(</a><a id="11194" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#10995" class="InductiveConstructor">comma</a> <a id="11200" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11200" class="Bound">a</a> <a id="11202" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11202" class="Bound">b</a><a id="11203" class="Symbol">)</a> <a id="11205" class="Symbol">=</a> <a id="11207" href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html#11202" class="Bound">b</a>
+</pre>
+<p>mvrnote not too burdensome</p>
+<h2 id="references"><a class="header" href="#references">References</a></h2>
+<p>https://agda.readthedocs.io/en/latest/language/record-types.html
+https://plfa.github.io/Connectives/
+focussing?</p>
+<p>eta for positive types</p>
+
+                  </main>
+                  <div class="sidetoc">
+                    <nav class="pagetoc"></nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

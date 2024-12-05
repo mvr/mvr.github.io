@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Installing Agda - Introduction to Cubical Type Theory in Agda</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/Agda.css">
+        <link rel="stylesheet" href="theme/css/Agda-highlight.css">
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="index.html">Home</a></li><li class="chapter-item affix "><a href="INSTALLING_AGDA.html" class="active">Installing Agda</a></li><li class="chapter-item affix "><a href="USING_AGDA.html">Using Agda</a></li><li class="chapter-item affix "><li class="part-title">Type Theory</li><li class="chapter-item "><a href="1--Type-Theory.1-1--Types-and-Functions.html">1: Types and Functions</a></li><li class="chapter-item "><a href="1--Type-Theory.1-2--Inductive-Types.html">2: Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html">3: Universes and More Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html">X: Record Types and Copatterns</a></li><li class="chapter-item "><a href="1--Type-Theory.1-4--Propositions-as-Types.html">4: Propositions as Types</a></li><li class="chapter-item affix "><li class="part-title">Paths and Identifications</li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-1--Paths.html">1: Paths</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html">2: Equivalences and Path Algebra</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html">3: Substitution and J</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html">4: Composition and Filling</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-5--Transport.html">5: Transport</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-6--Univalence.html">6: Univalence</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-7--Propositions.html">7: Propositions</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-8--Sets.html">8: Sets</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html">9: Contractible Maps</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-10--Higher-Types.html">10: Higher Types</a></li><li class="chapter-item affix "><li class="part-title">Topics</li><li class="chapter-item "><a href="3--Structures.3-1--Structure-Identity-Principle.html">1: The Structure Identity Principle</a></li><li class="chapter-item "><a href="3--Structures.3-2--Modalities.html">2: Modalities</a></li><li class="chapter-item "><a href="3--Structures.3-3--Constructive-Logic.html">3: Constructive Logic</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="Library.Primitive.html">Primitives</a></li><li class="chapter-item affix "><a href="Library.Prelude.html">Prelude</a></li><li class="chapter-item affix "><a href="Library.Univalence.html">Univalence</a></li><li class="chapter-item affix "><a href="UNICODE_DICTIONARY.html">Unicode Dictionary</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="ACKNOWLEDGEMENTS.html">Acknowledgements</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <!-- <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li> -->
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to Cubical Type Theory in Agda</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/CQTS/introduction-to-cubical" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                  <main>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="installing-agda"><a class="header" href="#installing-agda">Installing Agda</a></h1>
+<p>The best method for installing Agda will depend on what operating
+system you are using. The <a href="https://agda.readthedocs.io/en/v2.6.4.1/getting-started/installation.html">official documentation</a> gives a lot of
+details, but below we have listed some simplified instructions that
+worked for us.</p>
+<div class="info">
+<p><span class="info-label">Aside:</span>
+Watch out for the version number if you are installing Agda by using a
+package manager. We are using Agda version <code>2.6.4.1</code>. The exercise
+files may not work with earlier or later versions.</p>
+</div>
+<h2 id="on-mac-via-homebrew"><a class="header" href="#on-mac-via-homebrew">On Mac via Homebrew</a></h2>
+<p>Install the <a href="https://brew.sh/">Homebrew</a> package manager, then run</p>
+<pre><code class="language-shell">brew install agda
+</code></pre>
+<p>At the time of writing this installs the correct version of Agda, but
+it may not in the future!</p>
+<h2 id="on-windows-via-stack"><a class="header" href="#on-windows-via-stack">On Windows via Stack</a></h2>
+<p>Install Stack from [https://docs.haskellstack.org/en/stable/install_and_upgrade/]</p>
+<p>Open PowerShell, and use Stack to install the correct version of Agda:</p>
+<pre><code class="language-shell">stack --resolver lts-22.9 new Agda
+stack install Agda-2.6.4.1
+</code></pre>
+<h2 id="on-mac-and-linux-via-nix"><a class="header" href="#on-mac-and-linux-via-nix">On Mac and Linux via Nix</a></h2>
+<p>If installing Agda via <code>brew</code> did not work, we have also provided a
+Nix shard that will install the correct version of Agda. This will
+also install a copy of Emacs, if you would like to use that as your
+editor.</p>
+<p>First, install the Nix package manager:</p>
+<p>Linux:</p>
+<pre><code class="language-shell">sh &lt;(curl -L https://nixos.org/nix/install) --daemon
+</code></pre>
+<p>Mac:</p>
+<pre><code class="language-shell">sh &lt;(curl -L https://nixos.org/nix/install)
+</code></pre>
+<p>Now we need to enable Nix flakes:</p>
+<pre><code class="language-shell">mkdir -p ~/.config/nix
+echo &quot;experimental-features = nix-command flakes&quot; &gt;&gt; ~/.config/nix/nix.conf
+</code></pre>
+<p>For a fun series of blog posts on Nix and how to use it, <a href="https://ianthehenry.com/posts/how-to-learn-nix/">click this
+link</a>. We won’t need
+any heavy lifting here, we’re just using Nix to install Agda easily.</p>
+<p>Now, when you want to work in Agda with Emacs on this project,
+navigate to the directory that you cloned this in and run</p>
+<pre><code class="language-shell">nix develop
+</code></pre>
+<p>This might take a while the first time.</p>
+<h1 id="installing-vscode"><a class="header" href="#installing-vscode">Installing VSCode</a></h1>
+<p>Install <a href="https://code.visualstudio.com/">VSCode</a> and then the <a href="https://marketplace.visualstudio.com/items?itemName=banacorn.agda-mode"><code>agda-mode</code> extension</a>. If your key
+combinations (like <code>C-c C-c</code>) don’t work, you may need to apply the
+temporary fix described <a href="https://github.com/banacorn/agda-mode-vscode/issues/132#issuecomment-1368880358">here</a>.</p>
+<p>Depending on how you installed Agda, you may need to tell VSCode where
+the <code>agda</code> executable is located. This is under <code>Preferences &gt; Extensions</code> and then the <code>Agda Mode &gt; Connection: Agda Path</code> option.</p>
+<h1 id="installing-emacs-on-mac"><a class="header" href="#installing-emacs-on-mac">Installing Emacs on Mac</a></h1>
+<p>On Mac, you can use Homebrew to install Emacs.</p>
+<pre><code class="language-shell">brew tap d12frosted/emacs-plus
+brew install emacs-plus
+agda-mode setup
+</code></pre>
+<p>Now try running <code>emacs</code> in the terminal. If a nice Emacs window
+doesn’t appear, run</p>
+<pre><code class="language-shell">brew link --overwrite emacs-plus
+</code></pre>
+<p>Finally, add the following line to your <code>~/.emacs</code> file, so that the
+literate Agda files are recognised correctly.</p>
+<pre><code class="language-emacs-lisp">(add-to-list 'auto-mode-alist '(&quot;\\.lagda.md\\'&quot; . agda2-mode))
+</code></pre>
+
+                  </main>
+                  <div class="sidetoc">
+                    <nav class="pagetoc"></nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

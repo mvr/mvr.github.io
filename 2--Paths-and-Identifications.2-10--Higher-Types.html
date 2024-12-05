@@ -1,0 +1,398 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>10: Higher Types - Introduction to Cubical Type Theory in Agda</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/Agda.css">
+        <link rel="stylesheet" href="theme/css/Agda-highlight.css">
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="index.html">Home</a></li><li class="chapter-item affix "><a href="INSTALLING_AGDA.html">Installing Agda</a></li><li class="chapter-item affix "><a href="USING_AGDA.html">Using Agda</a></li><li class="chapter-item affix "><li class="part-title">Type Theory</li><li class="chapter-item "><a href="1--Type-Theory.1-1--Types-and-Functions.html">1: Types and Functions</a></li><li class="chapter-item "><a href="1--Type-Theory.1-2--Inductive-Types.html">2: Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html">3: Universes and More Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html">X: Record Types and Copatterns</a></li><li class="chapter-item "><a href="1--Type-Theory.1-4--Propositions-as-Types.html">4: Propositions as Types</a></li><li class="chapter-item affix "><li class="part-title">Paths and Identifications</li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-1--Paths.html">1: Paths</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html">2: Equivalences and Path Algebra</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html">3: Substitution and J</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html">4: Composition and Filling</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-5--Transport.html">5: Transport</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-6--Univalence.html">6: Univalence</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-7--Propositions.html">7: Propositions</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-8--Sets.html">8: Sets</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html">9: Contractible Maps</a></li><li class="chapter-item expanded "><a href="2--Paths-and-Identifications.2-10--Higher-Types.html" class="active">10: Higher Types</a></li><li class="chapter-item affix "><li class="part-title">Topics</li><li class="chapter-item "><a href="3--Structures.3-1--Structure-Identity-Principle.html">1: The Structure Identity Principle</a></li><li class="chapter-item "><a href="3--Structures.3-2--Modalities.html">2: Modalities</a></li><li class="chapter-item "><a href="3--Structures.3-3--Constructive-Logic.html">3: Constructive Logic</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="Library.Primitive.html">Primitives</a></li><li class="chapter-item affix "><a href="Library.Prelude.html">Prelude</a></li><li class="chapter-item affix "><a href="Library.Univalence.html">Univalence</a></li><li class="chapter-item affix "><a href="UNICODE_DICTIONARY.html">Unicode Dictionary</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="ACKNOWLEDGEMENTS.html">Acknowledgements</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <!-- <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li> -->
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to Cubical Type Theory in Agda</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/CQTS/introduction-to-cubical" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                  <main>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<!--
+<pre class="Agda"><a id="10" class="Keyword">module</a> <a id="17" href="2--Paths-and-Identifications.2-10--Higher-Types.html" class="Module">2--Paths-and-Identifications.2-10--Higher-Types</a> <a id="65" class="Keyword">where</a>
+
+<a id="72" class="Keyword">open</a> <a id="77" class="Keyword">import</a> <a id="84" href="Library.Prelude.html" class="Module">Library.Prelude</a>
+<a id="100" class="Keyword">open</a> <a id="105" class="Keyword">import</a> <a id="112" href="Library.Univalence.html" class="Module">Library.Univalence</a>
+<a id="131" class="Keyword">open</a> <a id="136" class="Keyword">import</a> <a id="143" href="1--Type-Theory.1-2--Inductive-Types.html" class="Module">1--Type-Theory.1-2--Inductive-Types</a>
+<a id="179" class="Keyword">open</a> <a id="184" class="Keyword">import</a> <a id="191" href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html" class="Module">1--Type-Theory.1-3--Universes-and-More-Inductive-Types</a>
+<a id="246" class="Keyword">open</a> <a id="251" class="Keyword">import</a> <a id="258" href="1--Type-Theory.1-4--Propositions-as-Types.html" class="Module">1--Type-Theory.1-4--Propositions-as-Types</a>
+<a id="300" class="Keyword">open</a> <a id="305" class="Keyword">import</a> <a id="312" href="2--Paths-and-Identifications.2-1--Paths.html" class="Module">2--Paths-and-Identifications.2-1--Paths</a>
+<a id="352" class="Keyword">open</a> <a id="357" class="Keyword">import</a> <a id="364" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html" class="Module">2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra</a>
+<a id="428" class="Keyword">open</a> <a id="433" class="Keyword">import</a> <a id="440" href="2--Paths-and-Identifications.2-3--Substitution-and-J.html" class="Module">2--Paths-and-Identifications.2-3--Substitution-and-J</a>
+<a id="493" class="Keyword">open</a> <a id="498" class="Keyword">import</a> <a id="505" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html" class="Module">2--Paths-and-Identifications.2-4--Composition-and-Filling</a>
+<a id="563" class="Keyword">open</a> <a id="568" class="Keyword">import</a> <a id="575" href="2--Paths-and-Identifications.2-6--Univalence.html" class="Module">2--Paths-and-Identifications.2-6--Univalence</a>
+<a id="620" class="Keyword">open</a> <a id="625" class="Keyword">import</a> <a id="632" href="2--Paths-and-Identifications.2-7--Propositions.html" class="Module">2--Paths-and-Identifications.2-7--Propositions</a>
+<a id="679" class="Keyword">open</a> <a id="684" class="Keyword">import</a> <a id="691" href="2--Paths-and-Identifications.2-8--Sets.html" class="Module">2--Paths-and-Identifications.2-8--Sets</a>
+<a id="730" class="Keyword">open</a> <a id="735" class="Keyword">import</a> <a id="742" href="2--Paths-and-Identifications.2-9--Contractible-Maps.html" class="Module">2--Paths-and-Identifications.2-9--Contractible-Maps</a>
+</pre>-->
+<h1 id="lecture-2-10-higher-types"><a class="header" href="#lecture-2-10-higher-types">Lecture 2-10: Higher Types</a></h1>
+<h2 id="suspensions"><a class="header" href="#suspensions">Suspensions</a></h2>
+<p>mvrnote: where should this go? all the suspension examples work fine once we have composition</p>
+<pre class="Agda"><a id="949" class="Keyword">data</a> <a id="Susp"></a><a id="954" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="959" class="Symbol">{</a><a id="960" href="2--Paths-and-Identifications.2-10--Higher-Types.html#960" class="Bound">ℓ</a> <a id="962" class="Symbol">:</a> <a id="964" href="Library.Primitive.html#1060" class="Postulate">Level</a><a id="969" class="Symbol">}</a> <a id="971" class="Symbol">(</a><a id="972" href="2--Paths-and-Identifications.2-10--Higher-Types.html#972" class="Bound">A</a> <a id="974" class="Symbol">:</a> <a id="976" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="981" href="2--Paths-and-Identifications.2-10--Higher-Types.html#960" class="Bound">ℓ</a><a id="982" class="Symbol">)</a> <a id="984" class="Symbol">:</a> <a id="986" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="991" href="2--Paths-and-Identifications.2-10--Higher-Types.html#960" class="Bound">ℓ</a> <a id="993" class="Keyword">where</a>
+  <a id="Susp.north"></a><a id="1001" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="1007" class="Symbol">:</a> <a id="1009" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1014" href="2--Paths-and-Identifications.2-10--Higher-Types.html#972" class="Bound">A</a>
+  <a id="Susp.south"></a><a id="1018" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="1024" class="Symbol">:</a> <a id="1026" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1031" href="2--Paths-and-Identifications.2-10--Higher-Types.html#972" class="Bound">A</a>
+  <a id="Susp.merid"></a><a id="1035" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="1041" class="Symbol">:</a> <a id="1043" class="Symbol">(</a><a id="1044" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1044" class="Bound">a</a> <a id="1046" class="Symbol">:</a> <a id="1048" href="2--Paths-and-Identifications.2-10--Higher-Types.html#972" class="Bound">A</a><a id="1049" class="Symbol">)</a> <a id="1051" class="Symbol">→</a> <a id="1053" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="1059" href="Library.Prelude.html#2004" class="Function Operator">≡</a> <a id="1061" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a>
+
+<a id="Susp-map"></a><a id="1068" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1068" class="Function">Susp-map</a> <a id="1077" class="Symbol">:</a> <a id="1079" class="Symbol">{</a><a id="1080" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1080" class="Bound">ℓ</a> <a id="1082" class="Symbol">:</a> <a id="1084" href="Library.Primitive.html#1060" class="Postulate">Level</a><a id="1089" class="Symbol">}</a> <a id="1091" class="Symbol">{</a><a id="1092" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1092" class="Bound">X</a> <a id="1094" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1094" class="Bound">Y</a> <a id="1096" class="Symbol">:</a> <a id="1098" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="1103" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1080" class="Bound">ℓ</a><a id="1104" class="Symbol">}</a> <a id="1106" class="Symbol">→</a> <a id="1108" class="Symbol">(</a><a id="1109" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1109" class="Bound">f</a> <a id="1111" class="Symbol">:</a> <a id="1113" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1092" class="Bound">X</a> <a id="1115" class="Symbol">→</a> <a id="1117" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1094" class="Bound">Y</a><a id="1118" class="Symbol">)</a> <a id="1120" class="Symbol">→</a> <a id="1122" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1127" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1092" class="Bound">X</a> <a id="1129" class="Symbol">→</a> <a id="1131" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1136" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1094" class="Bound">Y</a>
+<a id="1138" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1068" class="Function">Susp-map</a> <a id="1147" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1147" class="Bound">f</a> <a id="1149" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="1155" class="Symbol">=</a> <a id="1157" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a>
+<a id="1163" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1068" class="Function">Susp-map</a> <a id="1172" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1172" class="Bound">f</a> <a id="1174" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="1180" class="Symbol">=</a> <a id="1182" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a>
+<a id="1188" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1068" class="Function">Susp-map</a> <a id="1197" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1197" class="Bound">f</a> <a id="1199" class="Symbol">(</a><a id="1200" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="1206" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1206" class="Bound">a</a> <a id="1208" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1208" class="Bound">i</a><a id="1209" class="Symbol">)</a> <a id="1211" class="Symbol">=</a> <a id="1213" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="1219" class="Symbol">(</a><a id="1220" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1197" class="Bound">f</a> <a id="1222" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1206" class="Bound">a</a><a id="1223" class="Symbol">)</a> <a id="1225" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1208" class="Bound">i</a>
+</pre>
+<p>The simplest example is when we feed <code class="Agda"><a href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a></code> the empty type
+<code class="Agda"><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#6064" class="Datatype">∅</a></code>. You can use an absurd pattern in the <code class="Agda"><a href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a></code> case.</p>
+<pre class="Agda"><a id="Susp∅≅Bool"></a><a id="1358" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1358" class="Function">Susp∅≅Bool</a> <a id="1369" class="Symbol">:</a> <a id="1371" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1376" href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#6064" class="Datatype">∅</a> <a id="1378" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#5998" class="Function Operator">≃</a> <a id="1380" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+<a id="1385" class="Comment">-- Exercise (trivial):</a>
+<a id="1408" class="Comment">-- Susp∅≅Interval = {!!}</a>
+<a id="1433" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1358" class="Function">Susp∅≅Bool</a> <a id="1444" class="Symbol">=</a> <a id="1446" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#7262" class="Function">inv→equiv</a> <a id="1456" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1460" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1578" class="Function">inv</a> <a id="1464" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1645" class="Function">to-fro</a> <a id="1471" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1723" class="Function">fro-to</a>
+  <a id="1480" class="Keyword">where</a>
+    <a id="1490" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1494" class="Symbol">:</a> <a id="1496" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1501" href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#6064" class="Datatype">∅</a> <a id="1503" class="Symbol">→</a> <a id="1505" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+    <a id="1514" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1518" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="1524" class="Symbol">=</a> <a id="1526" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a>
+    <a id="1535" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1539" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="1545" class="Symbol">=</a> <a id="1547" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+    <a id="1557" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1561" class="Symbol">(</a><a id="1562" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="1568" class="Symbol">()</a> <a id="1571" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1571" class="Bound">i</a><a id="1572" class="Symbol">)</a>
+    <a id="1578" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1578" class="Function">inv</a> <a id="1582" class="Symbol">:</a> <a id="1584" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="1589" class="Symbol">→</a> <a id="1591" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1596" href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#6064" class="Datatype">∅</a>
+    <a id="1602" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1578" class="Function">inv</a> <a id="1606" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="1611" class="Symbol">=</a> <a id="1613" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a>
+    <a id="1623" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1578" class="Function">inv</a> <a id="1627" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="1633" class="Symbol">=</a> <a id="1635" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a>
+    <a id="1645" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1645" class="Function">to-fro</a> <a id="1652" class="Symbol">:</a> <a id="1654" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#1688" class="Function">isSection</a> <a id="1664" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1668" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1578" class="Function">inv</a>
+    <a id="1676" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1645" class="Function">to-fro</a> <a id="1683" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="1688" class="Symbol">=</a> <a id="1690" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="1699" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1645" class="Function">to-fro</a> <a id="1706" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="1712" class="Symbol">=</a> <a id="1714" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="1723" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1723" class="Function">fro-to</a> <a id="1730" class="Symbol">:</a> <a id="1732" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#3991" class="Function">isRetract</a> <a id="1742" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1490" class="Function">fun</a> <a id="1746" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1578" class="Function">inv</a>
+    <a id="1754" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1723" class="Function">fro-to</a> <a id="1761" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="1767" class="Symbol">=</a> <a id="1769" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="1778" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1723" class="Function">fro-to</a> <a id="1785" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="1791" class="Symbol">=</a> <a id="1793" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="1802" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1723" class="Function">fro-to</a> <a id="1809" class="Symbol">(</a><a id="1810" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="1816" class="Symbol">()</a> <a id="1819" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1819" class="Bound">i</a><a id="1820" class="Symbol">)</a>
+</pre>
+<p>Next simplest is the unit type <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code>, where the result looks like
+the following:</p>
+<pre class="Agda"><a id="Susp⊤≅Interval"></a><a id="1913" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1913" class="Function">Susp⊤≅Interval</a> <a id="1928" class="Symbol">:</a> <a id="1930" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="1935" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="1937" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#5998" class="Function Operator">≃</a> <a id="1939" href="2--Paths-and-Identifications.2-7--Propositions.html#3518" class="Datatype">Interval</a>
+<a id="1948" class="Comment">-- Exercise (also trivial):</a>
+<a id="1976" class="Comment">-- Susp⊤≅Interval = {!!}</a>
+<a id="2001" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1913" class="Function">Susp⊤≅Interval</a> <a id="2016" class="Symbol">=</a> <a id="2018" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#7262" class="Function">inv→equiv</a> <a id="2028" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2032" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a> <a id="2036" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2258" class="Function">to-fro</a> <a id="2043" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2360" class="Function">fro-to</a>
+  <a id="2052" class="Keyword">where</a>
+    <a id="2062" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2066" class="Symbol">:</a> <a id="2068" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="2073" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a> <a id="2075" class="Symbol">→</a> <a id="2077" href="2--Paths-and-Identifications.2-7--Propositions.html#3518" class="Datatype">Interval</a>
+    <a id="2090" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2094" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="2100" class="Symbol">=</a> <a id="2102" href="2--Paths-and-Identifications.2-7--Propositions.html#3542" class="InductiveConstructor">zero</a>
+    <a id="2111" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2115" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="2121" class="Symbol">=</a> <a id="2123" href="2--Paths-and-Identifications.2-7--Propositions.html#3560" class="InductiveConstructor">one</a>
+    <a id="2131" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2135" class="Symbol">(</a><a id="2136" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2142" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="2145" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2145" class="Bound">i</a><a id="2146" class="Symbol">)</a> <a id="2148" class="Symbol">=</a> <a id="2150" href="2--Paths-and-Identifications.2-7--Propositions.html#3578" class="InductiveConstructor">seg</a> <a id="2154" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2145" class="Bound">i</a>
+    <a id="2160" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a> <a id="2164" class="Symbol">:</a> <a id="2166" href="2--Paths-and-Identifications.2-7--Propositions.html#3518" class="Datatype">Interval</a> <a id="2175" class="Symbol">→</a> <a id="2177" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="2182" href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a>
+    <a id="2188" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a> <a id="2192" href="2--Paths-and-Identifications.2-7--Propositions.html#3542" class="InductiveConstructor">zero</a> <a id="2197" class="Symbol">=</a> <a id="2199" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a>
+    <a id="2209" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a> <a id="2213" href="2--Paths-and-Identifications.2-7--Propositions.html#3560" class="InductiveConstructor">one</a> <a id="2217" class="Symbol">=</a> <a id="2219" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a>
+    <a id="2229" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a> <a id="2233" class="Symbol">(</a><a id="2234" href="2--Paths-and-Identifications.2-7--Propositions.html#3578" class="InductiveConstructor">seg</a> <a id="2238" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2238" class="Bound">i</a><a id="2239" class="Symbol">)</a> <a id="2241" class="Symbol">=</a> <a id="2243" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2249" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="2252" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2238" class="Bound">i</a>
+    <a id="2258" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2258" class="Function">to-fro</a> <a id="2265" class="Symbol">:</a> <a id="2267" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#1688" class="Function">isSection</a> <a id="2277" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2281" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a>
+    <a id="2289" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2258" class="Function">to-fro</a> <a id="2296" href="2--Paths-and-Identifications.2-7--Propositions.html#3542" class="InductiveConstructor">zero</a> <a id="2301" class="Symbol">=</a> <a id="2303" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="2312" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2258" class="Function">to-fro</a> <a id="2319" href="2--Paths-and-Identifications.2-7--Propositions.html#3560" class="InductiveConstructor">one</a> <a id="2323" class="Symbol">=</a> <a id="2325" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="2334" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2258" class="Function">to-fro</a> <a id="2341" class="Symbol">(</a><a id="2342" href="2--Paths-and-Identifications.2-7--Propositions.html#3578" class="InductiveConstructor">seg</a> <a id="2346" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2346" class="Bound">i</a><a id="2347" class="Symbol">)</a> <a id="2349" class="Symbol">=</a> <a id="2351" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="2360" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2360" class="Function">fro-to</a> <a id="2367" class="Symbol">:</a> <a id="2369" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#3991" class="Function">isRetract</a> <a id="2379" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2062" class="Function">fun</a> <a id="2383" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2160" class="Function">inv</a>
+    <a id="2391" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2360" class="Function">fro-to</a> <a id="2398" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="2404" class="Symbol">=</a> <a id="2406" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="2415" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2360" class="Function">fro-to</a> <a id="2422" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="2428" class="Symbol">=</a> <a id="2430" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="2439" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2360" class="Function">fro-to</a> <a id="2446" class="Symbol">(</a><a id="2447" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2453" href="1--Type-Theory.1-2--Inductive-Types.html#7837" class="InductiveConstructor">tt</a> <a id="2456" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2456" class="Bound">i</a><a id="2457" class="Symbol">)</a> <a id="2459" class="Symbol">=</a> <a id="2461" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+</pre>
+<p>And we have seen that this <code class="Agda"><a href="2--Paths-and-Identifications.2-7--Propositions.html#3518" class="Datatype">Interval</a></code> is contractible.</p>
+<p>Finally something interesting happens once we try <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a></code>.</p>
+<p>mvrnote: will this need hints?</p>
+<pre class="Agda"><a id="SuspBool≅S¹"></a><a id="2625" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2625" class="Function">SuspBool≅S¹</a> <a id="2637" class="Symbol">:</a> <a id="2639" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="2644" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="2649" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#5998" class="Function Operator">≃</a> <a id="2651" href="2--Paths-and-Identifications.2-1--Paths.html#12553" class="Datatype">S¹</a>
+<a id="2654" class="Comment">-- Exercise:</a>
+<a id="2667" class="Comment">-- SuspBool≅S¹ = {!!}</a>
+</pre><!--
+<pre class="Agda"><a id="2702" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2625" class="Function">SuspBool≅S¹</a> <a id="2714" class="Symbol">=</a> <a id="2716" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#7262" class="Function">inv→equiv</a> <a id="2726" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="2730" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2890" class="Function">inv</a> <a id="2734" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2990" class="Function">to-fro</a> <a id="2741" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3089" class="Function">fro-to</a>
+  <a id="2750" class="Keyword">where</a>
+    <a id="2760" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="2764" class="Symbol">:</a> <a id="2766" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="2771" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a> <a id="2776" class="Symbol">→</a> <a id="2778" href="2--Paths-and-Identifications.2-1--Paths.html#12553" class="Datatype">S¹</a>
+    <a id="2785" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="2789" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="2795" class="Symbol">=</a> <a id="2797" href="2--Paths-and-Identifications.2-1--Paths.html#12571" class="InductiveConstructor">base</a>
+    <a id="2806" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="2810" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="2816" class="Symbol">=</a> <a id="2818" href="2--Paths-and-Identifications.2-1--Paths.html#12571" class="InductiveConstructor">base</a>
+    <a id="2827" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="2831" class="Symbol">(</a><a id="2832" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2838" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="2843" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2843" class="Bound">i</a><a id="2844" class="Symbol">)</a> <a id="2846" class="Symbol">=</a> <a id="2848" href="2--Paths-and-Identifications.2-1--Paths.html#12583" class="InductiveConstructor">loop</a> <a id="2853" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2843" class="Bound">i</a>
+    <a id="2859" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="2863" class="Symbol">(</a><a id="2864" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2870" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="2876" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2876" class="Bound">i</a><a id="2877" class="Symbol">)</a> <a id="2879" class="Symbol">=</a> <a id="2881" href="2--Paths-and-Identifications.2-1--Paths.html#12571" class="InductiveConstructor">base</a>
+    <a id="2890" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2890" class="Function">inv</a> <a id="2894" class="Symbol">:</a> <a id="2896" href="2--Paths-and-Identifications.2-1--Paths.html#12553" class="Datatype">S¹</a> <a id="2899" class="Symbol">→</a> <a id="2901" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="2906" href="1--Type-Theory.1-2--Inductive-Types.html#395" class="Datatype">Bool</a>
+    <a id="2915" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2890" class="Function">inv</a> <a id="2919" href="2--Paths-and-Identifications.2-1--Paths.html#12571" class="InductiveConstructor">base</a> <a id="2924" class="Symbol">=</a> <a id="2926" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a>
+    <a id="2936" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2890" class="Function">inv</a> <a id="2940" class="Symbol">(</a><a id="2941" href="2--Paths-and-Identifications.2-1--Paths.html#12583" class="InductiveConstructor">loop</a> <a id="2946" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2946" class="Bound">i</a><a id="2947" class="Symbol">)</a> <a id="2949" class="Symbol">=</a> <a id="2951" class="Symbol">(</a><a id="2952" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2958" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="2963" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#15890" class="Function Operator">∙</a> <a id="2965" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#22252" class="Function">sym</a> <a id="2969" class="Symbol">(</a><a id="2970" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="2976" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a><a id="2981" class="Symbol">))</a> <a id="2984" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2946" class="Bound">i</a>
+    <a id="2990" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2990" class="Function">to-fro</a> <a id="2997" class="Symbol">:</a> <a id="2999" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#1688" class="Function">isSection</a> <a id="3009" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="3013" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2890" class="Function">inv</a>
+    <a id="3021" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2990" class="Function">to-fro</a> <a id="3028" href="2--Paths-and-Identifications.2-1--Paths.html#12571" class="InductiveConstructor">base</a> <a id="3033" class="Symbol">=</a> <a id="3035" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3044" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2990" class="Function">to-fro</a> <a id="3051" class="Symbol">(</a><a id="3052" href="2--Paths-and-Identifications.2-1--Paths.html#12583" class="InductiveConstructor">loop</a> <a id="3057" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3057" class="Bound">i</a><a id="3058" class="Symbol">)</a> <a id="3060" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3060" class="Bound">j</a> <a id="3062" class="Symbol">=</a> <a id="3064" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#22252" class="Function">sym</a> <a id="3068" class="Symbol">(</a><a id="3069" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#25185" class="Function">∙-idr</a> <a id="3075" href="2--Paths-and-Identifications.2-1--Paths.html#12583" class="InductiveConstructor">loop</a><a id="3079" class="Symbol">)</a> <a id="3081" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3060" class="Bound">j</a> <a id="3083" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3057" class="Bound">i</a>
+    <a id="3089" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3089" class="Function">fro-to</a> <a id="3096" class="Symbol">:</a> <a id="3098" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#3991" class="Function">isRetract</a> <a id="3108" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2760" class="Function">fun</a> <a id="3112" href="2--Paths-and-Identifications.2-10--Higher-Types.html#2890" class="Function">inv</a>
+    <a id="3120" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3089" class="Function">fro-to</a> <a id="3127" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="3133" class="Symbol">=</a> <a id="3135" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3144" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3089" class="Function">fro-to</a> <a id="3151" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="3157" class="Symbol">=</a> <a id="3159" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3165" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a>
+    <a id="3175" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3089" class="Function">fro-to</a> <a id="3182" class="Symbol">(</a><a id="3183" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3189" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a> <a id="3194" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3194" class="Bound">i</a><a id="3195" class="Symbol">)</a> <a id="3197" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3197" class="Bound">j</a> <a id="3199" class="Symbol">=</a> <a id="3201" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#24547" class="Function">∙-filler</a> <a id="3210" class="Symbol">(</a><a id="3211" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3217" href="1--Type-Theory.1-2--Inductive-Types.html#415" class="InductiveConstructor">true</a><a id="3221" class="Symbol">)</a> <a id="3223" class="Symbol">(</a><a id="3224" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#22252" class="Function">sym</a> <a id="3228" class="Symbol">(</a><a id="3229" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3235" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a><a id="3240" class="Symbol">))</a> <a id="3243" class="Symbol">(</a><a id="3244" href="Library.Prelude.html#359" class="Primitive Operator">~</a> <a id="3246" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3197" class="Bound">j</a><a id="3247" class="Symbol">)</a> <a id="3249" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3194" class="Bound">i</a>
+    <a id="3255" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3089" class="Function">fro-to</a> <a id="3262" class="Symbol">(</a><a id="3263" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3269" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a> <a id="3275" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3275" class="Bound">i</a><a id="3276" class="Symbol">)</a> <a id="3278" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3278" class="Bound">j</a> <a id="3280" class="Symbol">=</a> <a id="3282" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#26261" class="Function">connection∧</a> <a id="3294" class="Symbol">(</a><a id="3295" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3301" href="1--Type-Theory.1-2--Inductive-Types.html#430" class="InductiveConstructor">false</a><a id="3306" class="Symbol">)</a> <a id="3308" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3275" class="Bound">i</a> <a id="3310" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3278" class="Bound">j</a>
+
+</pre>-->
+<pre class="Agda"><a id="3334" class="Keyword">data</a> <a id="S∞"></a><a id="3339" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a> <a id="3342" class="Symbol">:</a> <a id="3344" href="Library.Primitive.html#422" class="Primitive">Type</a> <a id="3349" class="Keyword">where</a>
+  <a id="S∞.snorth"></a><a id="3357" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="3364" class="Symbol">:</a> <a id="3366" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a>
+  <a id="S∞.ssouth"></a><a id="3371" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3371" class="InductiveConstructor">ssouth</a> <a id="3378" class="Symbol">:</a> <a id="3380" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a>
+  <a id="S∞.smerid"></a><a id="3385" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="3392" class="Symbol">:</a> <a id="3394" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a> <a id="3397" class="Symbol">→</a> <a id="3399" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="3406" href="Library.Prelude.html#2004" class="Function Operator">≡</a> <a id="3408" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3371" class="InductiveConstructor">ssouth</a>
+
+<a id="S∞SelfSusp"></a><a id="3416" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3416" class="Function">S∞SelfSusp</a> <a id="3427" class="Symbol">:</a> <a id="3429" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a> <a id="3432" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#5998" class="Function Operator">≃</a> <a id="3434" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="3439" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a>
+<a id="3442" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3416" class="Function">S∞SelfSusp</a> <a id="3453" class="Symbol">=</a> <a id="3455" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#7262" class="Function">inv→equiv</a> <a id="3465" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3468" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a> <a id="3472" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3698" class="Function">to-fro</a> <a id="3479" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3806" class="Function">fro-to</a>
+  <a id="3488" class="Keyword">where</a>
+    <a id="3498" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3501" class="Symbol">:</a> <a id="3503" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a> <a id="3506" class="Symbol">→</a> <a id="3508" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="3513" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a>
+    <a id="3520" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3523" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="3530" class="Symbol">=</a> <a id="3532" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a>
+    <a id="3542" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3545" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3371" class="InductiveConstructor">ssouth</a> <a id="3552" class="Symbol">=</a> <a id="3554" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a>
+    <a id="3564" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3567" class="Symbol">(</a><a id="3568" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="3575" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3575" class="Bound">s</a> <a id="3577" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3577" class="Bound">i</a><a id="3578" class="Symbol">)</a> <a id="3580" class="Symbol">=</a> <a id="3582" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3588" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3575" class="Bound">s</a> <a id="3590" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3577" class="Bound">i</a>
+    <a id="3596" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a> <a id="3600" class="Symbol">:</a> <a id="3602" href="2--Paths-and-Identifications.2-10--Higher-Types.html#954" class="Datatype">Susp</a> <a id="3607" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a> <a id="3610" class="Symbol">→</a> <a id="3612" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a>
+    <a id="3619" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a> <a id="3623" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="3629" class="Symbol">=</a> <a id="3631" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a>
+    <a id="3642" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a> <a id="3646" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="3652" class="Symbol">=</a> <a id="3654" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3371" class="InductiveConstructor">ssouth</a>
+    <a id="3665" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a> <a id="3669" class="Symbol">(</a><a id="3670" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3676" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3676" class="Bound">a</a> <a id="3678" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3678" class="Bound">i</a><a id="3679" class="Symbol">)</a> <a id="3681" class="Symbol">=</a> <a id="3683" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="3690" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3676" class="Bound">a</a> <a id="3692" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3678" class="Bound">i</a>
+    <a id="3698" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3698" class="Function">to-fro</a> <a id="3705" class="Symbol">:</a> <a id="3707" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#1688" class="Function">isSection</a> <a id="3717" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3720" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a>
+    <a id="3728" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3698" class="Function">to-fro</a> <a id="3735" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1001" class="InductiveConstructor">north</a> <a id="3741" class="Symbol">=</a> <a id="3743" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3752" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3698" class="Function">to-fro</a> <a id="3759" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1018" class="InductiveConstructor">south</a> <a id="3765" class="Symbol">=</a> <a id="3767" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3776" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3698" class="Function">to-fro</a> <a id="3783" class="Symbol">(</a><a id="3784" href="2--Paths-and-Identifications.2-10--Higher-Types.html#1035" class="InductiveConstructor">merid</a> <a id="3790" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3790" class="Bound">a</a> <a id="3792" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3792" class="Bound">i</a><a id="3793" class="Symbol">)</a> <a id="3795" class="Symbol">=</a> <a id="3797" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3806" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3806" class="Function">fro-to</a> <a id="3813" class="Symbol">:</a> <a id="3815" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#3991" class="Function">isRetract</a> <a id="3825" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3498" class="Function">to</a> <a id="3828" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3596" class="Function">fro</a>
+    <a id="3836" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3806" class="Function">fro-to</a> <a id="3843" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="3850" class="Symbol">=</a> <a id="3852" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3861" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3806" class="Function">fro-to</a> <a id="3868" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3371" class="InductiveConstructor">ssouth</a> <a id="3875" class="Symbol">=</a> <a id="3877" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+    <a id="3886" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3806" class="Function">fro-to</a> <a id="3893" class="Symbol">(</a><a id="3894" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="3901" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3901" class="Bound">a</a> <a id="3903" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3903" class="Bound">i</a><a id="3904" class="Symbol">)</a> <a id="3906" class="Symbol">=</a> <a id="3908" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+
+<a id="isContrS∞"></a><a id="3914" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3914" class="Function">isContrS∞</a> <a id="3924" class="Symbol">:</a> <a id="3926" href="2--Paths-and-Identifications.2-7--Propositions.html#2586" class="Record">isContr</a> <a id="3934" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a>
+<a id="3937" href="2--Paths-and-Identifications.2-7--Propositions.html#2660" class="Field">center</a> <a id="3944" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3914" class="Function">isContrS∞</a> <a id="3954" class="Symbol">=</a> <a id="3956" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a>
+<a id="3963" href="2--Paths-and-Identifications.2-7--Propositions.html#2675" class="Field">contraction</a> <a id="3975" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3914" class="Function">isContrS∞</a> <a id="3985" class="Symbol">=</a> <a id="3987" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3998" class="Function">go</a>
+  <a id="3992" class="Keyword">where</a> <a id="3998" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3998" class="Function">go</a> <a id="4001" class="Symbol">:</a> <a id="4003" class="Symbol">(</a><a id="4004" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4004" class="Bound">y</a> <a id="4006" class="Symbol">:</a> <a id="4008" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3339" class="Datatype">S∞</a><a id="4010" class="Symbol">)</a> <a id="4012" class="Symbol">→</a> <a id="4014" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="4021" href="Library.Prelude.html#2004" class="Function Operator">≡</a> <a id="4023" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4004" class="Bound">y</a>
+        <a id="4033" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3998" class="Function">go</a> <a id="4036" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="4043" class="Symbol">=</a> <a id="4045" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a> <a id="4050" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#15890" class="Function Operator">∙</a> <a id="4052" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+        <a id="4065" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3998" class="Function">go</a> <a id="4068" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3371" class="InductiveConstructor">ssouth</a> <a id="4075" class="Symbol">=</a> <a id="4077" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="4084" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a> <a id="4091" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#15890" class="Function Operator">∙</a> <a id="4093" href="2--Paths-and-Identifications.2-1--Paths.html#5309" class="Function">refl</a>
+        <a id="4106" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3998" class="Function">go</a> <a id="4109" class="Symbol">(</a><a id="4110" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="4117" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4117" class="Bound">s</a> <a id="4119" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4119" class="Bound">i</a><a id="4120" class="Symbol">)</a> <a id="4122" class="Symbol">=</a> <a id="4124" href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#26261" class="Function">connection∧</a> <a id="4136" class="Symbol">(</a><a id="4137" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="4144" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3357" class="InductiveConstructor">snorth</a><a id="4150" class="Symbol">)</a> <a id="4152" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4119" class="Bound">i</a> <a id="4154" href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#15890" class="Function Operator">∙</a> <a id="4156" href="2--Paths-and-Identifications.2-1--Paths.html#16985" class="Function">ap</a> <a id="4159" class="Symbol">(λ</a> <a id="4162" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4162" class="Bound">t</a> <a id="4164" class="Symbol">→</a> <a id="4166" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3385" class="InductiveConstructor">smerid</a> <a id="4173" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4162" class="Bound">t</a> <a id="4175" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4119" class="Bound">i</a><a id="4176" class="Symbol">)</a> <a id="4178" class="Symbol">(</a><a id="4179" href="2--Paths-and-Identifications.2-10--Higher-Types.html#3998" class="Function">go</a> <a id="4182" href="2--Paths-and-Identifications.2-10--Higher-Types.html#4117" class="Bound">s</a><a id="4183" class="Symbol">)</a>
+
+</pre>
+<p>mvrnote: Some exercises: Suspension of isContr isContr, Suspension of isProp isSet</p>
+<h2 id="even-higher-types"><a class="header" href="#even-higher-types">Even Higher types</a></h2>
+<p>Egbert exercises:</p>
+<p>Show that a type 𝑋 is a set if and only if the map
+𝜆𝑥. 𝜆𝑡. 𝑥 : 𝑋 → (S1 → 𝑋)
+is an equivalence.</p>
+<p>mvrnote: exercises
+(b) Construct an equivalence fib𝛿𝐴
+(𝑥, 𝑦) ’ (𝑥 = 𝑦) for any 𝑥, 𝑦 : 𝐴.
+(c) Show that 𝐴 is (𝑘 + 1)-truncated if and only if 𝛿𝐴 : 𝐴 → 𝐴 × 𝐴 is
+𝑘-truncated.</p>
+<p>22.1 (a)</p>
+<pre class="Agda"><a id="4600" class="Comment">-- zero≢one : ¬ pos zero ≡ pos (suc zero)</a>
+<a id="4642" class="Comment">-- zero≢one p = {!!}</a>
+
+<a id="4664" class="Comment">-- -- isConnected : (X : Type) → Type</a>
+<a id="4702" class="Comment">-- -- isConnected X = isContr ∥ X ∥₀</a>
+
+<a id="4740" class="Comment">-- isConnectedS¹-path : (s : S¹) → ∥ base ≡ s ∥</a>
+<a id="4788" class="Comment">-- isConnectedS¹-path base = ∣ refl ∣</a>
+<a id="4826" class="Comment">-- isConnectedS¹-path (loop i) = squash ∣ (λ j → loop (i ∧ j)) ∣ ∣ (λ j → loop (i ∨ ~ j)) ∣ i</a>
+
+<a id="4921" class="Comment">-- not-isContrS¹ : ¬ isContr S¹</a>
+<a id="4953" class="Comment">-- not-isContrS¹ c = zero≢one (isContr→isProp (isContrAcrossIso (invIso ΩS¹Isoℤ) (isContrisContr≡ c base base)) (pos zero) (pos (suc zero)))</a>
+
+<a id="5095" class="Comment">-- not-inhabited→pointed : ¬ ((A : Type) → ∥ A ∥ → A)</a>
+<a id="5149" class="Comment">-- not-inhabited→pointed p = not-isContrS¹ (base , λ y → p (base ≡ y) (isConnectedS¹-path y))</a>
+</pre>
+<p>22.2 and 22.4</p>
+<pre class="Agda"><a id="5267" class="Comment">-- degree : (f : S¹ → S¹) → (f base ≡ base) → ℤ</a>
+<a id="5315" class="Comment">-- degree f = {!!}</a>
+
+<a id="5335" class="Comment">-- S¹-auto : Iso (S¹ ≃ S¹) (S¹ ⊎ S¹)</a>
+<a id="5372" class="Comment">-- Iso.fun S¹-auto x = {!!}</a>
+<a id="5400" class="Comment">-- Iso.inv S¹-auto = {!!}</a>
+<a id="5426" class="Comment">-- Iso.rightInv S¹-auto = {!!}</a>
+<a id="5457" class="Comment">-- Iso.leftInv S¹-auto = {!!}</a>
+</pre>
+<h2 id="from-favonias-homeworks"><a class="header" href="#from-favonias-homeworks">From Favonia’s homeworks</a></h2>
+<h2 id=""><a class="header" href="#"></a></h2>
+<p>– loop spaces
+Ω² : ∀ (A : Type) → A → Type
+Ω² A x = (refl {x = x}) ≡ refl</p>
+<p>{- Task 1.1: prove this lemma -}
+ap-id : ∀ {A : Type} {x y : A} (p : x ≡ y) → ap (λ x → x) p ≡ p
+ap-id p = refl</p>
+<p>– binary version of ap
+ap2 : ∀ {A B C : Type} (f : A → B → C) {x y : A} → x ≡ y → {z w : B} → z ≡ w → f x z ≡ f y w
+ap2 f {x} {y} p {z} {w} q = ap (λ a → f a z) p ∙ ap (λ b → f y b) q</p>
+<p>{- Task 1.2: find another way to implement ap2 that is “symmetric” to the above ap2 -}
+ap2’ : ∀ {A B C : Type} (f : A → B → C) {x y : A} → x ≡ y → {z w : B} → z ≡ w → f x z ≡ f y w
+ap2’ = {!!}</p>
+<p>– – You might find this useful in Tasks 1.3 and 1.4
+– lemma₀ : ∀ {A : Type} {x : A} (p : Ω² A x) → ap (λ x → x ∙ refl) p ≡ p
+– lemma₀ {x = x} p = lemma₀’ p ∙ ∙-idr p where
+–   lemma₀’ : ∀ {l : x ≡ x} (p : refl ≡ l) → ap (λ x → x ∙ refl) p ≡ p ∙ sym (∙-idr l)
+–   lemma₀’ refl = refl</p>
+<p>{- Task 1.3: check the definition of <code>ap2</code> and prove this lemma -}
+task1-3 : ∀ {A : Type} {x : A} (p q : Ω² A x) → PathP {!!} (ap2 (λ x y → x ∙ y) p q) (p ∙ q)
+task1-3 = {!!}
+{- Hints:</p>
+<ol>
+<li>What are the implicit arguments x, y, z, and w when applying ap2?</li>
+<li>What’s the relation between λ x → x and λ x → refl ∙ x? -}</li>
+</ol>
+<p>{- Task 1.4: prove this lemma -}
+task1-4 : ∀ {A : Type} {x : A} (p q : Ω² A x) → ap2’ (λ x y → x ∙ y) p q ≡ q ∙ p
+task1-4 = ?</p>
+<p>{- Task 1.5: prove that ap2 f p q ≡ ap2’ f p q -}
+task1-5 : ∀ {A B C : Type} (f : A → B → C) {x y : A} (p : x ≡ y) {z w : B} (q : z ≡ w) → ap2 f p q ≡ ap2’ f p q
+task1-5 = ?</p>
+<p>{- Task 1.6: the final theorem -}
+eckmann-hilton : ∀ {A : Type} {x : A} (p q : Ω² A x) → p ∙ q ≡ q ∙ p
+eckmann-hilton = ?</p>
+<p>Cubical proof, from library</p>
+<p>EH-base : {ℓ : Level} {A : Type ℓ} {x : A} → (α β : refl {x = x} ≡ refl)
+→ (λ i → α i ∙ refl) ∙ (λ i → refl ∙ β i)
+≡ (λ i → refl ∙ β i) ∙ (λ i → α i ∙ refl)
+EH-base α β i = (λ j → α (~ i ∧ j) ∙ β (i ∧ j)) ∙ λ j → α (~ i ∨ j) ∙ β (i ∨ j)</p>
+<p>EH : {ℓ : Level} {A : Type ℓ} {x : A} → (α β : refl {x = x} ≡ refl) → α ∙ β ≡ β ∙ α
+EH {A = A} α β i j z =
+hcomp (λ k → λ { (i = i0) → ((ap (λ x → ∙-idr x (~ k)) α) ∙ (ap (λ x → ∙-idl x (~ k)) β)) j
+; (i = i1) → ((ap (λ x → ∙-idl x (~ k)) β) ∙ (ap (λ x → ∙-idr x (~ k)) α)) j
+; (j = i0) → ∙-idr refl (~ k)
+; (j = i1) → ∙-idr refl (~ k)})
+(EH-base α β i j) z</p>
+
+                  </main>
+                  <div class="sidetoc">
+                    <nav class="pagetoc"></nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

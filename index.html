@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Home - Introduction to Cubical Type Theory in Agda</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="theme/css/Agda.css">
+        <link rel="stylesheet" href="theme/css/Agda-highlight.css">
+        <link rel="stylesheet" href="theme/pagetoc.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item affix "><a href="index.html" class="active">Home</a></li><li class="chapter-item affix "><a href="INSTALLING_AGDA.html">Installing Agda</a></li><li class="chapter-item affix "><a href="USING_AGDA.html">Using Agda</a></li><li class="chapter-item affix "><li class="part-title">Type Theory</li><li class="chapter-item "><a href="1--Type-Theory.1-1--Types-and-Functions.html">1: Types and Functions</a></li><li class="chapter-item "><a href="1--Type-Theory.1-2--Inductive-Types.html">2: Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html">3: Universes and More Inductive Types</a></li><li class="chapter-item "><a href="1--Type-Theory.1-X--Record-Types-and-Copatterns.html">X: Record Types and Copatterns</a></li><li class="chapter-item "><a href="1--Type-Theory.1-4--Propositions-as-Types.html">4: Propositions as Types</a></li><li class="chapter-item affix "><li class="part-title">Paths and Identifications</li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-1--Paths.html">1: Paths</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html">2: Equivalences and Path Algebra</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html">3: Substitution and J</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html">4: Composition and Filling</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-5--Transport.html">5: Transport</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-6--Univalence.html">6: Univalence</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-7--Propositions.html">7: Propositions</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-8--Sets.html">8: Sets</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html">9: Contractible Maps</a></li><li class="chapter-item "><a href="2--Paths-and-Identifications.2-10--Higher-Types.html">10: Higher Types</a></li><li class="chapter-item affix "><li class="part-title">Topics</li><li class="chapter-item "><a href="3--Structures.3-1--Structure-Identity-Principle.html">1: The Structure Identity Principle</a></li><li class="chapter-item "><a href="3--Structures.3-2--Modalities.html">2: Modalities</a></li><li class="chapter-item "><a href="3--Structures.3-3--Constructive-Logic.html">3: Constructive Logic</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="Library.Primitive.html">Primitives</a></li><li class="chapter-item affix "><a href="Library.Prelude.html">Prelude</a></li><li class="chapter-item affix "><a href="Library.Univalence.html">Univalence</a></li><li class="chapter-item affix "><a href="UNICODE_DICTIONARY.html">Unicode Dictionary</a></li><li class="spacer"></li><li class="chapter-item affix "><a href="ACKNOWLEDGEMENTS.html">Acknowledgements</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <!-- <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li> -->
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Introduction to Cubical Type Theory in Agda</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/CQTS/introduction-to-cubical" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                  <main>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+<h1 id="introduction-to-cubical-type-theory-in-agda"><a class="header" href="#introduction-to-cubical-type-theory-in-agda">Introduction to Cubical Type Theory in Agda</a></h1>
+<p>by David Jaz Myers and Mitchell Riley, with contributions from Wen
+Rahme and Zyad Yasser Hassan.</p>
+<p>Supported by Tamkeen under the NYUAD Research Institute grant <code>CG008</code>.</p>
+<h2 id="getting-started"><a class="header" href="#getting-started">Getting Started</a></h2>
+<p>Clone or download <a href="https://github.com/CQTS/introduction-to-cubical">this repository</a> and open the file</p>
+<pre><code>lectures/1--Type-Theory/1-1--Types-and-Functions.lagda.md 
+</code></pre>
+<p>in your editor to get started.</p>
+<p>To edit Agda files, you will need to install Agda and an editor that
+supports <code>agda-mode</code>: currently that is either VSCode or Emacs.
+Detailed instructions are given <a href="INSTALLING_AGDA.html">here</a>.</p>
+<h2 id="why-another-agda-course"><a class="header" href="#why-another-agda-course">Why another Agda Course?</a></h2>
+<p>I don’t know, but too much cost has been sunk to stop now.</p>
+<h2 id="goals-of-this-course"><a class="header" href="#goals-of-this-course">Goals of this Course</a></h2>
+<p>These notes were written with the following goals in mind.</p>
+<ul>
+<li><strong>Be readable linearly</strong>: These notes are not a reference text,
+rather, they are designed to be read front-to-back. Effort has gone
+into ordering the concepts that are introduced so that nothing is
+used before it can be properly explained in isolation.</li>
+<li><strong>Provide innumerable exercises</strong>: Most proofs are left as exercises,
+with hints provided as necessary. </li>
+<li><strong>Avoid black boxes</strong>: There are no postulates or big “trust me!”
+results that are never explained or put off until later. Every
+exercise is possible with only the tools readers have proven
+themselves before that point.</li>
+<li><strong>Be readable without a tutor</strong>: The notes should be understandable,
+and the exercises possible to complete, without in-person help from
+an experienced Cubical Agda user. mvrnote: we may not have achieved
+this</li>
+<li><strong>Cover some meaty topics</strong>: After the reader has finished these
+notes, we want them to feel prepared to read work that is on the
+forefront of research in Homotopy Type Theory and Cubical Agda. We
+believe that the topics lectures in Part 3 will get them there.</li>
+</ul>
+<p>On the other hand, we are not concerned with any of the following
+goals. We:</p>
+<ul>
+<li><strong>Don’t stay compatible with other libraries</strong>: We use different names
+and slightly different definitions to existing Agda libraries,
+whenever that improves readability of the text.</li>
+<li><strong>Don’t showcase Agda’s features</strong>: We don’t discuss Agda’s powerful
+module system, typeclasses, modalities, reflection, anything not
+related to Agda’s cubical features.</li>
+<li><strong>Don’t optimise performance</strong>: The definitions we use were not chosen
+with either type-checking or normalisation performance in mind. In
+some places much faster choices are available, but were avoided for
+being more complex, or for sequencing reasons.</li>
+</ul>
+<h2 id="license"><a class="header" href="#license">License</a></h2>
+<p>???</p>
+<h2 id="comparison-with-other-cubical-agda-libraries"><a class="header" href="#comparison-with-other-cubical-agda-libraries">Comparison with other Cubical Agda libraries</a></h2>
+<p>mvrnote: For experts</p>
+<ul>
+<li>We use biinvertible map for equivalence</li>
+<li><code class="Agda"><a href="2--Paths-and-Identifications.2-9--Contractible-Maps.html#2985" class="Function">fiber</a></code> has the path flipped to usual</li>
+<li><code class="Agda"><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#33718" class="Function">∘e</a></code> i.e. <code>compEquiv</code> uses non-diagrammatic order</li>
+<li>We don’t introduce or use cubical subtypes</li>
+<li>Consequently, we don’t prove <code>hfill</code> in general, just the special
+cases that we need</li>
+<li>The type used in <code class="Agda"><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#1936" class="Function">idfun</a></code> is implicit</li>
+<li><code class="Agda"><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#17504" class="Function">→-map-≃</a></code> takes the domain equivalence flipped to avoid some path
+algebra, letting us introduce it earlier</li>
+<li>We use <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#7820" class="Datatype">⊤</a></code> and <code class="Agda"><a href="1--Type-Theory.1-3--Universes-and-More-Inductive-Types.html#6064" class="Datatype">∅</a></code> for the unit type and empty type respectively</li>
+<li>We use “1-lab style” <code class="Agda"><a href="Library.Prelude.html#650" class="Function">hcomp</a></code>, so that the bottom face is provided
+with the partial element.</li>
+<li><code>FunctionEquivStr</code> doesn’t use implicit arguments, so we don’t
+have to fuss around with an implicit version of <code class="Agda"><a href="2--Paths-and-Identifications.2-2--Equivalences-and-Path-Algebra.html#18375" class="Function">Π-map-cod≃</a></code></li>
+</ul>
+
+                  </main>
+                  <div class="sidetoc">
+                    <nav class="pagetoc"></nav>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="theme/pagetoc.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -115,6 +115,8 @@ h6:target::before {
 table {
     margin: 0 auto;
     border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
 }
 table td {
     padding: 3px 20px;

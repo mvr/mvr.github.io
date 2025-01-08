@@ -310,7 +310,7 @@ cases are exactly equal wherever they overlap. (We’ll see this below.)</p>
 <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1022" class="Datatype">Bool</a></code> which is <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1042" class="InductiveConstructor">true</a></code> on <code class="Agda"><a href="Library.Primitive.html#1723" class="InductiveConstructor">i0</a></code> and <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1057" class="InductiveConstructor">false</a></code>
 on <code class="Agda"><a href="Library.Primitive.html#1771" class="InductiveConstructor">i1</a></code>; there is no way to jump from <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1042" class="InductiveConstructor">true</a></code> to
 <code class="Agda"><a href="1--Type-Theory.1-2--Inductive-Types.html#1057" class="InductiveConstructor">false</a></code> as we move along the interval. (We proved this in
-<code class="Agda"><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html#2491" class="Function">true≢false</a></code>).</p>
+<code class="Agda"><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html#2490" class="Function">true≢false</a></code>).</p>
 <p>But because the partial element only has to be defined on the
 endpoints, we can say what the values of <code class="Agda"><a href="2--Paths-and-Identifications.2-4--Composition-and-Filling.html#7114" class="Function">trueOrFalse</a></code> on those
 endpoints are and not worry about what happens in between.</p>
@@ -403,7 +403,7 @@ whole cube. The partial element <code class="Agda"><a href="2--Paths-and-Identif
 cannot extend to a whole element, since a whole element <code>p i : Bool</code>
 for <code>i : I</code> for which <code>p i0 = true</code> and <code>p i1 = false</code> would be a path
 <code>true ≡ false</code>, something we’ve already checked is contradictory in
-<code class="Agda"><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html#2491" class="Function">true≢false</a></code>.</p>
+<code class="Agda"><a href="2--Paths-and-Identifications.2-3--Substitution-and-J.html#2490" class="Function">true≢false</a></code>.</p>
 <p>However, Agda bakes in guarantees that certain partial elements can be
 extended to total ones. In short, Agda allows us to “close off open
 boxes” using an operation called <code class="Agda"><a href="Library.Prelude.html#650" class="Function">hcomp</a></code> (which stands for

@@ -15,7 +15,12 @@ import Data.Time.Format (formatTime, parseTimeM)
 import Data.Time.Locale.Compat (TimeLocale, defaultTimeLocale)
 
 import Hakyll
+import Hakyll.Web.Sass
 import Text.Pandoc.Options
+import Text.Pandoc.SideNote
+
+import qualified Theorem
+import qualified Hyphen
 
 main :: IO ()
 main = do
@@ -37,7 +42,7 @@ makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ ".html"
 run :: String -> IO ()
 run action = hakyllWith config $ do
   let postsPattern = if action == "watch"
-                     then "posts/*" -- .||. "inprogress/*"
+                     then "posts/*" .||. "inprogress/*"
                      else "posts/*"
 
   pag <- buildPaginateWith grouper postsPattern makeId
@@ -133,9 +138,15 @@ run action = hakyllWith config $ do
   -- Compile templates
   match "templates/*" $ compile templateCompiler
 
-  match "css/*" $ do
-    route idRoute
-    compile compressCssCompiler
+  scssDependency <- makePatternDependency "css/*.scss"
+  rulesExtraDependencies [scssDependency]
+    $ match "css/style.scss"
+    $ do
+      route $ setExtension "css"
+      compile (fmap compressCss <$> sassCompiler)
+  -- match "css/*" $ do
+  --   route idRoute
+  --   compile compressCssCompiler
 
   -- Copy some files verbatim
   match "public/**" $ do
@@ -145,7 +156,7 @@ run action = hakyllWith config $ do
   create ["atom.xml"] $ do
     route idRoute
     compile $ do
-        let feedCtx = postCtx tags <> bodyField "description" 
+        let feedCtx = postCtx tags <> bodyField "description"
 
         posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "body"
         renderAtom feedConfiguration feedCtx posts
@@ -175,7 +186,7 @@ getWrittenUTC i = do
 writtenField :: String -> String -> Context String
 writtenField key format = maybeField key $ \i -> do
     time <- getWrittenUTC $ itemIdentifier i
-    return $ fmap (formatTime defaultTimeLocale format) time  
+    return $ fmap (formatTime defaultTimeLocale format) time
 
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
@@ -194,7 +205,7 @@ pandocMathCompiler =
                           writerExtensions = newExtensions,
                           writerHTMLMathMethod = KaTeX ""
                         }
-    in pandocCompilerWith defaultHakyllReaderOptions writerOptions
+    in pandocCompilerWithTransform defaultHakyllReaderOptions writerOptions (usingSideNotes . Theorem.filterThms . Hyphen.filterHyphen)
 
 config :: Configuration
 config = defaultConfiguration

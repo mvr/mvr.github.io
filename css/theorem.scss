@@ -1,0 +1,56 @@
+.definition, .remark, .theorem, .proposition, .lemma, .proof {
+  margin-bottom: 18px;
+  display: block;
+
+  &:before {
+    font-weight: bold;
+    font-style: normal;
+    color: $darkblue;
+  }
+}
+
+.theorem, .proposition, .lemma {
+  font-style: italic;
+}
+
+.definition:before {
+  content: "Definition. ";
+}
+.definition[name]:before {
+  content: "Definition (" attr(name) "). ";
+}
+
+.remark:before {
+  content: "Remark. ";
+}
+.remark[name]:before {
+  content: "Remark (" attr(name) "). ";
+}
+
+.theorem:before {
+  content: "Theorem. ";
+}
+.theorem[name]:before {
+  content: "Theorem (" attr(name) "). ";
+}
+
+.proposition:before {
+  content: "Proposition. ";
+}
+.proposition[name]:before {
+  content: "Proposition (" attr(name) "). ";
+}
+
+.lemma:before {
+  content: "Lemma. ";
+}
+.lemma[name]:before {
+  content: "Lemma (" attr(name) "). ";
+}
+
+.proof:before {
+  content: "Proof. ";
+}
+.proof[name]:before {
+  content: "Proof (" attr(name) "). ";
+}

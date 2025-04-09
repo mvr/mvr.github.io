@@ -14,7 +14,16 @@
   position: relative;
 
   text-align: left;
-  text-indent: -0.2rem;
+  // text-indent: -0.2rem;
+
+  hyphens: none;
+}
+
+// Only show sidenotes on the full post page
+#posts-list {
+  .sidenote, .marginnote {
+    display: none;
+  }
 }
 
 label.margin-toggle {

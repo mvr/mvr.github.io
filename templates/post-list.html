@@ -2,12 +2,12 @@
 <ul id="posts-list">
     $for(posts)$
     <li class="post-entry">
-        <h1 class="post-title"><a href="$url$">$title$</a></h1>
+        <h1 class="post-list-title"><a href="$url$">$title$</a></h1>
         <p class="post-deets">$date$ / $tags$</p>
         <div class="post-content">
             $if(teaser)$
             $teaser$
-            <div class="continue-post"><a href="$url$">Read full post &hellip;</a></div>
+            <div class="continue-post"><a href="$url$">Read full post ▷</a></div>
             $else$
             $body$
             $endif$

@@ -3,21 +3,26 @@
 $blue: rgb(88,155,189);
 $darkblue: rgb(36, 83, 107);
 $lightgrey: rgb(180, 180, 180);
-$offblack: #060606;
-$offwhite: #f3f3f3;
-
+$offblack: #222222;
+$offwhite: #f0f0f0;
+$boxwhite: #f9f9f9;
+$brown: #803300;
+$lightbrown: #e0ae8f;
+$green: rgb(75, 135, 75);    /* Muted forest green */
+$lightgreen: rgb(180, 210, 180); /* Light sage green */
 
 /* fonts:
  */
 // $serif: "Calendas Plus","Crimson Text","Hoefler Text","Georgia",serif;
 $serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 // $sansserif: "Source Sans Pro","Open Sans","Helvetica Neue","Arial",sans-serif;
-$sansserif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+// $sansserif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+$sansserif: avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+$body-width: 65ch; // This ends up being approximately 80 characters actually
 
-@import 'modern-normalize.css';
 @import 'syntax.scss', 'theorem.scss';
+@import 'lifeviewer.scss';
 @import 'sidenote.scss';
-
 
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {
   border: 0;
@@ -30,6 +35,12 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 // article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
 //   display: block
 // }
+
+html {
+  font-size: 17px;
+  hanging-punctuation: first last;
+  text-rendering: optimizeLegibility;
+}
 
 body {
   color: $offblack;
@@ -44,7 +55,7 @@ body {
   padding-bottom: 20px;
 }
 
-.katex { font-size: 1.1em; }
+.katex { font-size: 1.08em; line-height: 1; }
 .katex-html { white-space: nowrap; }
 
 q { quotes: "“" "”" "‘" "’"; }
@@ -88,14 +99,14 @@ header#masthead {
 
   h1 {
     display: inline-block;
-    font-size: 3.5em;
+    font-size: 3.5rem;
     border-bottom: 2px solid $blue;
     margin-bottom: 20px;
   }
 
   p {
     margin-top: 10px;
-    font-size: 1.2em;
+    font-size: 1.2rem;
   }
 
   #links a {
@@ -105,15 +116,8 @@ header#masthead {
 }
 
 section {
-  max-width: 650px;
+  max-width: $body-width;
   margin-left: 100px;
-}
-
-h1.post-list-title {
-  display: inline-block;
-  font-size: 2em;
-  border-bottom: 2px solid $blue;
-  margin-bottom: 50px;
 }
 
 ul#posts-list {
@@ -124,23 +128,33 @@ li.post-entry {
   margin-bottom: 66px;
 }
 
-ul#posts-list h1.post-title {
-  font-size: 2em;
+h1.post-list-title, section.post h1.post-title {
+  line-height: 1.1;
+  border-bottom: 2px solid $blue;
+  margin-top: 40px;
+
+  text-wrap : balance; // Works for title
 }
 
-section.post h1.post-title {
-  font-size: 3em;
-  border-bottom: 2px solid $blue;
+h1.post-list-title {
+  font-size: 2rem;
+  padding-bottom: 5px;
   margin-bottom: 5px;
 }
 
-h1.post-title a {
+section.post h1.post-title {
+  font-size: 3rem;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+h1.post-list-title a, h1.post-title a {
   color: inherit;
 }
 
 .post-deets {
   font-family: $sansserif;
-  font-size: 1em;
+  font-size: 1rem;
   text-transform: uppercase;
   font-weight: bold;
   color: $lightgrey;
@@ -152,79 +166,149 @@ h1.post-title a {
 
 .post-content {
   text-align: justify;
+  hyphens: auto;
+  hyphenate-limit-chars: 6 3 3;
 
-  font-size: 1em;
-  line-height: 1.3;
+  font-size: 1rem;
+
   margin-top: 25px;
 
   a {
     text-decoration: underline;
   }
 
+  // p:first-of-type::first-letter {
+  //   font-family: $serif;
+  //   float: left;
+  //   font-size: 3.2rem;
+  //   line-height: 0.8;
+  //   padding-right: 0.15em;
+  // }
+
   p {
+    line-height: 1.47;
+    // margin-block: 1lh;
     margin-bottom: 20px;
+    text-wrap : pretty; // Avoid orphans
   }
 
   ul {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     list-style: disc;
     list-style-type: disc;
     li {
       list-style: disc;
       list-style-type: disc;
       margin-left: 30px;
-      margin-bottom: 3px;
+      margin-bottom: 10px;
     }
   }
 
   ol {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     li {
       margin-left: 30px;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
   }
 
   h1 {
-    font-size: 2em;
+    font-size: 2rem;
     margin-bottom: 10px;
   }
 
   h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
+    font-size: 1.6rem;
+    margin-top: 1.4em;
+    margin-bottom: 0.4em;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    margin-top: 1.3em;
+    margin-bottom: 0.2em;
+  }
+
+  h4 {
+    font-size: 1.1rem;
+    margin-top: 1.2em;
+    margin-bottom: 0.2em;
   }
 }
 
 footer {
   margin-top: 50px;
-  color: rgb(200, 200, 200);
+  color: $lightgrey;
 }
 
-.continue-post {
+.continue-post a {
+  text-decoration: none;
   margin-top: 10px;
 }
 
 .post-comment-request {
   font-style: italic;
+  color: $lightgrey;
 }
 
 a#next-page-link {
   margin-right: 30px;
+  // color: $lightgrey;
 }
 
 a#prev-page-link {
 }
 
+/* Blocks */
+
+pre, .figure {
+  background-color: $boxwhite;
+  margin-bottom: 20px;
+  padding: 0.8em;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
 /* Code blocks: */
+
 pre {
-  padding-left: 20px;
-  margin-bottom: 20px; // Same as p
+  background-color: $boxwhite;
+  margin-bottom: 20px;
+  padding: 0.8em; 
+  border-radius: 10px;
+  overflow-x: auto;
 }
 
 code {
   font-family: Monaco, monospace;
   word-break: normal;
+  hyphens: none;
+  font-size: 0.9em; // For inline code
+}
+
+code.sourceCode {
+  font-size: 0.8em;
+}
+
+/* Display maths */
+
+span.katex-display {
+  background-color: $boxwhite;
+  margin-bottom: 20px;
+  padding: 0.8em;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+.align-bug span.katex-display {
+  padding-bottom: 0.3em; // https://github.com/KaTeX/KaTeX/issues/2965
+}
+
+/* Tikz diagrams */
+
+.tikzpicture {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

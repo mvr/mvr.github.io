@@ -15,12 +15,13 @@ import Data.Time.Format (formatTime, parseTimeM)
 import Data.Time.Locale.Compat (TimeLocale, defaultTimeLocale)
 
 import Hakyll
-import Hakyll.Web.Sass
 import Text.Pandoc.Options
 import Text.Pandoc.SideNote
 
 import qualified Theorem
 import qualified Hyphen
+import qualified LifeViewer
+import qualified Tikz
 
 main :: IO ()
 main = do
@@ -33,10 +34,17 @@ perPage :: Int
 perPage = 3
 
 grouper :: (MonadMetadata m, MonadFail m) => [Identifier] -> m [[Identifier]]
-grouper ids = (liftM (paginateEvery perPage) . sortRecentFirst) ids
+grouper = fmap (paginateEvery perPage) . sortRecentFirst
 
 makeId :: PageNumber -> Identifier
-makeId pageNum = fromFilePath $ "page/" ++ (show pageNum) ++ ".html"
+makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ ".html"
+
+compressScssCompiler :: Compiler (Item String)
+compressScssCompiler = do
+    getResourceString
+    >>= withItemBody (unixFilter "sass" [ "--stdin"
+                                        , "--load-path", "css"
+                                        ])
 
 -- Much is stolen from https://github.com/jaspervdj/jaspervdj
 run :: String -> IO ()
@@ -44,15 +52,16 @@ run action = hakyllWith config $ do
   let postsPattern = if action == "watch"
                      then "posts/*" .||. "inprogress/*"
                      else "posts/*"
+  let postsMetadataFilter m = (action == "watch") || (lookupString "draft" m /= Just "true")
 
   pag <- buildPaginateWith grouper postsPattern makeId
   tags <- buildTags postsPattern (fromCapture "tags/*.html")
 
   -- Compile posts
-  match postsPattern $ do
+  matchMetadata postsPattern postsMetadataFilter $ do
     route   $ setExtension ".html"
     let ctx = postCtx tags -- <> field "tags" (\_ -> renderTagList tags)
-    compile $ pandocMathCompiler
+    compile $ pandocCustomCompiler
       >>= saveSnapshot "body"
       >>= loadAndApplyTemplate "templates/post.html" ctx
       -- >>= saveSnapshot "rendered"
@@ -74,8 +83,6 @@ run action = hakyllWith config $ do
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
-
-
   -- Paginated pages
   paginateRules pag $ \pageNum pattern -> do
     route idRoute
@@ -84,7 +91,7 @@ run action = hakyllWith config $ do
       let paginateCtx = paginateContext pag pageNum
           ctx =
             field "tags" (\_ -> renderTagList tags) <>
-            constField "title" ("Page " ++ (show pageNum)) <>
+            constField "title" ("Page " ++ show pageNum) <>
             listField "posts" (postCtx tags) (return posts) <>
             paginateCtx <>
             defaultContext
@@ -131,22 +138,19 @@ run action = hakyllWith config $ do
     route (setExtension "html")
     let ctx = defaultContext <> constField "title" "Projects"
     compile $ do
-      pandocMathCompiler
+      pandocCustomCompiler
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
   -- Compile templates
-  match "templates/*" $ compile templateCompiler
+  match "templates/*.html" $ compile templateCompiler
 
   scssDependency <- makePatternDependency "css/*.scss"
   rulesExtraDependencies [scssDependency]
     $ match "css/style.scss"
     $ do
       route $ setExtension "css"
-      compile (fmap compressCss <$> sassCompiler)
-  -- match "css/*" $ do
-  --   route idRoute
-  --   compile compressCssCompiler
+      compile compressScssCompiler
 
   -- Copy some files verbatim
   match "public/**" $ do
@@ -195,8 +199,8 @@ postCtx tags = dateField "date" "%B %e, %Y"
                <> teaserField "teaser" "body"
                <> defaultContext
 
-pandocMathCompiler :: Compiler (Item String)
-pandocMathCompiler =
+pandocCustomCompiler :: Compiler (Item String)
+pandocCustomCompiler =
     let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
                           Ext_latex_macros]
         defaultExtensions = writerExtensions defaultHakyllWriterOptions
@@ -205,7 +209,12 @@ pandocMathCompiler =
                           writerExtensions = newExtensions,
                           writerHTMLMathMethod = KaTeX ""
                         }
-    in pandocCompilerWithTransform defaultHakyllReaderOptions writerOptions (usingSideNotes . Theorem.filterThms . Hyphen.filterHyphen)
+    in pandocCompilerWithTransformM defaultHakyllReaderOptions writerOptions
+       (  Tikz.filterTikz
+        . usingSideNotes
+        . Theorem.filterThms
+        . Hyphen.filterHyphen
+        . LifeViewer.filterLifeViewer)
 
 config :: Configuration
 config = defaultConfiguration

@@ -1,0 +1,32 @@
+\documentclass[varwidth=\maxdimen,multi=page,12pt]{standalone}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usetikzlibrary{cd}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathpazo}
+\usepackage[T1]{fontenc}
+
+\definecolor{diagrambg}{HTML}{FFFFFF}
+\definecolor{diagramfg}{HTML}{222222}
+
+% \definecolor{diagramshaded}{HTML}{CCFFCC}
+% \definecolor{diagramshadedtext}{HTML}{000000}
+
+\pagecolor{diagrambg}
+\color{diagramfg}
+
+% \tikzset{every node/.style={font=\Large}}
+% \tikzcdset{every label/.append style = {font = \small}}
+
+\begin{document}
+\begin{page}
+\LARGE
+\begin{tikzcd}
+__BODY__
+\end{tikzcd}
+\end{page}
+\end{document}

@@ -4,7 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>$title$</title>
 
-        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.js" integrity="sha384-ljao5I1l+8KYFXG7LNEA7DyaFvuvSCmedUf6Y6JI7LJqiu8q5dEivP2nDdFH31V4" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
 
         <script>
           document.addEventListener("DOMContentLoaded", function () {
@@ -20,10 +21,12 @@
               }}});
         </script>
 
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
 
-        <!-- <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&display=swap" rel="stylesheet"> -->
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.6/dist/katex.min.css" integrity="sha384-ZPe7yZ91iWxYumsBEOn7ieg8q/o+qh/hQpSaPow8T6BwALcXSCS6C6fSRPIAnTQs" crossorigin="anonymous">
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
 
@@ -31,13 +34,13 @@
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="Atom feed for mvr" href="/atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="/atom.xml" />
     </head>
 
     <body>
         $body$
         <footer>
-            Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>.
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions! Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
         </footer>
     </body>
 </html>

@@ -1,7 +1,7 @@
 ---
 title: Hamana's Graph GADT
 published: February 10, 2018
-tags: note-to-self, code
+tags: note-to-self, code, retroactive
 ---
 
 Hamana describes a neat way of encoding general graphs as a GADT in
@@ -71,7 +71,7 @@ eventual node at the end of the chain.
 We'll need to be able to index type-level lists, so let's get that out
 of the way:
 
-> data Elem :: k -> [k] -> * where 
+> data Elem :: k -> [k] -> * where
 >   Here :: Elem s (s : c)
 >   There :: Elem s c -> Elem s (t : c)
 
@@ -85,7 +85,7 @@ Consider the following tree:
                  a
                 / \
                /   \
-              a     b 
+              a     b
              / \   / \
             a   a b   *
                    \
@@ -98,8 +98,8 @@ If we are currently defining the subtree to be placed at `*`, then the
              b           / \
             / \         /   \
       [    b   0  ,    a     0   ]
-            \         / \   
-             b       a   a 
+            \         / \
+             b       a   a
 
 In the subtree to be placed at `*`, we may have pointers to `a`s or `b`s,
 but not the `0`s.
@@ -114,8 +114,8 @@ Leaves are easy, we can have a leaf in any context.
 For the pointers, we pick a shape from the context and then a position
 in that shape.
 
->   Bin :: Graph (BinShape VoidShape VoidShape : c) s 
->       -> Graph (BinShape s VoidShape : c) t 
+>   Bin :: Graph (BinShape VoidShape VoidShape : c) s
+>       -> Graph (BinShape s VoidShape : c) t
 >       -> Graph c (BinShape s t)
 
 The interesting case is a binary node. In the left and right branches,
@@ -148,7 +148,7 @@ Corresponding to
        /   \
       *     *
      / \   / \
-    *   * /   * 
+    *   * /   *
      \   /
       ---
 
@@ -161,13 +161,13 @@ in the graph:
 
 corresponds to
 
-        --- 
+        ---
        /   \
       *    /
      / \  /
     *   --
 
-It's not hard to change this though: 
+It's not hard to change this though:
 
 > data DAG (context :: [TreeShape]) (shape :: TreeShape) where
 >   DAGLeaf :: a -> DAG c LeafShape
@@ -181,4 +181,4 @@ branch, but we still give it access to the left branch. The result is
 that every `Ptr` points to something to the left, other than a direct
 ancestor of the current node. That is enough to rule out any cycles.
 
-We have no need for `VoidShape` here, which is nice!
+We have no need for `VoidShape` here, which is nice.

@@ -10,13 +10,13 @@ tags: code, cuda, gol
 of Life searches on the cartesian product of two sets of
 configurations. That is, each configuration from set A is combined
 with each configuration from set B, and run until stabilised. The
-result is reported if some criteria are met. Right now this mean
+result is reported if some criteria are met. Right now this means
 either the result has some interesting period^[Interesting period here
 typically means period not dividing 120, to rule out [blinkers],
 [pulsars], [pentadecathlons] and [figure eights], among other things.]
 (to hunt for [glider syntheses] of oscillators), or the result
 contains a specified pattern (to hunt for [synthesis components] for
-still lifes).
+specific still lifes).
 
 [QuFince]: https://conwaylife.com/forums/viewtopic.php?f=9&t=5997
 [apg]: https://cp4space.hatsya.com/
@@ -46,13 +46,13 @@ ob2o15b2obo16bo3bo16bo$o4bo15b2obo17bob2o16b3o16bo$b4o15bo3bo17bobo36b
 #C [[ ZOOM 4 ]]
 ```
 
-We can't simply use a population threshold as our criterion for
+We can't use a population threshold as our criterion for
 interestingness, because the typical result of one of these QuFince
-trials is a substantial amount of uninteresting junk. One option is to
-do proper object separation, like [apgsearch], and then report any
-object that is sufficiently rare. But a QuFince search can conceivably
-test hundreds of billions of configurations, and full object
-separation is simply too slow.
+trials is a bunch of uninteresting junk. One option is to do proper
+object separation, like [apgsearch], and then report any object that
+is sufficiently rare. But a QuFince search can conceivably test
+hundreds of billions of configurations, and full object separation is
+simply too slow.
 
 [apgsearch]: https://gitlab.com/apgoucher/apgmera
 
@@ -60,7 +60,7 @@ Here I'll present an alternative, a simple heuristic that works well
 enough. <!--more--> There are some constraints, but most important is
 that our mistakes only go in one direction. False negatives are
 disappointing, because we might be missing out on a cool result. But
-false positives are catastrophic, because they cause a firehose of
+false positives are catastrophic because they cause a firehose of
 useless results, which defeats the purpose of using QuFince in the
 first place.
 
@@ -105,8 +105,9 @@ obo3bo2bo32bobo16bobo2bo2bo$bo3bob2o11b3o3b3o14bo17bobo2bobo$4bobo11bo
 
 But changing the precise kind of inflation/deflation helps. To test
 this systematically, I defined a handful of "neighbourhoods" and tried
-all combinations. The neighbourhoods I tried include:^[I also threw in
-some more exotic neighbourhoods, but none turned out to help.]
+all combinations. Some of the neighbourhoods I tried are things like:^[I
+also threw in some more exotic neighbourhoods, but none turned out to
+help.]
 
 ```lifeviewer
 x = 25, y = 12, rule = LifeHistory
@@ -131,7 +132,7 @@ This achieves 6017/10000, but with none of the painful false
 positives of the previous version.
 
 
-## Line-of-five
+## The Line-of-five Rule
 
 Let's inspect some of the still lifes that don't get picked up by
 this.
@@ -205,7 +206,7 @@ previous attempts (like the `moog_stdin` and `5Glider_stdin`
 symmetries), because 1) I make sure the gliders actually collide
 rather than positioning them completely randomly, and 2) I do the vast
 majority of the work in a QuFince-style CUDA kernel rather than piping
-an RLE-generator into apgsearch. 
+an RLE generator into apgsearch. 
 
 [here]: https://catagolue.hatsya.com/census/b3s23/mvr_qufince_stdin
 
@@ -223,3 +224,75 @@ obo$b2o$bo18bo$20bobo$20b2o$15bo$13bobo$14b2o7$10b3o8b2o$12bo7b2o$11bo
 #C [[ GPS 20 ]]
 #C [[ GRID PAUSE 1 T 70 PAUSE 1 LOOP 71 ]]
 ```
+
+**Edit (11/05/25):** Indeed this was extremely productive, producing
+many hundreds of new syntheses. Here are some of the new clean
+6-glider syntheses, each of which feels pretty miraculous.
+
+```lifeviewer
+x = 247, y = 395, rule = B3/S23
+156bo$154bobo$127bo27b2o$83bo43bobo32bo$82bo44b2o34bo$82b3o76b3o5$92bo
+$90b2o$8bo18bo63b2o70bo$9bo16bo134bobo$7b3o16b3o133b2o45bo$125bo81bobo
+$13bo109bobo82b2o7bo$11bobo66bo43b2o32b2o55b2o$12b2o64bobo76bobo56b2o$
+79b2o78bo60bo$19b2o199bobo$19bobo198b2o$12b2o5bo94b3o4b2o83b2o$11bobo
+102bo5b2o83b2o$13bo101bo5bo84bo$31b2o47b3o101b3o$31bobo46bo103bo$31bo
+49bo25b3o21bo53bo$109bo20b2o$108bo21bobo2$198bo$198b2o$197bobo5$54b3o
+25bo73b2o$56bo24b2o74b2o52b3o$55bo25bobo72bo56bo$212bo10$bo$2bo$3o233b
+o$234b2o$129bo105b2o$127b2o$128b2o36bo$167b2o$133bobo30b2o$133b2o$134b
+o50bo$81bo73bo28bo$72bo7bo75bo27b3o32bobo$70bobo7b3o71b3o63b2o$71b2o
+49bo97bo$15bo106bobo$13bobo106b2o$14b2o152bo$78bo39bo47bobo$7b2o68b2o
+37bobo48b2o62bo$8b2o29b2o19b2o15bobo37b2o110b2o$7bo30b2o19bobo44b3o
+121b2o$15b2o23bo20bo46bo$14bobo90bo117bo$16bo206bobo$170b3o51b2o$75b2o
+93bo$74b2o95bo$76bo2$167b2o$168b2o71bo$167bo72b2o$30b3o207bobo$30bo16b
+3o$31bo17bo$48bo2$105b2o122b2o$106b2o120b2o$105bo124bo7$38bo$36b2o199b
+o$37b2o197bo$236b3o3$135bo31bobo$133b2o32b2o$134b2o32bo2$181bobo44bo$
+181b2o43b2o5bo$182bo44b2o2b2o$64bo50bo116b2o$59bo2bobo48bobo$57bobo3b
+2o49b2o$26bo31b2o$24b2o46b3o89bo5b2o$25b2o45bo89bobo4b2o$68b2o3bo43b3o
+43b2o6bo$68bobo48bo$68bo49bo$17bo206bo$15bobo204bobo$16b2o146b2o57b2o$
+66bo98b2o$66b2o96bo62b2o$65bobo160b2o$13b2o114b2o50b2o44bo$12bobo113b
+2o51bobo$14bo115bo50bo4$129b3o82b3o$129bo86bo$10b2o92b2o24bo84bo$11b2o
+90bobo$10bo94bo2$82bo$81b2o$81bobo3$23b3o$23bo$24bo4$197bo$198bo$146bo
+49b3o$147bo$79bo65b3o$79bobo$79b2o$244bobo$244b2o$245bo4$78bo$78bobo$
+5bobo70b2o137bo$6b2o210b2o$6bo18bo33bo81bo25bo49b2o$25bobo29bobo79b2o
+24bobo$25b2o31b2o80b2o24b2o42bo$20bo190bo7bo$18bobo188b3o5bobo6bo$19b
+2o158bo38b2o5b2o$179bobo43bobo$122bo50bo5b2o$120b2o8b3o38bobo$70bo50b
+2o7bo41b2o$68bobo60bo$69b2o$15b3o8b2o86bo$17bo7b2o85bobo38b3o20b2o$16b
+o10bo85b2o40bo21b2o$154bo21bo$29b2o39bo$29bobo38b2o$29bo39bobo$114b2o$
+114bobo$114bo5$121bo$55b2o63b2o$56b2o62bobo$55bo5$110bobo$111b2o$111bo
+66bo$177bo$177b3o4$22bo$21bo$21b3o23bo74bo10bobo$48b2o71bo11b2o78bobo$
+47b2o8bo63b3o10bo79b2o$58b2o154bo$57b2o150bo$119bo56bo33b2o19bobo$17bo
+99bobo51bo2bobo32b2o9bo10b2o$15bobo5b2o93b2o49bobo3b2o43bobo9bo$16b2o
+5bobo39bo104b2o42bo5b2o$23bo39bobo118b3o25bobo$64b2o118bo28b2o$180b2o
+3bo$25bo4bo149bobo$24b2o3b2o149bo$24bobo2bobo$61b3o136b3o$63bo95b2o41b
+o$62bo3b3o91b2o39bo$12b2o54bo90bo$11bobo53bo19bo$13bo72b2o$86bobo9$
+141b2o$106b3o32bobo$108bo32bo$107bo7$162bo$163b2o$82bo79b2o21bo$30bobo
+47b2o102bo$30b2o49b2o101b3o$31bo$17bo114bo$15bobo6bo70bobo32b2o$16b2o
+5bo72b2o33b2o$23b3o70bo69bo70bobo$167bo69b2o$127bo37b3o70bo$80bo46bobo
+90bo$70bobo7bobo44b2o50bobo39bo$16b2o53b2o7b2o97b2o38b3o$17b2o52bo108b
+o46bo$16bo208bobo$b2o223b2o$obo66bo$2bo64bobo$7b3o58b2o5b2o$9bo65bobo
+93bo$8bo66bo41bo51bobo57b2o$115bobo52b2o56b2o$116b2o112bo3$230b2o$170b
+2o58bobo$120b2o49b2o57bo$119b2o49bo$121bo3$229b2o$228b2o$230bo2$62bo$
+62b2o$61bobo2$103bo$103b2o$95bo6bobo$94bo$94b3o$28bo$28bobo$28b2o3$
+161bo$162bo$160b3o$107bo$105bobo119bobo$106b2o119b2o$228bo2$236bo$71bo
+99bo62b2o$69bobo97bobo63b2o$70b2o43bo54b2o$113bobo$114b2o$120bo110bobo
+$33bo85bo111b2o$21bobo8bo43b3o40b3o50b3o57bo$21b2o9b3o33b2o6bo97bo51bo
+$15bo6bo46b2o6bo95bo50bobo$13bobo52bo42b2o54b2o56b2o$14b2o96b2o52bobo$
+95b3o13bo56bo$95bo$3o76b2o15bo135b2o$2bo19b2o54b2o151b2o$bo19b2o57bo
+55b2o95bo$23bo111b2o$137bo2$178b3o$100b3o75bo$102bo76bo$101bo112b2o$
+158b2o53bobo$157bobo55bo$159bo13$58bo128bo$59bo126bo$27bo29b3o126b3o$
+25b2o$26b2o3$77bo$76bo$76b3o$14bo$12bobo111bo$13b2o5bobo103bobo$20b2o
+104b2o$21bo4bobo$26b2o44bo$27bo42bobo5b2o52bo42bo$71b2o5bobo49b2o42bo$
+78bo52b2o41b3o$167b2o$166bobo$22b2o56bo40bo46bo$21b2o56b2o38bobo6bo$
+23bo55bobo38b2o5b2o47bo$127bobo46bobo$176b2o$168b3o$26b3o141bo$26bo
+142bo$27bo98b3o$126bo$127bo$134bo$133b2o$56b2o75bobo$55bobo$57bo6$156b
+3o$158bo$157bo!
+
+#C [[ AUTOSTART ]]
+#C [[ HEIGHT 950 ]]
+#C [[ ZOOM 2 ]]
+#C [[ GPS 20 ]]
+#C [[ GRID PAUSE 1 T 220 PAUSE 1 LOOP 221 ]]
+```
+
+It is easy to forget how spectacularly rare each of these objects is,
+if you only look at the results of these high-powered searches.

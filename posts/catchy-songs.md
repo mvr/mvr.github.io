@@ -1,13 +1,12 @@
 ---
 title: Songs
 published: April 27, 2015
-tags: note-to-self, music
+tags: note-to-self, music, rolling
 ---
 
 I get songs stuck in my head for weeks at a time. I hope this list
-will make for interesting reading when I am older. Chronologically:
-
-<!--more-->
+will make for interesting reading when I am older. <!--more-->
+Chronologically:
 
 * Belle & Sebastian - Step Into My Office, Baby
 * Indigo Girls - Galileo
@@ -55,3 +54,5 @@ will make for interesting reading when I am older. Chronologically:
 * The Bird and the Bee - Birthday
 * UMO - Swim and Sleep (Like a Shark)
 * I DONT KNOW HOW BUT THEY FOUND ME - Do It All The Time
+* Pendulum - Crush
+

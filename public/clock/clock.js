@@ -1,8 +1,8 @@
 // Constants
 
-const clockWidth = 500;
-const clockHeight = 300;
-const scale = 0.45;
+const clockWidth = 700;
+const clockHeight = 320;
+const scale = 0.6;
 
 // const verticalSegments = [false, false, true, false, false, true, true]; // ish
 // const horizontalSegments = [false, false, false, true, false, true, true, true];

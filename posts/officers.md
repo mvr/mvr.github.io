@@ -10,10 +10,11 @@ subordinates], or [groups of people who form indivisible couples]^[In
 the equivalent game Couples-are-Forever, a move is to choose a heap
 and split it into two, with the proviso that you may not split a heap
 of size 2. An Officers heap of size $n$ is equivalent to a
-Couples-are-Forever heap of size $n+1$.], or ...). A turn consists of
-removing a coin from a heap and leaving the remainder in either one or
-two heaps. In particular, taking away a single coin is not a valid
-move. The winner is the last player who can make a move.
+Couples-are-Forever heap of size $n+1$.], or ...). The players
+alternate turns, and a turn consists of removing a coin from a heap
+and leaving the remainder in either one or two heaps. In particular,
+taking away a lone coin is not a valid move. The winner is the last
+player who can make a move.
 
 We can solve a game of this kind by calculating the *Grundy value* for
 each position, and in this post I'm going to discuss my attempt at
@@ -38,8 +39,8 @@ what they're doing.
 [status page]: https://wwwhomes.uni-bielefeld.de/achim/octal.html
 
 
-Sprague–Grundy theory
--------------------
+Sprague–Grundy Theory
+---------------------
 
 Here's a very compressed outline of Sprague-Grundy theory, just what
 we need to work on Officers.^[See the references for more details.]
@@ -297,9 +298,13 @@ This is a big improvement: we are now generating values at a rate of
 50K/s. For now, we're going to put aside the verification step and
 focus on calculating the speculative common values as fast as
 possible. There is a good parallelisable algorithm for verifying these
-common values, so if our goal is push the calculation further than
-Grossman then getting these candidate values as fast as possible is
-the whole ballgame.
+common values^[You can do the verification for each value completely
+independently, under the assumption that the values that came before
+it were correct. Only rarely (i.e. seemingly never) is this assumption
+violated, at which point you can redo the later ones that relied on
+that incorrect value.], so if our goal is push the calculation further
+than Grossman then getting these candidate values as fast as possible
+is the whole ballgame.
 
 
 Values as Bytes
@@ -321,7 +326,7 @@ incorrect "smallest value".
 
 Instead, we can cut out the 1st bit and shift all higher bits down by
 one. This does preserve order, and so we only ever have to think about
-compression when we want to present output to the user.
+compression when we want to present the output.
 
 ```cpp
 uint8_t compress(uint16_t x) {
@@ -335,7 +340,7 @@ uint16_t uncompress(uint8_t x) {
 }
 ```
 
-(Or if you like, that second line could be `bit1 = (~pop & 1) << 1`.)
+(Or if you like, that line could be `bit1 = (~pop & 1) << 1`.)
 
 
 Calculating a Block of Values
@@ -620,7 +625,6 @@ for (unsigned rare_idx = 0; rare_idx < RARE_VALUE_COUNT; rare_idx++)
       // Wait for the next block to be available:
       if (threadIdx.x == 0) {
         while (*global_progress == buffer_correct) {
-          __threadfence(); 
         }
       }
       __syncthreads();
@@ -686,7 +690,12 @@ quickly each block can get through its critical segment, that is, the
 part where it computes the MEX. While this is happening, all other
 blocks are likely waiting for it to finish. This goes some way (but
 not all the way!) to explaining the speed difference: Grossman was
-using a 2.66GHz CPU whereas my machine's GPU runs at 900MHz.
+using a 2.66GHz CPU whereas my machine's GPU runs at 900MHz. The
+`__ffs` intrinsic used for calculating the MEX is also [more
+expensive] than you would expect, with a SM not even able to calculate
+an entire warp's worth per cycle.
+
+[more expensive]: https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#arithmetic-instructions
 
 We'll need a better strategy. My idea is to do even more speculation,
 allowing each block to compute a MEX for before it's seen all the

@@ -1,8 +1,14 @@
 ---
 title: Good Words
 published: January 10, 2019
-tags: note-to-self, should-have-known
+tags: note-to-self, cringe, rolling
 ---
+
+Some words and phrases encountered while reading. Of course, it's
+embarrassing to air this list in public. How could I not know *that*
+word? <!--more-->
+
+With definitions mostly from the OED:
 
 * anomie -- a condition in which society provides little moral guidance to individuals
 * mercurial -- characterized by rapid and unpredictable changeableness of mood
@@ -32,5 +38,5 @@ tags: note-to-self, should-have-known
 * casuistry -- the use of clever but unsound reasoning, especially in relation to moral questions; sophistry.
 * parochial -- having a limited or narrow outlook or scope
 * cryptid -- an animal whose existence or survival is disputed or unsubstantiated, such as the yeti
-
-(Some of these I definitely should have known...)
+* lay down misère -- an easy victory (from the game 500)
+* sententious -- given to moralizing in a pompous or affected manner.

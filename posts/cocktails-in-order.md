@@ -1,12 +1,12 @@
 ---
 title: Cocktails In Order
 published: July 12, 2019
-tags: note-to-self
+tags: note-to-self, retroactive
 ---
 
 Here are most of the cocktails in the IBA cocktail list ordered such
 that as you go down, at most one new cocktail ingredient each time is
-needed. (This doesn't include other ingredients such as fruit juices.)
+needed. (This doesn't include other ingredients such as fruit juice.)
 
 <!--more-->
 
@@ -32,7 +32,7 @@ needed. (This doesn't include other ingredients such as fruit juices.)
 * Piña Colada
 * Martinez: **Maraschino**
 * Hemingway Special
-* Paloma: **Tequila**
+* Paloma: **Tequlia**
 * Tequila Sunrise: **Grenadine**
 * Mary Pickford
 * Planter's Punch: **Dark Rum**
@@ -53,7 +53,7 @@ needed. (This doesn't include other ingredients such as fruit juices.)
 * Stinger: **Creme de Menthe**
 * Casino: **Orange bitters**
 * Tuxedo
-* Last Word: **Green Chartreuse**
+* Last Word: **Green Chartreuse**^[This is roughly where I got to while finishing my dissertation.]
 * Death in the Afternoon: **Absinthe**
 * Monkey Gland
 * Sazerac: **Peychaud's bitters**
@@ -69,3 +69,14 @@ needed. (This doesn't include other ingredients such as fruit juices.)
 * Bellini: **Prosecco**
 * Aperol Spritz: **Aperol**
 * Pisco Sour: **Pisco**
+
+**EDIT (2023)**: Brett Adams and Jacob Grier wrote a
+[book](https://www.amazon.com/Raising-Bar-Bottle-Bottle-Masterful/dp/1797210327)
+with exactly this premise, turns out it was a good idea! Their order
+is: bourbon, gin, vermouth, orange liqueur, tequila, light rum,
+cognac, benedictine, campari, vodka, maraschino, rye, absinthe,
+chartreuse. <!-- Then, in the "advanced" section, apple brandy, cynar,
+aged rum, scotch, apricot liqueur, sherry, elderflower liqueur,
+mezcal, cachaca, fernet, creme de cacao. --> Similar order, at least
+at the start, but vodka is much higher in my list and I am somehow
+missing rye.

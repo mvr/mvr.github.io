@@ -1,8 +1,19 @@
 ---
 title: A Whirlwind Tour of Combinatorial Games in Haskell
 published: March 17, 2014
-tags: haskell, cgt
+tags: haskell, cgt, retroactive
 ---
+
+<!--
+> import Prelude hiding ((||))
+> import qualified Prelude ((||))
+> import Control.Monad
+> import Data.List
+> import Data.Maybe
+> import Data.Ratio
+> import Data.Bits
+> import Data.Function
+-->
 
 Combinatorial games are an interesting class of games where two
 players take turns to make a move. In these games, both players have
@@ -19,15 +30,6 @@ the player Left, and a set of moves for the player Right. When a
 player chooses an option from their set, this new position can be
 considered another game. This gives us a tree-like structure: <!--more-->
 
-> import Prelude hiding ((||))
-> import qualified Prelude ((||))
-> import Control.Monad
-> import Data.List
-> import Data.Maybe
-> import Data.Ratio
-> import Data.Bits
-> import Data.Function
->
 > data Game = Game { leftMoves :: [Game], rightMoves :: [Game] }
 
 We write `{ L | R }` for the game where Left can choose a move from
@@ -75,7 +77,7 @@ mutually recursive definitions:
 > lteqZero :: Game -> Bool
 > gteqZero = not . any lteqZero . rightMoves
 > lteqZero = not . any gteqZero . leftMoves
-
+>
 >-- gteqZero zero ==> True
 >-- lteqZero zero ==> True
 >-- gteqZero one  ==> True
@@ -99,6 +101,9 @@ clearly does not correspond to a number.
 > star = Game [zero] [zero]
 >
 >-- fuzzyZero star ==> True
+
+Arithmetic and Ordering
+=======================
 
 Now we consider the sum of two games. In the game `G + H`, a player has
 the choice of which component they wish to move in. For example, Left
@@ -241,6 +246,9 @@ is `<` every Right option.
 >-- isNumber (fromRational (3%8)) ==> True
 >-- isNumber star ==> False
 
+Non-Numbers
+===========
+
 It's time to go back and look at some strange infinitesimal games.
 
 Let's consider `G = { 0 | ∗ }`, written `↑`. `↑` is clearly positive, as
@@ -251,7 +259,7 @@ course an equivalent game, `↓` for Right.
 
 > up   = Game [zero] [star]
 > down = Game [star] [zero] -- = -up
-
+>
 >-- up > 0 ==> True
 >-- down < 0 ==> True
 >-- isNumber up ==> False
@@ -361,6 +369,9 @@ of two in each summand cancel out.
 Even more impressive is that you can define a product on nimbers,
 meaning impartial games form a field.
 
+Simplifying Games
+=================
+
 One issue we've skimmed over is that there are lots of different ways
 of representing a single game. For example, `{ 1 | } = { 0, 1 | } = 2`
 
@@ -446,7 +457,7 @@ create a new type for it:
 > nusIsNumber nus = upPart nus == 0 && nimberPart nus == 0
 
 We can leverage the simplification of games to make it easier to
-convert from an arbitrary game to a NumberUpStar. For example, in a
+convert from an arbitrary game to a `NumberUpStar`. For example, in a
 simplified game, if Left only has one option and Right has none, we
 must be dealing with an integer. Many similar rules, when combined,
 will give us the function we require.
@@ -511,7 +522,7 @@ will give us the function we require.
 > simplifiedToNUS :: Game -> Maybe NumberUpStar
 > simplifiedToNUS = nusOptionsFrom >=> optionsToNUS
 
-If we have one of these NumberUpStars, it's easy to print out a simple
+If we have one of these `NumberUpStar`s, it's easy to print out a simple
 representation of it. It's standard when dealing with games to write
 `3↑∗` for `3 + ↑ + ∗`. We just need to be careful not to confuse this
 for, say, adding 3 copies of `↑∗` together.
@@ -530,11 +541,11 @@ for, say, adding 3 copies of `↑∗` together.
 >           starShow n | n == 0 = ""
 >                      | n == 1 = "∗"
 >                      | otherwise = "∗" ++ show n
-
+>
 >-- show (NUS 0 0 0) ==> "0"
 >-- show (NUS 3 2 1) ==> "3↑↑∗"
 
-Now, to show a game, we first try to convert it to a NumberUpStar. If
+Now, to show a game, we first try to convert it to a `NumberUpStar`. If
 this fails, we just print its left and right options.
 
 > instance Show Game where
@@ -551,6 +562,9 @@ identities are very surprising!
 
 >-- Game [0] [up] ==> ↑↑∗
 
+Toads and Frogs
+===============
+
 Now let's work on analysing a real game. The game of Toads and Frogs
 is played on a strip of squares. Each square is either empty, or has a
 Toad or a Frog in it. Whenever it's lefT's turn, he can either move a
@@ -559,11 +573,10 @@ of him to land in an empty space. Right's move are identical, but
 moving the fRogs in the other direction.
 
 For example, if our board is in the state `[ T _ T F _ ]`, Left could
-either move the first Toad like this: `[ _  T T F _ ]` or hop the second
-Toad like this: `[ T _ _ F T ]`.
-
-A standard starting board might look like this `[ T T _ _ F F ]`. Let's
-use what we've developed above to tell us how to play this.
+either move the first Toad like this: `[ _ T T F _ ]` or hop the
+second Toad like this: `[ T _ _ F T ]`. A standard starting board
+might look like this `[ T T _ _ F F ]`. Let's use what we've developed
+above to tell us how to play this.
 
 First we will need a type to represent the state of a square and the
 board.
@@ -618,22 +631,23 @@ is, what's the best move from a given position?
 > bestLeftMove b = maximumBy (compare `on` snd) movesValues
 >   where allMoves = leftTFMoves b
 >         movesValues = zip allMoves (map boardToGame allMoves)
-
+>
 >-- bestLeftMove [E,T,T,E,F,F,E] ==> ([E,T,E,T,F,F,E], (1/4))
 
 With this up your sleeve, you should be able to beat pretty much
 anyone.
 
-===
+References
+==========
 
 For a much better written, much more rigorous and much more
 entertaining introduction to combinatorial games, see:
 
-*Winning Ways for your Mathematical Plays* (Academic Press, 1982)
+* *Winning Ways for your Mathematical Plays* (Academic Press, 1982)
 by Berlekamp, Conway and Guy
 
 For an almost unbelievably fast implementation of operations on
 combinatorial games, see:
 
-*Combinatorial Game Suite*: http://cgsuite.sourceforge.net/
+* *Combinatorial Game Suite*: <http://cgsuite.sourceforge.net/>
 by Aaron Siegel

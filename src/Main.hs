@@ -145,12 +145,17 @@ run action = hakyllWith config $ do
   -- Compile templates
   match "templates/*.html" $ compile templateCompiler
 
+  match "css/*.scss" $ do
+        compile getResourceBody
+
   scssDependency <- makePatternDependency "css/*.scss"
-  rulesExtraDependencies [scssDependency]
-    $ match "css/style.scss"
-    $ do
-      route $ setExtension "css"
-      compile compressScssCompiler
+  rulesExtraDependencies [scssDependency] $ create ["css/style.css"] $ do
+    route idRoute
+    compile $ loadBody "css/style.scss"
+      >>= makeItem
+      >>= withItemBody (unixFilter "sass" [ "--stdin"
+                                        , "--load-path", "css"
+                                        ])
 
   -- Copy some files verbatim
   match "public/**" $ do

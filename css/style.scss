@@ -1,15 +1,17 @@
 /* colours:
  */
-$blue: rgb(88,155,189);
-$darkblue: rgb(36, 83, 107);
-$lightgrey: rgb(180, 180, 180);
-$offblack: #222222;
-$offwhite: #f0f0f0;
-$boxwhite: #f9f9f9;
-$brown: #803300;
+$offblack: #222222; // For text
+$offwhite: #f0f0f5; // For background
+$boxwhite: #ffffff; // For diagram backgrounds
+$lightgrey: rgb(180, 180, 180); // For footers/metadata
+$blue: #468AAD; // For links and highlights
+$lightblue: rgb(217,225,234);
+$darkblue: #214F66;
+$brown: #803300;    // For syntax highlighting
 $lightbrown: #e0ae8f;
-$green: rgb(75, 135, 75);    /* Muted forest green */
-$lightgreen: rgb(180, 210, 180); /* Light sage green */
+$green: rgb(75, 135, 75);
+$lightgreen: rgb(180, 210, 180);
+// Remember to adjust the colours in LifeViewer.hs if necessary
 
 /* fonts:
  */
@@ -128,18 +130,26 @@ li.post-entry {
   margin-bottom: 66px;
 }
 
+h1.post-list-header {
+  line-height: 1.1;
+  border-bottom: 2px solid $blue;
+  margin-top: 40px;
+  width: 100px + 640px;
+}
+
 h1.post-list-title, section.post h1.post-title {
   line-height: 1.1;
   border-bottom: 2px solid $blue;
   margin-top: 40px;
 
-  text-wrap : balance; // Works for title
+  text-wrap : balance; // Works better for title
 }
 
 h1.post-list-title {
   font-size: 2rem;
   padding-bottom: 5px;
   margin-bottom: 5px;
+  max-width: $body-width;
 }
 
 section.post h1.post-title {
@@ -168,6 +178,7 @@ h1.post-list-title a, h1.post-title a {
   text-align: justify;
   hyphens: auto;
   hyphenate-limit-chars: 6 3 3;
+  hyphenate-limit-lines: 2; // Not supported in most browsers but can't hurt
 
   font-size: 1rem;
 
@@ -192,25 +203,36 @@ h1.post-list-title a, h1.post-title a {
     text-wrap : pretty; // Avoid orphans
   }
 
+  mark {
+    background-color: $lightblue;
+    color: inherit;
+    padding: 0.1em 0.2em;
+  }
+
   ul {
     display: block;
     margin-bottom: 20px;
     list-style: disc;
     list-style-type: disc;
+
     li {
       list-style: disc;
       list-style-type: disc;
-      margin-left: 30px;
+      margin-left: 20px;
       margin-bottom: 10px;
+      padding-left: 10px;
     }
   }
 
   ol {
     display: block;
     margin-bottom: 20px;
+    // margin-left: 0px;
+
     li {
-      margin-left: 30px;
+      margin-left: 20px;
       margin-bottom: 10px;
+      padding-left: 10px;
     }
   }
 
@@ -235,6 +257,14 @@ h1.post-list-title a, h1.post-title a {
     font-size: 1.1rem;
     margin-top: 1.2em;
     margin-bottom: 0.2em;
+  }
+
+  hr {
+    border: 0;
+    border-bottom: 2px solid $lightgrey;
+    width: 30ch;
+    margin-top: 30px;
+    margin-bottom: 30px;
   }
 }
 
@@ -312,3 +342,34 @@ span.katex-display {
   margin-left: auto;
   margin-right: auto;
 }
+
+/* Tables */
+
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  background-color: $boxwhite;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background-color: $lightblue;
+  font-weight: bold;
+  text-align: left;
+  padding: 0.8em;
+  border-bottom: 1px solid $lightgrey;
+}
+
+td {
+  text-align: start;
+  padding: 0.6em 0.8em;
+  border-bottom: 1px solid $lightgrey;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+

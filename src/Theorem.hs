@@ -74,14 +74,24 @@ makeEnv (tag, name, rest) defs
     -- TODO: Might be useful to have this work with formatted tags, e.g. **Lemma**.
     toRawText :: Seq Inline -> Text
     toRawText S.Empty      = ""
-    toRawText (Str s:<|xs) = s `T.append` (toRawText xs)
-    toRawText (Space:<|xs) = " " `T.append` (toRawText xs)
+    toRawText (Str s:<|xs) = s `T.append` toRawText xs
+    toRawText (Space:<|xs) = " " `T.append` toRawText xs
     toRawText (_    :<|xs) = toRawText xs
 
 convertEnv :: Env -> Blocks
-convertEnv (Env tagText nameText rest ds) =
-  divWith ("", [tag], attrs) ds
-  where tag  = getLatexEnvName tagText
+convertEnv (Env tag nameText rest ds) =
+  divWith ("", [tagText], attrs) (tagSpan <> ds <> qedSpan)
+  where tagText  = getLatexEnvName tag
+        displayName = getDisplayName tag
+          <> case nameText of
+            Just n  -> " (" <> n <> ")"
+            Nothing -> ""
+          <> "."
+        tagSpan = plain (spanWith ("", ["theorem-tag"], []) (text displayName))
+        qedSpan = if tag == Proof then
+                    plain (spanWith ("", ["qed"], []) (text "∎"))
+                  else
+                    mempty
         attrs = case nameText of
                   Just n  -> [("name", n)]
                   Nothing -> []
@@ -133,6 +143,18 @@ getLatexEnvName e = case e of
     Assumption -> "assumption"
     Remark     -> "remark"
 
+getDisplayName :: Tag -> Text
+getDisplayName e = case e of
+    Claim      -> "Claim"
+    Definition -> "Definition"
+    Lemma      -> "Lemma"
+    Proposition -> "Proposition"
+    Proof      -> "Proof"
+    Theorem    -> "Theorem"
+    Example    -> "Example"
+    Assumption -> "Assumption"
+    Remark     -> "Remark"
+
 -- Splits term text into the metadata of a LaTeX environment.
 -- TODO: Add support for nested parens, e.g. "Definition (O(n) runtime)."
 splitTerm :: Seq Inline -> (Seq Inline, Seq Inline, Seq Inline)
@@ -179,7 +201,5 @@ dropPrefix :: Text -> Inline -> Inline
 dropPrefix = transformStr . T.stripPrefix
 
 transformStr :: (Text -> Maybe Text) -> Inline -> Inline
-transformStr f i@(Str s) = case f s of
-    Just s' -> Str $ s'
-    Nothing -> i
+transformStr f i@(Str s) = maybe i Str (f s)
 transformStr _ i = i

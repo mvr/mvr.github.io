@@ -1,8 +1,13 @@
-.definition, .remark, .theorem, .proposition, .lemma, .proof {
+.definition, .remark, .theorem, .proposition, .lemma, .proof, .example {
   margin-bottom: 18px;
   display: block;
 
-  &:before {
+  // &:before {
+  //   font-weight: bold;
+  //   font-style: normal;
+  //   color: $darkblue;
+  // }
+  .theorem-tag {
     font-weight: bold;
     font-style: normal;
     color: $darkblue;
@@ -13,44 +18,61 @@
   font-style: italic;
 }
 
-.definition:before {
-  content: "Definition. ";
-}
-.definition[name]:before {
-  content: "Definition (" attr(name) "). ";
+.proof {
+    position:relative;
 }
 
-.remark:before {
-  content: "Remark. ";
-}
-.remark[name]:before {
-  content: "Remark (" attr(name) "). ";
-}
-
-.theorem:before {
-  content: "Theorem. ";
-}
-.theorem[name]:before {
-  content: "Theorem (" attr(name) "). ";
+.proof span.qed {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
-.proposition:before {
-  content: "Proposition. ";
-}
-.proposition[name]:before {
-  content: "Proposition (" attr(name) "). ";
-}
+// .proof::after {
+//   content: "∎";
+  // font-size: 1.6rem;
+  // display: inline-block;
+  // float: right;
+// }
 
-.lemma:before {
-  content: "Lemma. ";
-}
-.lemma[name]:before {
-  content: "Lemma (" attr(name) "). ";
-}
+// .definition:before {
+//   content: "Definition. ";
+// }
+// .definition[name]:before {
+//   content: "Definition (" attr(name) "). ";
+// }
 
-.proof:before {
-  content: "Proof. ";
-}
-.proof[name]:before {
-  content: "Proof (" attr(name) "). ";
-}
+// .remark:before {
+//   content: "Remark. ";
+// }
+// .remark[name]:before {
+//   content: "Remark (" attr(name) "). ";
+// }
+
+// .theorem:before {
+//   content: "Theorem. ";
+// }
+// .theorem[name]:before {
+//   content: "Theorem (" attr(name) "). ";
+// }
+
+// .proposition:before {
+//   content: "Proposition. ";
+// }
+// .proposition[name]:before {
+//   content: "Proposition (" attr(name) "). ";
+// }
+
+// .lemma:before {
+//   content: "Lemma. ";
+// }
+// .lemma[name]:before {
+//   content: "Lemma (" attr(name) "). ";
+// }
+
+// .proof:before {
+//   content: "Proof. ";
+// }
+// .proof[name]:before {
+//   content: "Proof (" attr(name) "). ";
+// }

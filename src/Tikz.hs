@@ -27,8 +27,8 @@ tempDir = "tikz_temp"
 templatePath = "templates/diagram.tex"
 filledPath = tempDir ++ "/filled_template.tex"
 
-buildDiagram :: Text -> IO Text
-buildDiagram input = do
+buildDiagram :: FilePath -> Text -> IO Text
+buildDiagram templatePath input = do
   template <- T.readFile templatePath
 
   let texContent = T.replace "__BODY__" input
@@ -47,11 +47,20 @@ buildDiagram input = do
   _ <- readProcess "pdftocairo" ["-svg", pdfPath, svgPath] ""
   T.readFile svgPath
 
-convertBlock :: Block -> Compiler Block
-convertBlock (CodeBlock (id, "tikzpicture":extraClasses, namevals) contents) = do
-  svg <- unsafeCompiler (buildDiagram contents)
+convertCodeBlock :: FilePath -> Attr -> Text -> Compiler Block
+convertCodeBlock templatePath (id, extraClasses, namevals) contents = do
+  svg <- unsafeCompiler (buildDiagram templatePath contents)
 
   let encoded = "data:image/svg+xml;utf8," <> URI.encodeText (T.filter (/= '\n') svg)
   return $ Div ("", ["figure"], []) [Plain [Image (id, "tikzpicture":extraClasses, namevals) [] (encoded, "")]]
 
+  -- The problem with just doing the following is that ids in
+  -- different SVG images on the same page interfere with each other
+  -- (??????)
+
+  -- return $ Div ("", ["figure"], []) [RawBlock "html" svg]
+
+convertBlock :: Block -> Compiler Block
+convertBlock (CodeBlock attrs@(id, "tikzpicture":extraClasses, namevals) contents) = convertCodeBlock "templates/diagram.tex" attrs contents
+convertBlock (CodeBlock attrs@(id, "tikzcd":extraClasses, namevals) contents) = convertCodeBlock "templates/cd.tex" attrs contents
 convertBlock x = return x

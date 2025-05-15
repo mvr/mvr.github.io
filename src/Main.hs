@@ -206,15 +206,13 @@ postCtx tags = dateField "date" "%B %e, %Y"
 
 pandocCustomCompiler :: Compiler (Item String)
 pandocCustomCompiler =
-    let mathExtensions = [Ext_tex_math_dollars, Ext_tex_math_double_backslash,
-                          Ext_latex_macros]
-        defaultExtensions = writerExtensions defaultHakyllWriterOptions
-        newExtensions = foldr enableExtension defaultExtensions mathExtensions
+    let readerOptions = defaultHakyllReaderOptions {
+                          readerExtensions = foldr enableExtension (readerExtensions defaultHakyllReaderOptions) [Ext_mark]
+                        }
         writerOptions = defaultHakyllWriterOptions {
-                          writerExtensions = newExtensions,
                           writerHTMLMathMethod = KaTeX ""
                         }
-    in pandocCompilerWithTransformM defaultHakyllReaderOptions writerOptions
+    in pandocCompilerWithTransformM readerOptions writerOptions
        (  Tikz.filterTikz
         . usingSideNotes
         . Theorem.filterThms

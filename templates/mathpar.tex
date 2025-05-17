@@ -1,0 +1,32 @@
+\documentclass[multi=page,12pt]{standalone}
+\usepackage{xcolor}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+% \usepackage{mathpazo}
+\usepackage[T1]{fontenc}
+
+\usepackage{mathpartir}
+
+\newcommand{\yields}{\vdash}
+\newcommand{\judge}{\mathcal{J}}
+\newcommand{\ctx}{\,\,\mathsf{ctx}}
+\newcommand{\type}{\,\,\mathsf{type}}
+\newcommand{\tele}{\,\,\mathsf{tele}}
+
+\newcommand{\ind}[3]{\mathsf{let} \; {#2} = {#1} \, \mathsf{in} \, {#3}}
+
+\definecolor{diagrambg}{HTML}{FFFFFF}
+\definecolor{diagramfg}{HTML}{222222}
+
+\pagecolor{diagrambg}
+\color{diagramfg}
+
+\begin{document}
+\begin{page}
+\large
+\begin{mathpar}
+__BODY__
+\end{mathpar}
+\end{page}
+\end{document}

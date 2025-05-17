@@ -23,8 +23,6 @@ filterTikz = walkM convertBlock
 -- With https://github.com/the1lab/1lab/blob/main/support/shake/app/Shake/Diagram.hs
 
 tempDir = "tikz_temp"
-
-templatePath = "templates/diagram.tex"
 filledPath = tempDir ++ "/filled_template.tex"
 
 buildDiagram :: FilePath -> Text -> IO Text
@@ -50,9 +48,9 @@ buildDiagram templatePath input = do
 convertCodeBlock :: FilePath -> Attr -> Text -> Compiler Block
 convertCodeBlock templatePath (id, extraClasses, namevals) contents = do
   svg <- unsafeCompiler (buildDiagram templatePath contents)
-
+  let comment = RawBlock (Format "html") ("<!--" `T.append` contents `T.append` "-->")
   let encoded = "data:image/svg+xml;utf8," <> URI.encodeText (T.filter (/= '\n') svg)
-  return $ Div ("", ["figure"], []) [Plain [Image (id, "tikzpicture":extraClasses, namevals) [] (encoded, "")]]
+  return $ Div ("", ["figure"], []) [comment, Plain [Image (id, "tikzpicture":extraClasses, namevals) [] (encoded, "")]]
 
   -- The problem with just doing the following is that ids in
   -- different SVG images on the same page interfere with each other
@@ -63,4 +61,5 @@ convertCodeBlock templatePath (id, extraClasses, namevals) contents = do
 convertBlock :: Block -> Compiler Block
 convertBlock (CodeBlock attrs@(id, "tikzpicture":extraClasses, namevals) contents) = convertCodeBlock "templates/diagram.tex" attrs contents
 convertBlock (CodeBlock attrs@(id, "tikzcd":extraClasses, namevals) contents) = convertCodeBlock "templates/cd.tex" attrs contents
+convertBlock (CodeBlock attrs@(id, "mathpar":extraClasses, namevals) contents) = convertCodeBlock "templates/mathpar.tex" attrs contents
 convertBlock x = return x

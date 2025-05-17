@@ -1,0 +1,35 @@
+name:                mvr
+version:             0.1.0.0
+github:              "mvr/mvr.github.io"
+license:             AllRightsReserved
+author:              "Mitchell Riley"
+maintainer:          "mitchell.v.riley@gmail.com"
+
+dependencies:
+- base >= 4.7 && < 5
+
+# library:
+#   source-dirs: src
+
+executables:
+  mvr:
+    main:                Main.hs
+    source-dirs:         src
+    dependencies:
+      - base >=4.7 && <5.0
+      - containers >= 0.5.5.1
+      - hakyll >= 4.6
+      - pandoc >= 1.13.1
+      - time
+      - time-locale-compat
+      - titlecase
+      - text
+      - pandoc-types
+      - pandoc-sidenote
+      - bytestring
+      - uri-encode
+      - process
+      - filepath
+      - cryptohash-md5
+      - base16-bytestring
+      - directory

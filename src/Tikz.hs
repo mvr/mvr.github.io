@@ -6,15 +6,21 @@ module Tikz
 
 import Data.Text (Text)
 import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
 import Text.Pandoc.Definition
 import Text.Pandoc.Walk (walkM)
 import Hakyll
 import qualified Network.URI.Encode as URI (encodeText)
 import System.Process
 import System.Exit
-import System.FilePath (dropExtension)
+import System.FilePath (dropExtension, takeFileName, (</>))
 import qualified Data.Text.IO as T
 import Text.Pandoc (topDown)
+import Crypto.Hash.MD5 as MD5
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Base16 as B16
+import Control.Monad (unless)
+import System.Directory (createDirectoryIfMissing, doesFileExist)
 
 filterTikz :: Pandoc -> Compiler Pandoc
 filterTikz = walkM convertBlock
@@ -22,28 +28,43 @@ filterTikz = walkM convertBlock
 -- Mashing https://taeer.bar-yam.me/blog/posts/hakyll-tikz/
 -- With https://github.com/the1lab/1lab/blob/main/support/shake/app/Shake/Diagram.hs
 
-tempDir = "tikz_temp"
+tempDir = "_cache/tikz"
 filledPath = tempDir ++ "/filled_template.tex"
+
+diagramHash :: Text -> Text -> String
+diagramHash templateContent input =
+  T.unpack $ T.decodeUtf8 $ B16.encode $ MD5.hash $ T.encodeUtf8 $ input `T.append` templateContent
 
 buildDiagram :: FilePath -> Text -> IO Text
 buildDiagram templatePath input = do
+  createDirectoryIfMissing True tempDir
+  
   template <- T.readFile templatePath
-
-  let texContent = T.replace "__BODY__" input
-                 -- . T.replace "__PREAMBLE__" preamble
-                 $ template
-
-  T.writeFile filledPath texContent
-
-  -- Run pdflatex
-  -- TODO: report error
-  _ <- readProcess "pdflatex" ["-output-directory=" ++ tempDir, "-synctex=1", "-interaction=nonstopmode", filledPath] ""
-
-  let pdfPath = dropExtension filledPath ++ ".pdf"
-  let svgPath = dropExtension filledPath ++ ".svg"
-
-  _ <- readProcess "pdftocairo" ["-svg", pdfPath, svgPath] ""
-  T.readFile svgPath
+  
+  let hash = diagramHash template input
+  let svgCachePath = tempDir </> (hash ++ ".svg")
+  
+  cacheExists <- doesFileExist svgCachePath
+  
+  if cacheExists
+    then
+      T.readFile svgCachePath
+    else do
+      let texContent = T.replace "__BODY__" input template
+      
+      T.writeFile filledPath texContent
+      
+      _ <- readProcess "pdflatex" ["-output-directory=" ++ tempDir, "-synctex=1", "-interaction=nonstopmode", filledPath] ""
+      
+      let pdfPath = dropExtension filledPath ++ ".pdf"
+      let svgPath = dropExtension filledPath ++ ".svg"
+      
+      _ <- readProcess "pdftocairo" ["-svg", pdfPath, svgPath] ""
+      svg <- T.readFile svgPath
+      
+      T.writeFile svgCachePath svg
+      
+      return svg
 
 convertCodeBlock :: FilePath -> Attr -> Text -> Compiler Block
 convertCodeBlock templatePath (id, extraClasses, namevals) contents = do

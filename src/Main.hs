@@ -2,7 +2,7 @@
 
 module Main (main) where
 
-import Control.Monad (liftM, (<=<), msum)
+import Control.Monad (liftM, (<=<), (>=>), msum)
 import Control.Applicative (empty)
 import Data.Monoid
 import System.Environment (getArgs)
@@ -17,11 +17,15 @@ import Data.Time.Locale.Compat (TimeLocale, defaultTimeLocale)
 import Hakyll
 import Text.Pandoc.Options
 import Text.Pandoc.SideNote
+-- import Hakyll.Core.Compiler.Internal (compilerThrow)
+-- import Text.Pandoc.Builder (setMeta)
+-- import Text.Pandoc as Pandoc (runIO)
 
 import qualified Theorem
 import qualified Hyphen
 import qualified LifeViewer
 import qualified Tikz
+import qualified Bibliography
 
 main :: IO ()
 main = do
@@ -205,19 +209,38 @@ postCtx tags = dateField "date" "%B %e, %Y"
                <> defaultContext
 
 pandocCustomCompiler :: Compiler (Item String)
-pandocCustomCompiler =
-    let readerOptions = defaultHakyllReaderOptions {
-                          readerExtensions = foldr enableExtension (readerExtensions defaultHakyllReaderOptions) [Ext_mark]
-                        }
-        writerOptions = defaultHakyllWriterOptions {
-                          writerHTMLMathMethod = KaTeX ""
-                        }
-    in pandocCompilerWithTransformM readerOptions writerOptions
-       (  Tikz.filterTikz
-        . usingSideNotes
-        . Theorem.filterThms
+pandocCustomCompiler = do
+  -- identifier <- getUnderlying
+  -- metadata <- getMetadata identifier
+  
+  let readerOptions = defaultHakyllReaderOptions {
+                        readerExtensions = foldr enableExtension (readerExtensions defaultHakyllReaderOptions) [Ext_mark]
+                      }
+      writerOptions = defaultHakyllWriterOptions {
+                        writerHTMLMathMethod = KaTeX ""
+                      }
+
+      -- addMetaFromConfig :: Pandoc -> Compiler Pandoc
+      -- addMetaFromConfig doc =
+      --   case (lookupString "csl" metadata, lookupString "bibliography" metadata) of
+      --     (Just cslFile, Just bibFile) -> do
+      --       result <- (unsafeCompiler . Pandoc.runIO . Pandoc.processCitations . setMeta "csl" cslFile . setMeta "bibliography" bibFile) doc
+      --       case result of
+      --         Left  e -> compilerThrow ["Error during processCitations: " ++ show e]
+      --         Right x -> return x
+      --     _ -> return doc
+
+      transform =
+        -- addMetaFromConfig <=<
+        Tikz.filterTikz <=< 
+        Bibliography.filterBibliography <=<
+        return
+        . LifeViewer.filterLifeViewer
         . Hyphen.filterHyphen
-        . LifeViewer.filterLifeViewer)
+        . Theorem.filterThms
+        . usingSideNotes
+
+  pandocCompilerWithTransformM readerOptions writerOptions transform
 
 config :: Configuration
 config = defaultConfiguration

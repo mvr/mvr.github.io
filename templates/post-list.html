@@ -7,7 +7,7 @@
         <div class="post-content">
             $if(teaser)$
             $teaser$
-            <div class="continue-post"><a href="$url$">Read full post ▷</a></div>
+            <div class="continue-post"><a href="$url$">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             $else$
             $body$
             $endif$
@@ -18,10 +18,10 @@
 
 
 $if(nextPageNum)$
-<a id="next-page-link" href='$nextPageUrl$'>◁ Older Entries</a>
+<a id="next-page-link" href='$nextPageUrl$'><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Older Entries</a>
 $endif$
 
 $if(previousPageNum)$
-<a id="prev-page-link" href='$previousPageUrl$'>Newer Entries ▷</a>
+<a id="prev-page-link" href='$previousPageUrl$'>Newer Entries <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a>
 $endif$
 </section>

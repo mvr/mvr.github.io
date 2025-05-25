@@ -1,9 +1,10 @@
-\documentclass[multi=page,12pt]{standalone}
+\documentclass[multi=page,10pt]{standalone}
 \usepackage{xcolor}
 
 \usepackage{amssymb}
 \usepackage{amsmath}
 % \usepackage{mathpazo}
+\usepackage{mlmodern}
 \usepackage[T1]{fontenc}
 
 \usepackage{mathpartir}
@@ -14,7 +15,11 @@
 \newcommand{\type}{\,\,\mathsf{type}}
 \newcommand{\tele}{\,\,\mathsf{tele}}
 
+\newcommand{\proj}{\mathsf{pr}}
 \newcommand{\ind}[3]{\mathsf{let} \; {#2} = {#1} \, \mathsf{in} \, {#3}}
+\newcommand{\inl}{\mathsf{inl}}
+\newcommand{\inr}{\mathsf{inr}}
+\newcommand{\case}[5]{\mathsf{case} \; {#1} \; \mathsf{of} \; {#2} \mapsto {#3}; {#4} \mapsto {#5}}
 
 \definecolor{diagrambg}{HTML}{FFFFFF}
 \definecolor{diagramfg}{HTML}{222222}
@@ -24,7 +29,7 @@
 
 \begin{document}
 \begin{page}
-\large
+\Large
 \begin{mathpar}
 __BODY__
 \end{mathpar}

@@ -99,7 +99,7 @@ ship, followed by
 * This specific pair of blinkers: `o$o$o7$4b3o!`
 
 Results
-=======
+-------
 
 Crawlers that can react more than once are surprisingly rare. Here are
 the only remotely feasible ones that I found.

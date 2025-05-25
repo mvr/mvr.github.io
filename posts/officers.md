@@ -82,12 +82,10 @@ strategy for each sum: move to a position with value 0. So for these
 sums, $1 ⊕ 3 \rightsquigarrow 1 ⊕ 1$ and $2 ⊕ 3 \rightsquigarrow 2 ⊕
 2$.]
 
-<div class="align-bug">
 \begin{align*}
 1 ⊕ 3 &= \mathrm{mex}(0⊕3, 1⊕2, 1⊕1, 1⊕0) &&= \mathrm{mex}(3, 3, 0, 1) &&= 2 \\
 2 ⊕ 3 &= \mathrm{mex}(1⊕3, 0⊕3, 2⊕2, 2⊕1, 2⊕0) &&= \mathrm{mex}(2, 3, 0, 3, 2) &&= 1
 \end{align*}
-</div>
 
 In general, one can show that the Nim sum $x ⊕ y$ is binary XOR, or if
 you like, vector addition over $\mathbb{F}_2$.
@@ -193,13 +191,11 @@ established it is almost impossible to dislodge, for the following
 reason. Because the condition is based on parity, it is not hard to
 check the rules:
 
-<div class="align-bug">
 \begin{align*}
 &\text{common} &&\oplus \,\text{common} &&= \text{rare} \\
 &\text{rare} &&\oplus \,\text{rare} &&= \text{rare} \\
 &\text{rare} &&\oplus \,\text{common} &&= \text{common}
 \end{align*}
-</div>
 
 Now consider the collection $\{G(i) ⊕ G(x - i - 1) \mid 0 \leq i \leq
 x-1\}$ that we are taking the MEX of to determine $G(x)$.
@@ -545,7 +541,8 @@ for (unsigned j = 0; j < 8; j++) {
 This compiles to a straight-line program, using predicated
 instructions to operate on the correct entry of the array.
 
-Here's a alternative trick which seems to come out very slightly ahead.
+Here's a alternative trick which seems to come out slightly ahead and,
+for reasons mysterious to me, seems to cause less register pressure.
 
 ```cpp
 #pragma unroll 8

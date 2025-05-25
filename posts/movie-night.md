@@ -14,16 +14,16 @@ crystalline, sacred, with no downsides or vulnerabilities.
 3. Everybody else votes. If the vote is a tie, the nominator breaks
    the vote. 
 
-Here's what we've watched so far^[The losing movies from some of the
-early, legendary movie nights have been lost to time.], together with
-ratings using the simplest possible system.^[And take these ratings
-with a grain of salt, I like more of the movies that I see than the
-average person.] I'll add to this over time. Sometimes the pair of
-nominations has a theme, often not.
+Here's what we've watched so far^[The alternative movies from some of
+the early, legendary movie nights have been lost to time.], together
+with my ratings using almost the simplest possible system.^[And take
+these ratings with a grain of salt, I like more of the movies that I
+see than the average person.] <!--more--> I'll add to this over time.
+Sometimes the pair of nominations has a theme, often not.
 
-<!-- ✓✗ -->
+<!-- ✓½✗ -->
 
-| Nominator   | Winner                                              | Good? | Loser                              |
+| Nominator   | Movie                                               | Good? | Alternative                        |
 |-------------|-----------------------------------------------------|-------|------------------------------------|
 | **2022**    |                                                     |       |                                    |
 | Me          | Airplane                                            | ✓     | ?                                  |
@@ -49,7 +49,7 @@ nominations has a theme, often not.
 | Marina      | Ivan Vasiliovich Changes Profession                 | ✓     | Only Old Men are Going to Battle   |
 | Adrian      | Tampopo                                             | ✓     | Confessions                        |
 | Tanya       | The Man Who Sleeps                                  | ✓     | Goodbye Dragon Inn                 |
-| Me          | Picnic at Hanging Rock                              | ✓     | Wake in Fright                     |
+| Me          | Picnic at Hanging Rock                              | ½     | Wake in Fright                     |
 | Sachin      | Local Hero                                          | ✗     | The Young Offenders                |
 | Laura       | Harold and Maude                                    | ✗     | Fried Green Tomatoes               |
 | Tanya       | In the Mood for Love                                | ✓     | Repentance                         |
@@ -69,7 +69,7 @@ nominations has a theme, often not.
 | David       | Fateful Findings                                    | ✓     |                                    |
 | **2024**    |                                                     |       |                                    |
 | [Matteo]    | Baby Driver                                         | ✓     | The Room                           |
-| Laura       | Starter for 10                                      | ✓     | Worth                              |
+| Laura       | Starter for 10                                      | ½     | Worth                              |
 | Adrian      | Deep Red                                            | ✓     | Skinimarink                        |
 | Me          | Rosencrantz and Guildenstern are Dead               | ✓     | Synecdoche, New York               |
 | Tanya       | The Master                                          | ✓     | Ulysses' Gaze                      |
@@ -83,7 +83,7 @@ nominations has a theme, often not.
 | Adrian      | Predator                                            | ✓     | Bill and Ted’s Excellent Adventure |
 | Laura       | Raising Arizona                                     | ✓     | Aliens                             |
 | David       | The Lobster                                         | ✓     | Blue Velvet                        |
-| Griff       | The Little Death (2014)                             | ✓     | Threads (1984)                     |
+| [Griff]     | The Little Death (2014)                             | ✓     | Threads (1984)                     |
 | Ana         | Fright Night (2011)                                 | ✓     | Mediterraneo                       |
 | Diktat      | The Lord of the Rings: Fellowship of the Ring       | ✓     |                                    |
 | Adrian      | Human Traffic                                       | ✓     | Kes                                |
@@ -118,7 +118,7 @@ nominations has a theme, often not.
 | Me          | Heat                                                | ✓     | Top Secret                         |
 | Sachin      | Ali G Indahouse                                     | ✓     | Let's Go To Prison                 |
 | Laura       | Juror #2                                            | ✓     | The Post                           |
-| Me          | Mandy                                               | ✓     | Red Rock West                      |
+| Me          | Mandy                                               | ½     | Red Rock West                      |
 | Sachin      | Conclave                                            | ✓     | Spotlight                          |
 
 [Sachin]: https://sites.google.com/view/sachinvalera/home
@@ -127,3 +127,4 @@ nominations has a theme, often not.
 [Adrian]: https://adrianclough.github.io/
 [Matteo]: https://matteocapucci.wordpress.com/
 [Christian]: https://www.christiankhairallah.com/
+[Griff]: https://www.aoshearman.com/en/people/cameron-griffiths

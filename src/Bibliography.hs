@@ -45,7 +45,7 @@ buildBibliography input = do
   else do
     T.writeFile tempBibFile input
     md <- T.pack <$> readProcess "pandoc"
-          [tempBibFile, "-C", "--csl=" ++ cslPath, "-t", "html"]
+          [tempBibFile, "-C", "--katex", "--csl=" ++ cslPath, "-t", "html"]
           ""
 
     T.writeFile mdCachePath md

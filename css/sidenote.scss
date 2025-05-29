@@ -36,7 +36,7 @@ input.margin-toggle {
 }
 
 /* The mobile fallback: */
-@media (max-width: 760px) {
+@media screen and (max-width: 760px) {
   .sidenote,
   .marginnote {
     display: none;

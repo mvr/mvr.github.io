@@ -433,3 +433,77 @@ figure img {
     position: relative;
     top: 0.20rem;
 }
+
+
+/* Print styles */
+
+@media print {
+  html {
+    font-size: 10pt;
+  }
+
+  body {
+    background: white;
+    color: black;
+    padding: 0;
+    margin: 0;
+    // font-family: $serif; // Serif is often better for print
+    line-height: 1.4;
+  }
+
+  // Remove background colors and use white for better printing
+  pre, .figure, span.katex-display, table, figure {
+    background-color: white !important;
+    border: 1px solid #ccc;
+  }
+
+  // Hide navigation and non-essential elements
+  header#masthead #links,
+  footer,
+  .continue-post,
+  #next-page-link,
+  #prev-page-link,
+  #home-page-link
+  {
+    display: none;
+  }
+
+  // Adjust spacing for print
+  header#masthead {
+    margin-bottom: 30px;
+
+    h1 {
+      font-size: 24pt;
+      border-bottom: 2pt solid black;
+    }
+  }
+
+  section {
+    margin-left: 0;
+    max-width: $body-width;
+  }
+
+  .post-content {
+    text-align: left; // Left-align is often better for print
+    hyphens: auto;
+    orphans: 3; // Prevent orphaned lines
+    widows: 3;  // Prevent widow lines
+
+    h1, h2, h3, h4 {
+      page-break-after: avoid; // Keep headings with following content
+      break-after: avoid;
+    }
+  }
+
+  // Ensure figures and tables don't break awkwardly
+  figure, table, pre {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  // Adjust mark highlighting for print
+  mark {
+    background-color: #e6e6e6 !important;
+    color: black !important;
+  }
+}

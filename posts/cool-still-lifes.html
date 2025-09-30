@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Quickly Detecting Cool Still Lifes</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/cool-still-lifes.html">Quickly Detecting Cool Still Lifes</a></h1>
+<p class="post-deets">April  8, 2025   / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a> </p>
+<div class="post-content">
+    <script defer src="../life/lv-plugin.js"></script>
+<p><a href="https://conwaylife.com/forums/viewtopic.php?f=9&amp;t=5997">QuFince</a> is a CUDA tool written by <a href="https://cp4space.hatsya.com/">apg</a> to conduct brute-force Game
+of Life searches on the cartesian product of two sets of
+configurations. That is, each configuration from set A is combined
+with each configuration from set B, and run until stabilised. Not
+every result is reported, only those where certain criteria are met.
+Right now the options are either that the result has some interesting
+period<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Interesting period here typically means period not dividing
+120, to rule out <a href="https://conwaylife.com/wiki/Blinker">blinkers</a>, <a href="https://conwaylife.com/wiki/Pulsar">pulsars</a>, <a href="https://conwaylife.com/wiki/Pentadecathlon">pentadecathlons</a> and <a href="https://conwaylife.com/wiki/Figure_eight">figure
+eights</a>, among other things.<br />
+<br />
+</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+<a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
+hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
+<p>One thing that <em>can’t</em> be done currently is have QuFince report any
+combination that results in an interesting still life, but without
+knowing which still life you want in advance. It’s not so obvious what
+“interesting still life” should mean exactly, but here are some
+randomly chosen examples of things that should qualify:</p>
+<div class="lifeviewer"><textarea>
+x = 88, y = 30, rule = B3/S23
+2o2b2o16b2o16b2o18b2ob2o19b2o$o4bo15bo2bo15bobo18bobobo14b2obo2bo$b4o
+15bo2b2o17bo2b2o14bo3bo14b2obob2o$20b3o19bobobo15b3o18bo$b4o18b2o16b2o
+bo35b2obob2o$o4bo14b2obobo16bobobo15b3o15bo2bobo$b4o15b2obobo16bo2b2o
+14bo2bo16b2o2bo$24bo15bobo17bo2bo21bobo$3b2o35b2o19b2o23b2o$3b2o11$5b
+2o16b2o19b2o14b2ob2o15b2o$b2obo2bo14bo2bo18bo16bobobo14bobo$obobobo15b
+ob2o15b2obo16bo3bo16bo$o4bo15b2obo17bob2o16b3o16bo$b4o15bo3bo17bobo36b
+2o$20b4o17b2obobo15b3o$b2o39bo2b2o14bo3bo15b4o$bobo18b2o16bobo18bobobo
+14bo4bo$2bo18bobo16b2o18b2ob2o16b3obo$22bo60bob2o!
+
+#C [[ ZOOM 4 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>We can’t use a population threshold as our criterion for
+interestingness, because the typical result of one of these QuFince
+trials is a bunch of uninteresting junk. One option is to do proper
+object separation, like <a href="https://gitlab.com/apgoucher/apgmera">apgsearch</a>, and then report any object that
+is sufficiently rare. But a QuFince search can conceivably test
+hundreds of billions of configurations, and full object separation is
+simply too slow.</p>
+<p>Here I’ll present an alternative, a simple heuristic that works well
+enough. <!--more--> There are some constraints, but most important is
+that our mistakes only go in one direction. False negatives are
+disappointing, because we might be missing out on a cool result. But
+false positives are catastrophic because they cause a firehose of
+useless results, which defeats the purpose of using QuFince in the
+first place.</p>
+<p>To evaluate how we’re doing, we’ll test the heuristic on the 10,000
+most common still lifes. We’ll declare any still life with population
+<span class="math inline">\geq 18</span> to be “interesting”, and any still life with population
+<span class="math inline">\leq 10</span> to be a deal-breaker that <em>must</em> be rejected.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">These
+thresholds are somewhat arbitrary.<br />
+<br />
+</span></span> Our goal is to correctly classify
+as many of the remaining 10,000 as possible.</p>
+<h2 id="chunky-regions">Chunky Regions</h2>
+<p>The first thing that comes to mind is that rare still lifes often have
+a dense middle, so we should devise a fast check for dense regions. If
+we fill in the “holes” in the ash, a dense region will show up as a
+place where we can fit a decently sized square. Or stated a different
+way, if we inflate the ash a bit, and then deflate the result a bit
+more, the only way anything can remain is if there was some thing
+decently sized to begin with.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>chunky_locations <span class="op">=</span> <span class="op">~(~</span>pattern<span class="op">.</span>zoi<span class="op">()).</span>zoi<span class="op">().</span>zoi<span class="op">();</span></span></code></pre></div>
+<p>This is quite efficient to evaluate when the state is represented by
+as a bitplane (as it is in QuFince and LifeAPI). It’s a good start and
+correctly identifies 7223/10000 still lifes, but it does have some
+unacceptable false positives:</p>
+<div class="lifeviewer"><textarea>
+x = 88, y = 31, rule = B3/S23
+5bo17bobo18b2o16b2o22b2o$3b3o16bob2o17bo2bo16bo2bo15b2o3bo$2bo19bo19bo
+bobo16bobobo15bo2bo$3b3o17b3o17bobo18bobo16bobo$5bo19bo18bo20bo18bo14$
+20b3o3b3o$4b2o40b2o$3bo2bo11bo4bobo4bo14bo2bo15b2o$3bobo12bo4bobo4bo
+15b2o16b2o$b2obo3bo9bo4bobo4bo11b2o$o2bo3bobo10b3o3b3o12bo2bo17bo4b2o$
+obo3bo2bo32bobo16bobo2bo2bo$bo3bob2o11b3o3b3o14bo17bobo2bobo$4bobo11bo
+4bobo4bo31bo4bo$3bo2bo11bo4bobo4bo$4b2o12bo4bobo4bo2$20b3o3b3o!
+
+#C [[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>Changing the precise kind of inflation/deflation helps. To test this
+systematically, I defined a handful of “neighbourhoods” and tried all
+combinations. Some of the neighbourhoods I tried are things like:<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">I
+also threw in some more exotic neighbourhoods, but none turned out to
+help.<br />
+<br />
+</span></span></p>
+<div class="lifeviewer"><textarea>
+x = 25, y = 12, rule = LifeHistory
+.3D8.D8.D.D$.DAD7.DAD8.A$.3D8.D8.D.D5$5D7.D7.D3.D$5D6.3D7.D.D$2DA2D5.
+2DA2D7.A$5D6.3D7.D.D$5D7.D7.D3.D!
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>What worked by far the best was the following pair, so inflating by
+the radius-1 von Neumann neighbourhood on the left and deflating by
+the radius-2 Moore neighbourhood on the right.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>chunky_locations <span class="op">=</span> <span class="op">~(~</span>bx<span class="op">.</span>vonneumann<span class="op">()).</span>zoi<span class="op">().</span>zoi<span class="op">();</span></span></code></pre></div>
+<div class="lifeviewer"><textarea>
+x = 14, y = 5, rule = LifeHistory
+9.5D$.D7.5D$DAD6.2DA2D$.D7.5D$9.5D!
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>This correctly classifies 6017/10000, but with none of the painful
+false positives of the previous version.</p>
+<h2 id="the-line-of-five-rule">The Line-of-five Rule</h2>
+<p>Let’s inspect some of the still lifes that don’t get picked up by
+this.</p>
+<div class="lifeviewer"><textarea>
+x = 110, y = 50, rule = LifeHistory
+2A2.2A15.2A21.2A15.2A18.2A17.2A$A4.A14.A2.A16.2A2.A.A13.A2.A16.A2.C
+16.A2.A$.4A16.3A16.A5.A14.A2.A15.2A.C17.3A$41.5C16.3A18.C.2A$.4A16.3A
+59.C.2A16.3A$A4.A14.A3.A16.3A18.5C15.AC19.A2.A$2A2.2A15.4A15.A2.A18.A
+4.A15.C21.2A$41.2A22.A.A15.C.A21.2A$21.4A40.2A17.2A21.A.A$21.A2.A83.
+2A11$.2A26.A11.2A23.A14.2A3.A13.2A3.2A$A2.A21.2A.A.A9.A.A2.2A18.A.A
+12.A2.A.A.A.2A9.A.C.A.A$A2.A2.2A16.A.A.A.A9.A5.A14.2A.A2.A13.A.A.A.A.
+A12.C.A$.3A.A.A15.A2.A.2A11.5C15.2A.A.A15.2A.A.A.A11.AC.A.A$5.2A15.A.
+2A38.2A20.2A.2A11.C2.2A$3.2A16.A.A17.3A17.3A36.A.C$2.A.A15.A2.A16.A2.
+A16.A2.A36.2A$2.2A17.2A18.2A18.2A13$.A22.2A16.A19.2A17.2A21.2A$A.A.2A
+14.2A2.2A15.A.C17.A2.A15.A2.A.2A17.A.A$A.A.A.A13.A19.A2.C18.3A16.A.A.
+A.A13.A4.A$.A4.A14.5C14.2A.CA37.A4.A13.5C$2.4A20.A16.C18.3A18.4A$23.
+3A17.C2.A14.A3.A35.3A$4.2A16.A21.5C12.A.2A18.2A15.A3.A$3.A.A17.3A23.A
+10.2A.A19.2A15.2A.2A$4.A20.A20.A.A11.A2.A$46.2A13.2A!
+
+#C [[ ZOOM 4 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>One thing that jumps out is that many of them contain a orthogonal
+line of length at least 5. This is also efficient to test for, doesn’t
+occur in any of our deal-breakers, and improves the detection rate to
+7337/10000. However, there’s a downside: it does pick up the
+<a href="https://conwaylife.com/wiki/Fourteener">fourteener</a>, a surprisingly common still life that happens to contain
+a line of five.</p>
+<div class="lifeviewer"><textarea>
+x = 7, y = 5, rule = LifeHistory
+4.2A$2A2.A.A$A5.A$.5C$3.A!
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>The fourteener is the 43<sup>rd</sup> most common still life, and one
+needs to go down to 75<sup>th</sup> and then 138<sup>th</sup> to see
+another line like that. The improvement is too good to give up, so I
+just filter these fourteeners out as a special case.</p>
+<p>The new set of missed still lifes begins as follows, and it’s less
+easy to spot a common feature that could be tested for.</p>
+<div class="lifeviewer"><textarea>
+x = 109, y = 50, rule = B3/S23
+2o2b2o15b2o17b2o19b2o26bo16bo$o4bo14bo2bo16bo2bo16bo2bo21b2obobo14bobo
+$b4o16b3o17b3o16bo2bo2b2o16bobobobo10b2obo2bo$61b3obobo15bo2bob2o11b2o
+bobo$b4o16b3o19b3o19b2o15bob2o18b2o$o4bo14bo3bo18bo2bo16b2o16bobo17b3o
+$2o2b2o15b4o20b2o15bobo15bo2bo16bo2bo$47b2o13b2o17b2o18b2o$21b4o22bobo
+$21bo2bo23b2o11$b2o3bo14bo20b2o17b2o19b2o18b2o2b2o$o2bobobob2o9bobob2o
+15bo2bo15bo2bob2o14bo2bo17bo4bo$bobobobobo10bobobobo15b3o16bobobobo12b
+obobo18b4o$2b2obobobo11bo4bo35bo4bo12bob2o$6b2ob2o11b4o16b3o18b4o14bo
+19b4o$41bo3bo36b4o14bo4bo$24b2o15bob2o18b2o21bo13b2o2b2o$23bobo14b2obo
+19b2o19bobo$24bo15bo2bo40b2o$41b2o11$b2o2b2o14b2o18bo21bo21b2o15b2ob2o
+$bo4bo13bo2bob2o13bobo19bobo16b2obo2bo14b2obobo$2b4o14b2obobobo12bo2bo
+17bo2bo16b2obob2o17bo2bo$23bobo2bo12b3o18b2o20bo17b2o2bobo$2b4o14b3o3b
+2o53b4o17bo4bo$bo3bo14bo20b3o18b4o14bo19bobo$2bo37bo3bo16bo4bo13bobo
+17b2o$obo37bobobo15bobo2b2o14b2o$2o39b2ob2o14bobo$61bo!
+
+#C [[ ZOOM 4 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>Here’s where I stopped. Any ideas?</p>
+<p>I’ve been putting this into practice by searching for new glider
+syntheses, crashing 6 randomly placed gliders together. You can see
+some of the results as I go <a href="https://catagolue.hatsya.com/census/b3s23/mvr_qufince_stdin">here</a>. I work a lot more efficiently than
+previous attempts (like the <code>moog_stdin</code> and <code>5Glider_stdin</code>
+symmetries), because 1) I make sure the gliders actually collide
+rather than positioning them completely randomly, and 2) I do the vast
+majority of the work on the GPU kernel rather than piping an RLE
+generator into apgsearch.</p>
+<p>This has already turned up a handful of record-breaking syntheses
+after just a couple of hours, and I’m looking forward to a lot more.
+Here’s one chosen at random. If you have a powerful GPU and also want
+to do some searches, let me know!</p>
+<div class="lifeviewer"><textarea>
+x = 27, y = 21, rule = B3/S23
+obo$b2o$bo18bo$20bobo$20b2o$15bo$13bobo$14b2o7$10b3o8b2o$12bo7b2o$11bo
+10bo2$24b2o$24bobo$24bo!
+
+#C [[ AUTOSTART ]]
+#C [[ GPS 20 ]]
+#C [[ GRID PAUSE 1 T 70 PAUSE 1 LOOP 71 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p><strong>Edit (11/05/25):</strong> Indeed this was extremely productive, producing
+many hundreds of new syntheses. Here are some of the clean ones
+involving 6 gliders, each of which feels pretty miraculous.</p>
+<div class="lifeviewer"><textarea>
+x = 247, y = 395, rule = B3/S23
+156bo$154bobo$127bo27b2o$83bo43bobo32bo$82bo44b2o34bo$82b3o76b3o5$92bo
+$90b2o$8bo18bo63b2o70bo$9bo16bo134bobo$7b3o16b3o133b2o45bo$125bo81bobo
+$13bo109bobo82b2o7bo$11bobo66bo43b2o32b2o55b2o$12b2o64bobo76bobo56b2o$
+79b2o78bo60bo$19b2o199bobo$19bobo198b2o$12b2o5bo94b3o4b2o83b2o$11bobo
+102bo5b2o83b2o$13bo101bo5bo84bo$31b2o47b3o101b3o$31bobo46bo103bo$31bo
+49bo25b3o21bo53bo$109bo20b2o$108bo21bobo2$198bo$198b2o$197bobo5$54b3o
+25bo73b2o$56bo24b2o74b2o52b3o$55bo25bobo72bo56bo$212bo10$bo$2bo$3o233b
+o$234b2o$129bo105b2o$127b2o$128b2o36bo$167b2o$133bobo30b2o$133b2o$134b
+o50bo$81bo73bo28bo$72bo7bo75bo27b3o32bobo$70bobo7b3o71b3o63b2o$71b2o
+49bo97bo$15bo106bobo$13bobo106b2o$14b2o152bo$78bo39bo47bobo$7b2o68b2o
+37bobo48b2o62bo$8b2o29b2o19b2o15bobo37b2o110b2o$7bo30b2o19bobo44b3o
+121b2o$15b2o23bo20bo46bo$14bobo90bo117bo$16bo206bobo$170b3o51b2o$75b2o
+93bo$74b2o95bo$76bo2$167b2o$168b2o71bo$167bo72b2o$30b3o207bobo$30bo16b
+3o$31bo17bo$48bo2$105b2o122b2o$106b2o120b2o$105bo124bo7$38bo$36b2o199b
+o$37b2o197bo$236b3o3$135bo31bobo$133b2o32b2o$134b2o32bo2$181bobo44bo$
+181b2o43b2o5bo$182bo44b2o2b2o$64bo50bo116b2o$59bo2bobo48bobo$57bobo3b
+2o49b2o$26bo31b2o$24b2o46b3o89bo5b2o$25b2o45bo89bobo4b2o$68b2o3bo43b3o
+43b2o6bo$68bobo48bo$68bo49bo$17bo206bo$15bobo204bobo$16b2o146b2o57b2o$
+66bo98b2o$66b2o96bo62b2o$65bobo160b2o$13b2o114b2o50b2o44bo$12bobo113b
+2o51bobo$14bo115bo50bo4$129b3o82b3o$129bo86bo$10b2o92b2o24bo84bo$11b2o
+90bobo$10bo94bo2$82bo$81b2o$81bobo3$23b3o$23bo$24bo4$197bo$198bo$146bo
+49b3o$147bo$79bo65b3o$79bobo$79b2o$244bobo$244b2o$245bo4$78bo$78bobo$
+5bobo70b2o137bo$6b2o210b2o$6bo18bo33bo81bo25bo49b2o$25bobo29bobo79b2o
+24bobo$25b2o31b2o80b2o24b2o42bo$20bo190bo7bo$18bobo188b3o5bobo6bo$19b
+2o158bo38b2o5b2o$179bobo43bobo$122bo50bo5b2o$120b2o8b3o38bobo$70bo50b
+2o7bo41b2o$68bobo60bo$69b2o$15b3o8b2o86bo$17bo7b2o85bobo38b3o20b2o$16b
+o10bo85b2o40bo21b2o$154bo21bo$29b2o39bo$29bobo38b2o$29bo39bobo$114b2o$
+114bobo$114bo5$121bo$55b2o63b2o$56b2o62bobo$55bo5$110bobo$111b2o$111bo
+66bo$177bo$177b3o4$22bo$21bo$21b3o23bo74bo10bobo$48b2o71bo11b2o78bobo$
+47b2o8bo63b3o10bo79b2o$58b2o154bo$57b2o150bo$119bo56bo33b2o19bobo$17bo
+99bobo51bo2bobo32b2o9bo10b2o$15bobo5b2o93b2o49bobo3b2o43bobo9bo$16b2o
+5bobo39bo104b2o42bo5b2o$23bo39bobo118b3o25bobo$64b2o118bo28b2o$180b2o
+3bo$25bo4bo149bobo$24b2o3b2o149bo$24bobo2bobo$61b3o136b3o$63bo95b2o41b
+o$62bo3b3o91b2o39bo$12b2o54bo90bo$11bobo53bo19bo$13bo72b2o$86bobo9$
+141b2o$106b3o32bobo$108bo32bo$107bo7$162bo$163b2o$82bo79b2o21bo$30bobo
+47b2o102bo$30b2o49b2o101b3o$31bo$17bo114bo$15bobo6bo70bobo32b2o$16b2o
+5bo72b2o33b2o$23b3o70bo69bo70bobo$167bo69b2o$127bo37b3o70bo$80bo46bobo
+90bo$70bobo7bobo44b2o50bobo39bo$16b2o53b2o7b2o97b2o38b3o$17b2o52bo108b
+o46bo$16bo208bobo$b2o223b2o$obo66bo$2bo64bobo$7b3o58b2o5b2o$9bo65bobo
+93bo$8bo66bo41bo51bobo57b2o$115bobo52b2o56b2o$116b2o112bo3$230b2o$170b
+2o58bobo$120b2o49b2o57bo$119b2o49bo$121bo3$229b2o$228b2o$230bo2$62bo$
+62b2o$61bobo2$103bo$103b2o$95bo6bobo$94bo$94b3o$28bo$28bobo$28b2o3$
+161bo$162bo$160b3o$107bo$105bobo119bobo$106b2o119b2o$228bo2$236bo$71bo
+99bo62b2o$69bobo97bobo63b2o$70b2o43bo54b2o$113bobo$114b2o$120bo110bobo
+$33bo85bo111b2o$21bobo8bo43b3o40b3o50b3o57bo$21b2o9b3o33b2o6bo97bo51bo
+$15bo6bo46b2o6bo95bo50bobo$13bobo52bo42b2o54b2o56b2o$14b2o96b2o52bobo$
+95b3o13bo56bo$95bo$3o76b2o15bo135b2o$2bo19b2o54b2o151b2o$bo19b2o57bo
+55b2o95bo$23bo111b2o$137bo2$178b3o$100b3o75bo$102bo76bo$101bo112b2o$
+158b2o53bobo$157bobo55bo$159bo13$58bo128bo$59bo126bo$27bo29b3o126b3o$
+25b2o$26b2o3$77bo$76bo$76b3o$14bo$12bobo111bo$13b2o5bobo103bobo$20b2o
+104b2o$21bo4bobo$26b2o44bo$27bo42bobo5b2o52bo42bo$71b2o5bobo49b2o42bo$
+78bo52b2o41b3o$167b2o$166bobo$22b2o56bo40bo46bo$21b2o56b2o38bobo6bo$
+23bo55bobo38b2o5b2o47bo$127bobo46bobo$176b2o$168b3o$26b3o141bo$26bo
+142bo$27bo98b3o$126bo$127bo$134bo$133b2o$56b2o75bobo$55bobo$57bo6$156b
+3o$158bo$157bo!
+
+#C [[ AUTOSTART ]]
+#C [[ HEIGHT 950 ]]
+#C [[ ZOOM 2 ]]
+#C [[ GPS 20 ]]
+#C [[ GRID PAUSE 1 T 220 PAUSE 1 LOOP 221 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>I’ve started to lose a sense of how spectacularly rare objects like
+these actually are, after spending so much time looking at the results
+of searches that have already thrown out billions of configurations.</p>
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

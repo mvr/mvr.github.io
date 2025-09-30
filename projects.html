@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Projects</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="./katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="./css/style.css" />
+
+        <link rel="icon" type="image/png" href="./favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="./atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="./" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="./projects.html">Projects</a></h1>
+<div class="post-content">
+    <h2 id="introduction-to-cubical-agda">Introduction to Cubical Agda</h2>
+<p><a href="https://www.davidjaz.com/">David</a> and I ran a summer course on
+Cubical Agda for the few years we were at NYUAD. We put together some
+lecture notes, which are <a href="https://cqts.github.io/introduction-to-cubical/">now available
+here</a>.</p>
+<p>I like to think of them as a much-expanded and smoothed out version of
+<a href="https://thehottgameguide.readthedocs.io/">The HoTT Game</a> from a few
+years ago, where as much as possible is left as exercises.</p>
+<h2 id="at-effective-algebraic-topology"><code>at</code> – Effective Algebraic Topology</h2>
+<p>A <a href="https://github.com/mvr/at">Haskell library</a> for explicit constructions on simplicial sets. This is a port of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a> from Common Lisp. More details in <a href="posts/at.html">this post</a>.</p>
+<pre><code>...
+&gt; let x = totalSpace s3 (Wbar kz1) fibration
+&gt; putStrLn $ &quot;π₄ S³ is: &quot; ++ show (homology x !! 4)
+π₄ S³ is: ℤ/2</code></pre>
+<h2 id="conways-game-of-life-tools">Conway’s Game of Life Tools</h2>
+<p>I’ve written a handful of C++ search tools, most of which use a vastly
+expanded fork of the <a href="https://github.com/mvr/LifeAPI">LifeAPI</a> library
+by Michael Simkin. The first two tools in this list were central in
+resolving the <a href="https://arxiv.org/abs/2312.02799">Omniperiodicity</a> of
+the Game of Life.</p>
+<ul>
+<li><p><strong><a href="https://github.com/mvr/CatForce/tree/depth-first">Symmetric CatForce</a></strong>: A
+catalyst-placing search program. Similar to
+<a href="https://github.com/ceebo/ptbsearch">ptbsearch</a>. Has been used to
+find a <a href="https://conwaylife.com/wiki/P84_honey_farm_hassler">huge</a>
+<a href="https://conwaylife.com/wiki/84P199">number</a>
+<a href="https://conwaylife.com/wiki/108P59">of</a>
+<a href="https://conwaylife.com/wiki/74P34">interesting</a>
+<a href="https://conwaylife.com/wiki/Cribbage">oscillators</a>.</p>
+<p>Originally based on
+<a href="https://github.com/simsim314/CatForce">CatForce</a>, also originally
+by Micahel Simkin, but very little original code remains.</p></li>
+<li><p><strong><a href="https://github.com/mvr/barrister">Barrister</a></strong>: A cell-by-cell
+searcher for catalysts. Similar to
+<a href="https://conwaylife.com/wiki/Bellman">Bellman</a> by Mike Playle, but
+uses a more careful analysis of the neighbourhoods available to each
+cell. This, together with being more vectorised, makes it much
+faster. Barrister was used to find the catalyst appearing in the
+<a href="https://conwaylife.com/wiki/Cribbage">first period-19 oscillator</a>,
+and many oscillators and conduits since.</p>
+<p>Adam P. Goucher has written a searcher in CUDA based on Barrister
+called <a href="https://gitlab.com/apgoucher/silk">Silk</a>. Silk is much much
+faster still (but by nature somewhat less customisable).</p></li>
+<li><p><strong><a href="https://github.com/mvr/lightcone">Lightcone</a></strong>: A
+catalyst-placing search program that tries much harder to take into
+account “lightspeed considerations” between how different parts of
+the pattern can interact. Details in <a href="posts/lightcone.html">this
+post</a>. Has been used to find a handful of new
+elementary conduits especially “spartan” ones.</p></li>
+<li><p><strong><a href="https://github.com/mvr/LifeAPI/tree/master/tools">Stomp</a></strong>: A
+port of the
+<a href="https://conwaylife.com/wiki/Shinjuku#transfer.py"><code>transfer.py</code></a>
+script to LifeAPI, for searching for new glider syntheses. Used to
+pick the low-hanging fruit in the project of synthesising all
+<a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=7031">23-bit still
+lifes</a>,
+though human ingenuity (of other people, not me) was still necessary
+for the last couple of hundred.</p></li>
+</ul>
+<h2 id="cf-continued-fractions"><code>cf</code> – Continued Fractions</h2>
+<p>A <a href="https://github.com/mvr/cf">Haskell library</a> for Gosper’s algorithms
+on continued fractions with possibly non-positive terms. Some tricks
+from Vuillemin and Lester are used to compute transcendental functions
+(e.g. <code>exp</code>, <code>sin</code> and <code>cos</code>) on rational numbers.</p>
+<p>The novel idea is that these algorithms apply to continued fractions
+whose terms <em>are also continued fractions</em>, allowing us to also apply
+these transcendental functions to general continued fractions. A
+function <code>cfcf</code> flattens one of these into an ordinary continued
+fraction.</p>
+<p>A nice advantage the continued fraction representation is that the
+precision of a result does not need to be specified in advance. If
+more precision is required, one can just compute more terms in the
+continued fraction, without throwing away the work already
+done. The downside is that it is very slow!</p>
+<ul>
+<li>Gosper, Ralph W. “Continued fraction arithmetic.” HAKMEM Item 101B, MIT Artificial Intelligence Memo 239 (1972).</li>
+<li>Vuillemin, Jean E. “Exact real computer arithmetic with continued fractions.” Computers, IEEE Transactions on 39.8 (1990): 1087-1105.</li>
+<li>Lester, David R. “Vuillemin’s exact real arithmetic.” Functional Programming, Glasgow 1991. Springer London, 1992. 225-238.</li>
+</ul>
+<h2 id="cgt-combinatorial-game-theory"><code>cgt</code> – Combinatorial Game Theory</h2>
+<p>A <a href="https://github.com/mvr/cgt">Haskell library</a> for some combinatorial
+game theory, based on algorithms from the <a href="http://cgsuite.sourceforge.net/">Combinatorial Game
+Suite</a> by Aaron Siegel. More details
+in <a href="./posts/cgt.html">this post</a>, which describes the basic ideas.</p>
+<h2 id="epeen">epeen</h2>
+<p>A <a href="./epeen/index.html">dumb joke</a> that translates your Dota 2 MMR (as
+of 2016) into to a certain anatomical measurement. Written in Elm to
+try the language out, didn’t come away a fan.</p>
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

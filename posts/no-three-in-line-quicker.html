@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>No‑Three‑In‑Line, Quicker</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a></h1>
+<p class="post-deets">September 30, 2025   / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'train-of-thought'." href="../tags/train-of-thought.html" rel="tag">train-of-thought</a> </p>
+<div class="post-content">
+    <script defer src="../life/lv-plugin.js"></script>
+<p>The code in the <a href="../posts/no-three-in-line.html">previous post</a> is
+fairly quick, but of course we’d always prefer it to be quicker. I’ll
+keep a record here of things I’ve tried and whether they worked.
+<!--more--></p>
+<h3 id="one-hop-cells">One-hop Cells</h3>
+<p>After a bit more thinking, I realised there’s a class of lines through
+a point that can be handled all at once rather than one at a time.</p>
+<p>We saw in the last post that relatively-prime endpoints that are far
+away from each other can be skipped, when an additional point in
+either direction would be off the edge of the grid. What about points
+a little closer than that, where it’s possible the next point on the
+line is still in bounds?</p>
+<div class="lifeviewer"><textarea>
+x = 14, y = 14, rule = LifeHistory
+14B$4BA9B$14B$14B$14B$14B$7BA6B$14B$14B$14B$14B$10BD3B$14B$14B!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>One way to describe the location of that in-bounds cell is that we’ve
+taken the upper endpoint and reflected it through the lower endpoint.
+Now here’s the trick: if we fix the lower point, we can determine
+these one-hop cells for a whole collection of upper endpoints
+simultaneously by reflecting the whole board through the lower
+endpoint:</p>
+<div class="lifeviewer"><textarea>
+x = 14, y = 14, rule = LifeHistory
+6BA7B$4BABA7B$14B$3BA10B$BABA10B$14B$7BA6B$14B$11BDBD$11BD2B$14B$8BDB
+D3B$8BD5B$14B!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>This is fast to do, because it’s just a bit-reverse to deal with the
+horizontal reflection and a shuffle to deal with the vertical
+reflection.</p>
+<p>For some offsets, these one-hop points are the only possible
+additional points on the line, so we can remove those offsets from the
+mask of “relevant” ones that need the fully general treatment. The new
+mask for <span class="math inline">13 \times 13</span> looks as follows: the thing to notice is that
+the solid square in the middle is smaller than it was before:</p>
+<div class="lifeviewer"><textarea>
+x = 25, y = 25, rule = LifeHistory
+AB3ABAB3A3B3ABAB3ABA$BA21BAB$ABABAB3ABA3BAB3ABABABA$A2BA2BA2BA5BA2BA
+2BA2BA$ABABABABABA3BABABABABABA$5BA13BA5B$AB3ABAB3A3B3ABAB3ABA$2BA4BA
+9BA4BA2B$ABABABAB4AB4ABABABABA$A2BA2BAB4AB4ABA2BA2BA$ABABABAB4AB4ABAB
+ABABA$8B4AB4A8B$25B$8B4AB4A8B$ABABABAB4AB4ABABABABA$A2BA2BAB4AB4ABA2B
+A2BA$ABABABAB4AB4ABABABABA$2BA4BA9BA4BA2B$AB3ABAB3A3B3ABAB3ABA$5BA13B
+A5B$ABABABABABA3BABABABABABA$A2BA2BA2BA5BA2BA2BA2BA$ABABAB3ABA3BAB3AB
+ABABA$BA21BAB$AB3ABAB3A3B3ABAB3ABA!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>We’ve decreased the proportion of expensive pairs from 304/625
+down to 256/625.</p>
+<h3 id="soft-branching">Soft Branching</h3>
+<p>An idea we can use from <a href="https://gitlab.com/apgoucher/silk">Silk</a> is
+to do more work in each node by “soft branching” on the values in a
+cell, or along a row or column. This means speculatively setting the
+value of a cell either way, propagating information, and finally
+taking the intersection of everything learned in the two branches.
+It’s fairly often the case that either value of a particular unknown
+cell ultimately forces some other cell to be empty regardless of which
+option we take, so we do increase the information learned overall even
+if neither branch directly leads to a contradiction. Here’s a simple
+though slightly contrived example:</p>
+<div class="lifeviewer"><textarea>
+x = 14, y = 14, rule = LifeHistory
+14B$3BD10B$3BD10B$3BD10B$14B$3BDA9B$3BD10B$3BD2BD7B$3BD10B$3BDA9B$14B
+$3BD10B$3BD10B$3BD10B!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>Regardless of where the two points in the nearly-full column end up
+being, at least one of them is going to eliminate the point out to the
+right.</p>
+<p>Doing this check for every cell would be far too expensive so, we need
+a heuristic for what it’s worth soft branching on. A natural choice is
+to soft branch on the vulnerable cells one-by-one. This does, at
+times, make a lot of extra progress at each node without requiring any
+additional interaction with the queue, but unfortunately this ends up
+being a little slower overall. Maybe there’s a better heuristic for
+cells that it’s <em>really</em> worth soft branching on, but I don’t have any
+ideas for this.</p>
+<h3 id="saturating-2-bit-counter">Saturating 2-Bit Counter</h3>
+<p>We get a lot of mileage out of forcing cells whose value is implied by
+the counts of existing values in their row or column. To count
+vertically along each column, we use a binary counter and reduce
+across a warp.</p>
+<p>As it stands, this counter has two bits <code>bit0</code> and <code>bit1</code> and an
+<code>overflow</code> bit, so the counter can store a state in <span class="math inline">\{0, 1, 2, 3,
+{\gt}3\}</span>. But, in fact, we never need to know we have a count of <span class="math inline">3</span>
+exactly, so we can pack the information into two bits <code>bit0</code> and
+<code>bit1</code> with <code>bit0 &amp; bit1</code> now representing <span class="math inline">{\gt}2</span>.</p>
+<p>We might worry that the bit manipulation for combining two such
+counters gets more complicated, but we win here too.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> bit0 <span class="op">=</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="op">(</span>x<span class="op">.</span>bit1 <span class="op">&amp;</span> y<span class="op">.</span>bit1<span class="op">)</span> <span class="op">|</span> <span class="op">(</span>x<span class="op">.</span>bit1 <span class="op">&amp;</span> y<span class="op">.</span>bit0<span class="op">)</span> <span class="op">|</span> <span class="op">(</span>y<span class="op">.</span>bit0 <span class="op">&amp;</span> y<span class="op">.</span>bit1<span class="op">)</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="op">|</span> <span class="op">(</span>x<span class="op">.</span>bit0 <span class="op">^</span> y<span class="op">.</span>bit0<span class="op">);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> bit1 <span class="op">=</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    x<span class="op">.</span>bit1 <span class="op">|</span> y<span class="op">.</span>bit1 <span class="op">|</span> <span class="op">(</span>x<span class="op">.</span>bit0 <span class="op">&amp;</span> y<span class="op">.</span>bit0<span class="op">);</span></span></code></pre></div>
+<p>Calculating the new <code>bit1</code> should be clear: the result is <span class="math inline">{\geq}2</span>
+whenever the inputs are <span class="math inline">{\geq}2</span>, or when we are calculating <span class="math inline">1 + 1</span>.
+The expression for <code>bit0</code> is less obvious but can be brute forced.
+There are only 4 cases where the output <code>bit0</code> is 0, i.e. <span class="math inline">0 + 0</span>,
+<span class="math inline">1 + 1</span>, <span class="math inline">2 + 0</span> and <span class="math inline">0 + 2</span>, and the expression above covers all the
+other cases.</p>
+<p>By some miracle, the first line for <code>bit0</code> is calculating the <em>bitwise
+majority</em> of the values <code>x.bit1</code>, <code>y.bit0</code> and <code>y.bit1</code>, and this can
+be done using a single <code>LOP3.LUT</code> instruction. (Unfortunately the
+compiler doesn’t realise this itself, so we have to write it
+manually.)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> maj3<span class="op">(</span><span class="dt">uint32_t</span> x<span class="op">,</span> <span class="dt">uint32_t</span> y<span class="op">,</span> <span class="dt">uint32_t</span> z<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint32_t</span> w<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">asm</span><span class="op">(</span><span class="st">&quot;lop3.b32 %0,%1,%2,%3,0xE8;</span><span class="sc">\n</span><span class="st">&quot;</span> <span class="op">:</span> <span class="st">&quot;=r&quot;</span><span class="op">(</span>w<span class="op">)</span> <span class="op">:</span> <span class="st">&quot;r&quot;</span><span class="op">(</span>x<span class="op">),</span> <span class="st">&quot;r&quot;</span><span class="op">(</span>y<span class="op">),</span> <span class="st">&quot;r&quot;</span><span class="op">(</span>z<span class="op">));</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> w<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> bit0 <span class="op">=</span> maj3<span class="op">(</span>x<span class="op">.</span>bit1<span class="op">,</span> y<span class="op">.</span>bit0<span class="op">,</span> y<span class="op">.</span>bit1<span class="op">)</span> <span class="op">|</span> <span class="op">(</span>x<span class="op">.</span>bit0 <span class="op">^</span> y<span class="op">.</span>bit0<span class="op">);</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> bit1 <span class="op">=</span> x<span class="op">.</span>bit1 <span class="op">|</span> y<span class="op">.</span>bit1 <span class="op">|</span> <span class="op">(</span>x<span class="op">.</span>bit0 <span class="op">&amp;</span> y<span class="op">.</span>bit0<span class="op">);</span></span></code></pre></div>
+<p>In all, this should compile to just 4 instructions. This calculation
+for a “saturating” 2-bit counter is surely known, but I didn’t find it
+after a little Googling. Using this simpler counter was about a 10%
+speed improvement.</p>
+<h3 id="alternating-forcing-axis">Alternating Forcing Axis</h3>
+<p>Forcing along orthogonal lines is an idempotent operation along each
+axis; once we’ve checked the counts horizontally and forced cells
+accordingly, it’s impossible for that to reveal more horizontal counts
+that cause cells to be forced. It’s only when alternating the
+horizontal and vertical checks that we make progress.</p>
+<p>Currently we do a horizontal round and a vertical round, and repeat
+this process if it has resulted in any changes from where we started.
+It seems like we might get a nice speed improvement by keeping track
+specifically of which axis has caused changes, and avoiding a
+pointless vertical round if the previous horizontal round didn’t
+change anything.</p>
+<p>To my surprise, this is actually slightly slower than always doing a
+horizontal round followed by a vertical round in pairs. I find it hard
+to explain why this might be; something for future investigation I
+suppose.</p>
+<h3 id="finding-a-bit">Finding a Bit</h3>
+<p>Something a little unexpected is that each use of the <code>__ffs</code>
+intrinsic gets compiled to a pair of instructions like</p>
+<pre><code>    BREV R30, R30
+    FLO.U32.SH R33, R30</code></pre>
+<p>That is, it bit-reverses the value and then finds the leading set bit,
+presumably because the underlying hardware does not have an
+instruction equivalent to <code>__ffs</code>.</p>
+<p>The two instructions above have pretty bad throughput. In most places
+<code>__ffs</code> appears, it’s not actually important to find the lowest set
+bit; we just need to find <em>some</em> set bit. Switching to <code>31 - __clz(x)</code>
+gets rid of the <code>BREV</code> step and so ends up slightly faster overall.</p>
+<h3 id="factors">2-Factors</h3>
+<p>It would be nice to have at quick test for whether it’s possible to
+complete the configuration considering only the orthogonal
+constraints. There’s a reformulation of this problem. Define a
+bipartite graph where one set of vertices represents the rows and the
+other the columns. Each edge is then a cell of the grid, and we’ll
+only include edges where that cell of the grid has not yet been ruled
+out. A completed grid is then a spanning subgraph where every node has
+degree two, that is, a 2-factor. This means that the graph is
+partitioned into a set of disjoint loops (a structural feature of the
+problem that perhaps should have been obvious from the start).</p>
+<p>In terms of the original grid, you can choose a point and trace out
+the corresponding loop by moving to the partner of that point in the
+same row or column, alternating each time so you make progress.
+Sometimes there’s only one loop, but not necessarily:</p>
+<div class="lifeviewer"><textarea>
+x = 14, y = 14, rule = LifeHistory
+5BA3BA4B$6BC3DC3B$5BAD2BAD3B$BC4DC3BD3B$ADA7BD3B$BD8BDABA$BD8BCDCB$BC
+DC8BDB$ABAD8BDB$3BD7BADA$3BD3BC4DCB$3BDA2BDA5B$3BC3DC6B$4BA3BA5B!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>So, what would be nice is a way to quickly check whether the graph for
+the remaining cells admits a 2-factor. And surprisingly (to me), this
+can be done in polynomial time.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">In contrast to the similar problem of
+finding Hamiltonian cycles, which is NP-complete.<br />
+<br />
+</span></span> I was feeling
+awfully clever at this point, but some simple tests show that only
+around 1/1000 configurations in the search tree would be eliminated by
+this check, and so it’s not remotely worth doing.</p>
+<!-- Once we have a 2-factor, it would be nice to know if any of the edges -->
+<!-- are "essential", that is, must appear in any 2-factor. One way to do -->
+<!-- this is to take the 2-factor we've found and go through the cells -->
+<!-- one-by-one, testing whether we can find a new 2-factor once that cell -->
+<!-- is removed.  -->
+<!-- TODO: analogue of Dulmage–Mendelsohn decomposition "Work -->
+<!-- by Cornuéjols, Pulleyblank, Frank, Király, and others developed -->
+<!-- f-factor decompositions that play a role analogous to the -->
+<!-- DM-decomposition for perfect matchings." -->
+<p>If we in addition consider the lines with slope <span class="math inline">\pm 1</span>, our hit rate
+for ruling out configurations early is 1/3, which is much more
+promising. Adding these constraints gets us back into the <a href="https://jair.org/index.php/jair/article/view/11079">land of
+NP-completeness</a>
+(probably). Still: it may be worth doing a per-node lookahead of this
+simpler kind, something I’ll look into.</p>
+<h3 id="literature-search">Literature Search</h3>
+<p>This problem of filling a grid in a way that matches the orthogonal
+constraints is reminiscent of
+<a href="https://en.wikipedia.org/wiki/Nonogram">Nonograms</a>. The difference is
+that for Nonograms, one is told the specific runs of points, rather
+than a total count. I looked at some Nonogram solvers, but they
+don’t seem to hold any tricks that will help here.</p>
+<p>Our problem is much closer to <a href="https://en.wikipedia.org/wiki/Discrete_tomography">Discrete
+Tomography</a>, the
+study of reconstructing binary images from their projections. In our
+case the projections are always the same; the thing that makes our
+problems distinct is that certain entries of the image are forced to
+be empty in advance. There are a couple of papers in this direction
+that focus on special cases, but nothing too useful.</p>
+<div class="bibliography bib">
+<!--@article {MR1355597,
+    AUTHOR = {Kuba, A.},
+     TITLE = {Reconstruction of unique binary matrices with prescribed
+              elements},
+   JOURNAL = {Acta Cybernet.},
+  FJOURNAL = {Acta Cybernetica},
+    VOLUME = {12},
+      YEAR = {1995},
+    NUMBER = {1},
+     PAGES = {57--70},
+      ISSN = {0324-721X},
+}
+
+@incollection {MR2446674,
+    AUTHOR = {Brualdi, R. A. and Dahl, G.},
+     TITLE = {Constructing {$(0,1)$}-matrices with given line sums and
+              certain fixed zeros},
+ BOOKTITLE = {Advances in discrete tomography and its applications},
+    SERIES = {Appl. Numer. Harmon. Anal.},
+     PAGES = {113--123},
+ PUBLISHER = {Birkh\"{a}user Boston, Boston, MA},
+      YEAR = {2007},
+       DOI = {10.1007/978-0-8176-4543-4_6},
+}
+
+@article {MR3551626,
+    AUTHOR = {Chen, Wei and Mo, Yanfang and Qiu, Li and Varaiya, Pravin},
+     TITLE = {Constrained {$(0,1)$}-matrix completion with a staircase of
+              fixed zeros},
+   JOURNAL = {Linear Algebra Appl.},
+  FJOURNAL = {Linear Algebra and its Applications},
+    VOLUME = {510},
+      YEAR = {2016},
+     PAGES = {171--185},
+      ISSN = {0024-3795},
+       DOI = {10.1016/j.laa.2016.08.020},
+}-->
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-MR1355597" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">A.
+Kuba, <span>“Reconstruction of unique binary matrices with prescribed
+elements,”</span> <em>Acta Cybernet.</em>, vol. 12, no. 1, pp. 57–70,
+1995.</div>
+</div>
+<div id="ref-MR2446674" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">R.
+A. Brualdi and G. Dahl, <span>“Constructing <span><span class="math inline">(0,1)</span></span>-matrices with given line sums
+and certain fixed zeros,”</span> in <em>Advances in discrete tomography
+and its applications</em>, in Appl. Numer. Harmon. anal., Birkhäuser
+Boston, Boston, MA, 2007, pp. 113–123. doi: <a href="https://doi.org/10.1007/978-0-8176-4543-4_6">10.1007/978-0-8176-4543-4_6</a>.</div>
+</div>
+<div id="ref-MR3551626" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">W.
+Chen, Y. Mo, L. Qiu, and P. Varaiya, <span>“Constrained <span><span class="math inline">(0,1)</span></span>-matrix completion with a
+staircase of fixed zeros,”</span> <em>Linear Algebra Appl.</em>, vol.
+510, pp. 171–185, 2016, doi: <a href="https://doi.org/10.1016/j.laa.2016.08.020">10.1016/j.laa.2016.08.020</a>.</div>
+</div>
+</div>
+
+</div>
+<h3 id="cuda-wrangling">CUDA Wrangling</h3>
+<p>One head-slapper was that I was compiling for Compute Capability 8.6
+whereas my hardware has Compute Capability 8.7. This was another 10%
+improvement for free. Specifying <code>__launch_bounds__</code> to ensure
+maximum occupancy also helped a little, though not as much as I hoped.</p>
+<p>One wrinkle I haven’t been able to smooth out is that the compiled
+code is littered with <code>BRA.DIV</code> instructions, guarding against the
+possibility that threads in the warp have diverged. This never
+actually happens when the code is run, but I haven’t been able to
+convince the compiler of this. Besides wasting a little time, I’m
+worried that those instructions are blocking the compiler from
+performing additional optimisations.</p>
+<p>Here’s where we’ve landed after applying all tricks in this post:</p>
+<table>
+<thead>
+<tr>
+<th>Size</th>
+<th>Before (s)</th>
+<th></th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12</td>
+<td>13.5</td>
+<td>→</td>
+<td>8.2</td>
+</tr>
+<tr>
+<td>13</td>
+<td>65</td>
+<td>→</td>
+<td>39</td>
+</tr>
+<tr>
+<td>14</td>
+<td>1231</td>
+<td>→</td>
+<td>771</td>
+</tr>
+<tr>
+<td>15</td>
+<td>15672</td>
+<td>→</td>
+<td>7801</td>
+</tr>
+</tbody>
+</table>
+<p>There is a <a href="https://wwwhomes.uni-bielefeld.de/achim/no3in/effort.txt">mysterious
+table</a> on
+Flammenkamp’s website giving the “relative effort” of generating all
+solutions for different size of grid, which seems to suggest that
+<span class="math inline">16\times 16</span> should be easier than <span class="math inline">15\times 15</span>. If this is so, I
+haven’t found the trick!</p>
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

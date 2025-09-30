@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Effective Algebraic Topology in Haskell</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/at.html">Effective Algebraic Topology in Haskell</a></h1>
+<p class="post-deets">September 22, 2022   / <a title="All pages tagged 'maths'." href="../tags/maths.html" rel="tag">maths</a>, <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a> </p>
+<div class="post-content">
+    <p>Code available on <a href="https://github.com/mvr/at">GitHub</a>.</p>
+<p>For a little while I have been working on this port of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a> from
+Common Lisp to Haskell. Kenzo is a collection of algorithms for
+explicit constructions on simplicial sets: the
+<a href="https://github.com/mvr/at/blob/master/README.md"><code>README</code></a> in the
+repository gives a list of what’s implemented and what should be
+possible. The algorithms and implementations in Kenzo were created by
+Francis Sergeraert, Julio Rubio Garcia, Xavier Dousson, Ana Romero and
+many collaborators.</p>
+<p>My goal was to implement just enough to compute <span class="math inline">\pi_4 S^3</span>,
+and I reached it today.</p>
+<pre><code>...
+&gt; let x = totalSpace s3 (Wbar kz1) fibration
+&gt; putStrLn $ &quot;π₄ S³ is: &quot; ++ show (homology x !! 4)
+π₄ S³ is: ℤ/2</code></pre>
+<p>A fun capability it picked up along the way is calculating the
+homology of Eilenberg-MacLane spaces <span class="math inline">K(ℤ/m,n)</span>, for example, here is
+<span class="math inline">K(ℤ/3,2)</span>.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">This makes my laptop get hot pretty quickly.<br />
+<br />
+</span></span></p>
+<pre><code>&gt; homology (Wbar (WbarDiscrete (Zmod 3)))
+[ℤ,0,ℤ/3,0,ℤ/3,0,ℤ/(3^2),ℤ/3,ℤ/3,ℤ/3,ℤ/3 ⊕ ℤ/3,^C</code></pre>
+<p>I have a lot of ideas for improvements and additional features if
+anybody is interested in joining in, so <mark>please email me if that’s
+you or you know a student for whom this would make a good project</mark>.
+For example, adding the construction of loop spaces and their homology
+would be nice, as would homotopy pushouts in general.</p>
+<p>On the implementation side, I have not spent any time optimising the
+code and there are some obvious places to start, like using a proper
+integer matrix library instead of a homemade one. These sorts of
+optimisations would also make a good project for an undergraduate,
+with not much mathematical background required.</p>
+<p>Below, I’ve copy-pasted a quick introduction I wrote to the ideas
+behind Kenzo.</p>
+<h2 id="central-concepts-of-kenzo">Central Concepts of Kenzo</h2>
+<p>A <em>simplicial set</em> <span class="math inline">X</span> is described in code by some abstract type <code>a</code>,
+containing whatever data is required to specify <span class="math inline">X</span>, and a type
+<code>GeomSimplex a</code>, whose elements correspond to non-degenerate
+simplices; in Kenzo these are referred to as ‘geometric simplices’.
+Like Kenzo we also allow a predicate on <code>GeomSimplex a</code> specifying
+when an element actually describes a geometric simplex and when it is
+spurious.</p>
+<p>An actual simplex of <span class="math inline">X</span> is a geometric simplex together with a
+‘formal degeneracy operator’, which is a list of degeneracy operators
+in a normal form. Face maps are implemented as functions from
+geometric simplices to (possibly degenerate) simplices, and the
+extension of these face maps to all simplices is forced by the
+simplicial identities.</p>
+<p>A simplicial set is <em>of finite type</em> if there is a finite number of
+geometric simplices for each dimension, and there is a function giving
+a list of these simplices for any dimension <span class="math inline">n</span>. It is not required
+that there are finitely many geometric simplices overall.</p>
+<p>The <em>normalised chain complex</em> <span class="math inline">N(X)</span> of <span class="math inline">X</span> has each <span class="math inline">N(X)_n</span> given
+by the free abelian group on the set of nondegenerate <span class="math inline">n</span>-simplices of
+<span class="math inline">X</span>, with the boundary of a simplex calculated similar to usual (the
+alternating sum of face maps), but ignoring any degenerate faces.</p>
+<p>If <span class="math inline">C(X)</span> is the ordinary chain complex of simplicial chains of <span class="math inline">X</span>,
+the quotient map <span class="math inline">C(X) \to N(X)</span> is a quasi-isomorphism, and so if <span class="math inline">X</span>
+is of finite type, then the homology of <span class="math inline">X</span> can be computed via
+<span class="math inline">N(X)</span>.</p>
+<p>But many unavoidable simplicial sets (like <span class="math inline">K(ℤ,n)</span> and loop spaces
+<span class="math inline">ΩX</span>) are not of finite type, and so we need some other way to
+calculate their homology. This is where ‘effective homology’ comes in.</p>
+<p>A <em>reduction</em> between chain complexes <span class="math inline">C</span> and <span class="math inline">D</span> is a strong
+deformation retract of chain complexes. The data of a reduction
+unwinds to a triple (<span class="math inline">f : C \to D</span>, <span class="math inline">g : D \to C</span>, <span class="math inline">h : C \to C</span>) where
+<span class="math inline">f</span> and <span class="math inline">g</span> are degree 0, the homotopy operator <span class="math inline">h</span> is degree 1, and
+certain equations involving these hold. A <em>(strong chain)
+equivalence</em> between two chain complexes <span class="math inline">C</span> and <span class="math inline">D</span> is a span of
+reductions <span class="math inline">l : E \to C</span> and <span class="math inline">r : E \to D</span>.</p>
+<p>An <em>effective homology structure</em> on <span class="math inline">C</span> is an equivalence between <span class="math inline">C</span>
+and a chain complex <span class="math inline">F</span> of finite type.</p>
+<p>A <em>simplicial set with effective homology</em> is a simplicial set <span class="math inline">X</span>
+equipped with an effective homology structure on <span class="math inline">N(X)</span>.</p>
+<p>The point of Kenzo is that although constructions on simplicial sets
+sometimes do not preserve levelwise finiteness, they <em>do</em> extend to
+effective homology structures. And so if we begin with a finite
+simplicial complex and perform some constructions using it, then we
+can often compute the homology of the result even if the actual
+simplicial sets are now far too complicated to get a handle on.</p>
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

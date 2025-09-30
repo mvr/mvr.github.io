@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>All Posts</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="./katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="./css/style.css" />
+
+        <link rel="icon" type="image/png" href="./favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="./atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <p><a href="./" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
+<h1 class="post-list-header">All Posts</h1>
+
+<h1>All Posts</h1>
+<ul>
+    
+    <li>
+        <p>
+            <a href="./posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a> ‒ <span>September 30, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/no-three-in-line.html">No‑Three‑In‑Line</a> ‒ <span>September  1, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/lnl.html">Linear/Nonlinear Logic and Linear Algebra</a> ‒ <span>May 29, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/movie-night.html">Movie Night</a> ‒ <span>May 15, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/cars-in-my-backyard.html">The Cars In My Backyard</a> ‒ <span>April 21, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/cool-still-lifes.html">Quickly Detecting Cool Still Lifes</a> ‒ <span>April  8, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/crawlers.html">Crawlers</a> ‒ <span>April  2, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/officers.html">Officers on the GPU</a> ‒ <span>March  8, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/lightcone.html">Searching for Conduits at Lightspeed</a> ‒ <span>February  9, 2025</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/at.html">Effective Algebraic Topology in Haskell</a> ‒ <span>September 22, 2022</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/winston.html">2 + 2</a> ‒ <span>October 14, 2020</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/cocktails-in-order.html">Cocktails In Order</a> ‒ <span>July 12, 2019</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/questions.html">Some Questions</a> ‒ <span>July  8, 2019</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/good-words.html">Good Words</a> ‒ <span>January 10, 2019</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/hamana-graphs.html">Hamana's Graph GADT</a> ‒ <span>February 10, 2018</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/clock.html">An Analog Digital Clock</a> ‒ <span>February  3, 2017</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/catchy-songs.html">Catchy Songs</a> ‒ <span>April 27, 2015</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/epeen.html">Epeen Calculator</a> ‒ <span>December 11, 2014</span>
+        </p>
+    </li>
+    
+    <li>
+        <p>
+            <a href="./posts/cgt.html">A Whirlwind Tour of Combinatorial Games in Haskell</a> ‒ <span>March 17, 2014</span>
+        </p>
+    </li>
+    
+</ul>
+
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

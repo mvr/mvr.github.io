@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Crawlers</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/crawlers.html">Crawlers</a></h1>
+<p class="post-deets">April  2, 2025   / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a> </p>
+<div class="post-content">
+    <script defer src="../life/lv-plugin.js"></script>
+<p>As a second foray into CUDA, I’ve written a simple program to hunt for
+<a href="https://conwaylife.com/wiki/Crawler">crawlers</a> in the Game of Life. The kernel itself is too revolting to
+make public, but the supporting <a href="https://github.com/mvr/LifeAPI/blob/master/cuda/LifeStateCU.cu"><code>LifeStateCU</code></a> code may be useful for
+others. (This could be seen as the first step in a GPU version of
+<code>CatForce</code>/<code>LightCone</code>…)</p>
+<!--more-->
+<p>The method by which each state is stored is taken from apg’s
+<a href="https://gitlab.com/apgoucher/lifelib/-/blob/master/cuda2/cudagol.h"><code>lifelib</code></a>. Briefly, each warp stores a 64×64 torus using one <code>uint4</code>
+per thread. This <code>uint4</code> is a 2×2 array of <code>uint32_t</code> values,
+representing a 64×2 strip of the state.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Annoyingly, the decade-old
+<code>CatForce</code> arranges its state in column-major rather than row-major
+order, so there is a mismatch here.<br />
+<br />
+</span></span> Operations involving information
+from multiple rows can be done using the efficient warp-level
+intrinsics, avoiding any use of shared memory.</p>
+<p>For example, fetching the state of a single cell can be achieved
+having the thread that contains the relevant row shuffle the value of
+that row to all other threads:<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">Of course you should try desperately
+to avoid writing code that works one cell at a time! This is just an
+example.<br />
+<br />
+</span></span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>__device__ <span class="dt">uint64_t</span> LifeStateCU<span class="op">::</span>row<span class="op">(</span><span class="dt">int</span> y<span class="op">)</span> <span class="at">const</span> <span class="op">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">int</span> src <span class="op">=</span> <span class="op">(</span>y <span class="op">&amp;</span> <span class="dv">63</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>y <span class="op">&amp;</span> <span class="dv">1</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> lo <span class="op">=</span> __shfl_sync<span class="op">(</span><span class="bn">0xffffffff</span><span class="bu">u</span><span class="op">,</span> state<span class="op">.</span>z<span class="op">,</span> src<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> hi <span class="op">=</span> __shfl_sync<span class="op">(</span><span class="bn">0xffffffff</span><span class="bu">u</span><span class="op">,</span> state<span class="op">.</span>w<span class="op">,</span> src<span class="op">);</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dt">uint64_t</span><span class="op">)</span>hi <span class="op">&lt;&lt;</span> <span class="dv">32</span> <span class="op">|</span> lo<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span> <span class="cf">else</span> <span class="op">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> lo <span class="op">=</span> __shfl_sync<span class="op">(</span><span class="bn">0xffffffff</span><span class="bu">u</span><span class="op">,</span> state<span class="op">.</span>x<span class="op">,</span> src<span class="op">);</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">uint32_t</span> hi <span class="op">=</span> __shfl_sync<span class="op">(</span><span class="bn">0xffffffff</span><span class="bu">u</span><span class="op">,</span> state<span class="op">.</span>y<span class="op">,</span> src<span class="op">);</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">(</span><span class="dt">uint64_t</span><span class="op">)</span>hi <span class="op">&lt;&lt;</span> <span class="dv">32</span> <span class="op">|</span> lo<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>__device__ <span class="dt">bool</span> LifeStateCU<span class="op">::</span>get<span class="op">(</span><span class="dt">int</span> x<span class="op">,</span> <span class="dt">int</span> y<span class="op">)</span> <span class="at">const</span> <span class="op">{</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">uint64_t</span> r <span class="op">=</span> row<span class="op">(</span>y<span class="op">);</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="op">(</span>r <span class="op">&gt;&gt;</span> x<span class="op">)</span> <span class="op">&amp;</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>The particular bit twiddles used in the <code>advance()</code> step were
+<a href="https://binary-banter.github.io/game-of-life/">discovered</a> by Julia “Vlamonster” using a SAT solver. I’ve added many
+of the functions from <code>LifeAPI</code> to make it easier to work with.</p>
+<p>Given an active pattern, the program runs an almost-brute-force search
+on a list of reagent placements, running them a fixed duration and
+checking whether the active pattern reoccurs at any time, at any
+location. Trying to match the active pattern is fairly expensive, more
+expensive than advancing the state itself. We place reagents in the
+reaction envelope of the pattern, rather than in some region fixed in
+advance.</p>
+<p>The list of reagents to try was determined by a one-off script that
+ran some soups and catalogued the most common ash. Here’s what it
+found:</p>
+<div class="lifeviewer"><textarea>
+x = 126, y = 98, rule = B3/S23
+91b3o$121b2o$b2o28b2o56bo5bo24bo2bo$b2o27bo2bo27b3o25bo5bo25bobo$31b2o
+56bo5bo26bo2$91b3o21$32bo$31bobo38b2o$31bobo38b2o$32bo$91b2o$b2o24b2o
+7b2o14b2o17b2o17bo2bo28bo$bobo22bo2bo5bo2bo13b2o17b2o17bo2bo27bobo$2bo
+24b2o7b2o53b2o29bo2$32bo18b2o$31bobo17b2o$31bobo$32bo20$65bo$64bobo54b
+o$o28bo5bo28bobo53bobo$o28bo5bo29bo25b2o27bobo$o28bo5bo55bobo27bo$92b
+2o$2b3o26b3o25b2o$58bo2bo58b2o$59b2o59b2o21$119bo$119bo$62b2o55bo$b2o
+28b2o29b2o28b2o$b2o28b2o58bobo$90bobo$b2o88bo$b2o27b2o29b2o$30b2o29b2o
+$123b3o!
+
+[[ ZOOM 2 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>That is, block, hive, blinker, traffic light, loaf, ship, honeyfarm,
+blockade, pond, tub, half traffic light, 3/4 traffic light, teardrop,
+ship, followed by</p>
+<ul>
+<li>This specific pair of block and hive: <code>b2o$o2bo2b2o$b2o3b2o!</code></li>
+<li>Biblock: <code>2o$2o2$2o$2o!</code></li>
+<li>Half blockade: <code>2o$2o2b2o$4b2o!</code></li>
+<li>Wider half blockade: <code>b2o$b2o4$2o$2o!</code></li>
+<li>Long boat: <code>2bo$bobo$obo$2o!</code></li>
+<li>This specific pair of blinkers: <code>o$o$o7$4b3o!</code></li>
+</ul>
+<h2 id="results">Results</h2>
+<p>Crawlers that can react more than once are surprisingly rare. Here are
+the only remotely feasible ones that I found.</p>
+<div class="lifeviewer"><textarea>
+x = 16, y = 16, rule = B3/S23
+7bo$6bobo$6bobo$7bo4$14b2o$14b2o4$o$obo$3o$2bo!
+
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 15, y = 13, rule = B3/S23
+4b2o$4b2o7b2o$13b2o7$o$obo$3o$2bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 12, y = 19, rule = B3/S23
+10b2o$10b2o5$4b2o$4b2o8$o$obo$3o$2bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 9, y = 7, rule = B3/S23
+6b2o$5bo2bo$6b2o$o$obo$3o$2bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 15, y = 11, rule = B3/S23
+o$obo$3o$2bo4$9b3o2$13b2o$13b2o!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 10, y = 17, rule = B3/S23
+5bo$4bobo$4bobo$5bo$9bo$9bo$9bo7$o$obo$3o$2bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 17, y = 20, rule = B3/S23
+o$obo$3o$2bo4$10bo$9bobo$9bobo$10bo2$5b2o7b2o$4bo2bo5bo2bo$5b2o7b2o2$
+10bo$9bobo$9bobo$10bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 17, y = 30, rule = B3/S23
+12b2o$12b2o9$o$obo$3o$2bo4$10bo$9bobo$9bobo$10bo2$5b2o7b2o$4bo2bo5bo2b
+o$5b2o7b2o2$10bo$9bobo$9bobo$10bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<div class="lifeviewer"><textarea>
+x = 22, y = 28, rule = B3/S23
+21bo$21bo$21bo6$o$obo$3o$2bo4$10bo$9bobo$9bobo$10bo2$5b2o7b2o$4bo2bo5b
+o2bo$5b2o7b2o2$10bo$9bobo$9bobo$10bo!
+[[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<!-- x = 322, y = 237, rule = B3/S23 -->
+<!-- bo$obo$obo$bo$11b2o$11b2o105bo$118bo$96b2o20bo$96b2o5$104bo$103b3o$21b -->
+<!-- o80bo3bo$20b3o79b2ob2o$19bo3bo$19b2ob2o67$29bo$28bobo$28bobo103b2o$29b -->
+<!-- o104b2o$320b2o$320b2o2$36b2o$36b2o2$214b2o98b2o$214b2o7b2o89b2o$22bo -->
+<!-- 99bo100b2o$22bobo97bobo$22b3o97b3o$24bo99bo4$132bo77bo99bo$131bobo76bo -->
+<!-- bo97bobo$131bobo76b3o97b3o$132bo79bo99bo2$127b2o7b2o$126bo2bo5bo2bo$ -->
+<!-- 127b2o7b2o2$132bo$131bobo$131bobo$132bo33$16b2o$15bo2bo$16b2o$10bo15b -->
+<!-- 2o$10bobo12bo2bo$10b3o13b2o$12bo53$12bo$12bobo196bo$12b3o196bo$14bo -->
+<!-- 196bo2$127bo$126bobo$21b3o102bobo$127bo$25b2o104bo58bo$25b2o104bo58bob -->
+<!-- o$131bo58b3o$192bo4$200bo$199bobo$122bo76bobo$122bobo75bo$122b3o$124bo -->
+<!-- 70b2o7b2o$194bo2bo5bo2bo$195b2o7b2o2$200bo$199bobo$199bobo$200bo! -->
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

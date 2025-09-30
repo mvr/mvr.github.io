@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Posts Tagged ‘Cuda’</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <p><a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
+<h1 class="post-list-header">Posts Tagged ‘Cuda’</h1>
+
+<section>
+<ul id="posts-list">
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a></h1>
+        <p class="post-deets">September 30, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'train-of-thought'." href="../tags/train-of-thought.html" rel="tag">train-of-thought</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>The code in the <a href="../posts/no-three-in-line.html">previous post</a> is
+fairly quick, but of course we’d always prefer it to be quicker. I’ll
+keep a record here of things I’ve tried and whether they worked.
+
+            <div class="continue-post"><a href="../posts/no-three-in-line-quicker.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/no-three-in-line.html">No‑Three‑In‑Line</a></h1>
+        <p class="post-deets">September  1, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>The <a href="https://en.wikipedia.org/wiki/No-three-in-line_problem">No-three-in-line
+problem</a> asks
+how many points can be placed on a <span class="math inline">n \times n</span> grid so that no three
+points are on the same line, where the lines considered are of any
+slope and not just orthogonal and diagonal. Each row/column can
+contain at most 2 points, so clearly the answer is at most <span class="math inline">2n</span>. The
+real question is, can we actually achieve <span class="math inline">2n</span> for every grid size?
+It’s <a href="https://doi.org/10.4153%2FCMB-1968-062-3">conjectured</a> that the
+answer is “no” for grids large enough, but we don’t know where the
+crossover point is and there’s <a href="http://web.archive.org/web/20131027174807/http://wso.williams.edu/~bchaffin/no_three_in_line/index.htm">no
+indication</a>
+that the number of <span class="math inline">2n</span>-point solutions is falling away from
+exponential growth, at least up to <span class="math inline">18 \times 18</span>!</p>
+<p>To my eye, the configurations that work can be quite balanced and
+attractive. Here are some symmetrical ones for <span class="math inline">14 \times 14</span> (though
+in general the solutions are not necessarily symmetric in this way):</p>
+<div class="lifeviewer"><textarea>
+x = 54, y = 14, rule = LifeHistory
+5BA3BA4B6.5BA3BA4B6.5BA3BA4B$3BA3BA6B6.3BABA8B6.6BA3BA3B$8BABA3B6.9B
+2A3B6.5BA3BA4B$2BA9BAB6.2BA9BAB6.BA4BA7B$A5BA7B6.ABA11B6.ABA11B$2BA
+10BA6.12B2A6.11BABA$BA7BA4B6.6B2A6B6.10BABAB$4BA7BAB6.6B2A6B6.BABA10B
+$A10BA2B6.2A12B6.ABA11B$7BA5BA6.11BABA6.11BABA$BA9BA2B6.BA9BA2B6.7BA
+4BAB$3BABA8B6.3B2A9B6.4BA3BA5B$6BA3BA3B6.8BABA3B6.3BA3BA6B$4BA3BA5B6.
+4BA3BA5B6.4BA3BA5B!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>The most extensive searches for configurations so far have been done
+by <a href="http://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html">Achim
+Flammenkamp</a>
+and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="https://github.com/mvr/no-three-in-line">written
+some CUDA code</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">By the way,
+the existing <code>cuda-mode</code> for Emacs is a bit messed up, I have a fork
+with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.<br />
+<br />
+</span></span> of my
+own with the goal of pushing things a little further, and I’ll explain
+it in the rest of this post.</p>
+
+            <div class="continue-post"><a href="../posts/no-three-in-line.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/cool-still-lifes.html">Quickly Detecting Cool Still Lifes</a></h1>
+        <p class="post-deets">April  8, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p><a href="https://conwaylife.com/forums/viewtopic.php?f=9&amp;t=5997">QuFince</a> is a CUDA tool written by <a href="https://cp4space.hatsya.com/">apg</a> to conduct brute-force Game
+of Life searches on the cartesian product of two sets of
+configurations. That is, each configuration from set A is combined
+with each configuration from set B, and run until stabilised. Not
+every result is reported, only those where certain criteria are met.
+Right now the options are either that the result has some interesting
+period<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Interesting period here typically means period not dividing
+120, to rule out <a href="https://conwaylife.com/wiki/Blinker">blinkers</a>, <a href="https://conwaylife.com/wiki/Pulsar">pulsars</a>, <a href="https://conwaylife.com/wiki/Pentadecathlon">pentadecathlons</a> and <a href="https://conwaylife.com/wiki/Figure_eight">figure
+eights</a>, among other things.<br />
+<br />
+</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+<a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
+hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
+<p>One thing that <em>can’t</em> be done currently is have QuFince report any
+combination that results in an interesting still life, but without
+knowing which still life you want in advance. It’s not so obvious what
+“interesting still life” should mean exactly, but here are some
+randomly chosen examples of things that should qualify:</p>
+<div class="lifeviewer"><textarea>
+x = 88, y = 30, rule = B3/S23
+2o2b2o16b2o16b2o18b2ob2o19b2o$o4bo15bo2bo15bobo18bobobo14b2obo2bo$b4o
+15bo2b2o17bo2b2o14bo3bo14b2obob2o$20b3o19bobobo15b3o18bo$b4o18b2o16b2o
+bo35b2obob2o$o4bo14b2obobo16bobobo15b3o15bo2bobo$b4o15b2obobo16bo2b2o
+14bo2bo16b2o2bo$24bo15bobo17bo2bo21bobo$3b2o35b2o19b2o23b2o$3b2o11$5b
+2o16b2o19b2o14b2ob2o15b2o$b2obo2bo14bo2bo18bo16bobobo14bobo$obobobo15b
+ob2o15b2obo16bo3bo16bo$o4bo15b2obo17bob2o16b3o16bo$b4o15bo3bo17bobo36b
+2o$20b4o17b2obobo15b3o$b2o39bo2b2o14bo3bo15b4o$bobo18b2o16bobo18bobobo
+14bo4bo$2bo18bobo16b2o18b2ob2o16b3obo$22bo60bob2o!
+
+#C [[ ZOOM 4 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>We can’t use a population threshold as our criterion for
+interestingness, because the typical result of one of these QuFince
+trials is a bunch of uninteresting junk. One option is to do proper
+object separation, like <a href="https://gitlab.com/apgoucher/apgmera">apgsearch</a>, and then report any object that
+is sufficiently rare. But a QuFince search can conceivably test
+hundreds of billions of configurations, and full object separation is
+simply too slow.</p>
+<p>Here I’ll present an alternative, a simple heuristic that works well
+enough. 
+            <div class="continue-post"><a href="../posts/cool-still-lifes.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/crawlers.html">Crawlers</a></h1>
+        <p class="post-deets">April  2, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>As a second foray into CUDA, I’ve written a simple program to hunt for
+<a href="https://conwaylife.com/wiki/Crawler">crawlers</a> in the Game of Life. The kernel itself is too revolting to
+make public, but the supporting <a href="https://github.com/mvr/LifeAPI/blob/master/cuda/LifeStateCU.cu"><code>LifeStateCU</code></a> code may be useful for
+others. (This could be seen as the first step in a GPU version of
+<code>CatForce</code>/<code>LightCone</code>…)</p>
+
+            <div class="continue-post"><a href="../posts/crawlers.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/officers.html">Officers on the GPU</a></h1>
+        <p class="post-deets">March  8, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'officers'." href="../tags/officers.html" rel="tag">officers</a></p>
+        <div class="post-content">
+            
+            <p>Officers is a two-player “take-and-break” game played with heaps of
+coins (or if you prefer, piles of beans, or <a href="https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307">officers and their
+subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people who form indivisible couples</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">In
+the equivalent game Couples-are-Forever, a move is to choose a heap
+and split it into two, with the proviso that you may not split a heap
+of size 2. An Officers heap of size <span class="math inline">n</span> is equivalent to a
+Couples-are-Forever heap of size <span class="math inline">n+1</span>.<br />
+<br />
+</span></span>, or …). The two players
+alternate turns, and every turn consists of removing a coin from a
+heap and leaving the remainder in either one or two heaps. In
+particular, taking away a lone coin is not a valid move. The winner is
+the last player who can make a move.</p>
+<p>For example, a game starting with a single pile of <span class="math inline">10</span> coins might
+proceed</p>
+<p><span class="math display">
+[10] 
+\xrightarrow{\mathcal{L}} [3, 6] 
+\xrightarrow{\mathcal{R}} [3, 1, 4]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 4]
+\xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
+</span></p>
+<p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
+has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.<br />
+<br />
+</span></span> Although
+the total number of coins decreases by 1 each turn, the outcome of the
+game is not determined simply by the parity of the starting number of
+coins: the moment that the game ends also depends on how many piles
+are created by the players making splitting moves. As we will soon
+see, the winning move from any given position is extremely
+unpredictable.</p>
+<p>We can solve a game of this kind by calculating the <em>Grundy value</em> for
+each position, and in this post I’m going to discuss my attempt at
+calculating these values for Officers as fast as possible.</p>
+
+            <div class="continue-post"><a href="../posts/officers.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+</ul>
+
+
+
+
+
+</section>
+
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

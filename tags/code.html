@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Posts Tagged ‘Code’</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <p><a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
+<h1 class="post-list-header">Posts Tagged ‘Code’</h1>
+
+<section>
+<ul id="posts-list">
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a></h1>
+        <p class="post-deets">September 30, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'train-of-thought'." href="../tags/train-of-thought.html" rel="tag">train-of-thought</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>The code in the <a href="../posts/no-three-in-line.html">previous post</a> is
+fairly quick, but of course we’d always prefer it to be quicker. I’ll
+keep a record here of things I’ve tried and whether they worked.
+
+            <div class="continue-post"><a href="../posts/no-three-in-line-quicker.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/no-three-in-line.html">No‑Three‑In‑Line</a></h1>
+        <p class="post-deets">September  1, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>The <a href="https://en.wikipedia.org/wiki/No-three-in-line_problem">No-three-in-line
+problem</a> asks
+how many points can be placed on a <span class="math inline">n \times n</span> grid so that no three
+points are on the same line, where the lines considered are of any
+slope and not just orthogonal and diagonal. Each row/column can
+contain at most 2 points, so clearly the answer is at most <span class="math inline">2n</span>. The
+real question is, can we actually achieve <span class="math inline">2n</span> for every grid size?
+It’s <a href="https://doi.org/10.4153%2FCMB-1968-062-3">conjectured</a> that the
+answer is “no” for grids large enough, but we don’t know where the
+crossover point is and there’s <a href="http://web.archive.org/web/20131027174807/http://wso.williams.edu/~bchaffin/no_three_in_line/index.htm">no
+indication</a>
+that the number of <span class="math inline">2n</span>-point solutions is falling away from
+exponential growth, at least up to <span class="math inline">18 \times 18</span>!</p>
+<p>To my eye, the configurations that work can be quite balanced and
+attractive. Here are some symmetrical ones for <span class="math inline">14 \times 14</span> (though
+in general the solutions are not necessarily symmetric in this way):</p>
+<div class="lifeviewer"><textarea>
+x = 54, y = 14, rule = LifeHistory
+5BA3BA4B6.5BA3BA4B6.5BA3BA4B$3BA3BA6B6.3BABA8B6.6BA3BA3B$8BABA3B6.9B
+2A3B6.5BA3BA4B$2BA9BAB6.2BA9BAB6.BA4BA7B$A5BA7B6.ABA11B6.ABA11B$2BA
+10BA6.12B2A6.11BABA$BA7BA4B6.6B2A6B6.10BABAB$4BA7BAB6.6B2A6B6.BABA10B
+$A10BA2B6.2A12B6.ABA11B$7BA5BA6.11BABA6.11BABA$BA9BA2B6.BA9BA2B6.7BA
+4BAB$3BABA8B6.3B2A9B6.4BA3BA5B$6BA3BA3B6.8BABA3B6.3BA3BA6B$4BA3BA5B6.
+4BA3BA5B6.4BA3BA5B!
+
+#C [[ ZOOM 8 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>The most extensive searches for configurations so far have been done
+by <a href="http://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html">Achim
+Flammenkamp</a>
+and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="https://github.com/mvr/no-three-in-line">written
+some CUDA code</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">By the way,
+the existing <code>cuda-mode</code> for Emacs is a bit messed up, I have a fork
+with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.<br />
+<br />
+</span></span> of my
+own with the goal of pushing things a little further, and I’ll explain
+it in the rest of this post.</p>
+
+            <div class="continue-post"><a href="../posts/no-three-in-line.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/cool-still-lifes.html">Quickly Detecting Cool Still Lifes</a></h1>
+        <p class="post-deets">April  8, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p><a href="https://conwaylife.com/forums/viewtopic.php?f=9&amp;t=5997">QuFince</a> is a CUDA tool written by <a href="https://cp4space.hatsya.com/">apg</a> to conduct brute-force Game
+of Life searches on the cartesian product of two sets of
+configurations. That is, each configuration from set A is combined
+with each configuration from set B, and run until stabilised. Not
+every result is reported, only those where certain criteria are met.
+Right now the options are either that the result has some interesting
+period<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Interesting period here typically means period not dividing
+120, to rule out <a href="https://conwaylife.com/wiki/Blinker">blinkers</a>, <a href="https://conwaylife.com/wiki/Pulsar">pulsars</a>, <a href="https://conwaylife.com/wiki/Pentadecathlon">pentadecathlons</a> and <a href="https://conwaylife.com/wiki/Figure_eight">figure
+eights</a>, among other things.<br />
+<br />
+</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+<a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
+hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
+<p>One thing that <em>can’t</em> be done currently is have QuFince report any
+combination that results in an interesting still life, but without
+knowing which still life you want in advance. It’s not so obvious what
+“interesting still life” should mean exactly, but here are some
+randomly chosen examples of things that should qualify:</p>
+<div class="lifeviewer"><textarea>
+x = 88, y = 30, rule = B3/S23
+2o2b2o16b2o16b2o18b2ob2o19b2o$o4bo15bo2bo15bobo18bobobo14b2obo2bo$b4o
+15bo2b2o17bo2b2o14bo3bo14b2obob2o$20b3o19bobobo15b3o18bo$b4o18b2o16b2o
+bo35b2obob2o$o4bo14b2obobo16bobobo15b3o15bo2bobo$b4o15b2obobo16bo2b2o
+14bo2bo16b2o2bo$24bo15bobo17bo2bo21bobo$3b2o35b2o19b2o23b2o$3b2o11$5b
+2o16b2o19b2o14b2ob2o15b2o$b2obo2bo14bo2bo18bo16bobobo14bobo$obobobo15b
+ob2o15b2obo16bo3bo16bo$o4bo15b2obo17bob2o16b3o16bo$b4o15bo3bo17bobo36b
+2o$20b4o17b2obobo15b3o$b2o39bo2b2o14bo3bo15b4o$bobo18b2o16bobo18bobobo
+14bo4bo$2bo18bobo16b2o18b2ob2o16b3obo$22bo60bob2o!
+
+#C [[ ZOOM 4 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>We can’t use a population threshold as our criterion for
+interestingness, because the typical result of one of these QuFince
+trials is a bunch of uninteresting junk. One option is to do proper
+object separation, like <a href="https://gitlab.com/apgoucher/apgmera">apgsearch</a>, and then report any object that
+is sufficiently rare. But a QuFince search can conceivably test
+hundreds of billions of configurations, and full object separation is
+simply too slow.</p>
+<p>Here I’ll present an alternative, a simple heuristic that works well
+enough. 
+            <div class="continue-post"><a href="../posts/cool-still-lifes.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/crawlers.html">Crawlers</a></h1>
+        <p class="post-deets">April  2, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>As a second foray into CUDA, I’ve written a simple program to hunt for
+<a href="https://conwaylife.com/wiki/Crawler">crawlers</a> in the Game of Life. The kernel itself is too revolting to
+make public, but the supporting <a href="https://github.com/mvr/LifeAPI/blob/master/cuda/LifeStateCU.cu"><code>LifeStateCU</code></a> code may be useful for
+others. (This could be seen as the first step in a GPU version of
+<code>CatForce</code>/<code>LightCone</code>…)</p>
+
+            <div class="continue-post"><a href="../posts/crawlers.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/officers.html">Officers on the GPU</a></h1>
+        <p class="post-deets">March  8, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'officers'." href="../tags/officers.html" rel="tag">officers</a></p>
+        <div class="post-content">
+            
+            <p>Officers is a two-player “take-and-break” game played with heaps of
+coins (or if you prefer, piles of beans, or <a href="https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307">officers and their
+subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people who form indivisible couples</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">In
+the equivalent game Couples-are-Forever, a move is to choose a heap
+and split it into two, with the proviso that you may not split a heap
+of size 2. An Officers heap of size <span class="math inline">n</span> is equivalent to a
+Couples-are-Forever heap of size <span class="math inline">n+1</span>.<br />
+<br />
+</span></span>, or …). The two players
+alternate turns, and every turn consists of removing a coin from a
+heap and leaving the remainder in either one or two heaps. In
+particular, taking away a lone coin is not a valid move. The winner is
+the last player who can make a move.</p>
+<p>For example, a game starting with a single pile of <span class="math inline">10</span> coins might
+proceed</p>
+<p><span class="math display">
+[10] 
+\xrightarrow{\mathcal{L}} [3, 6] 
+\xrightarrow{\mathcal{R}} [3, 1, 4]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 4]
+\xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
+</span></p>
+<p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
+has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.<br />
+<br />
+</span></span> Although
+the total number of coins decreases by 1 each turn, the outcome of the
+game is not determined simply by the parity of the starting number of
+coins: the moment that the game ends also depends on how many piles
+are created by the players making splitting moves. As we will soon
+see, the winning move from any given position is extremely
+unpredictable.</p>
+<p>We can solve a game of this kind by calculating the <em>Grundy value</em> for
+each position, and in this post I’m going to discuss my attempt at
+calculating these values for Officers as fast as possible.</p>
+
+            <div class="continue-post"><a href="../posts/officers.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/lightcone.html">Searching for Conduits at Lightspeed</a></h1>
+        <p class="post-deets">February  9, 2025 / <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a>, <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>Conduits are a central piece of technology in Conway’s Game of Life,
+especially when engineering new pieces of stable circuitry. A conduit
+moves an active pattern (like a <a href="https://conwaylife.com/wiki/Herschel">Herschel</a> or <a href="https://conwaylife.com/wiki/B-heptomino">B-heptomino</a>) from one
+location to another by allowing it to react with a collection of
+stable catalysts. Along the way, it may release some gliders, produce
+additional active patterns or perform some other useful interaction,
+and so new pieces of machinery can be constructed by chaining conduits
+together.</p>
+<p>As one very famous example we have the <a href="https://conwaylife.com/wiki/Fx77">Fx77</a> conduit discovered by
+Dave Buckingham, which moves a Herschel forwards in 77 generations,
+also flipping it.</p>
+<div class="lifeviewer"><textarea>
+x = 41, y = 23, rule = LifeHistory
+11.A$11.3A12.B.3B.B$14.A10.13B$13.2A3.B5.2B2A11BD$13.8B3.2B2A9B3DB$
+15.8B.13BDBD$15.22BD$14.15B.2B2.2B$12.17B$10.18B$10.2BC15B$9.3BCBC4B.
+7B$10.2B3C13B$9.5BC14B$8.10B2.8B$7.4B11.6B$6.4B12.5B$5.4B14.4B$4.4B
+15.4B$3.4B17.B.B2A$2.4B20.BA.A$.4B24.A$4B25.2A!
+
+#C [[ AUTOSTART ]]
+#C [[ GPS 20 ]]
+#C [[ GRID PAUSE 2 T 77 PAUSE 2 LOOP 78 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>Many software tools have been written to search for new conduits:
+<a href="https://github.com/conwaylife/ptbsearch"><code>ptbsearch</code></a> by Paul Callahan, <a href="https://github.com/dvgrn/b3s23life/tree/main/catgl">Catalyst</a> by Gabriel Nivasch, <code>catgl</code> by
+Dave Greene, <a href="https://github.com/simsim314/CatForce">CatForce</a> by Michael Simkin and <a href="https://github.com/nicobrownmath/LocalForce">LocalForce</a> by Nico Brown,
+to name a few. Typically these tools are handed an active pattern and
+a collection of catalysts, and spit out all placements of catalysts
+that interact with the active pattern and recover. At this point,
+hundreds of conduits are known, converting to and from various active
+patterns. But the more the merrier!</p>
+<p>I’ve been working on yet another search tool, called <a href="https://github.com/mvr/lightcone">Lightcone</a>.
+Lightcone is pretty speedy: it can find apg’s <a href title="https://conwaylife.com/wiki/Spartan_G-to-W-to-H">Spartan G-to-W</a> on
+<a href="https://github.com/mvr/lightcone/blob/master/tests/thessalonic.toml">this</a> input file in just a couple of seconds. In this post I’ll
+explain some of the tricks it uses to cut down the search time.</p>
+
+            <div class="continue-post"><a href="../posts/lightcone.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/at.html">Effective Algebraic Topology in Haskell</a></h1>
+        <p class="post-deets">September 22, 2022 / <a title="All pages tagged 'maths'." href="../tags/maths.html" rel="tag">maths</a>, <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a></p>
+        <div class="post-content">
+            
+            <p>Code available on <a href="https://github.com/mvr/at">GitHub</a>.</p>
+<p>For a little while I have been working on this port of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a> from
+Common Lisp to Haskell. Kenzo is a collection of algorithms for
+explicit constructions on simplicial sets: the
+<a href="https://github.com/mvr/at/blob/master/README.md"><code>README</code></a> in the
+repository gives a list of what’s implemented and what should be
+possible. The algorithms and implementations in Kenzo were created by
+Francis Sergeraert, Julio Rubio Garcia, Xavier Dousson, Ana Romero and
+many collaborators.</p>
+<p>My goal was to implement just enough to compute <span class="math inline">\pi_4 S^3</span>,
+and I reached it today.</p>
+<pre><code>...
+&gt; let x = totalSpace s3 (Wbar kz1) fibration
+&gt; putStrLn $ &quot;π₄ S³ is: &quot; ++ show (homology x !! 4)
+π₄ S³ is: ℤ/2</code></pre>
+<p>A fun capability it picked up along the way is calculating the
+homology of Eilenberg-MacLane spaces <span class="math inline">K(ℤ/m,n)</span>, for example, here is
+<span class="math inline">K(ℤ/3,2)</span>.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">This makes my laptop get hot pretty quickly.<br />
+<br />
+</span></span></p>
+<pre><code>&gt; homology (Wbar (WbarDiscrete (Zmod 3)))
+[ℤ,0,ℤ/3,0,ℤ/3,0,ℤ/(3^2),ℤ/3,ℤ/3,ℤ/3,ℤ/3 ⊕ ℤ/3,^C</code></pre>
+<p>I have a lot of ideas for improvements and additional features if
+anybody is interested in joining in, so <mark>please email me if that’s
+you or you know a student for whom this would make a good project</mark>.
+For example, adding the construction of loop spaces and their homology
+would be nice, as would homotopy pushouts in general.</p>
+<p>On the implementation side, I have not spent any time optimising the
+code and there are some obvious places to start, like using a proper
+integer matrix library instead of a homemade one. These sorts of
+optimisations would also make a good project for an undergraduate,
+with not much mathematical background required.</p>
+<p>Below, I’ve copy-pasted a quick introduction I wrote to the ideas
+behind Kenzo.</p>
+<h2 id="central-concepts-of-kenzo">Central Concepts of Kenzo</h2>
+<p>A <em>simplicial set</em> <span class="math inline">X</span> is described in code by some abstract type <code>a</code>,
+containing whatever data is required to specify <span class="math inline">X</span>, and a type
+<code>GeomSimplex a</code>, whose elements correspond to non-degenerate
+simplices; in Kenzo these are referred to as ‘geometric simplices’.
+Like Kenzo we also allow a predicate on <code>GeomSimplex a</code> specifying
+when an element actually describes a geometric simplex and when it is
+spurious.</p>
+<p>An actual simplex of <span class="math inline">X</span> is a geometric simplex together with a
+‘formal degeneracy operator’, which is a list of degeneracy operators
+in a normal form. Face maps are implemented as functions from
+geometric simplices to (possibly degenerate) simplices, and the
+extension of these face maps to all simplices is forced by the
+simplicial identities.</p>
+<p>A simplicial set is <em>of finite type</em> if there is a finite number of
+geometric simplices for each dimension, and there is a function giving
+a list of these simplices for any dimension <span class="math inline">n</span>. It is not required
+that there are finitely many geometric simplices overall.</p>
+<p>The <em>normalised chain complex</em> <span class="math inline">N(X)</span> of <span class="math inline">X</span> has each <span class="math inline">N(X)_n</span> given
+by the free abelian group on the set of nondegenerate <span class="math inline">n</span>-simplices of
+<span class="math inline">X</span>, with the boundary of a simplex calculated similar to usual (the
+alternating sum of face maps), but ignoring any degenerate faces.</p>
+<p>If <span class="math inline">C(X)</span> is the ordinary chain complex of simplicial chains of <span class="math inline">X</span>,
+the quotient map <span class="math inline">C(X) \to N(X)</span> is a quasi-isomorphism, and so if <span class="math inline">X</span>
+is of finite type, then the homology of <span class="math inline">X</span> can be computed via
+<span class="math inline">N(X)</span>.</p>
+<p>But many unavoidable simplicial sets (like <span class="math inline">K(ℤ,n)</span> and loop spaces
+<span class="math inline">ΩX</span>) are not of finite type, and so we need some other way to
+calculate their homology. This is where ‘effective homology’ comes in.</p>
+<p>A <em>reduction</em> between chain complexes <span class="math inline">C</span> and <span class="math inline">D</span> is a strong
+deformation retract of chain complexes. The data of a reduction
+unwinds to a triple (<span class="math inline">f : C \to D</span>, <span class="math inline">g : D \to C</span>, <span class="math inline">h : C \to C</span>) where
+<span class="math inline">f</span> and <span class="math inline">g</span> are degree 0, the homotopy operator <span class="math inline">h</span> is degree 1, and
+certain equations involving these hold. A <em>(strong chain)
+equivalence</em> between two chain complexes <span class="math inline">C</span> and <span class="math inline">D</span> is a span of
+reductions <span class="math inline">l : E \to C</span> and <span class="math inline">r : E \to D</span>.</p>
+<p>An <em>effective homology structure</em> on <span class="math inline">C</span> is an equivalence between <span class="math inline">C</span>
+and a chain complex <span class="math inline">F</span> of finite type.</p>
+<p>A <em>simplicial set with effective homology</em> is a simplicial set <span class="math inline">X</span>
+equipped with an effective homology structure on <span class="math inline">N(X)</span>.</p>
+<p>The point of Kenzo is that although constructions on simplicial sets
+sometimes do not preserve levelwise finiteness, they <em>do</em> extend to
+effective homology structures. And so if we begin with a finite
+simplicial complex and perform some constructions using it, then we
+can often compute the homology of the result even if the actual
+simplicial sets are now far too complicated to get a handle on.</p>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/hamana-graphs.html">Hamana's Graph GADT</a></h1>
+        <p class="post-deets">February 10, 2018 / <a title="All pages tagged 'note-to-self'." href="../tags/note-to-self.html" rel="tag">note-to-self</a>, <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a></p>
+        <div class="post-content">
+            
+            <p>Hamana describes a neat way of encoding general graphs as a GADT in
+<a href="https://lmcs.episciences.org/1060">Initial Algebra Semantics for Cyclic Sharing Tree
+Structures</a>, a nice trick that I
+hadn’t seen before. The idea is that the <code>Graph</code> data type will have a
+<code>Ptr</code> constructor that allows us to add an edge reference other parts
+of the structure. The <code>Graph</code> type will be indexed by a ‘context’ that
+specifies what <code>Ptr</code>s are valid.</p>
+<p>Elements of <code>Graph</code> won’t correspond to general graphs exactly. We are
+actually describing graphs that are “rooted, connected, directed and
+edge-ordered with each node having out-degree 2”. It is possible to
+choose different roots and orderings for the same graph, and these
+choices will lead to different representations as elements of
+<code>Graph</code>. The problem of determining whether two elements of <code>Graph</code>
+have the same underlying actual graph seems like it would be difficult
+in general.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# OPTIONS_GHC -fno-warn-unticked-promoted-constructors #-}</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE DataKinds #-}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE PolyKinds #-}</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE RankNTypes #-}</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE TypeFamilies #-}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE TypeOperators #-}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ot">{-# LANGUAGE GADTs #-}</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> <span class="dt">Graphs</span> <span class="kw">where</span></span></code></pre></div>
+<p>First, let us define a type describing the possible shapes of our data
+structure. We will be using this at the type-level via DataKinds. Our
+<code>Graph</code>s all have underlying binary trees.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">TreeShape</span> <span class="kw">where</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">LeafShape</span><span class="ot">    ::</span> <span class="dt">TreeShape</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">BinShape</span><span class="ot">     ::</span> <span class="dt">TreeShape</span> <span class="ot">-&gt;</span> <span class="dt">TreeShape</span> <span class="ot">-&gt;</span> <span class="dt">TreeShape</span></span></code></pre></div>
+<p>There are also special leaves that are <code>Ptr</code>s to other locations.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  <span class="dt">PtrShape</span><span class="ot">     ::</span> <span class="dt">TreeShape</span></span></code></pre></div>
+<p>And finally, we will need a way of blocking off a section of a graph
+so that a <code>Ptr</code> can’t refer to it.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>  <span class="dt">VoidShape</span><span class="ot">    ::</span> <span class="dt">TreeShape</span></span></code></pre></div>
+<p>This won’t occur as the shape of an actual graph.</p>
+<p>The next piece is an indexed type that, given a <code>TreeShape</code>, picks
+out the location of a node in that shape. These will be what we use to
+specify where in a tree a <code>Ptr</code> is pointing.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">TreePosition</span> (<span class="ot">shape ::</span> <span class="dt">TreeShape</span>) <span class="kw">where</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">LeafPos</span><span class="ot">  ::</span> <span class="dt">TreePosition</span> <span class="dt">LeafShape</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">BinPos</span><span class="ot">   ::</span> <span class="dt">TreePosition</span> (<span class="dt">BinShape</span> s t)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">LeftPos</span><span class="ot">  ::</span> <span class="dt">TreePosition</span> s <span class="ot">-&gt;</span> <span class="dt">TreePosition</span> (<span class="dt">BinShape</span> s s')</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">RightPos</span><span class="ot"> ::</span> <span class="dt">TreePosition</span> s' <span class="ot">-&gt;</span> <span class="dt">TreePosition</span> (<span class="dt">BinShape</span> s s')</span></code></pre></div>
+<p>There is, of course, no constructor for <code>TreePosition VoidShape</code>. We
+also don’t allow <code>TreePosition PtrShape</code>, which means that <code>Ptr</code>s
+will be required to point to genuine nodes in the tree, and not other
+<code>Ptr</code>s. This avoids there being multiple ways of specifying the same
+tree via chains of pointers, rather than having each <code>Ptr</code> target the
+eventual node at the end of the chain.</p>
+<p>We’ll need to be able to index type-level lists, so let’s get that out
+of the way:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Elem</span><span class="ot"> ::</span> k <span class="ot">-&gt;</span> [k] <span class="ot">-&gt;</span> <span class="op">*</span> <span class="kw">where</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Here</span><span class="ot"> ::</span> <span class="dt">Elem</span> s (s <span class="op">:</span> c)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">There</span><span class="ot"> ::</span> <span class="dt">Elem</span> s c <span class="ot">-&gt;</span> <span class="dt">Elem</span> s (t <span class="op">:</span> c)</span></code></pre></div>
+<p>Now for the actual graph type. The type is indexed both by the <code>shape</code>
+of the underlying tree, and a <code>context</code>, a list of <code>TreeShape</code>s. As we
+build a tree, this list is collecting the shapes of all the subtrees
+used as a left branch of an earlier binary node.</p>
+<p>Consider the following tree:</p>
+<pre><code>             a
+            / \
+           /   \
+          a     b
+         / \   / \
+        a   a b   *
+               \
+                b</code></pre>
+<p>If we are currently defining the subtree to be placed at <code>*</code>, then the
+<code>context</code> will consist of the two shapes</p>
+<pre><code>                      a
+         b           / \
+        / \         /   \
+  [    b   0  ,    a     0   ]
+        \         / \
+         b       a   a</code></pre>
+<p>In the subtree to be placed at <code>*</code>, we may have pointers to <code>a</code>s or <code>b</code>s,
+but not the <code>0</code>s.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Graph</span> (<span class="ot">context ::</span> [<span class="dt">TreeShape</span>]) (<span class="ot">shape ::</span> <span class="dt">TreeShape</span>) <span class="kw">where</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Leaf</span><span class="ot"> ::</span> <span class="dt">Graph</span> c <span class="dt">LeafShape</span></span></code></pre></div>
+<p>Leaves are easy, we can have a leaf in any context.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Ptr</span><span class="ot"> ::</span> <span class="dt">Elem</span> s context <span class="ot">-&gt;</span> <span class="dt">TreePosition</span> s <span class="ot">-&gt;</span> <span class="dt">Graph</span> context <span class="dt">PtrShape</span></span></code></pre></div>
+<p>For the pointers, we pick a shape from the context and then a position
+in that shape.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>  <span class="dt">Bin</span><span class="ot"> ::</span> <span class="dt">Graph</span> (<span class="dt">BinShape</span> <span class="dt">VoidShape</span> <span class="dt">VoidShape</span> <span class="op">:</span> c) s</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>      <span class="ot">-&gt;</span> <span class="dt">Graph</span> (<span class="dt">BinShape</span> s <span class="dt">VoidShape</span> <span class="op">:</span> c) t</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="ot">-&gt;</span> <span class="dt">Graph</span> c (<span class="dt">BinShape</span> s t)</span></code></pre></div>
+<p>The interesting case is a binary node. In the left and right branches,
+we push new trees onto the context c. When defining the left branch,
+we only have access to one additional node over what is already in
+<code>c</code>: the binary node we are currently defining. In the right branch,
+we have access to the entire left branch: note that the shape <code>s</code> of
+the left branch is what is pushed onto the context. This is why this
+type has to be indexed over the shape of the resulting graph, not just
+the context.</p>
+<p>And that’s it! We can add labels to the nodes in the graph if we like,
+by adding a parameter to the <code>Leaf</code> and <code>Bin</code> constructors.</p>
+<p>Graphs of shape <code>s</code> then correspond to elements of <code>Graph '[] s</code>. If
+we don’t care about having the shape as part of the type, we can
+existentially quantify it.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">AnyGraph</span> <span class="ot">=</span> <span class="kw">forall</span> s<span class="op">.</span> <span class="dt">AnyGraph</span> (<span class="dt">Graph</span> '[] s)</span></code></pre></div>
+<p>Here are some simple graphs:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ot">graph1 ::</span> <span class="dt">AnyGraph</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>graph1 <span class="ot">=</span> <span class="dt">AnyGraph</span> <span class="op">$</span> <span class="dt">Bin</span> (<span class="dt">Bin</span> <span class="dt">Leaf</span> <span class="dt">Leaf</span>) (<span class="dt">Bin</span> (<span class="dt">Ptr</span> (<span class="dt">There</span> <span class="op">$</span> <span class="dt">Here</span>) (<span class="dt">LeftPos</span> <span class="op">$</span> <span class="dt">LeftPos</span> <span class="op">$</span> <span class="dt">LeafPos</span>)) <span class="dt">Leaf</span>)</span></code></pre></div>
+<p>Corresponding to</p>
+<pre><code>     *
+    / \
+   /   \
+  *     *
+ / \   / \
+*   * /   *
+ \   /
+  ---</code></pre>
+<p>We can modify what kinds of graphs are representable by changing the
+way the <code>context</code> is extended. Note that we can currently have cycles
+in the graph:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="ot">graph2 ::</span> <span class="dt">AnyGraph</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>graph2 <span class="ot">=</span> <span class="dt">AnyGraph</span> <span class="op">$</span> <span class="dt">Bin</span> <span class="dt">Leaf</span> (<span class="dt">Ptr</span> <span class="dt">Here</span> <span class="dt">BinPos</span>)</span></code></pre></div>
+<p>corresponds to</p>
+<pre><code>    ---
+   /   \
+  *    /
+ / \  /
+*   --</code></pre>
+<p>It’s not hard to change this though:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">DAG</span> (<span class="ot">context ::</span> [<span class="dt">TreeShape</span>]) (<span class="ot">shape ::</span> <span class="dt">TreeShape</span>) <span class="kw">where</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">DAGLeaf</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">DAG</span> c <span class="dt">LeafShape</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">DAGPtr</span><span class="ot"> ::</span> <span class="dt">Elem</span> s context <span class="ot">-&gt;</span> <span class="dt">TreePosition</span> s <span class="ot">-&gt;</span> <span class="dt">DAG</span> context <span class="dt">PtrShape</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">DAGBin</span><span class="ot"> ::</span> <span class="dt">DAG</span> c s <span class="ot">-&gt;</span> <span class="dt">DAG</span> (s <span class="op">:</span> c) t <span class="ot">-&gt;</span> <span class="dt">DAG</span> c (<span class="dt">BinShape</span> s t)</span></code></pre></div>
+<p>The only difference is in the <code>DAGBin</code> constructor. Here, when
+constructing the left branch, we are no longer permitted to reference
+the current binary node. The same is true when constructing the right
+branch, but we still give it access to the left branch. The result is
+that every <code>Ptr</code> points to something to the left, other than a direct
+ancestor of the current node. That is enough to rule out any cycles.</p>
+<p>We have no need for <code>VoidShape</code> here, which is nice.</p>
+            
+        </div>
+    </li>
+    
+</ul>
+
+
+
+
+
+</section>
+
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

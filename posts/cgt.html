@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>A Whirlwind Tour of Combinatorial Games in Haskell</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/cgt.html">A Whirlwind Tour of Combinatorial Games in Haskell</a></h1>
+<p class="post-deets">March 17, 2014   / <a title="All pages tagged 'haskell'." href="../tags/haskell.html" rel="tag">haskell</a>, <a title="All pages tagged 'cgt'." href="../tags/cgt.html" rel="tag">cgt</a>, <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a> </p>
+<div class="post-content">
+    <!--
+> import Prelude hiding ((||))
+> import qualified Prelude ((||))
+> import Control.Monad
+> import Data.List
+> import Data.Maybe
+> import Data.Ratio
+> import Data.Bits
+> import Data.Function
+-->
+<p>Combinatorial games are an interesting class of games where two
+players take turns to make a move. In these games, both players have
+perfect information about the state of the game and there is no
+element of chance. In ‘normal play’, the winner is declared when the
+other player is unable to move.</p>
+<p>Even games that don’t exactly match these conditions can be analysed
+using techniques from combinatorial game theory, including chess and
+Go, and the pen-and-paper game Dots and Boxes.</p>
+<p>The simplest way of thinking of these games is as a set of moves for
+the player Left, and a set of moves for the player Right. When a
+player chooses an option from their set, this new position can be
+considered another game. This gives us a tree-like structure: <!--more--></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Game</span> <span class="ot">=</span> <span class="dt">Game</span> {<span class="ot"> leftMoves ::</span> [<span class="dt">Game</span>],<span class="ot"> rightMoves ::</span> [<span class="dt">Game</span>] }</span></code></pre></div>
+<p>We write <code>{ L | R }</code> for the game where Left can choose a move from
+<code>L</code>, and Right can choose a move from R. For example, we have the zero
+game, where neither player has any moves they can make: <code>zero = { | }</code></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>zero <span class="ot">=</span> <span class="dt">Game</span> [] []</span></code></pre></div>
+<p>In this game, if it’s Left’s turn, he loses. If it’s Right’s turn, he
+loses. So this game encompases the idea of both players having 0 turns
+remaining.</p>
+<p>Here’s the next simplest game, <code>one = { zero | }</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>one <span class="ot">=</span> <span class="dt">Game</span> [zero] []</span></code></pre></div>
+<p>Now, if it’s Left’s turn, he can move to the zero game. If it’s
+Right’s turn, he loses straight away. In this game, Left has one
+move’s advantage on Right. Similarly, we can define two:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>two <span class="ot">=</span> <span class="dt">Game</span> [one] []</span></code></pre></div>
+<p>Now Left has a two move advantage on Right. If we want to classify the
+different outcomes a game can have, we find there are only four
+options:</p>
+<ol type="1">
+<li>Left can always win, no matter who starts</li>
+<li>Right can always win, no matter who starts</li>
+<li>The second player can always win</li>
+<li>The first player can always win</li>
+</ol>
+<p>We will write these four options as <code>G &gt; 0</code>, <code>G &lt; 0</code>, <code>G = 0</code>, <code>G || 0</code>.
+It’s clear that <code>zero = 0</code> and <code>one &gt; 0</code>. We can combine these classes as
+usual. For example, <code>G &gt;= 0</code> means Left can always win if he’s the
+second player, and in <code>G &lt;= 0</code> Right can always win if he’s the second
+player.</p>
+<p>These two predicates are easy to implement. If <code>G &gt;= 0</code>, Left can
+always win as second player and Right has no good opening move. A good
+opening move for Right is a position in <code>R</code> that right could win,
+i.e. a position <code>r &lt;= 0</code>. The definition is similar for <code>G &lt;= 0</code>, giving
+mutually recursive definitions:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ot"> gteqZero ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot"> lteqZero ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a> gteqZero <span class="ot">=</span> <span class="fu">not</span> <span class="op">.</span> <span class="fu">any</span> lteqZero <span class="op">.</span> rightMoves</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> lteqZero <span class="ot">=</span> <span class="fu">not</span> <span class="op">.</span> <span class="fu">any</span> gteqZero <span class="op">.</span> leftMoves</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- gteqZero zero ==&gt; True</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- lteqZero zero ==&gt; True</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- gteqZero one  ==&gt; True</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- lteqZero one  ==&gt; False</span></span></code></pre></div>
+<p>These are guaranteed to terminate (as long as our games are finite),
+as at every step we are looking at a smaller game. From these we can
+easily build the others:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>eqZero g <span class="ot">=</span> gteqZero g <span class="op">&amp;&amp;</span> lteqZero g</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gtZero g <span class="ot">=</span> gteqZero g <span class="op">&amp;&amp;</span> <span class="fu">not</span> (lteqZero g)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ltZero g <span class="ot">=</span> <span class="fu">not</span> (gteqZero g) <span class="op">&amp;&amp;</span> lteqZero g</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>fuzzyZero g <span class="ot">=</span> <span class="fu">not</span> (gteqZero g) <span class="op">&amp;&amp;</span> <span class="fu">not</span> (lteqZero g)</span></code></pre></div>
+<p>The last case is strange. We have a game <code>G</code> where neither <code>G &gt;= 0</code> nor
+<code>G &lt;= 0</code>! This corresponds to <code>G || 0</code> from above, and we say <code>G</code> is fuzzy to
+0. We can find such a game easily: <code>∗ = { zero | zero }</code>. This game
+clearly does not correspond to a number.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> star <span class="ot">=</span> <span class="dt">Game</span> [zero] [zero]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- fuzzyZero star ==&gt; True</span></span></code></pre></div>
+<h1 id="arithmetic-and-ordering">Arithmetic and Ordering</h1>
+<p>Now we consider the sum of two games. In the game <code>G + H</code>, a player has
+the choice of which component they wish to move in. For example, Left
+can choose one of the <code>L</code> moves in <code>G</code>, leaving <code>H</code> the same, or one of the
+<code>L</code> moves in <code>H</code>, leaving <code>G</code> the same.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Num</span> <span class="dt">Game</span> <span class="kw">where</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  g <span class="op">+</span> h <span class="ot">=</span> <span class="dt">Game</span> left right</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> left  <span class="ot">=</span> <span class="fu">map</span> (<span class="op">+</span> h) (leftMoves g)  <span class="op">++</span> <span class="fu">map</span> (g <span class="op">+</span>) (leftMoves h)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>          right <span class="ot">=</span> <span class="fu">map</span> (<span class="op">+</span> h) (rightMoves g) <span class="op">++</span> <span class="fu">map</span> (g <span class="op">+</span>) (rightMoves h)</span></code></pre></div>
+<p>We are also ready to negate games. In <code>-G</code>, Right can make all the moves
+Left could, and vice versa. This is just like spinning the board in
+chess.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">negate</span> g <span class="ot">=</span> <span class="dt">Game</span> (<span class="fu">map</span> <span class="fu">negate</span> <span class="op">$</span> rightMoves g) (<span class="fu">map</span> <span class="fu">negate</span> <span class="op">$</span> leftMoves g)</span></code></pre></div>
+<p>With these operations, games form an abelian group. Following the
+pattern earlier, converting from integers to games is easy. We have
+<code>n = { n-1 | }</code>. If we are given a negative number, we can just negate the
+positive game.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromInteger</span> i <span class="op">|</span> i <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> zero</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                <span class="op">|</span> i <span class="op">&gt;</span> <span class="dv">0</span>  <span class="ot">=</span> <span class="dt">Game</span> [<span class="fu">fromInteger</span> (i<span class="op">-</span><span class="dv">1</span>)] []</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                <span class="op">|</span> i <span class="op">&lt;</span> <span class="dv">0</span>  <span class="ot">=</span> <span class="fu">negate</span> <span class="op">$</span> <span class="fu">fromInteger</span> (<span class="op">-</span>i)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  g <span class="op">*</span> h <span class="ot">=</span> <span class="fu">undefined</span> <span class="co">-- This is possible to define for some games</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span> g <span class="ot">=</span> <span class="fu">undefined</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">signum</span> g <span class="ot">=</span> <span class="fu">undefined</span></span></code></pre></div>
+<p>This arithmetic now lets us define equality in a natural way. Two
+games are equal if their difference is 0.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Eq</span> <span class="dt">Game</span> <span class="kw">where</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  g <span class="op">==</span> h <span class="ot">=</span> eqZero (g <span class="op">-</span> h)</span></code></pre></div>
+<p>As we would hope, <code>G = G</code> for every game. Let’s think about why this
+is. <code>G = G</code> is defined as to <code>G - G = 0</code>, i.e., <code>G + (-G) = 0</code>. If the
+first player makes a move in <code>G</code>, the second player can immediately
+reply with the same move in <code>-G</code>. No matter what move the first player
+makes, the second has a response in the other component. This can
+continue until the first player runs out of options and loses, meaning
+<code>G + (-G) = 0</code>.</p>
+<p>We’re ready to show <code>1 + 1 = 2</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- one + one == two ==&gt; True</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- zero + one == one ==&gt; True</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- two + two == two ==&gt; False</span></span></code></pre></div>
+<p>We see arithmetic behaves as you expect. What about <code>∗</code> from earlier?</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- star + star == zero ==&gt; True</span></span></code></pre></div>
+<p>This seems strange at first, but makes sense when we think about how
+<code>∗ + ∗</code> would be played. The first player plays in one of the <code>∗</code>,
+moving it to 0. The other player is then free to play in the other <code>∗</code>, leaving
+<code>0 + 0 = 0</code>, so the first player loses. The first player losing is how
+we defined <code>G = 0</code>, so indeed we get <code>∗ + ∗ = 0</code>.</p>
+<p>We can also compare games with each other. We have to cheat here
+because Ord is intended for total orders, but from <code>∗ || 0</code> it is clear
+we can’t always put an order on two games.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Ord</span> <span class="dt">Game</span> <span class="kw">where</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  g <span class="op">&lt;</span> h <span class="ot">=</span> ltZero (g <span class="op">-</span> h)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  g <span class="op">&gt;</span> h <span class="ot">=</span> gtZero (g <span class="op">-</span> h)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  g <span class="op">&lt;=</span> h <span class="ot">=</span> lteqZero (g <span class="op">-</span> h)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  g <span class="op">&gt;=</span> h <span class="ot">=</span> gteqZero (g <span class="op">-</span> h)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>g <span class="op">||</span> h <span class="ot">=</span> fuzzyZero (g <span class="op">-</span> h)</span></code></pre></div>
+<p>Now let’s consider the game <code>G = { 0 | 1 }</code>. What do we know about it?</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a> half <span class="ot">=</span> <span class="dt">Game</span> [zero] [one]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- half &gt; 0 ==&gt; True</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- half &lt; 1 ==&gt; True</span></span></code></pre></div>
+<p>We might guess that this game is <code>1/2</code>. We can check:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- half + half == 1 ==&gt; True</span></span></code></pre></div>
+<p>And so it is. We could also find a game representing <code>1/4</code>:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a> fourth <span class="ot">=</span> <span class="dt">Game</span> [zero] [half]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- fourth + fourth + fourth + fourth == 1 ==&gt; True</span></span></code></pre></div>
+<p>Continuing like this we can construct every dyadic rational,
+i.e. rationals where the denominator is a power of two. The idea is,
+<code>2p+1 / 2^n = { p / 2^(n-1) | (p+1) / 2^(n-1) }</code>, so we’re
+constructing dyadic rationals out of simpler ones. It turns out that
+every real number can be written as a(n often infinite) game. To see
+how this is possible, notice that the dyadic rationals are dense in
+the reals, and we can squeeze every number between two infinite
+sequences of dyadic rationals. For example,</p>
+<p><code>2/3 = { 0, 1/2, 5/8, 21/32 ... | ... 43/64, 11/16, 3/4, 1 }</code></p>
+<p>The only reals with finite representations are the dyadic rationals,
+so we’ll stick with those. Again we’re going to cheat and use
+Fractional, even though games in general do not have well defined
+division.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ot">powerOf2 ::</span> (<span class="dt">Integral</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>powerOf2 n <span class="op">|</span> n <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>           <span class="op">|</span> n <span class="op">==</span> <span class="dv">1</span> <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>           <span class="op">|</span> <span class="fu">even</span> n <span class="ot">=</span> powerOf2 (n <span class="ot">`div`</span> <span class="dv">2</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>           <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="dt">False</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="ot">dyadic ::</span> <span class="dt">Rational</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>dyadic <span class="ot">=</span> powerOf2 <span class="op">.</span> <span class="fu">denominator</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Fractional</span> <span class="dt">Game</span> <span class="kw">where</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fromRational</span> r <span class="op">|</span> <span class="fu">denominator</span> r <span class="op">==</span> <span class="dv">1</span> <span class="ot">=</span> <span class="fu">fromInteger</span> (<span class="fu">numerator</span> r)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>                 <span class="op">|</span> dyadic r <span class="ot">=</span> <span class="dt">Game</span> [left] [right]</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                 <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="fu">error</span> <span class="st">&quot;Cannot convert non-dyadic Rational to Game&quot;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>                 <span class="kw">where</span> newNumerator <span class="ot">=</span> (<span class="fu">numerator</span> r <span class="op">-</span> <span class="dv">1</span>) <span class="ot">`div`</span> <span class="dv">2</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                       newDenominator <span class="ot">=</span> <span class="fu">denominator</span> r <span class="ot">`div`</span> <span class="dv">2</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                       left  <span class="ot">=</span> <span class="fu">fromRational</span> (newNumerator <span class="op">%</span> newDenominator)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>                       right <span class="ot">=</span> <span class="fu">fromRational</span> ((newNumerator <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> newDenominator)</span></code></pre></div>
+<p>Checking that this works:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- fromRational (1%4) == fourth ==&gt; True</span></span></code></pre></div>
+<p>If you step back, it’s incredible that these games, with such a simple
+definition, contain all the real numbers and much more besides.</p>
+<p>If we’re given a game, we might like to know if it represents a
+number. The conditions for this are quite easy; a game is a number if
+all its Left and Right options are numbers, and also every Left option
+is <code>&lt;</code> every Right option.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ot"> isNumber ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a> isNumber (<span class="dt">Game</span> left right) <span class="ot">=</span>    <span class="fu">all</span> isNumber left</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                              <span class="op">&amp;&amp;</span> <span class="fu">all</span> isNumber right</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                              <span class="op">&amp;&amp;</span> <span class="fu">all</span> (\l <span class="ot">-&gt;</span> <span class="fu">all</span> (l<span class="op">&lt;</span>) right ) left</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber zero ==&gt; True</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber one ==&gt; True</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber (fromRational (3%8)) ==&gt; True</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber star ==&gt; False</span></span></code></pre></div>
+<h1 id="non-numbers">Non-Numbers</h1>
+<p>It’s time to go back and look at some strange infinitesimal games.</p>
+<p>Let’s consider <code>G = { 0 | ∗ }</code>, written <code>↑</code>. <code>↑</code> is clearly positive, as
+Left always wins. To see this, note that if Left moves first, he moves
+to zero and Right loses. If Right moves first, he has to move to star,
+where Left can move to zero and make him lose again. There is of
+course an equivalent game, <code>↓</code> for Right.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a> up   <span class="ot">=</span> <span class="dt">Game</span> [zero] [star]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a> down <span class="ot">=</span> <span class="dt">Game</span> [star] [zero] <span class="co">-- = -up</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &gt; 0 ==&gt; True</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- down &lt; 0 ==&gt; True</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber up ==&gt; False</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber down ==&gt; False</span></span></code></pre></div>
+<p>Just how positive is <code>↑</code>?</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &lt; 1 ==&gt; True</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &lt; fromRational (1%2) ==&gt; True</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &lt; fromRational (1%4) ==&gt; True</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &lt; fromRational (1%8) ==&gt; True</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &lt; fromRational (1%16) ==&gt; True</span></span></code></pre></div>
+<p>Not very positive. It turns out <code>↑</code> is smaller than every positive
+number. We can add <code>↑</code> to itself as many times as we like and it will
+still be infinitesimally small.</p>
+<p><code>↑ &gt; 0</code>, but how does it compare to <code>∗</code>?</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- up &gt; star ==&gt; False</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- up || star ==&gt; True</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- down || star ==&gt; True</span></span></code></pre></div>
+<p><code>∗</code>’s fuzziness includes both <code>↑</code> and <code>↓</code>. How about two copies of <code>↑</code>?</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- (up + up) &gt; star ==&gt; True</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- (down + down) &lt; star ==&gt; True</span></span></code></pre></div>
+<p>So ↑+↑, written ⇑, is no longer confused with ∗.</p>
+<p>So far, the games we’ve been considering are all infinitesimally close
+to an actual number, as <code>∗</code> and all multiples of <code>↑</code> are infinitesimally
+close to 0. This need not be the case in general, as can be seen in
+the game <code>G = { 1 | -1 }</code>.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>switch <span class="ot">=</span> <span class="dt">Game</span> [<span class="dv">1</span>] [<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
+<p>This game is known as a switch game, and is written <code>±1</code>. Both players
+are desperate to play in this game, as the result for them is much
+better than if the other player makes their move first. Compare this
+with <code>G = { -1 | 1 } = 0</code>, where both players would rather not move as
+it just makes them one move closer to a loss.</p>
+<p><code>±1</code> turns out to be fuzzy with all games between <code>-1</code> and <code>1</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- switch &lt; 2 ==&gt; True</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- switch || 1 ==&gt; True</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- switch || 0 ==&gt; True</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- switch || -1 ==&gt; True</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- switch &gt; -2 ==&gt; True</span></span></code></pre></div>
+<p>This makes sense, as if you add <code>±1</code> to any game in that range, the
+outcome is still determined by whoever gets to play in <code>±1</code> first. For
+values outside that range, <code>±1</code> isn’t enough to tip the scales in the
+other player’s favour. For example, <code>±1 + 2</code> is still a win for Left,
+even if Right goes first and plays <code>±1</code> to <code>-1</code>.</p>
+<p>An important class of games is that of all ‘impartial’ games. These
+are games where both players have the same set of moves they can
+make. In other words, ‘spinning the board’ has no effect and the
+result is the same position. One nice example of an impartial game is
+the game of Nim.</p>
+<p>In the game of Nim, the state of the game is represented as a few
+piles of chips. A valid move is one that removes some chips from a
+single pile. Say we had the piles <code>[2, 4, 5]</code>, then a valid move could
+be to <code>[2, 4, 2]</code>, reducing the pile of 5 to 2. First let’s represent a
+single Nim pile as a game. From a pile of size n, either player can
+move to any pile of size less than n. Of course, if the pile has size
+0, neither player can do anything. That suggests the following
+definition.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="ot">nim ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>nim <span class="dv">0</span> <span class="ot">=</span> zero</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>nim n <span class="ot">=</span> <span class="dt">Game</span> options options</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> options <span class="ot">=</span> <span class="fu">map</span> nim [<span class="dv">0</span><span class="op">..</span>n<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
+<p>The value corresponding to ‘nim n’ is denoted <code>∗n</code>, and is called a
+nimber. All nimbers (except 0) are fuzzy, as the first player can take
+the whole pile and win. Now to build a full Nim position, we just sum
+up the values of the individual piles.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="ot">nimPiles ::</span> [<span class="dt">Int</span>] <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>nimPiles <span class="ot">=</span> <span class="fu">sum</span> <span class="op">.</span> <span class="fu">map</span> nim</span></code></pre></div>
+<p>It’s an amazing fact that every impartial game is equivalent to some
+nimber. In particular, the sum of two nimbers is another nimber. We
+might hope that this addition works like normal addition, but that’s
+not the case. This is obvious when adding a nimber to itself, as
+impartial games are their own inverses, meaning two copies of any
+nimber sum to zero. We do have that <code>∗1 + ∗2 = ∗3</code>:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- nim 1 + nim 2 == nim 3 ==&gt; True</span></span></code></pre></div>
+<p>But because <code>∗n = -∗n</code> we can add <code>∗1</code> to both sides and get <code>∗2 = ∗3 + ∗1</code>.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- nim 1 + nim 3 == nim 2 ==&gt; True</span></span></code></pre></div>
+<p>Nimber-addition turns out to have a XOR like structure, where powers
+of two in each summand cancel out.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="ot"> nimPlus ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a> nimPlus a b <span class="ot">=</span> a <span class="ot">`xor`</span> b</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- 1 `nimPlus` 3 ==&gt; 2</span></span></code></pre></div>
+<p>Even more impressive is that you can define a product on nimbers,
+meaning impartial games form a field.</p>
+<h1 id="simplifying-games">Simplifying Games</h1>
+<p>One issue we’ve skimmed over is that there are lots of different ways
+of representing a single game. For example, <code>{ 1 | } = { 0, 1 | } = 2</code></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Game [one] [] == two ==&gt; True</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Game [zero, one] [] == two ==&gt; True</span></span></code></pre></div>
+<p>We’ve really been using equivalence classes of games. For example, the
+‘zero game’ in our abelian group is really the equivalence class of
+all games equal to zero.</p>
+<p>The games we’ve been dealing with have mostly been ‘short’ games;
+there are only finitely many positions the game can be in. Thankfully,
+every short game has a unique normal form, the simplest representation
+of the game. To get to this normal form, two simplifications are used:</p>
+<p>The first is removing ‘dominated’ options. Looking back at <code>{ 0, 1 | }</code>,
+Left has no reason to ever move to 0 when the better move 1 is
+available. In general, if Left has <code>A and B</code> as options, and <code>A &lt;= B</code>,
+then <code>A</code> can be removed without changing the value of the game. We have
+to be careful here, it’s not a matter of just choosing the ‘maximum’
+options, because some moves could be fuzzy with others.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="ot">unbeaten ::</span> (a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>unbeaten p [] <span class="ot">=</span> []</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>unbeaten p (x<span class="op">:</span>xs) <span class="ot">=</span> <span class="kw">if</span> <span class="fu">any</span> (p x) rest <span class="kw">then</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                       rest</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                    <span class="kw">else</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                      x <span class="op">:</span> <span class="fu">filter</span> (<span class="fu">not</span> <span class="op">.</span> <span class="fu">flip</span> p x) rest</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> rest <span class="ot">=</span> unbeaten p xs</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a><span class="ot">removeDominated ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>removeDominated g <span class="ot">=</span> <span class="dt">Game</span> left right</span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> left  <span class="ot">=</span> unbeaten (<span class="op">&lt;=</span>) (leftMoves g)</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>        right <span class="ot">=</span> unbeaten (<span class="op">&gt;=</span>) (rightMoves g)</span></code></pre></div>
+<p>The other way of simplifying games is by removing ‘reversible’
+moves. If Left has a move where Right’s response gives a position
+better for Right than the original game, then Left’s move is called
+reversible. If Left decides to make that move, he must anticipate that
+Right will reverse it into that position that is better for him. We
+can bypass these and let Left jump straight to what he would do after
+that.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ot">lReversible ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> [<span class="dt">Game</span>]</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>lReversible g gl <span class="ot">=</span> <span class="fu">maybe</span> [gl] leftMoves (find (<span class="op">&lt;=</span> g) (rightMoves gl))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="ot">rReversible ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> [<span class="dt">Game</span>]</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>rReversible g gr <span class="ot">=</span> <span class="fu">maybe</span> [gr] rightMoves (find (<span class="op">&gt;=</span> g) (leftMoves gr))</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a><span class="ot">anyReversible ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>anyReversible g <span class="ot">=</span> <span class="fu">any</span> (<span class="op">&lt;=</span> g) (<span class="fu">concatMap</span> rightMoves (leftMoves g)) <span class="op">Prelude.||</span> <span class="fu">any</span> (<span class="op">&gt;=</span> g) (<span class="fu">concatMap</span> leftMoves (rightMoves g))</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a><span class="ot">bypassReversible ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>bypassReversible g <span class="ot">=</span> <span class="dt">Game</span> left right</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> left  <span class="ot">=</span> <span class="fu">concatMap</span> (lReversible g) (leftMoves g)</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>        right <span class="ot">=</span> <span class="fu">concatMap</span> (rReversible g) (rightMoves g)</span></code></pre></div>
+<p>Now, to simplify a game, we just combine the two operations, then
+apply the simplification to all of the subgames. We need to repeatedly
+check for reversible moves, as each round of simplification could
+expose new ones.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ot">simplifyTop ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>simplifyTop <span class="ot">=</span> removeDominated <span class="op">.</span> <span class="fu">until</span> (<span class="fu">not</span> <span class="op">.</span> anyReversible) (bypassReversible <span class="op">.</span> removeDominated)</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ot">simplify ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>simplify g <span class="ot">=</span> <span class="dt">Game</span> (<span class="fu">map</span> simplify (leftMoves s)) (<span class="fu">map</span> simplify (rightMoves s))</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>             <span class="kw">where</span> s <span class="ot">=</span> simplifyTop g</span></code></pre></div>
+<p>It can be proven that the game given by the two simplifications always
+exists and is unique.</p>
+<p>Before we can apply what we’ve learned to a real game, we’d like some
+way to easily read off what the value of a game is, if it happens to
+correspond to some simple value that we already understand.</p>
+<p>Many of the games we find in real play are just the sum of a number, a
+multiple of <code>↑</code>, and a nimber. Because this is so common, we will
+create a new type for it:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">NumberUpStar</span> <span class="ot">=</span> <span class="dt">NUS</span> {<span class="ot"> numberPart ::</span> <span class="dt">Rational</span>,<span class="ot"> upPart ::</span> <span class="dt">Int</span>,<span class="ot"> nimberPart ::</span> <span class="dt">Int</span> } <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>nusIsNumber nus <span class="ot">=</span> upPart nus <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> nimberPart nus <span class="op">==</span> <span class="dv">0</span></span></code></pre></div>
+<p>We can leverage the simplification of games to make it easier to
+convert from an arbitrary game to a <code>NumberUpStar</code>. For example, in a
+simplified game, if Left only has one option and Right has none, we
+must be dealing with an integer. Many similar rules, when combined,
+will give us the function we require.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="ot">optionsToNUS ::</span> ([<span class="dt">NumberUpStar</span>], [<span class="dt">NumberUpStar</span>]) <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">NumberUpStar</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- Zero game</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([], []) <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="co">-- If G = { L | } then L is an integer and G = L + 1</span></span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([l], []) <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (lValue <span class="op">+</span> <span class="dv">1</span>) <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                                <span class="kw">where</span> lValue <span class="ot">=</span> numberPart l</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a><span class="co">-- If G = { | R } then R is an integer and G = R - 1</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([], [r]) <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (rValue <span class="op">-</span> <span class="dv">1</span>) <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>                                <span class="kw">where</span> rValue <span class="ot">=</span> numberPart r</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a><span class="co">-- If G = { L | R } and L and R are both numbers, G = average of L and R</span></span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([l], [r]) <span class="op">|</span> nusIsNumber l <span class="op">&amp;&amp;</span> nusIsNumber r</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                          <span class="op">&amp;&amp;</span> numberPart l <span class="op">&lt;</span> numberPart r <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> value <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                                <span class="kw">where</span> value <span class="ot">=</span> (numberPart l <span class="op">+</span> numberPart r) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a><span class="co">-- Here we are of the form n + { 0 | G }, where G has non-negative ups</span></span>
+<span id="cb37-19"><a href="#cb37-19" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([l], [r]) <span class="op">|</span> nusIsNumber l <span class="op">&amp;&amp;</span> <span class="fu">not</span> (nusIsNumber r)</span>
+<span id="cb37-20"><a href="#cb37-20" aria-hidden="true" tabindex="-1"></a>                          <span class="op">&amp;&amp;</span> numberPart l <span class="op">==</span> numberPart r</span>
+<span id="cb37-21"><a href="#cb37-21" aria-hidden="true" tabindex="-1"></a>                          <span class="op">&amp;&amp;</span> upPart r <span class="op">&gt;=</span> <span class="dv">0</span></span>
+<span id="cb37-22"><a href="#cb37-22" aria-hidden="true" tabindex="-1"></a>                            <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (numberPart l) (upPart r <span class="op">+</span> <span class="dv">1</span>) (nimberPart r <span class="ot">`nimPlus`</span> <span class="dv">1</span>)</span>
+<span id="cb37-23"><a href="#cb37-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-24"><a href="#cb37-24" aria-hidden="true" tabindex="-1"></a><span class="co">-- Now n + { G | 0 }, where G has non-positive ups</span></span>
+<span id="cb37-25"><a href="#cb37-25" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([l], [r]) <span class="op">|</span> <span class="fu">not</span> (nusIsNumber l) <span class="op">&amp;&amp;</span> nusIsNumber r</span>
+<span id="cb37-26"><a href="#cb37-26" aria-hidden="true" tabindex="-1"></a>                          <span class="op">&amp;&amp;</span> numberPart l <span class="op">==</span> numberPart r</span>
+<span id="cb37-27"><a href="#cb37-27" aria-hidden="true" tabindex="-1"></a>                          <span class="op">&amp;&amp;</span> upPart l <span class="op">&lt;=</span> <span class="dv">0</span></span>
+<span id="cb37-28"><a href="#cb37-28" aria-hidden="true" tabindex="-1"></a>                            <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (numberPart r) (upPart l <span class="op">-</span> <span class="dv">1</span>) (nimberPart l <span class="ot">`nimPlus`</span> <span class="dv">1</span>)</span>
+<span id="cb37-29"><a href="#cb37-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-30"><a href="#cb37-30" aria-hidden="true" tabindex="-1"></a><span class="co">-- If G = { n, n∗ | n }, G = n↑∗</span></span>
+<span id="cb37-31"><a href="#cb37-31" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([l1, l2], [r]) <span class="op">|</span> nusIsNumber l1 <span class="op">&amp;&amp;</span> nusIsNumber r</span>
+<span id="cb37-32"><a href="#cb37-32" aria-hidden="true" tabindex="-1"></a>                               <span class="op">&amp;&amp;</span> l1 <span class="op">==</span> r <span class="op">&amp;&amp;</span> l2 <span class="op">==</span> <span class="dt">NUS</span> (numberPart l1) <span class="dv">0</span> <span class="dv">1</span></span>
+<span id="cb37-33"><a href="#cb37-33" aria-hidden="true" tabindex="-1"></a>                                 <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (numberPart l1) <span class="dv">1</span> <span class="dv">1</span></span>
+<span id="cb37-34"><a href="#cb37-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-35"><a href="#cb37-35" aria-hidden="true" tabindex="-1"></a><span class="co">-- If G = { n | n, n∗ }, G = n↓∗</span></span>
+<span id="cb37-36"><a href="#cb37-36" aria-hidden="true" tabindex="-1"></a>optionsToNUS ([l], [r1, r2]) <span class="op">|</span> nusIsNumber l <span class="op">&amp;&amp;</span> nusIsNumber r1</span>
+<span id="cb37-37"><a href="#cb37-37" aria-hidden="true" tabindex="-1"></a>                               <span class="op">&amp;&amp;</span> l <span class="op">==</span> r1 <span class="op">&amp;&amp;</span> r2 <span class="op">==</span> <span class="dt">NUS</span> (numberPart r1) <span class="dv">0</span> <span class="dv">1</span></span>
+<span id="cb37-38"><a href="#cb37-38" aria-hidden="true" tabindex="-1"></a>                                 <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (numberPart r1) (<span class="op">-</span><span class="dv">1</span>) <span class="dv">1</span></span>
+<span id="cb37-39"><a href="#cb37-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-40"><a href="#cb37-40" aria-hidden="true" tabindex="-1"></a><span class="co">-- Last possibility to check, we are looking at G = n + ∗k</span></span>
+<span id="cb37-41"><a href="#cb37-41" aria-hidden="true" tabindex="-1"></a>optionsToNUS (l1<span class="op">:</span>ls, r1<span class="op">:</span>rs) <span class="op">|</span> <span class="fu">length</span> ls <span class="op">==</span> <span class="fu">length</span> rs <span class="op">&amp;&amp;</span> nusIsNumber l1</span>
+<span id="cb37-42"><a href="#cb37-42" aria-hidden="true" tabindex="-1"></a>                              <span class="op">&amp;&amp;</span> l1 <span class="op">==</span> r1 <span class="op">&amp;&amp;</span> nimberOptions <span class="ot">=</span> <span class="dt">Just</span> <span class="op">$</span> <span class="dt">NUS</span> (numberPart l1) <span class="dv">0</span> (<span class="fu">length</span> ls <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb37-43"><a href="#cb37-43" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> nimberOptions <span class="ot">=</span> <span class="fu">all</span> valid (<span class="fu">zip3</span> ls rs [<span class="dv">1</span><span class="op">..</span>])</span>
+<span id="cb37-44"><a href="#cb37-44" aria-hidden="true" tabindex="-1"></a>        valid (l, r, i) <span class="ot">=</span> l <span class="op">==</span> r <span class="op">&amp;&amp;</span> numberPart l <span class="op">==</span> numberPart l1</span>
+<span id="cb37-45"><a href="#cb37-45" aria-hidden="true" tabindex="-1"></a>                          <span class="op">&amp;&amp;</span> upPart l <span class="op">==</span> <span class="dv">0</span> <span class="op">&amp;&amp;</span> nimberPart l <span class="op">==</span> i</span>
+<span id="cb37-46"><a href="#cb37-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-47"><a href="#cb37-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-48"><a href="#cb37-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-49"><a href="#cb37-49" aria-hidden="true" tabindex="-1"></a>optionsToNUS _ <span class="ot">=</span> <span class="dt">Nothing</span></span>
+<span id="cb37-50"><a href="#cb37-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-51"><a href="#cb37-51" aria-hidden="true" tabindex="-1"></a><span class="ot">nusOptionsFrom ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> ([<span class="dt">NumberUpStar</span>], [<span class="dt">NumberUpStar</span>])</span>
+<span id="cb37-52"><a href="#cb37-52" aria-hidden="true" tabindex="-1"></a>nusOptionsFrom g <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb37-53"><a href="#cb37-53" aria-hidden="true" tabindex="-1"></a>  left <span class="ot">&lt;-</span> <span class="fu">mapM</span> simplifiedToNUS (leftMoves g)</span>
+<span id="cb37-54"><a href="#cb37-54" aria-hidden="true" tabindex="-1"></a>  right <span class="ot">&lt;-</span> <span class="fu">mapM</span> simplifiedToNUS (rightMoves g)</span>
+<span id="cb37-55"><a href="#cb37-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span> (<span class="fu">sort</span> left, <span class="fu">sort</span> right)</span>
+<span id="cb37-56"><a href="#cb37-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-57"><a href="#cb37-57" aria-hidden="true" tabindex="-1"></a><span class="co">-- Assumes the game given to it is simplified</span></span>
+<span id="cb37-58"><a href="#cb37-58" aria-hidden="true" tabindex="-1"></a><span class="ot">simplifiedToNUS ::</span> <span class="dt">Game</span> <span class="ot">-&gt;</span> <span class="dt">Maybe</span> <span class="dt">NumberUpStar</span></span>
+<span id="cb37-59"><a href="#cb37-59" aria-hidden="true" tabindex="-1"></a>simplifiedToNUS <span class="ot">=</span> nusOptionsFrom <span class="op">&gt;=&gt;</span> optionsToNUS</span></code></pre></div>
+<p>If we have one of these <code>NumberUpStar</code>s, it’s easy to print out a simple
+representation of it. It’s standard when dealing with games to write
+<code>3↑∗</code> for <code>3 + ↑ + ∗</code>. We just need to be careful not to confuse this
+for, say, adding 3 copies of <code>↑∗</code> together.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a> <span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">NumberUpStar</span> <span class="kw">where</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">show</span> (<span class="dt">NUS</span> <span class="dv">0</span> <span class="dv">0</span> <span class="dv">0</span>) <span class="ot">=</span> <span class="st">&quot;0&quot;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">show</span> (<span class="dt">NUS</span> number up star) <span class="ot">=</span> numberShow number <span class="op">++</span> upShow up <span class="op">++</span> starShow star</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>     <span class="kw">where</span> numberShow n <span class="op">|</span> n <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                        <span class="op">|</span> <span class="fu">denominator</span> n <span class="op">==</span> <span class="dv">1</span> <span class="ot">=</span> <span class="fu">show</span> <span class="op">$</span> <span class="fu">numerator</span> n</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                        <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="st">&quot;(&quot;</span> <span class="op">++</span> <span class="fu">show</span> (<span class="fu">numerator</span> n) <span class="op">++</span> <span class="st">&quot;/&quot;</span> <span class="op">++</span> <span class="fu">show</span> (<span class="fu">denominator</span> n) <span class="op">++</span> <span class="st">&quot;)&quot;</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>           upShow n <span class="op">|</span> n <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                    <span class="op">|</span> n <span class="op">&gt;</span> <span class="dv">0</span> <span class="ot">=</span> <span class="fu">replicate</span> n <span class="ch">'↑'</span></span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                    <span class="op">|</span> n <span class="op">&lt;</span> <span class="dv">0</span> <span class="ot">=</span> <span class="fu">replicate</span> (<span class="op">-</span>n) <span class="ch">'↓'</span></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>           starShow n <span class="op">|</span> n <span class="op">==</span> <span class="dv">0</span> <span class="ot">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>                      <span class="op">|</span> n <span class="op">==</span> <span class="dv">1</span> <span class="ot">=</span> <span class="st">&quot;∗&quot;</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>                      <span class="op">|</span> <span class="fu">otherwise</span> <span class="ot">=</span> <span class="st">&quot;∗&quot;</span> <span class="op">++</span> <span class="fu">show</span> n</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="co">-- show (NUS 0 0 0) ==&gt; &quot;0&quot;</span></span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a><span class="co">-- show (NUS 3 2 1) ==&gt; &quot;3↑↑∗&quot;</span></span></code></pre></div>
+<p>Now, to show a game, we first try to convert it to a <code>NumberUpStar</code>. If
+this fails, we just print its left and right options.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">Game</span> <span class="kw">where</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">show</span> g <span class="ot">=</span> string (simplifiedToNUS s)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">where</span> s <span class="ot">=</span> simplify g</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>          string (<span class="dt">Just</span> nus) <span class="ot">=</span> <span class="fu">show</span> nus</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>          string <span class="dt">Nothing</span> <span class="ot">=</span> <span class="st">&quot;{ &quot;</span> <span class="op">++</span> leftString <span class="op">++</span> <span class="st">&quot; | &quot;</span> <span class="op">++</span> rightString <span class="op">++</span> <span class="st">&quot; }&quot;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>          leftString <span class="ot">=</span> intercalate <span class="st">&quot;, &quot;</span> (<span class="fu">map</span> <span class="fu">show</span> (leftMoves s))</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>          rightString <span class="ot">=</span> intercalate <span class="st">&quot;, &quot;</span> (<span class="fu">map</span> <span class="fu">show</span> (rightMoves s))</span></code></pre></div>
+<p>Finally we have a easy way to identify the games we create. You could
+try yourself to combine the games we already have. Some of the
+identities are very surprising!</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Game [0] [up] ==&gt; ↑↑∗</span></span></code></pre></div>
+<h1 id="toads-and-frogs">Toads and Frogs</h1>
+<p>Now let’s work on analysing a real game. The game of Toads and Frogs
+is played on a strip of squares. Each square is either empty, or has a
+Toad or a Frog in it. Whenever it’s lefT’s turn, he can either move a
+Toad rightwards into an empty space, or hop over a Frog to the right
+of him to land in an empty space. Right’s move are identical, but
+moving the fRogs in the other direction.</p>
+<p>For example, if our board is in the state <code>[ T _ T F _ ]</code>, Left could
+either move the first Toad like this: <code>[ _ T T F _ ]</code> or hop the
+second Toad like this: <code>[ T _ _ F T ]</code>. A standard starting board
+might look like this <code>[ T T _ _ F F ]</code>. Let’s use what we’ve developed
+above to tell us how to play this.</p>
+<p>First we will need a type to represent the state of a square and the
+board.</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="kw">data</span> <span class="dt">Square</span> <span class="ot">=</span> <span class="dt">T</span> <span class="op">|</span> <span class="dt">F</span> <span class="op">|</span> <span class="dt">E</span> <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Show</span>)</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a><span class="kw">type</span> <span class="dt">Board</span> <span class="ot">=</span> [<span class="dt">Square</span>]</span></code></pre></div>
+<p>Now, given a board, we want to know what moves are possible for each
+player.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="ot">leftTFMoves ::</span> <span class="dt">Board</span> <span class="ot">-&gt;</span> [<span class="dt">Board</span>]</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>leftTFMoves (<span class="dt">T</span><span class="op">:</span><span class="dt">E</span><span class="op">:</span>rest) <span class="ot">=</span> ([<span class="dt">E</span>,<span class="dt">T</span>] <span class="op">++</span> rest) <span class="op">:</span> <span class="fu">map</span> ([<span class="dt">T</span>,<span class="dt">E</span>] <span class="op">++</span>) (leftTFMoves rest)</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>leftTFMoves (<span class="dt">T</span><span class="op">:</span><span class="dt">F</span><span class="op">:</span><span class="dt">E</span><span class="op">:</span>rest) <span class="ot">=</span> ([<span class="dt">E</span>,<span class="dt">F</span>,<span class="dt">T</span>] <span class="op">++</span> rest) <span class="op">:</span> <span class="fu">map</span> ([<span class="dt">T</span>,<span class="dt">F</span>,<span class="dt">E</span>] <span class="op">++</span>) (leftTFMoves rest)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>leftTFMoves (x<span class="op">:</span>rest) <span class="ot">=</span> <span class="fu">map</span> ([x] <span class="op">++</span>) (leftTFMoves rest)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>leftTFMoves [] <span class="ot">=</span> []</span></code></pre></div>
+<p>To find right’s possible moves, we switch the players on the board,
+find Left’s moves, then switch back.</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="ot">switchPlayers ::</span> <span class="dt">Board</span> <span class="ot">-&gt;</span> <span class="dt">Board</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>switchPlayers <span class="ot">=</span> <span class="fu">reverse</span> <span class="op">.</span> <span class="fu">map</span> switch</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">where</span> switch <span class="dt">T</span> <span class="ot">=</span> <span class="dt">F</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>        switch <span class="dt">F</span> <span class="ot">=</span> <span class="dt">T</span></span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        switch <span class="dt">E</span> <span class="ot">=</span> <span class="dt">E</span></span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a><span class="ot">rightTFMoves ::</span> <span class="dt">Board</span> <span class="ot">-&gt;</span> [<span class="dt">Board</span>]</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>rightTFMoves <span class="ot">=</span> <span class="fu">map</span> switchPlayers <span class="op">.</span> leftTFMoves <span class="op">.</span> switchPlayers</span></code></pre></div>
+<p>Now it’s a simple matter to convert a board to a game.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="ot">boardToGame ::</span> <span class="dt">Board</span> <span class="ot">-&gt;</span> <span class="dt">Game</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>boardToGame b <span class="ot">=</span> <span class="dt">Game</span> (<span class="fu">map</span> boardToGame (leftTFMoves b)) (<span class="fu">map</span> boardToGame (rightTFMoves b))</span></code></pre></div>
+<p>We can use this immediately to find the value of our board:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- boardToGame [T,T,E,E,F,F] ==&gt; ∗</span></span></code></pre></div>
+<p>So if you and a friend are playing on this board, you had better ask
+to play first!</p>
+<p>Some very strange values can appear as positions in Toads and Frogs:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- boardToGame [T,T,T,F,E,F] ==&gt; { { (1/4) | 0 } | 0 }</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="co">-- boardToGame [E,T,T,T,E,F] ==&gt; { 1∗ | 0 }</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- boardToGame [E,T,T,E,F,F,E] ==&gt; { (1/4) | (-1/4) }</span></span></code></pre></div>
+<p>You might recognise the last one as <code>±(1/4)</code>. The next obvious question
+is, what’s the best move from a given position?</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="ot"> bestLeftMove ::</span> <span class="dt">Board</span> <span class="ot">-&gt;</span> (<span class="dt">Board</span>, <span class="dt">Game</span>)</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a> bestLeftMove b <span class="ot">=</span> maximumBy (<span class="fu">compare</span> <span class="ot">`on`</span> <span class="fu">snd</span>) movesValues</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>   <span class="kw">where</span> allMoves <span class="ot">=</span> leftTFMoves b</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>         movesValues <span class="ot">=</span> <span class="fu">zip</span> allMoves (<span class="fu">map</span> boardToGame allMoves)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- bestLeftMove [E,T,T,E,F,F,E] ==&gt; ([E,T,E,T,F,F,E], (1/4))</span></span></code></pre></div>
+<p>With this up your sleeve, you should be able to beat pretty much
+anyone.</p>
+<h1 id="references">References</h1>
+<p>For a much better written, much more rigorous and much more
+entertaining introduction to combinatorial games, see:</p>
+<ul>
+<li><em>Winning Ways for your Mathematical Plays</em> (Academic Press, 1982)
+by Berlekamp, Conway and Guy</li>
+</ul>
+<p>For an almost unbelievably fast implementation of operations on
+combinatorial games, see:</p>
+<ul>
+<li><em>Combinatorial Game Suite</em>: <a href="http://cgsuite.sourceforge.net/" class="uri">http://cgsuite.sourceforge.net/</a>
+by Aaron Siegel</li>
+</ul>
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

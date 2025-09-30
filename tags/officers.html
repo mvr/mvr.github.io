@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Posts Tagged ‘Officers’</title>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+        <!-- <link rel="preload" href=(path to WOFF2 font) as="font" type="font/woff2" crossorigin="anonymous"> -->
+
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+        <p><a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
+<h1 class="post-list-header">Posts Tagged ‘Officers’</h1>
+
+<section>
+<ul id="posts-list">
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/officers.html">Officers on the GPU</a></h1>
+        <p class="post-deets">March  8, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'officers'." href="../tags/officers.html" rel="tag">officers</a></p>
+        <div class="post-content">
+            
+            <p>Officers is a two-player “take-and-break” game played with heaps of
+coins (or if you prefer, piles of beans, or <a href="https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307">officers and their
+subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people who form indivisible couples</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">In
+the equivalent game Couples-are-Forever, a move is to choose a heap
+and split it into two, with the proviso that you may not split a heap
+of size 2. An Officers heap of size <span class="math inline">n</span> is equivalent to a
+Couples-are-Forever heap of size <span class="math inline">n+1</span>.<br />
+<br />
+</span></span>, or …). The two players
+alternate turns, and every turn consists of removing a coin from a
+heap and leaving the remainder in either one or two heaps. In
+particular, taking away a lone coin is not a valid move. The winner is
+the last player who can make a move.</p>
+<p>For example, a game starting with a single pile of <span class="math inline">10</span> coins might
+proceed</p>
+<p><span class="math display">
+[10] 
+\xrightarrow{\mathcal{L}} [3, 6] 
+\xrightarrow{\mathcal{R}} [3, 1, 4]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 4]
+\xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
+</span></p>
+<p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
+has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.<br />
+<br />
+</span></span> Although
+the total number of coins decreases by 1 each turn, the outcome of the
+game is not determined simply by the parity of the starting number of
+coins: the moment that the game ends also depends on how many piles
+are created by the players making splitting moves. As we will soon
+see, the winning move from any given position is extremely
+unpredictable.</p>
+<p>We can solve a game of this kind by calculating the <em>Grundy value</em> for
+each position, and in this post I’m going to discuss my attempt at
+calculating these values for Officers as fast as possible.</p>
+
+            <div class="continue-post"><a href="../posts/officers.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+</ul>
+
+
+
+
+
+</section>
+
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a>, source on <a href="https://github.com/mvr/mvr.github.io">Github</a>. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

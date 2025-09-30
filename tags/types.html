@@ -2,10 +2,10 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>mvr</title>
+        <title>Posts Tagged ‘Types’</title>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="./katex.js" crossorigin="anonymous"></script>
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
         <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
 
         <script>
@@ -29,13 +29,13 @@
       <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
       <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
-        <link rel="stylesheet" type="text/css" href="./css/style.css" />
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
 
-        <link rel="icon" type="image/png" href="./favicon.png" />
+        <link rel="icon" type="image/png" href="../favicon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="./atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
     </head>
 
     <body>
@@ -50,103 +50,15 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
   </symbol>
       </svg>
-        <header id="masthead">
-    <h1>Mitchell Riley</h1>
-    <p>I work on dependent type theory.</p>
-    <p id="links">
-        <a href="./projects.html">Projects</a>
-        <a href="./academics.html">Academics</a>
-        <a href="https://github.com/mvr">Github</a>
-        <a href="mailto:mitchell.v.riley@gmail.com">mitchell.v.riley@gmail.com</a>
-    </p>
-</header>
+        <p><a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
+<h1 class="post-list-header">Posts Tagged ‘Types’</h1>
 
 <section>
 <ul id="posts-list">
     
     <li class="post-entry">
-        <h1 class="post-list-title"><a href="./posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a></h1>
-        <p class="post-deets">September 30, 2025 / <a title="All pages tagged 'code'." href="./tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="./tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'train-of-thought'." href="./tags/train-of-thought.html" rel="tag">train-of-thought</a></p>
-        <div class="post-content">
-            
-            <script defer src="./life/lv-plugin.js"></script>
-<p>The code in the <a href="./posts/no-three-in-line.html">previous post</a> is
-fairly quick, but of course we’d always prefer it to be quicker. I’ll
-keep a record here of things I’ve tried and whether they worked.
-
-            <div class="continue-post"><a href="./posts/no-three-in-line-quicker.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="./posts/no-three-in-line.html">No‑Three‑In‑Line</a></h1>
-        <p class="post-deets">September  1, 2025 / <a title="All pages tagged 'code'." href="./tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="./tags/cuda.html" rel="tag">cuda</a></p>
-        <div class="post-content">
-            
-            <script defer src="./life/lv-plugin.js"></script>
-<p>The <a href="https://en.wikipedia.org/wiki/No-three-in-line_problem">No-three-in-line
-problem</a> asks
-how many points can be placed on a <span class="math inline">n \times n</span> grid so that no three
-points are on the same line, where the lines considered are of any
-slope and not just orthogonal and diagonal. Each row/column can
-contain at most 2 points, so clearly the answer is at most <span class="math inline">2n</span>. The
-real question is, can we actually achieve <span class="math inline">2n</span> for every grid size?
-It’s <a href="https://doi.org/10.4153%2FCMB-1968-062-3">conjectured</a> that the
-answer is “no” for grids large enough, but we don’t know where the
-crossover point is and there’s <a href="http://web.archive.org/web/20131027174807/http://wso.williams.edu/~bchaffin/no_three_in_line/index.htm">no
-indication</a>
-that the number of <span class="math inline">2n</span>-point solutions is falling away from
-exponential growth, at least up to <span class="math inline">18 \times 18</span>!</p>
-<p>To my eye, the configurations that work can be quite balanced and
-attractive. Here are some symmetrical ones for <span class="math inline">14 \times 14</span> (though
-in general the solutions are not necessarily symmetric in this way):</p>
-<div class="lifeviewer"><textarea>
-x = 54, y = 14, rule = LifeHistory
-5BA3BA4B6.5BA3BA4B6.5BA3BA4B$3BA3BA6B6.3BABA8B6.6BA3BA3B$8BABA3B6.9B
-2A3B6.5BA3BA4B$2BA9BAB6.2BA9BAB6.BA4BA7B$A5BA7B6.ABA11B6.ABA11B$2BA
-10BA6.12B2A6.11BABA$BA7BA4B6.6B2A6B6.10BABAB$4BA7BAB6.6B2A6B6.BABA10B
-$A10BA2B6.2A12B6.ABA11B$7BA5BA6.11BABA6.11BABA$BA9BA2B6.BA9BA2B6.7BA
-4BAB$3BABA8B6.3B2A9B6.4BA3BA5B$6BA3BA3B6.8BABA3B6.3BA3BA6B$4BA3BA5B6.
-4BA3BA5B6.4BA3BA5B!
-
-#C [[ ZOOM 8 ]]
-#C Colours are set in src/LifeViewer.hs
-#C [[ NOGUI ]]
-#C [[ COLOR BACKGROUND #f8f8f8 ]]
-#C [[ COLOR ALIVE #000000 ]]
-#C [[ COLOR ALIVERAMP #000000 ]]
-#C [[ COLOR DEADRAMP #dfebf6 ]]
-#C [[ COLOR GRID #f0f0f0 ]]
-#C [[ GRID ]]
-#C [[ GRIDMAJOR 0 ]]
-#C [[ COLOR HISTORY #dfebf6 ]]
-#C [[ COLOR MARK1 #803300 ]]
-#C [[ COLOR MARKOFF #e0ae8f ]]
-</textarea>
-<canvas width="600px"></canvas>
-</div>
-
-<p>The most extensive searches for configurations so far have been done
-by <a href="http://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html">Achim
-Flammenkamp</a>
-and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="https://github.com/mvr/no-three-in-line">written
-some CUDA code</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">By the way,
-the existing <code>cuda-mode</code> for Emacs is a bit messed up, I have a fork
-with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.<br />
-<br />
-</span></span> of my
-own with the goal of pushing things a little further, and I’ll explain
-it in the rest of this post.</p>
-
-            <div class="continue-post"><a href="./posts/no-three-in-line.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="./posts/lnl.html">Linear/Nonlinear Logic and Linear Algebra</a></h1>
-        <p class="post-deets">May 29, 2025 / <a title="All pages tagged 'maths'." href="./tags/maths.html" rel="tag">maths</a>, <a title="All pages tagged 'types'." href="./tags/types.html" rel="tag">types</a></p>
+        <h1 class="post-list-title"><a href="../posts/lnl.html">Linear/Nonlinear Logic and Linear Algebra</a></h1>
+        <p class="post-deets">May 29, 2025 / <a title="All pages tagged 'maths'." href="../tags/maths.html" rel="tag">maths</a>, <a title="All pages tagged 'types'." href="../tags/types.html" rel="tag">types</a></p>
         <div class="post-content">
             
             <!-- \newcommand{\unit}{𝟙} -->
@@ -171,68 +83,7 @@ somewhere already. In the literature there is work that gets close
 (and I’ll do some comparisons at the end), but none are quite what I
 want. Please let me know if I’ve missed something.</p>
 
-            <div class="continue-post"><a href="./posts/lnl.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="./posts/movie-night.html">Movie Night</a></h1>
-        <p class="post-deets">May 15, 2025 / <a title="All pages tagged 'list'." href="./tags/list.html" rel="tag">list</a>, <a title="All pages tagged 'rolling'." href="./tags/rolling.html" rel="tag">rolling</a></p>
-        <div class="post-content">
-            
-            <p>For years now I’ve been watching a movie in-person with friends every
-weekend that I’ve been able to. The movie selection system is perfect,
-crystalline, sacred, with no downsides or exploitable vulnerabilities.</p>
-<ol type="1">
-<li>The nominator is the person who was previously nominator the
-longest ago.</li>
-<li>They choose two movies that haven’t been nominated before.</li>
-<li>Everybody else votes for which to watch. If the vote is a tie, the
-nominator breaks the vote.</li>
-<li>In highly exceptional circumstances, the Benevolent Dictator For
-Life may declare that a specific movie be watched, for example, if
-we’re all about to go watch a sequel in-theatre and some people
-need to get up to speed.</li>
-</ol>
-<p>Here’s what we’ve watched so far<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">The alternative movies from some of
-the early, legendary movie nights have been lost to time.<br />
-<br />
-</span></span>, together
-with my ratings using almost the simplest possible system.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">And take
-these ratings with a grain of salt, I like more of the movies that I
-see than the average person.<br />
-<br />
-</span></span> 
-            <div class="continue-post"><a href="./posts/movie-night.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="./posts/cars-in-my-backyard.html">The Cars In My Backyard</a></h1>
-        <p class="post-deets">April 21, 2025 / <a title="All pages tagged 'politics'." href="./tags/politics.html" rel="tag">politics</a>, <a title="All pages tagged 'note-to-self'." href="./tags/note-to-self.html" rel="tag">note-to-self</a></p>
-        <div class="post-content">
-            
-            <p>When I walk around my neighbourhood, I am struck by the beautiful
-character of the houses here: the draughty Queenslanders and timber
-fences, the majestic external staircases, I could go on forever. But
-something always felt off, and I finally realise what it is. How can I
-admire a house with elegant stilts and sweeping verandahs when there
-is a bright red 2019 Ford Puma sitting in the driveway? Or appreciate
-a compact, postwar masterpiece when it has a Hilux poking out around
-the side? In the hours I’ve spent positioning myself on the street so
-I can bathe in the heritage of my neighbourhood, I have not found an
-angle without some such monstrosity in my field of view.</p>
-<p>We’ve spent years fighting the vandals who want to destroy the
-heritage of our neighbourhood. Why should we make an exception for
-this? I see no other option: we must forbid residents from bringing
-any new cars into the area. This is already a compromise, as if I had
-my way we would ban every car newer than the house it is parked in
-front of. (Of course, some especially old houses would need hitching
-posts to be reinstalled.)</p>
-
-            <div class="continue-post"><a href="./posts/cars-in-my-backyard.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            <div class="continue-post"><a href="../posts/lnl.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             
         </div>
     </li>
@@ -240,8 +91,6 @@ posts to be reinstalled.)</p>
 </ul>
 
 
-
-<a id="next-page-link" href="./page/2.html"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Older Entries</a>
 
 
 

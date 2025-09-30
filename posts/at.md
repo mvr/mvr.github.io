@@ -2,14 +2,14 @@
 title: Effective Algebraic Topology in Haskell
 published: September 22, 2022
 tags: maths, code, retroactive
-draft: true
 ---
 
 Code available on [GitHub](https://github.com/mvr/at).
 
 For a little while I have been working on this port of [Kenzo] from
 Common Lisp to Haskell. Kenzo is a collection of algorithms for
-explicit constructions on simplicial sets: the `README` in the
+explicit constructions on simplicial sets: the
+[`README`](https://github.com/mvr/at/blob/master/README.md) in the
 repository gives a list of what's implemented and what should be
 possible. The algorithms and implementations in Kenzo were created by
 Francis Sergeraert, Julio Rubio Garcia, Xavier Dousson, Ana Romero and
@@ -28,7 +28,7 @@ and I reached it today.
 ```
 
 A fun capability it picked up along the way is calculating the
-homology of Eilenberg-MacLane spaces $K(ℤ/m,n)$, for example, here
+homology of Eilenberg-MacLane spaces $K(ℤ/m,n)$, for example, here is
 $K(ℤ/3,2)$.^[This makes my laptop get hot pretty quickly.]
 
 ```
@@ -48,8 +48,8 @@ integer matrix library instead of a homemade one. These sorts of
 optimisations would also make a good project for an undergraduate,
 with not much mathematical background required.
 
-Below, I've copy-pasted the quick introduction to the ideas behind
-Kenzo that I give in the `README`.
+Below, I've copy-pasted a quick introduction I wrote to the ideas
+behind Kenzo.
 
 ## Central Concepts of Kenzo
 

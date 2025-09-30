@@ -1,5 +1,5 @@
 ---
-title: Quickly Detecting Cool Still Lifes 
+title: Quickly Detecting Cool Still Lifes
 published: April 8, 2025
 tags: code, cuda, gol
 ---
@@ -9,14 +9,14 @@ tags: code, cuda, gol
 [QuFince] is a CUDA tool written by [apg] to conduct brute-force Game
 of Life searches on the cartesian product of two sets of
 configurations. That is, each configuration from set A is combined
-with each configuration from set B, and run until stabilised. The
-result is reported if some criteria are met. Right now this means
-either the result has some interesting period^[Interesting period here
-typically means period not dividing 120, to rule out [blinkers],
-[pulsars], [pentadecathlons] and [figure eights], among other things.]
-(to hunt for [glider syntheses] of oscillators), or the result
-contains a specified pattern (to hunt for [synthesis components] for
-specific still lifes).
+with each configuration from set B, and run until stabilised. Not
+every result is reported, only those where certain criteria are met.
+Right now the options are either that the result has some interesting
+period^[Interesting period here typically means period not dividing
+120, to rule out [blinkers], [pulsars], [pentadecathlons] and [figure
+eights], among other things.] (to hunt for [glider syntheses] of
+[oscillators]), or that the result contains a specified pattern (to
+hunt for [synthesis components] for specific still lifes).
 
 [QuFince]: https://conwaylife.com/forums/viewtopic.php?f=9&t=5997
 [apg]: https://cp4space.hatsya.com/
@@ -26,11 +26,13 @@ specific still lifes).
 [pentadecathlons]: https://conwaylife.com/wiki/Pentadecathlon 
 [figure eights]: https://conwaylife.com/wiki/Figure_eight
 [glider syntheses]: https://conwaylife.com/wiki/Glider_synthesis
+[oscillators]: https://conwaylife.com/wiki/Oscillator
 
-One thing that *can't* be done currently is reporting any combination
-that results in an interesting still life directly. It's not so
-obvious what "interesting still life" should mean exactly, but here
-are some randomly chosen examples of things that should qualify:
+One thing that *can't* be done currently is have QuFince report any
+combination that results in an interesting still life, but without
+knowing which still life you want in advance. It's not so obvious what
+"interesting still life" should mean exactly, but here are some
+randomly chosen examples of things that should qualify:
 
 ```lifeviewer
 x = 88, y = 30, rule = B3/S23
@@ -83,7 +85,7 @@ more, the only way anything can remain is if there was some thing
 decently sized to begin with.
 
 ```cpp
-chunky_locations = ~(~bx.zoi()).zoi().zoi();
+chunky_locations = ~(~pattern.zoi()).zoi().zoi();
 ```
 
 This is quite efficient to evaluate when the state is represented by
@@ -103,9 +105,9 @@ obo3bo2bo32bobo16bobo2bo2bo$bo3bob2o11b3o3b3o14bo17bobo2bobo$4bobo11bo
 #C [[ ZOOM 5 ]]
 ```
 
-But changing the precise kind of inflation/deflation helps. To test
-this systematically, I defined a handful of "neighbourhoods" and tried
-all combinations. Some of the neighbourhoods I tried are things like:^[I
+Changing the precise kind of inflation/deflation helps. To test this
+systematically, I defined a handful of "neighbourhoods" and tried all
+combinations. Some of the neighbourhoods I tried are things like:^[I
 also threw in some more exotic neighbourhoods, but none turned out to
 help.]
 
@@ -128,8 +130,8 @@ x = 14, y = 5, rule = LifeHistory
 9.5D$.D7.5D$DAD6.2DA2D$.D7.5D$9.5D!
 ```
 
-This achieves 6017/10000, but with none of the painful false
-positives of the previous version.
+This correctly classifies 6017/10000, but with none of the painful
+false positives of the previous version.
 
 
 ## The Line-of-five Rule
@@ -205,8 +207,8 @@ some of the results as I go [here]. I work a lot more efficiently than
 previous attempts (like the `moog_stdin` and `5Glider_stdin`
 symmetries), because 1) I make sure the gliders actually collide
 rather than positioning them completely randomly, and 2) I do the vast
-majority of the work in a QuFince-style CUDA kernel rather than piping
-an RLE generator into apgsearch. 
+majority of the work on the GPU kernel rather than piping an RLE
+generator into apgsearch.
 
 [here]: https://catagolue.hatsya.com/census/b3s23/mvr_qufince_stdin
 
@@ -226,8 +228,8 @@ obo$b2o$bo18bo$20bobo$20b2o$15bo$13bobo$14b2o7$10b3o8b2o$12bo7b2o$11bo
 ```
 
 **Edit (11/05/25):** Indeed this was extremely productive, producing
-many hundreds of new syntheses. Here are some of the new clean
-6-glider syntheses, each of which feels pretty miraculous.
+many hundreds of new syntheses. Here are some of the clean ones
+involving 6 gliders, each of which feels pretty miraculous.
 
 ```lifeviewer
 x = 247, y = 395, rule = B3/S23
@@ -294,5 +296,6 @@ $15bo6bo46b2o6bo95bo50bobo$13bobo52bo42b2o54b2o56b2o$14b2o96b2o52bobo$
 #C [[ GRID PAUSE 1 T 220 PAUSE 1 LOOP 221 ]]
 ```
 
-It is easy to forget how spectacularly rare each of these objects is,
-if you only look at the results of these high-powered searches.
+I've started to lose a sense of how spectacularly rare objects like
+these actually are, after spending so much time looking at the results
+of searches that have already thrown out billions of configurations.

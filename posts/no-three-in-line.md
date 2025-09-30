@@ -10,18 +10,19 @@ The [No-three-in-line
 problem](https://en.wikipedia.org/wiki/No-three-in-line_problem) asks
 how many points can be placed on a $n \times n$ grid so that no three
 points are on the same line, where the lines considered are of any
-slope, not just orthogonal and diagonal. Each row/column can contain
-at most 2 points, so clearly the answer is at most $2n$. The real
-question is, can we actually achieve $2n$ for every grid size? It's
-[conjectured](https://doi.org/10.4153%2FCMB-1968-062-3) that the
+slope and not just orthogonal and diagonal. Each row/column can
+contain at most 2 points, so clearly the answer is at most $2n$. The
+real question is, can we actually achieve $2n$ for every grid size?
+It's [conjectured](https://doi.org/10.4153%2FCMB-1968-062-3) that the
 answer is "no" for grids large enough, but we don't know where the
 crossover point is and there's [no
 indication](http://web.archive.org/web/20131027174807/http://wso.williams.edu/~bchaffin/no_three_in_line/index.htm)
 that the number of $2n$-point solutions is falling away from
 exponential growth, at least up to $18 \times 18$!
 
-To my eye, the configurations that work are quite balanced and
-attractive. Here are some symmetrical ones for $14 \times 14$:
+To my eye, the configurations that work can be quite balanced and
+attractive. Here are some symmetrical ones for $14 \times 14$ (though
+in general the solutions are not necessarily symmetric in this way):
 
 ```lifeviewer
 x = 54, y = 14, rule = LifeHistory
@@ -39,9 +40,11 @@ The most extensive searches for configurations so far have been done
 by [Achim
 Flammenkamp](http://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html)
 and later by [Ben Chaffin](https://benchaffin.com/). I've [written
-some CUDA code](https://github.com/mvr/no-three-in-line) of my own
-with the goal of pushing things a little further, and I'll explain it
-in the rest of this post.
+some CUDA code](https://github.com/mvr/no-three-in-line)^[By the way,
+the existing `cuda-mode` for Emacs is a bit messed up, I have a fork
+with some bugfixes [here](https://github.com/mvr/cuda-mode).] of my
+own with the goal of pushing things a little further, and I'll explain
+it in the rest of this post.
 
 <!--more-->
 
@@ -58,19 +61,25 @@ for the locations of the points in that row.
 
 To avoid repeating work, we'll also check that the configuration is in
 a canonical orientation. Here, that means it's lexicographically
-earliest out of all members of its symmetry orbit. If not, we just
-discard the configuration. Doing this check is slightly less
-straightforward than it sounds, because of cells whose state is still
-unknown.
+earliest out of all members in its symmetry orbit. If not, we just
+discard the configuration. Doing this check accurately is slightly
+less straightforward than it sounds, because of cells whose state is
+still unknown.
 
-As we did^[Or rather, APG did.] when representing [Game of Life
+As we did^[Or rather, as APG
+[did](https://gitlab.com/apgoucher/lifelib/-/blob/master/cuda2/cudagol.h).]
+when representing [Game of Life
 configurations](/posts/cool-still-lifes.html) on the GPU, we're going
 to be representing a $32 \times 32$ board by storing a single
 `uint32_t` per thread, each representing a single row. Across the 32
-threads in a warp, this `uint32_t` represents the whole board. There
-are a handful of warp-level primitives that make manipulating these
-boards easy. We just have to make sure that execution stays
-synchronised across the warp at all times or it will hang.
+threads in a warp (which we might imagine stacked vertically), these
+values represent the whole board.^[In this problem we'll only be using
+a $n \times n$ subset of the full $32 \times 32$ board available, but
+trying to be more lane-efficient here would be hugely complex for
+almost no gain.] There are a handful of warp-level primitives that
+make manipulating such boards easy. We just have to make sure that
+execution stays synchronised across the warp at all times or it will
+hang.
 
 For example, we can test whether a board is empty by checking whether
 all rows are empty, using a ballot:
@@ -142,11 +151,10 @@ it, please let me know!]. For each new point, we handle the lines
 through all other points one by one.
 
 So let's suppose two points $p = (p_0, p_1)$, $q = (q_0, q_1)$, and
-without loss of generality that $p$ is above $q$, so $p_1 <
-q_1$^[We've already handled the case where two points are in the same
-row.]. The first step is to bring $q$ as close as possible to $p$ on
-the same line, because we don't want to accidentally miss the points
-*between* $p$ and $q$:
+let's say that $p$ is above $q$, so $p_1 < q_1$^[We've already handled
+the case where two points are in the same row.]. The first step is to
+bring $q$ as close as possible to $p$ on the same line, because we
+don't want to accidentally miss the points *between* $p$ and $q$:
 
 ```lifeviewer
 x = 34, y = 14, rule = LifeHistory
@@ -179,11 +187,12 @@ unsigned p_rem = p.second % delta.second;
 unsigned row = threadIdx.x & 31;
 if (row % delta.second == p_rem) {
   int col = p.first + ((int)(row / delta.second) - p_quo) * delta.first;
-  if(col >= 0 && col < 32) result.state |= 1 << col;
+  if (col >= 0 && col < 32) 
+    state |= 1 << col;
 }
 // We don't want to eliminate the original points...
 if (p.second == row || q.second == row) {
-  result.state = 0;
+  state = 0;
 }
 ```
 
@@ -201,11 +210,11 @@ default: return eliminate_line_inner(p, q, delta);
 }
 ```
 
-Secondly, we can do some early filtering on the pairs of points that
-we need to consider. If $\Delta$ is large enough then additional
-points in either direction will be off the edge of the grid, so we can
-skip processing that line entirely. This applies so long as there are
-no points between, which is again determined by calculating the GCD of
+Second, we can do some early filtering on the pairs of points that we
+need to consider. If $\Delta$ is large enough then additional points
+in either direction will be off the edge of the grid, so we can skip
+processing that line entirely. This applies so long as there are no
+points between, which is again determined by calculating the GCD of
 the coordinates of $\Delta$.
 
 ```lifeviewer
@@ -237,7 +246,8 @@ $25B$6B6AB6A6B$ABABAB6AB6ABABABA$A2BA2B6AB6A2BA2BA$ABABAB6AB6ABABABA$
 #C [[ ZOOM 8 ]]
 ```
 
-Only 304/625 points.
+So only 304/625 of the time do we need to actually process a pair of
+points.
 
 
 ## Branching and Vulnerable Cells
@@ -245,9 +255,9 @@ Only 304/625 points.
 The remaining piece of the puzzle is how we choose what to branch on
 once we've propagated all the information we can. One observation is
 that for the typical cell, placing a point in that cell provides a lot
-more information than assuming the cell is empty. If set, all the
-lines through that cell are likely to rule out a handful of other
-cells, whereas if empty, we've learned very little.
+more information than assuming the cell is empty. If it contains a
+point, the lines through that point are likely to rule out a handful
+of other cells, whereas if empty, we've learned very little.
 
 But for some unknown cells, learning that cell is empty causes a
 *different* cell to contain a point, via the orthogonal forcing
@@ -257,7 +267,7 @@ unknowns. These cells I'm calling "vulnerable", and they're more
 promising to branch on.
 
 Here's the best strategy I've been able to come up with, just fiddling
-with some different options empirically.
+with some different options:
 
 * If there are any vulnerable cells, choose the one closest to the
   centre of the board and branch on whether it contains a point.
@@ -266,12 +276,14 @@ with some different options empirically.
 
 I'm not sure why preferring to always branch along the same axis works
 much better than, say, always taking the row or column with fewest
-unknown cells. This makes me think there's a lot about the structure
-of this search problem that I don't understand.
+unknown cells, but empirically it's the case. This makes me think
+there's a lot about the structure of this search problem that I don't
+understand.
 
 Again for the curious, here are some typical mid-search
-configurations. Is there an obvious "tell" for these that makes clear
-that they're not completable? I don't see one.
+configurations, where the red cells are ones which have been
+definitively ruled out. Is there an obvious "tell" for these that
+makes clear they're not completable? I don't see one.
 
 ```lifeviewer
 x = 54, y = 14, rule = LifeHistory

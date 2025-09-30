@@ -5,14 +5,18 @@ tags: list, rolling
 ---
 
 For years now I've been watching a movie in-person with friends every
-weekend that it is possible. The movie selection system is perfect,
-crystalline, sacred, with no downsides or vulnerabilities.
+weekend that I've been able to. The movie selection system is perfect,
+crystalline, sacred, with no downsides or exploitable vulnerabilities.
 
 1. The nominator is the person who was previously nominator the
    longest ago.
 2. They choose two movies that haven't been nominated before.
-3. Everybody else votes. If the vote is a tie, the nominator breaks
-   the vote. 
+3. Everybody else votes for which to watch. If the vote is a tie, the
+   nominator breaks the vote.
+4. In highly exceptional circumstances, the Benevolent Dictator For
+   Life may declare that a specific movie be watched, for example, if
+   we're all about to go watch a sequel in-theatre and some people
+   need to get up to speed.
 
 Here's what we've watched so far^[The alternative movies from some of
 the early, legendary movie nights have been lost to time.], together
@@ -120,6 +124,18 @@ Sometimes the pair of nominations has a theme, often not.
 | Laura       | Juror #2                                            | ✓     | The Post                           |
 | Me          | Mandy                                               | ½     | Red Rock West                      |
 | Sachin      | Conclave                                            | ✓     | Spotlight                          |
+| Laura       | Heretic                                             | ½     | Atomic Blonde                      |
+| Me          | Matchstick Men                                      | ✓     | Ed Wood                            |
+| Sachin      | Crash (1996)                                        | ✗     | Barbarian (2022)                   |
+| Laura       | Game Night                                          | ✓     | Where the Crawdads Sing            |
+| Diktat      | 28 Days Later                                       | ✓     |                                    |
+| Me          | Seven Samurai                                       | ✓     | Rashomon                           |
+| Diktat      | The Lord of the Rings: Return of the King           | ✓     |                                    |
+| Sachin      | Judas and the Black Messiah                         | ½     | Mishima                            |
+| Laura       | Anatomy of a Fall                                   | ✓     | Quit Whenever I Want               |
+| Me          | Heathers                                            | ✓     | World's Greatest Dad               |
+
+And so concluded the Abu Dhabi era of movie night.
 
 [Sachin]: https://sites.google.com/view/sachinvalera/home
 [David]: https://www.davidjaz.com/
@@ -128,3 +144,4 @@ Sometimes the pair of nominations has a theme, often not.
 [Matteo]: https://matteocapucci.wordpress.com/
 [Christian]: https://www.christiankhairallah.com/
 [Griff]: https://www.aoshearman.com/en/people/cameron-griffiths
+[Ana]: https://archaeology.brown.edu/people/ana-gonzalez-san-martin

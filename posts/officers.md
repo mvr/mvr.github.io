@@ -10,11 +10,32 @@ subordinates], or [groups of people who form indivisible couples]^[In
 the equivalent game Couples-are-Forever, a move is to choose a heap
 and split it into two, with the proviso that you may not split a heap
 of size 2. An Officers heap of size $n$ is equivalent to a
-Couples-are-Forever heap of size $n+1$.], or ...). The players
-alternate turns, and a turn consists of removing a coin from a heap
-and leaving the remainder in either one or two heaps. In particular,
-taking away a lone coin is not a valid move. The winner is the last
-player who can make a move.
+Couples-are-Forever heap of size $n+1$.], or ...). The two players
+alternate turns, and every turn consists of removing a coin from a
+heap and leaving the remainder in either one or two heaps. In
+particular, taking away a lone coin is not a valid move. The winner is
+the last player who can make a move.
+
+For example, a game starting with a single pile of $10$ coins might
+proceed
+
+$$
+[10] 
+\xrightarrow{\mathcal{L}} [3, 6] 
+\xrightarrow{\mathcal{R}} [3, 1, 4]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 4]
+\xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
+$$
+
+at which point player $\mathcal{R}$ is stuck, so player $\mathcal{L}$
+has won.^[In fact, he was following the winning strategy.] Although
+the total number of coins decreases by 1 each turn, the outcome of the
+game is not determined simply by the parity of the starting number of
+coins: the moment that the game ends also depends on how many piles
+are created by the players making splitting moves. As we will soon
+see, the winning move from any given position is extremely
+unpredictable.
 
 We can solve a game of this kind by calculating the *Grundy value* for
 each position, and in this post I'm going to discuss my attempt at
@@ -31,8 +52,7 @@ few sections I'll recapitulate some of the strategies Grossman used,
 before moving to the world of CUDA.
 
 I'm a newcomer to GPU programming, so I would appreciate any comments
-or corrections. This will be embarrassingly basic for anyone who knows
-what they're doing.
+or ideas.
 
 [officers and their subordinates]: https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307
 [groups of people who form indivisible couples]: https://doi.org/10.2307/2589561
@@ -296,11 +316,13 @@ focus on calculating the speculative common values as fast as
 possible. There is a good parallelisable algorithm for verifying these
 common values^[You can do the verification for each value completely
 independently, under the assumption that the values that came before
-it were correct. Only rarely (i.e. seemingly never) is this assumption
-violated, at which point you can redo the later ones that relied on
-that incorrect value.], so if our goal is push the calculation further
-than Grossman then getting these candidate values as fast as possible
-is the whole ballgame.
+it were correct. Only rarely (i.e. apparently never) is this
+assumption violated, at which point you can redo the later ones that
+relied on that incorrect value. And we had better hope it never
+actually happens, because a new rare value out past 140 trillion will
+make solving the game basically impossible.], so if our goal is push
+the calculation further than Grossman then getting these candidate
+values as fast as possible is the whole ballgame.
 
 
 Values as Bytes
@@ -427,8 +449,8 @@ page.]
    ```
 
 2. **Forwards:** One thread $x \in [0, B)$ at a time, calculate the
-   MEX in thread $x$ then announce that value forwards to all the
-   threads $> x$ to cover all the cases missed by phase 1.
+   value for thread $x$ then announce that value forwards to all the
+   threads $> x$, to cover the cases missed by the backwards phase.
 
    ```tikzpicture
 \tikzstyle{Interval} = [
@@ -520,12 +542,12 @@ void set_bit(uint32_t array[8], const unsigned i) {
 
 Because the index `array[i/32]` is not a compile-time constant,
 there's a risk that this `array` will end up in local memory rather
-than in registers, if the compiler can't figure out this can be
-written as an unrolled loop.^[Despite the name, local memory is
-actually a thread-specific piece of *global* memory. It's where, for
-example, spilled registers get stored.] It seems quite inconsistent,
-sometimes the compiler can do this and sometimes not. Just in case,
-we'll do the optimisation by hand.
+than in registers if the compiler can't figure out this can be written
+as an unrolled loop.^[Despite the name, local memory is actually a
+thread-specific piece of *global* memory. It's where, for example,
+spilled registers get stored.] For reasons mysterious to me, sometimes
+the compiler can do this and sometimes not. Just in case, we'll do the
+optimisation by hand.
 
 We can manually write the operation as a loop:
 
@@ -541,8 +563,8 @@ for (unsigned j = 0; j < 8; j++) {
 This compiles to a straight-line program, using predicated
 instructions to operate on the correct entry of the array.
 
-Here's a alternative trick which seems to come out slightly ahead and,
-for reasons mysterious to me, seems to cause less register pressure.
+Here's a alternative trick which comes out slightly ahead and, for
+reasons again mysterious to me, seems to cause less register pressure.
 
 ```cpp
 #pragma unroll 8
@@ -574,6 +596,11 @@ int lowest_unset(uint32_t array[8]) {
 }
 ```
 
+While we're at it, we'll can shove the MEX array into a `struct`
+rather than using an array directly, and manually unroll the loop into
+8 separate `struct` members. For reasons unclear to me, this does
+cause a slight speed improvement.
+
 
 Multiple Blocks
 ---------------
@@ -581,20 +608,20 @@ Multiple Blocks
 Of course, we don't want to restrict ourselves to only one block: the
 GPU has several multiprocessors that can run blocks simultaneously. We
 might have $K$ blocks going at once, so that block 0 is responsible
-for computing positions $[n, n+B)$, block 1 is responsible for $[n+B,
-n+2B)$, and so on. 
+for computing the range $[n, n+B)$, block 1 is responsible for the
+range $[n+B, n+2B)$, and so on.
 
 We have to modify the backwards phase, because a block may catch up to
 values currently being computed by earlier blocks and have to wait for
 that to complete. On a step with rare position $p$, the latest
-position in the current block, i.e. $n + B - 1$, will need to read
+position in the current range, i.e. $n + B - 1$, will need to read
 from the buffer at position $(n + B - 1) - p - 1$. We can be certain
 other blocks aren't working on that position as long as it is strictly
 less than $n - B(K-1)$. A little rearrangement gives the condition $p
 < B K - 1$.
 
-We are safe again once $p < B-1$: all the relevant values are going to be
-computed local to the current block in the forward phase.
+We are safe again as soon as $p < B-1$: all the relevant values are
+going to be computed local to the current block in the forward phase.
 
 To make this work, we need to synchronise the blocks somehow. Here I
 am going to simply store a value in global memory that records the
@@ -645,6 +672,104 @@ for (unsigned rare_idx = 0; rare_idx < RARE_VALUE_COUNT; rare_idx++)
 
 With 8 blocks of size 256, this does 942K/s. Getting better!
 
+
+## Speculating in the Forward Phase
+
+As observed by Grossman, the speed of the calculation is ultimately
+limited by how quickly each block can get through its critical
+segment, that is, the part where it computes the MEX. While this is
+happening, all other blocks are likely waiting for it to finish. Our
+priority now should be to make that forward phase as fast as possible.
+
+Once we've completed the backwards phase, we can have each thread
+speculate on what its MEX will be given the past values it's seen so
+far. This can be done simultaneously over all threads. Then, we can
+use these speculative values to mark the MEX arrays, and recalculate
+the MEXes (again simultaneously).^[This is so obviously the right
+thing to do that it's embarrassing I didn't do it to begin with.]
+Here's the trick: if we get the *same* answer as the first round of
+MEXes, then in fact this is the right answer. If our blocks are of
+size 256, we've replaced 256 sequential MEX calculations and 256
+forward broadcasts with 2 parallel MEX calculations and 51 backwards
+lookups (the number of rare positions below 256).
+
+If we *don't* get the same answer, we simply repeat the process. The
+values get monotonically more correct from left to right after each
+round, and so this is guaranteed to reach a fixed point. In principle
+we could get very unlucky, but most of the time it only takes two or
+three rounds.^[In a quick test, the chance of a block being done after
+$n$ rounds was 0%, 10%, 62%, 84%, 96%, 99%.]
+
+Because the values within the block are changing, we have to store a
+second `mex_array` for these final values so that it can be easily
+reset between rounds.
+
+Here's how the new forwards phase looks:
+
+```cpp
+// Do the first round of speculation using purely the values from 
+// the backwards phase. 
+uint32_t prev_mex = lowest_unset(mex_array);
+buffer[position % SHARED_BUFFER_SIZE] = prev_mex;
+__syncthreads();
+
+__shared__ bool done;
+if (threadIdx.x == 0)
+  done = false;
+
+while (!done) {
+  // Initialise a mex array just for these final values
+  uint32_t intra_mex_array[256 / 32];
+  for (unsigned i = 0; i < 256 / 32; i += 1) {
+    intra_mex_array[i] = 0;
+  }
+
+  // Do a backward phase calculation as before but storing the
+  // result in this separate array
+  for (unsigned rare_idx = 0; rare_idx < LAST_RARES; rare_idx++) {
+    uint16_t rare_pos = rare_positions_rev[RARE_COUNT - 1 - rare_idx];
+    uint8_t rare_value = rare_values_rev[RARE_COUNT - 1 - rare_idx];
+    uint8_t prev = buffer[(position - 1 - rare_pos) % SHARED_BUFFER_SIZE];
+    uint8_t option = prev ^ rare_value;
+    set_bit_8(intra_mex_array, option);
+  }
+
+  // Calculate the new MEX from the combined arrays
+  uint32_t total_mex_array[256 / 32];
+  for (unsigned i = 0; i < 256 / 32; i += 1) {
+    total_mex_array[i] = mex_array[i] | intra_mex_array[i];
+  }
+  uint32_t current_mex = lowest_unset(total_mex_array);
+  buffer[position % SHARED_BUFFER_SIZE] = current_mex;
+
+  // If any of the values changed, we have to retry
+  if (threadIdx.x == 0)
+    done = true;
+  __syncthreads();
+  if (current_mex != prev_mex)
+    done = false;
+  __syncthreads();
+
+  prev_mex = current_mex;
+}
+
+// Copy results out
+global_buffer[position % GLOBAL_BUFFER_SIZE] 
+  = buffer[position % SHARED_BUFFER_SIZE];
+```
+
+This modest change gets us 3.6M positions per second, a 4×
+improvement. Wow!
+
+Following this reasoning a bit further, it seems reasonable to try and
+avoid doing the entire loop over the `LAST_RARES`, only looping over
+the suffix of the values that are still unconfirmed. Unfortunately,
+the extra bookkeeping involved makes this slightly slower than just
+doing the whole loop every time.^[It is extremely demoralising when
+this happens, when making the code smarter ends up being a total
+waste.]
+
+
 Synchronising Properly
 ----------------------
 
@@ -666,9 +791,9 @@ same kernel:
 It would be nice to implement things "properly" and use one of these
 methods. The one that fits best is to use `cuda::barrier`.
 Unfortunately, this ends up significantly slower than the cheating
-method I'm using now, so I'll keep that in my back pocket until
-deadlocks are an actual issue. I haven't tracked down exactly why this
-is.
+method I'm using now, so I'll keep that in my back pocket in case
+deadlocks become an actual issue. I haven't tracked down exactly why
+this slowdown occurs.
 
 
 The State of Play
@@ -676,48 +801,29 @@ The State of Play
 
 Everything described above is available at
 <https://github.com/mvr/officers>. At the time of writing it
-calculates values at 1M/s on my ([dinky little]) machine. This is
+calculates values at 3.6M/s on my ([dinky little]) machine. This is
 pathetic: Grossman's code gets 5M/s on 8 (CPU) threads, and I'm only
-getting 1M/s on 4096 (GPU) threads. We should be able to do better.
+getting 3.6M/s on vastly more (GPU) threads. We should be able to do
+better. Clock speed goes some of the way (but not all the way!) to
+explaining the speed difference: Grossman was using a 2.66GHz CPU
+whereas this GPU runs at 900MHz. The `__ffs` intrinsic used for
+calculating the MEX is also [more expensive] than you would expect,
+with a SM not even able to calculate an entire warp's worth per cycle.
 
 [dinky little]: https://www.nvidia.com/en-us/autonomous-machines/embedded-systems/jetson-orin/nano-super-developer-kit/
+[more expensive]: https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#arithmetic-instructions
 
-As observed by Grossman, the speed is ultimately limited by how
-quickly each block can get through its critical segment, that is, the
-part where it computes the MEX. While this is happening, all other
-blocks are likely waiting for it to finish. This goes some way (but
-not all the way!) to explaining the speed difference: Grossman was
-using a 2.66GHz CPU whereas my machine's GPU runs at 900MHz. The
-`__ffs` intrinsic used for calculating the MEX is also [more
-expensive] than you would expect, with a SM not even able to calculate
-an entire warp's worth per cycle.
+We'll need a better strategy. The next idea, and what I'll leave for
+next time, is to scale up speculation to the level of entire blocks,
+allowing each block to compute a speculative set of values based on
+unconfirmed previous ones. If those unconfirmed previous values turn
+out to be correct, the speculative values themselves are also correct.
 
-[more expensive]: https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#arithmetic-instructions
-
-We'll need a better strategy. My idea is to do even more speculation,
-allowing each block to compute a MEX for before it's seen all the
-relevant values and then correct mistakes later if necessary. This
-will complicate things, because any failed prediction could in
-principle invalidate all 1584 later values that depend on it. The hope
-is that only rarely will this kind of speculation cause a cascade of
-corrections to be made, but whether this is the case will have to be
-determined experimentally. The corrections could possibly be done on
-the CPU, but then we have to hope that they're infrequent enough that
-the CPU doesn't become a limiting factor.
-
-A better idea, and what I plan to do next, is to just go all-in on the
-awesome power of the GPU and use an algorithm that looks for the fixed
-point of this speculation process. On a typical block, the first round
-of speculation will yield a handful of incorrect results, because it
-was missing some of the relevant previous values. The second round of
-speculation will be more correct but still have some errors, and so
-on, until there are no more corrections to be made. Key is that each
-round no longer has to wait for the block immediately before it to do
-its speculation, unlocking a lot more parallelism. Again, it will have
-to be determined empirically how many rounds of speculation each block
-needs on average before all mistakes are fixed. At *worst* this would
-be as fast as the single-block version, because the earliest block
-never has to actually do any speculation.
+At worst this would be as fast as the single-block version, because
+the earliest unconfirmed block never has to actually do any
+speculation. Again, it will have to be determined empirically how many
+rounds of speculation each block needs on average before all mistakes
+are fixed.
 
 PS. My personal suspicion is that Officers is periodic but with a
 pre-period so long that humans will never live to find out what it is.

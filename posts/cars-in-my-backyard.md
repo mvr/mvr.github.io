@@ -11,9 +11,9 @@ something always felt off, and I finally realise what it is. How can I
 admire a house with elegant stilts and sweeping verandahs when there
 is a bright red 2019 Ford Puma sitting in the driveway? Or appreciate
 a compact, postwar masterpiece when it has a Hilux poking out around
-the side? In the countless hours I've spent positioning myself on the
-street so I can bathe in the heritage of my neighbourhood, I have not
-found an angle without some modern monstrosity in my field of view.
+the side? In the hours I've spent positioning myself on the street so
+I can bathe in the heritage of my neighbourhood, I have not found an
+angle without some such monstrosity in my field of view.
 
 We've spent years fighting the vandals who want to destroy the
 heritage of our neighbourhood. Why should we make an exception for
@@ -21,19 +21,19 @@ this? I see no other option: we must forbid residents from bringing
 any new cars into the area. This is already a compromise, as if I had
 my way we would ban every car newer than the house it is parked in
 front of. (Of course, some especially old houses would need hitching
-posts to be reinstalled.) Preventing any more modern cars is a good
-first step; we can at least not dig ourselves a deeper hole.
+posts to be reinstalled.)
+
+<!--more-->
 
 I'll be specific. Any house on the heritage register should be banned
 from locating a non-heritage-appropriate vehicle on the premises. Any
-resident who wants to place a new car on the property must submit an
-impact assessment to be evaluated by the vehicle heritage committee
-after a community consultation period lasting the standard 30 days.
+resident who buys a new car must submit an impact assessment to be
+evaluated by the vehicle heritage committee.
 
 It's not that I have an issue with cars; I just think they should be
-_appropriate_ and _affordable_ cars. It's hard to fathom anybody
-disagreeing with this, but I can already hear the "NIMBY" slur from
-the usual suspects.
+_appropriate_ and _affordable_ cars. It's hard to imagine anybody
+disagreeing with this, but I already hear the "NIMBY" slur from the
+usual suspects.
 
 1. __"This would be an assault on our personal freedom."__ 
 
@@ -81,7 +81,7 @@ the usual suspects.
    change the shape of a part of the offending car so that its
    character-ruining design is not visible from the street. These are
    the kinds of improvements that we on the committee could generously
-   assist a car owner by suggesting. Frankly, they should be thankful
+   assist a car owner by suggesting. Frankly, they should be grateful
    that the committee is considering the non-compliant proposal at
    all.
    

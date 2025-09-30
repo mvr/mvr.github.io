@@ -140,13 +140,17 @@ run action = hakyllWith config $ do
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
-  match "projects.md" $ do
+  let simplePages :: [Identifier]
+      simplePages = [ "projects.md", "academics.md" ]
+
+  match (fromList simplePages) $ do
     route (setExtension "html")
-    let ctx = defaultContext <> constField "title" "Projects"
-    compile $ do
-      pandocCustomCompiler
-        >>= loadAndApplyTemplate "templates/default.html" ctx
-        >>= relativizeUrls
+    let ctx = defaultContext
+    compile $ pandocCustomCompiler
+      >>= loadAndApplyTemplate "templates/simple.html" ctx
+      >>= loadAndApplyTemplate "templates/post-page.html" ctx
+      >>= loadAndApplyTemplate "templates/default.html" ctx
+      >>= relativizeUrls
 
   -- Compile templates
   match "templates/*.html" $ compile templateCompiler

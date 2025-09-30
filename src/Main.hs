@@ -2,7 +2,7 @@
 
 module Main (main) where
 
-import Control.Monad (liftM, (<=<), (>=>), msum)
+import Control.Monad (filterM, liftM, (<=<), (>=>), msum)
 import Control.Applicative (empty)
 import Data.Monoid
 import System.Environment (getArgs)
@@ -35,10 +35,12 @@ main = do
     []    -> run "blank"
 
 perPage :: Int
-perPage = 3
+perPage = 5
 
-grouper :: (MonadMetadata m, MonadFail m) => [Identifier] -> m [[Identifier]]
-grouper = fmap (paginateEvery perPage) . sortRecentFirst
+grouper :: (MonadMetadata m, MonadFail m) => (Metadata -> Bool) -> [Identifier] -> m [[Identifier]]
+grouper predicate ids = do
+  filtered <- filterM (fmap predicate . getMetadata) ids
+  fmap (paginateEvery perPage) (sortRecentFirst filtered)
 
 makeId :: PageNumber -> Identifier
 makeId pageNum = fromFilePath $ "page/" ++ show pageNum ++ ".html"
@@ -58,7 +60,7 @@ run action = hakyllWith config $ do
                      else "posts/*"
   let postsMetadataFilter m = (action == "watch") || (lookupString "draft" m /= Just "true")
 
-  pag <- buildPaginateWith grouper postsPattern makeId
+  pag <- buildPaginateWith (grouper postsMetadataFilter) postsPattern makeId
   tags <- buildTags postsPattern (fromCapture "tags/*.html")
 
   -- Compile posts

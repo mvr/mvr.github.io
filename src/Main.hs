@@ -26,6 +26,7 @@ import qualified Hyphen
 import qualified LifeViewer
 import qualified Tikz
 import qualified Bibliography
+import qualified Feed
 
 main :: IO ()
 main = do
@@ -153,7 +154,7 @@ run action = hakyllWith config $ do
       >>= relativizeUrls
 
   -- Compile templates
-  match "templates/*.html" $ compile templateCompiler
+  match ("templates/*.html" .||. "templates/*.xml") $ compile templateCompiler
 
   match "css/*.scss" $ do
         compile getResourceBody
@@ -178,7 +179,8 @@ run action = hakyllWith config $ do
         let feedCtx = postCtx tags <> bodyField "description"
 
         posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "body"
-        renderAtom feedConfiguration feedCtx posts
+        cleaned <- mapM Feed.sanitizeFeedItem posts
+        Feed.customRenderAtom feedConfiguration feedCtx cleaned
 
 maybeField :: String -> (Item a -> Compiler (Maybe String)) -> Context a
 maybeField key value = field key $ maybe empty return <=< value

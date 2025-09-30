@@ -1,0 +1,11 @@
+  <entry>
+    <title>$title$</title>
+    <link href="$url$" />
+    <id>$url$</id>
+    $if(published)$
+    <published>$published$</published>
+    $endif$
+    <updated>$updated$</updated>
+    <summary type="html"><![CDATA[$description$]]></summary>
+    <content type="html"><![CDATA[$description$]]></content>
+  </entry>

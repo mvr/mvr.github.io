@@ -6,6 +6,11 @@
     <published>$published$</published>
     $endif$
     <updated>$updated$</updated>
-    <summary type="html"><![CDATA[$description$]]></summary>
-    <content type="html"><![CDATA[$description$]]></content>
+    <author>
+      <name>$authorName$</name>
+      $if(authorEmail)$
+      <email>$authorEmail$</email>
+      $endif$
+    </author>
+    <summary type="html"><![CDATA[$description$<p><a href="$url$">&gt; Read Post</a></p>]]></summary>
   </entry>

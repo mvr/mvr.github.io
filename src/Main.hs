@@ -176,7 +176,10 @@ run action = hakyllWith config $ do
   create ["atom.xml"] $ do
     route idRoute
     compile $ do
-        let feedCtx = postCtx tags <> bodyField "description"
+        let iconUrl = feedRoot feedConfiguration ++ "/favicon.png"
+            feedCtx = postCtx tags
+                      <> bodyField "description"
+                      <> constField "icon" iconUrl
 
         posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "body"
         cleaned <- mapM Feed.sanitizeFeedItem posts

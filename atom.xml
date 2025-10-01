@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="/atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Mitch is Typing</title>
+  <title>Mitchell Is Typing</title>
   
   <link href="http://mvr.github.io/atom.xml" rel="self" />
   <link href="http://mvr.github.io" />

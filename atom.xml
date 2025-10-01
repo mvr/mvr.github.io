@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml-stylesheet type="text/xsl" href="/atom.xsl"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>mvr</title>
+  <title>Mitch is Typing</title>
   
   <link href="http://mvr.github.io/atom.xml" rel="self" />
   <link href="http://mvr.github.io" />
@@ -371,53 +371,7 @@ integer matrix library instead of a homemade one. These sorts of
 optimisations would also make a good project for an undergraduate,
 with not much mathematical background required.</p>
 <p>Below, I’ve copy-pasted a quick introduction I wrote to the ideas
-behind Kenzo.</p>
-<h2 id="central-concepts-of-kenzo">Central Concepts of Kenzo</h2>
-<p>A <em>simplicial set</em> <code>X</code> is described in code by some abstract type <code>a</code>,
-containing whatever data is required to specify <code>X</code>, and a type
-<code>GeomSimplex a</code>, whose elements correspond to non-degenerate
-simplices; in Kenzo these are referred to as ‘geometric simplices’.
-Like Kenzo we also allow a predicate on <code>GeomSimplex a</code> specifying
-when an element actually describes a geometric simplex and when it is
-spurious.</p>
-<p>An actual simplex of <code>X</code> is a geometric simplex together with a
-‘formal degeneracy operator’, which is a list of degeneracy operators
-in a normal form. Face maps are implemented as functions from
-geometric simplices to (possibly degenerate) simplices, and the
-extension of these face maps to all simplices is forced by the
-simplicial identities.</p>
-<p>A simplicial set is <em>of finite type</em> if there is a finite number of
-geometric simplices for each dimension, and there is a function giving
-a list of these simplices for any dimension <code>n</code>. It is not required
-that there are finitely many geometric simplices overall.</p>
-<p>The <em>normalised chain complex</em> <code>N(X)</code> of <code>X</code> has each <code>N(X)_n</code> given
-by the free abelian group on the set of nondegenerate <code>n</code>-simplices of
-<code>X</code>, with the boundary of a simplex calculated similar to usual (the
-alternating sum of face maps), but ignoring any degenerate faces.</p>
-<p>If <code>C(X)</code> is the ordinary chain complex of simplicial chains of <code>X</code>,
-the quotient map <code>C(X) \to N(X)</code> is a quasi-isomorphism, and so if <code>X</code>
-is of finite type, then the homology of <code>X</code> can be computed via
-<code>N(X)</code>.</p>
-<p>But many unavoidable simplicial sets (like <code>K(ℤ,n)</code> and loop spaces
-<code>ΩX</code>) are not of finite type, and so we need some other way to
-calculate their homology. This is where ‘effective homology’ comes in.</p>
-<p>A <em>reduction</em> between chain complexes <code>C</code> and <code>D</code> is a strong
-deformation retract of chain complexes. The data of a reduction
-unwinds to a triple (<code>f : C \to D</code>, <code>g : D \to C</code>, <code>h : C \to C</code>) where
-<code>f</code> and <code>g</code> are degree 0, the homotopy operator <code>h</code> is degree 1, and
-certain equations involving these hold. A <em>(strong chain)
-equivalence</em> between two chain complexes <code>C</code> and <code>D</code> is a span of
-reductions <code>l : E \to C</code> and <code>r : E \to D</code>.</p>
-<p>An <em>effective homology structure</em> on <code>C</code> is an equivalence between <code>C</code>
-and a chain complex <code>F</code> of finite type.</p>
-<p>A <em>simplicial set with effective homology</em> is a simplicial set <code>X</code>
-equipped with an effective homology structure on <code>N(X)</code>.</p>
-<p>The point of Kenzo is that although constructions on simplicial sets
-sometimes do not preserve levelwise finiteness, they <em>do</em> extend to
-effective homology structures. And so if we begin with a finite
-simplicial complex and perform some constructions using it, then we
-can often compute the homology of the result even if the actual
-simplicial sets are now far too complicated to get a handle on.</p><p><a href="/posts/at.html">&gt; Read Post</a></p>]]></summary>
+behind Kenzo.</p><p><a href="/posts/at.html">&gt; Read Post</a></p>]]></summary>
   </entry>
 
 </feed>

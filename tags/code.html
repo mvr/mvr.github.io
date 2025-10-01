@@ -4,6 +4,26 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Posts Tagged ‘Code’</title>
 
+        
+        
+        <link rel="canonical" href="http://mvr.github.io/tags/code.html" />
+        
+
+        <meta property="og:title" content="Posts Tagged ‘Code’" />
+        
+        
+        <meta property="og:url" content="http://mvr.github.io/tags/code.html" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Mitch is Typing" />
+        
+        <meta property="og:image" content="http://mvr.github.io/cards/default.png" />
+        <meta name="twitter:image" content="http://mvr.github.io/cards/default.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Posts Tagged ‘Code’" />
+        
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
         <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
@@ -365,53 +385,8 @@ integer matrix library instead of a homemade one. These sorts of
 optimisations would also make a good project for an undergraduate,
 with not much mathematical background required.</p>
 <p>Below, I’ve copy-pasted a quick introduction I wrote to the ideas
-behind Kenzo.</p>
-<h2 id="central-concepts-of-kenzo">Central Concepts of Kenzo</h2>
-<p>A <em>simplicial set</em> <span class="math inline">X</span> is described in code by some abstract type <code>a</code>,
-containing whatever data is required to specify <span class="math inline">X</span>, and a type
-<code>GeomSimplex a</code>, whose elements correspond to non-degenerate
-simplices; in Kenzo these are referred to as ‘geometric simplices’.
-Like Kenzo we also allow a predicate on <code>GeomSimplex a</code> specifying
-when an element actually describes a geometric simplex and when it is
-spurious.</p>
-<p>An actual simplex of <span class="math inline">X</span> is a geometric simplex together with a
-‘formal degeneracy operator’, which is a list of degeneracy operators
-in a normal form. Face maps are implemented as functions from
-geometric simplices to (possibly degenerate) simplices, and the
-extension of these face maps to all simplices is forced by the
-simplicial identities.</p>
-<p>A simplicial set is <em>of finite type</em> if there is a finite number of
-geometric simplices for each dimension, and there is a function giving
-a list of these simplices for any dimension <span class="math inline">n</span>. It is not required
-that there are finitely many geometric simplices overall.</p>
-<p>The <em>normalised chain complex</em> <span class="math inline">N(X)</span> of <span class="math inline">X</span> has each <span class="math inline">N(X)_n</span> given
-by the free abelian group on the set of nondegenerate <span class="math inline">n</span>-simplices of
-<span class="math inline">X</span>, with the boundary of a simplex calculated similar to usual (the
-alternating sum of face maps), but ignoring any degenerate faces.</p>
-<p>If <span class="math inline">C(X)</span> is the ordinary chain complex of simplicial chains of <span class="math inline">X</span>,
-the quotient map <span class="math inline">C(X) \to N(X)</span> is a quasi-isomorphism, and so if <span class="math inline">X</span>
-is of finite type, then the homology of <span class="math inline">X</span> can be computed via
-<span class="math inline">N(X)</span>.</p>
-<p>But many unavoidable simplicial sets (like <span class="math inline">K(ℤ,n)</span> and loop spaces
-<span class="math inline">ΩX</span>) are not of finite type, and so we need some other way to
-calculate their homology. This is where ‘effective homology’ comes in.</p>
-<p>A <em>reduction</em> between chain complexes <span class="math inline">C</span> and <span class="math inline">D</span> is a strong
-deformation retract of chain complexes. The data of a reduction
-unwinds to a triple (<span class="math inline">f : C \to D</span>, <span class="math inline">g : D \to C</span>, <span class="math inline">h : C \to C</span>) where
-<span class="math inline">f</span> and <span class="math inline">g</span> are degree 0, the homotopy operator <span class="math inline">h</span> is degree 1, and
-certain equations involving these hold. A <em>(strong chain)
-equivalence</em> between two chain complexes <span class="math inline">C</span> and <span class="math inline">D</span> is a span of
-reductions <span class="math inline">l : E \to C</span> and <span class="math inline">r : E \to D</span>.</p>
-<p>An <em>effective homology structure</em> on <span class="math inline">C</span> is an equivalence between <span class="math inline">C</span>
-and a chain complex <span class="math inline">F</span> of finite type.</p>
-<p>A <em>simplicial set with effective homology</em> is a simplicial set <span class="math inline">X</span>
-equipped with an effective homology structure on <span class="math inline">N(X)</span>.</p>
-<p>The point of Kenzo is that although constructions on simplicial sets
-sometimes do not preserve levelwise finiteness, they <em>do</em> extend to
-effective homology structures. And so if we begin with a finite
-simplicial complex and perform some constructions using it, then we
-can often compute the homology of the result even if the actual
-simplicial sets are now far too complicated to get a handle on.</p>
+behind Kenzo. 
+            <div class="continue-post"><a href="../posts/at.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             
         </div>
     </li>

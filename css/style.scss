@@ -128,6 +128,10 @@ ul#posts-list {
 
 li.post-entry {
   margin-bottom: 66px;
+
+  .post-content {
+    margin-top: 25px;
+  }
 }
 
 h1.post-list-header {
@@ -182,7 +186,7 @@ h1.post-list-title a, h1.post-title a {
 
   font-size: 1rem;
 
-  margin-top: 25px;
+  margin-top: 40px;
 
   a {
     text-decoration: underline;
@@ -210,17 +214,17 @@ h1.post-list-title a, h1.post-title a {
   }
 
   ul {
-    display: block;
+    padding-left: 5px;
     margin-bottom: 20px;
-    list-style: disc;
-    list-style-type: disc;
 
     li {
-      list-style: disc;
-      list-style-type: disc;
       margin-left: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       padding-left: 10px;
+      line-height: 1.5;
+      // &::marker {
+      //   color: #666;
+      // }
     }
   }
 
@@ -238,7 +242,8 @@ h1.post-list-title a, h1.post-title a {
 
   h1 {
     font-size: 2rem;
-    margin-bottom: 10px;
+    margin-top: 1.4em;
+    margin-bottom: 0.5em;
   }
 
   h2 {
@@ -270,6 +275,7 @@ h1.post-list-title a, h1.post-title a {
 
 footer {
   margin-top: 50px;
+  margin-left: 100px;
   color: $lightgrey;
 }
 
@@ -311,9 +317,13 @@ pre, .figure {
 pre {
   background-color: $boxwhite;
   margin-bottom: 20px;
-  padding: 0.8em; 
+  padding: 0.8em;
+  padding-left: 1.1em; // Needs a little extra to look balanced
   border-radius: 10px;
   overflow-x: auto;
+  code {
+    padding: 0;
+  }
 }
 
 code {
@@ -321,6 +331,9 @@ code {
   word-break: normal;
   hyphens: none;
   font-size: 0.9em; // For inline code
+  background-color: $boxwhite;
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
 }
 
 code.sourceCode {

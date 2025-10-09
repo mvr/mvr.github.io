@@ -67,7 +67,7 @@ run action = hakyllWith config $ do
   -- Compile posts
   matchMetadata postsPattern postsMetadataFilter $ do
     route   $ setExtension ".html"
-    let ctx = postCtx tags -- <> field "tags" (\_ -> renderTagList tags)
+    let ctx = postCtx tags <> siteCtx -- <> field "tags" (\_ -> renderTagList tags)
     compile $ pandocCustomCompiler
       >>= saveSnapshot "body"
       >>= loadAndApplyTemplate "templates/post.html" ctx
@@ -83,6 +83,7 @@ run action = hakyllWith config $ do
       posts <- recentFirst =<< loadAll postsPattern
       let ctx = constField "title" "All Posts" <>
                 listField "posts" (postCtx tags) (return posts) <>
+                siteCtx <>
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
@@ -101,6 +102,7 @@ run action = hakyllWith config $ do
             constField "title" ("Page " ++ show pageNum) <>
             listField "posts" (postCtx tags) (return posts) <>
             paginateCtx <>
+            siteCtx <>
             defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/post-list.html" ctx
@@ -118,6 +120,7 @@ run action = hakyllWith config $ do
       let ctx = constField "title" title <>
                 listField "posts" (postCtx tags) (return posts) <>
                 field "tags" (\_ -> renderTagList tags) <>
+                siteCtx <>
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/post-list.html" ctx
@@ -132,9 +135,10 @@ run action = hakyllWith config $ do
       posts <- fmap (take perPage) . recentFirst =<< loadAllSnapshots postsPattern "body"
       let ctx = listField "posts" (postCtx tags) (return posts)
                 <> field "tags" (\_ -> renderTagList tags)
-                <> constField "title" "mvr"
+                <> constField "title" "Mitchell Is Typing"
                 -- <> boolField "isIndex" (const True)
                 <> paginateContext pag 1
+                <> siteCtx
                 <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
@@ -146,7 +150,7 @@ run action = hakyllWith config $ do
 
   match (fromList simplePages) $ do
     route (setExtension "html")
-    let ctx = defaultContext
+    let ctx = siteCtx <> defaultContext
     compile $ pandocCustomCompiler
       >>= loadAndApplyTemplate "templates/simple.html" ctx
       >>= loadAndApplyTemplate "templates/post-page.html" ctx
@@ -177,7 +181,8 @@ run action = hakyllWith config $ do
     route idRoute
     compile $ do
         let iconUrl = feedRoot feedConfiguration ++ "/favicon.png"
-            feedCtx = postCtx tags
+            feedCtx = rfc3339PublishedField "published"
+                      <> postCtx tags
                       <> bodyField "description"
                       <> constField "icon" iconUrl
 
@@ -189,35 +194,67 @@ maybeField :: String -> (Item a -> Compiler (Maybe String)) -> Context a
 maybeField key value = field key $ maybe empty return <=< value
 
 -- This is all duplicated from Hakyll source, because it can't be customised. So dumb!
+dateFormats :: [String]
+dateFormats =
+  [ "%a, %d %b %Y %H:%M:%S %Z"
+  , "%Y-%m-%dT%H:%M:%S%Z"
+  , "%Y-%m-%d %H:%M:%S%Z"
+  , "%Y-%m-%d"
+  , "%B %e, %Y %l:%M %p"
+  , "%B %e, %Y"
+  , "%b %d, %Y"
+  ]
+
+parseDateField :: Metadata -> String -> Maybe UTCTime
+parseDateField metadata key = msum [lookupString key metadata >>= parse fmt | fmt <- dateFormats]
+  where
+    parse fmt = parseTimeM True defaultTimeLocale fmt
+
+getPublishedUTC :: MonadMetadata m
+                => Identifier
+                -> m (Maybe UTCTime)
+getPublishedUTC i = do
+  metadata <- getMetadata i
+  let keys = ["published", "date", "written"]
+  return $ msum (map (parseDateField metadata) keys)
+
 getWrittenUTC :: MonadMetadata m
            => Identifier
            -> m (Maybe UTCTime)
 getWrittenUTC i = do
   metadata <- getMetadata i
-
-  let tryField k fmt = lookupString k metadata >>= parseTime' fmt
-      parseTime' = parseTimeM True defaultTimeLocale
-      formats = [ "%a, %d %b %Y %H:%M:%S %Z"
-                , "%Y-%m-%dT%H:%M:%S%Z"
-                , "%Y-%m-%d %H:%M:%S%Z"
-                , "%Y-%m-%d"
-                , "%B %e, %Y %l:%M %p"
-                , "%B %e, %Y"
-                , "%b %d, %Y"
-                ]
-  return $ msum $ [tryField "written" fmt | fmt <- formats]
+  return $ parseDateField metadata "written"
 
 writtenField :: String -> String -> Context String
 writtenField key format = maybeField key $ \i -> do
     time <- getWrittenUTC $ itemIdentifier i
     return $ fmap (formatTime defaultTimeLocale format) time
 
+rfc3339PublishedField :: String -> Context a
+rfc3339PublishedField key = maybeField key $ \i -> do
+    time <- getPublishedUTC $ itemIdentifier i
+    return $ fmap (formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%SZ") time
+
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
                <> writtenField "written" "%B %e, %Y"
                <> tagsField "tags" tags
                <> teaserField "teaser" "body"
+               <> siteCtx
                <> defaultContext
+
+siteCtx :: Context a
+siteCtx = constField "siteRoot" (feedRoot feedConfiguration)
+          <> constField "siteName" (feedTitle feedConfiguration)
+          <> canonicalUrlField "canonicalUrl"
+
+canonicalUrlField :: String -> Context a
+canonicalUrlField key = field key $ \item -> do
+  mRoute <- getRoute $ itemIdentifier item
+  let root = feedRoot feedConfiguration
+  case mRoute of
+    Nothing    -> pure root
+    Just route -> pure (root ++ toUrl route)
 
 pandocCustomCompiler :: Compiler (Item String)
 pandocCustomCompiler = do
@@ -260,9 +297,9 @@ config = defaultConfiguration
 
 feedConfiguration :: FeedConfiguration
 feedConfiguration = FeedConfiguration
-    { feedTitle       = "mvr"
-    , feedDescription = "Personal Site of Mitchell Riley"
+    { feedTitle       = "Mitchell Is Typing"
+    , feedDescription = "mvr's Blog"
     , feedAuthorName  = "Mitchell Riley"
     , feedAuthorEmail = "mitchell.v.riley@gmail.com"
-    , feedRoot        = "http://mvr.github.io"
+    , feedRoot        = "https://mvr.github.io"
     }

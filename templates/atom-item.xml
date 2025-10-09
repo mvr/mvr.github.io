@@ -1,7 +1,7 @@
   <entry>
     <title>$title$</title>
-    <link href="$url$" />
-    <id>$url$</id>
+    <link href="$canonicalUrl$" rel="alternate" />
+    <id>$canonicalUrl$</id>
     $if(published)$
     <published>$published$</published>
     $endif$

@@ -76,13 +76,14 @@ as many of the remaining 10,000 as possible.
 
 ## Chunky Regions
 
-The first thing that comes to mind is that rare still lifes often have
-a dense middle, so we should devise a fast check for dense regions. If
-we fill in the "holes" in the ash, a dense region will show up as a
-place where we can fit a decently sized square. Or stated a different
-way, if we inflate the ash a bit, and then deflate the result a bit
-more, the only way anything can remain is if there was some thing
-decently sized to begin with.
+The first thing that comes to mind is that rare still lifes are often
+dense, so we should devise a fast check for dense regions. If we fill
+in the "holes" in the ash, a dense region will show up as a place
+where we can fit a decently sized square. Or stated a different way,
+if we inflate the ash a bit, and then deflate the result a bit more,
+the only way anything can remain is if there was some thing decently
+sized to begin with. Here, the `zoi()` method blows up every cell in a
+pattern into its $3 \times 3$ neighbourhood.
 
 ```cpp
 chunky_locations = ~(~pattern.zoi()).zoi().zoi();

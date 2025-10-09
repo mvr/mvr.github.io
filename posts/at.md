@@ -49,7 +49,7 @@ optimisations would also make a good project for an undergraduate,
 with not much mathematical background required.
 
 Below, I've copy-pasted a quick introduction I wrote to the ideas
-behind Kenzo.
+behind Kenzo. <!--more-->
 
 ## Central Concepts of Kenzo
 

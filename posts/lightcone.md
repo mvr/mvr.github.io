@@ -56,7 +56,7 @@ Lightcone is pretty speedy: it can find apg's [Spartan G-to-W] on
 explain some of the tricks it uses to cut down the search time.
 
 [Lightcone]: https://github.com/mvr/lightcone
-[Spartan G-to-W]: (https://conwaylife.com/wiki/Spartan_G-to-W-to-H)
+[Spartan G-to-W]: https://conwaylife.com/wiki/Spartan_G-to-W-to-H
 [this]: https://github.com/mvr/lightcone/blob/master/tests/thessalonic.toml
 
 <!--more-->
@@ -219,7 +219,7 @@ If a non-transparent catalyst is destroyed, it is unlikely to reform
 by chance. For this reason, most search tools allow the user to
 specify *required* cells of the catalyst, which are not allowed to
 have their state flipped at any point. For the eater, this might be
-all the marked cells in:
+all the marked cells in the following pattern:
 
 ```lifeviewer
 x = 5, y = 6, rule = LifeHistory 

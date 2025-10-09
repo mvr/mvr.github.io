@@ -3,9 +3,9 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Mitchell Is Typing</title>
   
-  <link href="http://mvr.github.io/atom.xml" rel="self" />
-  <link href="http://mvr.github.io" />
-  <id>http://mvr.github.io/atom.xml</id>
+  <link href="https://mvr.github.io/atom.xml" rel="self" />
+  <link href="https://mvr.github.io" />
+  <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
   <updated>2025-09-30T00:00:00Z</updated>
   <author>
     <name>Mitchell Riley</name>
@@ -15,10 +15,10 @@
   </author>
     <entry>
     <title>No‑Three‑In‑Line, Quicker</title>
-    <link href="/posts/no-three-in-line-quicker.html" />
-    <id>/posts/no-three-in-line-quicker.html</id>
+    <link href="https://mvr.github.io/posts/no-three-in-line-quicker.html" rel="alternate" />
+    <id>urn:uuid:8d52f56f-48bf-5f2f-b079-f4ef06a2fb20</id>
     
-    <published>September 30, 2025</published>
+    <published>2025-09-30T00:00:00Z</published>
     
     <updated>2025-09-30T00:00:00Z</updated>
     <author>
@@ -33,10 +33,10 @@ keep a record here of things I’ve tried and whether they worked.</p><p><a href
   </entry>
   <entry>
     <title>No‑Three‑In‑Line</title>
-    <link href="/posts/no-three-in-line.html" />
-    <id>/posts/no-three-in-line.html</id>
+    <link href="https://mvr.github.io/posts/no-three-in-line.html" rel="alternate" />
+    <id>urn:uuid:16f67ad5-725b-5b24-b4cd-d24958a1723a</id>
     
-    <published>September 1, 2025</published>
+    <published>2025-09-01T00:00:00Z</published>
     
     <updated>2025-09-01T00:00:00Z</updated>
     <author>
@@ -76,10 +76,10 @@ it in the rest of this post.</p>
   </entry>
   <entry>
     <title>Linear/Nonlinear Logic and Linear Algebra</title>
-    <link href="/posts/lnl.html" />
-    <id>/posts/lnl.html</id>
+    <link href="https://mvr.github.io/posts/lnl.html" rel="alternate" />
+    <id>urn:uuid:7f4b793c-0ee8-5068-85e4-1f69dc93abfc</id>
     
-    <published>May 29, 2025</published>
+    <published>2025-05-29T00:00:00Z</published>
     
     <updated>2025-05-29T00:00:00Z</updated>
     <author>
@@ -110,10 +110,10 @@ want. Please let me know if I’ve missed something.</p><p><a href="/posts/lnl.h
   </entry>
   <entry>
     <title>Movie Night</title>
-    <link href="/posts/movie-night.html" />
-    <id>/posts/movie-night.html</id>
+    <link href="https://mvr.github.io/posts/movie-night.html" rel="alternate" />
+    <id>urn:uuid:4b0a6c5b-69f4-5081-aab7-ca674fbc0799</id>
     
-    <published>May 15, 2025</published>
+    <published>2025-05-15T00:00:00Z</published>
     
     <updated>2025-05-15T00:00:00Z</updated>
     <author>
@@ -146,10 +146,10 @@ with my ratings using almost the simplest possible system.</p>
   </entry>
   <entry>
     <title>The Cars In My Backyard</title>
-    <link href="/posts/cars-in-my-backyard.html" />
-    <id>/posts/cars-in-my-backyard.html</id>
+    <link href="https://mvr.github.io/posts/cars-in-my-backyard.html" rel="alternate" />
+    <id>urn:uuid:5a4e2c2e-db5e-5e22-a7af-495474d60214</id>
     
-    <published>April 21, 2025</published>
+    <published>2025-04-21T00:00:00Z</published>
     
     <updated>2025-04-21T00:00:00Z</updated>
     <author>
@@ -178,10 +178,10 @@ posts to be reinstalled.)</p><p><a href="/posts/cars-in-my-backyard.html">&gt; R
   </entry>
   <entry>
     <title>Quickly Detecting Cool Still Lifes</title>
-    <link href="/posts/cool-still-lifes.html" />
-    <id>/posts/cool-still-lifes.html</id>
+    <link href="https://mvr.github.io/posts/cool-still-lifes.html" rel="alternate" />
+    <id>urn:uuid:54fc7952-7492-5e36-9dcd-3cdfa9271a03</id>
     
-    <published>April 8, 2025</published>
+    <published>2025-04-08T00:00:00Z</published>
     
     <updated>2025-04-08T00:00:00Z</updated>
     <author>
@@ -221,10 +221,10 @@ enough.</p><p><a href="/posts/cool-still-lifes.html">&gt; Read Post</a></p>]]></
   </entry>
   <entry>
     <title>Crawlers</title>
-    <link href="/posts/crawlers.html" />
-    <id>/posts/crawlers.html</id>
+    <link href="https://mvr.github.io/posts/crawlers.html" rel="alternate" />
+    <id>urn:uuid:01e859e2-d0a9-55c8-a081-12f448abf247</id>
     
-    <published>April 2, 2025</published>
+    <published>2025-04-02T00:00:00Z</published>
     
     <updated>2025-04-02T00:00:00Z</updated>
     <author>
@@ -241,10 +241,10 @@ others. (This could be seen as the first step in a GPU version of
   </entry>
   <entry>
     <title>Officers on the GPU</title>
-    <link href="/posts/officers.html" />
-    <id>/posts/officers.html</id>
+    <link href="https://mvr.github.io/posts/officers.html" rel="alternate" />
+    <id>urn:uuid:4b74364c-2348-56b3-b704-e5c432d0911f</id>
     
-    <published>March 8, 2025</published>
+    <published>2025-03-08T00:00:00Z</published>
     
     <updated>2025-03-08T00:00:00Z</updated>
     <author>
@@ -285,10 +285,10 @@ calculating these values for Officers as fast as possible.</p><p><a href="/posts
   </entry>
   <entry>
     <title>Searching for Conduits at Lightspeed</title>
-    <link href="/posts/lightcone.html" />
-    <id>/posts/lightcone.html</id>
+    <link href="https://mvr.github.io/posts/lightcone.html" rel="alternate" />
+    <id>urn:uuid:3f31d245-cb29-5aa4-87b0-a1bc4abf250b</id>
     
-    <published>February 9, 2025</published>
+    <published>2025-02-09T00:00:00Z</published>
     
     <updated>2025-02-09T00:00:00Z</updated>
     <author>
@@ -318,16 +318,16 @@ that interact with the active pattern and recover. At this point,
 hundreds of conduits are known, converting to and from various active
 patterns. But the more the merrier!</p>
 <p>I’ve been working on yet another search tool, called <a href="https://github.com/mvr/lightcone">Lightcone</a>.
-Lightcone is pretty speedy: it can find apg’s <a href="" title="https://conwaylife.com/wiki/Spartan_G-to-W-to-H">Spartan G-to-W</a> on
+Lightcone is pretty speedy: it can find apg’s <a href="https://conwaylife.com/wiki/Spartan_G-to-W-to-H">Spartan G-to-W</a> on
 <a href="https://github.com/mvr/lightcone/blob/master/tests/thessalonic.toml">this</a> input file in just a couple of seconds. In this post I’ll
 explain some of the tricks it uses to cut down the search time.</p><p><a href="/posts/lightcone.html">&gt; Read Post</a></p>]]></summary>
   </entry>
   <entry>
     <title>Effective Algebraic Topology in Haskell</title>
-    <link href="/posts/at.html" />
-    <id>/posts/at.html</id>
+    <link href="https://mvr.github.io/posts/at.html" rel="alternate" />
+    <id>urn:uuid:6a785d63-1058-587c-8c50-897d7e525921</id>
     
-    <published>September 22, 2022</published>
+    <published>2022-09-22T00:00:00Z</published>
     
     <updated>2022-09-22T00:00:00Z</updated>
     <author>

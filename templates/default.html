@@ -4,6 +4,35 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>$title$</title>
 
+        $if(description)$
+        <meta name="description" content="$description$" />
+        $endif$
+        $if(canonicalUrl)$
+        <link rel="canonical" href="$canonicalUrl$" />
+        $endif$
+
+        <meta property="og:title" content="$title$" />
+        $if(description)$
+        <meta property="og:description" content="$description$" />
+        $endif$
+        $if(canonicalUrl)$
+        <meta property="og:url" content="$canonicalUrl$" />
+        $endif$
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="$siteName$" />
+        $if(social_image)$
+        <meta property="og:image" content="$social_image$" />
+        <meta name="twitter:image" content="$social_image$" />
+        $else$
+        <meta property="og:image" content="$siteRoot$/cards/default.png" />
+        <meta name="twitter:image" content="$siteRoot$/cards/default.png" />
+        $endif$
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="$title$" />
+        $if(description)$
+        <meta name="twitter:description" content="$description$" />
+        $endif$
+
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
 

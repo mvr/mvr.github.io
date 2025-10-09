@@ -7,7 +7,7 @@
   $endif$
   <link href="$root$/atom.xml" rel="self" />
   <link href="$root$" />
-  <id>$root$/atom.xml</id>
+  <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
   <updated>$updated$</updated>
   <author>
     <name>$authorName$</name>

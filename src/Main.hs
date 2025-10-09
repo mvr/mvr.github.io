@@ -14,6 +14,10 @@ import Data.Time.Clock (UTCTime (..))
 import Data.Time.Format (formatTime, parseTimeM)
 import Data.Time.Locale.Compat (TimeLocale, defaultTimeLocale)
 
+import Data.Char (ord)
+import qualified Data.UUID as UUID
+import qualified Data.UUID.V5 as UUID.V5
+
 import Hakyll
 import Text.Pandoc.Options
 import Text.Pandoc.SideNote
@@ -181,7 +185,8 @@ run action = hakyllWith config $ do
     route idRoute
     compile $ do
         let iconUrl = feedRoot feedConfiguration ++ "/favicon.png"
-            feedCtx = rfc3339PublishedField "published"
+            feedCtx = uuidField "uuid"
+                      <> rfc3339PublishedField "published"
                       <> postCtx tags
                       <> bodyField "description"
                       <> constField "icon" iconUrl
@@ -234,6 +239,13 @@ rfc3339PublishedField :: String -> Context a
 rfc3339PublishedField key = maybeField key $ \i -> do
     time <- getPublishedUTC $ itemIdentifier i
     return $ fmap (formatTime defaultTimeLocale "%Y-%m-%dT%H:%M:%SZ") time
+
+uuidField :: String -> Context a
+uuidField key = field key $ \item -> do
+    let identifierPath = toFilePath (itemIdentifier item)
+        identifierBytes = fmap (fromIntegral . ord) identifierPath
+        uuid = UUID.V5.generateNamed UUID.V5.namespaceURL identifierBytes
+    pure (UUID.toString uuid)
 
 postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"

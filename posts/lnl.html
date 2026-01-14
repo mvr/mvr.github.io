@@ -52,6 +52,7 @@
       <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
+        <script defer src="../life-bg.js"></script>
 
         <link rel="icon" type="image/png" href="../favicon.png" />
 
@@ -72,6 +73,7 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
   </symbol>
       </svg>
+      <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
         <!-- <div id="header">
      <a href="/">&#171; Home</a>
      </div> -->
@@ -102,6 +104,11 @@ type theory. This feels to me so obvious that it must be written down
 somewhere already. In the literature there is work that gets close
 (and I’ll do some comparisons at the end), but none are quite what I
 want. Please let me know if I’ve missed something.</p>
+<p><strong>Edit</strong>: It’s been pointed out to me that the type theory I’ve put
+together is almost exactly the <a href="https://doi.org/10.1093/logcom/exs025">Enriched Effect
+Calculus</a>, though I still
+haven’t seen the semantics in ordinary vector spaces discussed
+anywhere. And see my <a href="../posts/lnl-ad.html">follow-up</a>!</p>
 <!--more-->
 <h2 id="the-setting">The Setting</h2>
 <p>To be totally explicit, what we want to capture is:</p>
@@ -648,7 +655,7 @@ types, and linear types that can depend on those nonlinear types (but
 not on other linear types). If nothing else, we need this to actually
 justify the way we used the finite types <span class="math inline">\bold{n}</span>. For inspiration
 one should probably look at:</p>
-<div class="bibliography bib">
+<div class="bibliography">
 <!--@inproceedings{kpb:lnld,
   title = {Integrating Linear and Dependent Types},
   author = {Krishnaswami, Neelakantan R. and Pradic, Pierre and Benton, Nick},
@@ -694,12 +701,11 @@ Isaev, <span>“Indexed type theories,”</span> <em>Mathematical Structures
 in Computer Science</em>, vol. 31, no. 1, pp. 3–63, 2021, doi: <a href="https://doi.org/10.1017/S0960129520000092">10.1017/S0960129520000092</a>.</div>
 </div>
 </div>
-
 </div>
 <h2 id="related-work">Related Work</h2>
 <p>There are a couple of similar existing bits of work. Closest is
 Jennifer Paykin’s thesis and some of the related papers.</p>
-<div class="bibliography bib">
+<div class="bibliography">
 <!--@phdthesis{paykin:thesis,
   title = {Linear/Non-Linear Types For Embedded Domain-Specific Languages},
   author = {Paykin, Jennifer},
@@ -708,13 +714,13 @@ Jennifer Paykin’s thesis and some of the related papers.</p>
   institution = {University of Pennsylvania},
 }-->
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+
 <div id="ref-paykin:thesis" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">J.
+<div class="csl-left-margin">[4] </div><div class="csl-right-inline">J.
 Paykin, <span>“Linear/non-linear types for embedded domain-specific
 languages,”</span> PhD thesis, University of Pennsylvania, 2018. doi: <a href="https://doi.org/20.500.14332/29702">20.500.14332/29702</a>.</div>
 </div>
 </div>
-
 </div>
 <p>The thesis demonstrates how to implement LNL as an embedded language
 inside a nonlinear host language like Haskell or Coq, and this looks
@@ -725,7 +731,7 @@ being semantically useful. This is also the case for the Quipper line
 of work. Her <span class="math inline">\mathtt{Box}</span> constructor is like the external hom,
 which I here called <span class="math inline">\mathrm{Vec}_{\mathbb{R}}(-,-)</span>.</p>
 <p>Then, there are the CHADs.</p>
-<div class="bibliography bib">
+<div class="bibliography">
 <!--@online{vakar:deplin,
   title = {Syntax and Semantics of Linear Dependent Types},
   author = {V\'{a}k\'{a}r, Matthjis},
@@ -793,42 +799,42 @@ which I here called <span class="math inline">\mathrm{Vec}_{\mathbb{R}}(-,-)</sp
   eprinttype = {arXiv},
 }-->
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+
 <div id="ref-vakar:deplin" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">M.
+<div class="csl-left-margin">[5] </div><div class="csl-right-inline">M.
 Vákár, <span>“Syntax and semantics of linear dependent types.”</span>
 [Online]. Available: <a href="https://arxiv.org/abs/1405.0033">https://arxiv.org/abs/1405.0033</a></div>
 </div>
 <div id="ref-vakar:reverse-ad" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">M.
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">M.
 Vákár, <span>“Reverse AD at higher types: Pure, principled and
 denotationally correct,”</span> in <em>Programming languages and
 systems</em>, Cham: Springer International Publishing, 2021, pp.
 607–634.</div>
 </div>
 <div id="ref-vs:chad" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">M.
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">M.
 Vákár and T. Smeding, <span>“CHAD: Combinatory homomorphic automatic
 differentiation,”</span> <em>ACM Trans. Program. Lang. Syst.</em>, vol.
 44, no. 3, Aug. 2022, doi: <a href="https://doi.org/10.1145/3527634">10.1145/3527634</a>.</div>
 </div>
 <div id="ref-MR4640115" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[4] </div><div class="csl-right-inline">F.
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">F.
 Lucatelli Nunes and M. Vákár, <span>“C<span>HAD</span> for expressive
 total languages,”</span> <em>Math. Structures Comput. Sci.</em>, vol.
 33, no. 4–5, pp. 311–426, 2023, doi: <a href="https://doi.org/10.1017/s096012952300018x">10.1017/s096012952300018x</a>.</div>
 </div>
 <div id="ref-sv:efficient-chad" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[5] </div><div class="csl-right-inline">T.
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">T.
 J. Smeding and M. I. L. Vákár, <span>“Efficient CHAD,”</span> <em>Proc.
 ACM Program. Lang.</em>, vol. 8, no. POPL, Jan. 2024, doi: <a href="https://doi.org/10.1145/3632878">10.1145/3632878</a>.</div>
 </div>
 <div id="ref-npv:iterative-chad" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">F.
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">F.
 L. Nunes, G. Plotkin, and M. Vákár, <span>“Unraveling the iterative
 CHAD.”</span> 2025. Available: <a href="https://arxiv.org/abs/2505.15002">https://arxiv.org/abs/2505.15002</a></div>
 </div>
 </div>
-
 </div>
 <p>This is exciting work, and the part relevant to us is the
 linear/nonlinear “target” language for their source transformation.
@@ -842,7 +848,7 @@ able to express the linear tensor product, which is something I
 definitely want to have.</p>
 <p>Separately, additivity and the <span class="math inline">\lambda</span>-calculus has been considered
 in the following line of work:</p>
-<div class="bibliography bib">
+<div class="bibliography">
 <!--@article{diaz-caro-dowek:linear-linear,
   title = {A linear linear lambda-calculus},
   author = {D\'iaz-Caro, Alejandro and Dowek, Gilles},
@@ -863,20 +869,20 @@ in the following line of work:</p>
   eprinttype = {arXiv},
 }-->
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+
 <div id="ref-diaz-caro-dowek:linear-linear" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">A.
+<div class="csl-left-margin">[11] </div><div class="csl-right-inline">A.
 Díaz-Caro and G. Dowek, <span>“A linear linear lambda-calculus,”</span>
 <em>Mathematical Structures in Computer Science</em>, vol. 34, no. 10,
 pp. 1103–1137, 2024, doi: <a href="https://doi.org/10.1017/S0960129524000197">10.1017/S0960129524000197</a>.</div>
 </div>
 <div id="ref-dim:ill" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">A.
+<div class="csl-left-margin">[12] </div><div class="csl-right-inline">A.
 Díaz-Caro, M. Ivnisky, and O. Malherbe, <span>“An algebraic extension of
 intuitionistic linear logic: The <span class="math inline">L_!^S</span>-calculus and its categorical
 model.”</span> 2025. Available: <a href="https://arxiv.org/abs/2504.12128">https://arxiv.org/abs/2504.12128</a></div>
 </div>
 </div>
-
 </div>
 <p>The first paper considers additivity in the context of the ordinary
 lambda calculus, and the second considers additivity in the context of
@@ -887,7 +893,7 @@ part of the context corresponding to linear types that have had the
 formers, like functions/products/coproducts etc.</p>
 <p>There is also some work on modelling the lambda calculus directly in
 finite dimensional vector spaces over finite fields.</p>
-<div class="bibliography bib">
+<div class="bibliography">
 <!--@article{valiron-zdancewic:finite-vector-spaces,
   title = {Modeling simply-typed lambda calculi in the category of finite vector spaces},
   author = {Valiron, Beno\^it and Zdancewic, Steve},
@@ -912,19 +918,19 @@ finite dimensional vector spaces over finite fields.</p>
   url = {https://www.seas.upenn.edu/~sweirich/types/archive/1992/msg00047.html}
 }-->
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+
 <div id="ref-valiron-zdancewic:finite-vector-spaces" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">B.
+<div class="csl-left-margin">[13] </div><div class="csl-right-inline">B.
 Valiron and S. Zdancewic, <span>“Modeling simply-typed lambda calculi in
 the category of finite vector spaces,”</span> <em>Sci. Ann. Comput.
 Sci.</em>, vol. 24, no. 2, pp. 325–368, 2014, doi: <a href="https://doi.org/10.7561/SACS.2014.2.325">10.7561/SACS.2014.2.325</a>.</div>
 </div>
 <div id="ref-pratt1992linear" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">V.
+<div class="csl-left-margin">[14] </div><div class="csl-right-inline">V.
 Pratt, <span>“Re: Linear logic semantics (barwise).”</span> Email to
 linear@cs.stanford.edu, 1992. Available: <a href="https://www.seas.upenn.edu/~sweirich/types/archive/1992/msg00047.html">https://www.seas.upenn.edu/~sweirich/types/archive/1992/msg00047.html</a></div>
 </div>
 </div>
-
 </div>
 <p>Here, the theory being modelled really is the ordinary non-linear
 lambda calculus without any linear features, though they do also

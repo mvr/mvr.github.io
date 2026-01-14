@@ -6,7 +6,7 @@
   <link href="https://mvr.github.io/atom.xml" rel="self" />
   <link href="https://mvr.github.io" />
   <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
-  <updated>2025-09-30T00:00:00Z</updated>
+  <updated>2025-12-27T00:00:00Z</updated>
   <author>
     <name>Mitchell Riley</name>
     
@@ -14,6 +14,36 @@
     
   </author>
     <entry>
+    <title>All 23-Bit Still Lifes Are Glider Constructible</title>
+    <link href="https://mvr.github.io/posts/xs23.html" rel="alternate" />
+    <id>urn:uuid:ea29baf2-f143-5c5c-aa91-4381bec7b7fb</id>
+    
+    <published>2025-12-27T00:00:00Z</published>
+    
+    <updated>2025-12-27T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[
+<p>In the Game of Life, which still lifes can be produced by crashing
+gliders together? We’ve known for a few years that the answer cannot
+be “all of them”, because in 2022 Ilkka Törmä and Ville Salo <a href="https://conwaylife.com/forums/viewtopic.php?p=140258#p140258">found</a> a
+patch of still life that, if it exists in the universe, must have
+existed since the beginning of time. And so, there is no way we could
+have produced it out of empty space through glider collisions. Similar
+such patches have been found since, with the goal of optimising size
+or population, and at the time of writing the <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=6830#p209209">record holder</a> is an
+unsynthesizable still life with population 154 produced by forum user
+“400spartans”.</p>
+<p>Finding syntheses for small still lifes is easy, but at some unknown
+point below 154 it becomes impossible. Today, we completed our
+collaborative project to notch the lower bound up from 22 to 23, by
+giving explicit syntheses for all 1,646,147 (strict) still lifes with population 23.</p><p><a href="/posts/xs23.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
     <title>No‑Three‑In‑Line, Quicker</title>
     <link href="https://mvr.github.io/posts/no-three-in-line-quicker.html" rel="alternate" />
     <id>urn:uuid:8d52f56f-48bf-5f2f-b079-f4ef06a2fb20</id>
@@ -27,7 +57,8 @@
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p>The code in the <a href="/posts/no-three-in-line.html">previous post</a> is
+    <summary type="html"><![CDATA[
+<p>The code in the <a href="/posts/no-three-in-line.html">previous post</a> is
 fairly quick, but of course we’d always prefer it to be quicker. I’ll
 keep a record here of things I’ve tried and whether they worked.</p><p><a href="/posts/no-three-in-line-quicker.html">&gt; Read Post</a></p>]]></summary>
   </entry>
@@ -45,34 +76,31 @@ keep a record here of things I’ve tried and whether they worked.</p><p><a href
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p>The <a href="https://en.wikipedia.org/wiki/No-three-in-line_problem">No-three-in-line
+    <summary type="html"><![CDATA[
+<p>The <a href="https://en.wikipedia.org/wiki/No-three-in-line_problem">No-three-in-line
 problem</a> asks
-how many points can be placed on a <code>n \times n</code> grid so that no three
+how many points can be placed on a <span class="math inline">n \times n</span> grid so that no three
 points are on the same line, where the lines considered are of any
 slope and not just orthogonal and diagonal. Each row/column can
-contain at most 2 points, so clearly the answer is at most <code>2n</code>. The
-real question is, can we actually achieve <code>2n</code> for every grid size?
+contain at most 2 points, so clearly the answer is at most <span class="math inline">2n</span>. The
+real question is, can we actually achieve <span class="math inline">2n</span> for every grid size?
 It’s <a href="https://doi.org/10.4153%2FCMB-1968-062-3">conjectured</a> that the
 answer is “no” for grids large enough, but we don’t know where the
 crossover point is and there’s <a href="http://web.archive.org/web/20131027174807/http://wso.williams.edu/~bchaffin/no_three_in_line/index.htm">no
 indication</a>
-that the number of <code>2n</code>-point solutions is falling away from
-exponential growth, at least up to <code>18 \times 18</code>!</p>
+that the number of <span class="math inline">2n</span>-point solutions is falling away from
+exponential growth, at least up to <span class="math inline">18 \times 18</span>!</p>
 <p>To my eye, the configurations that work can be quite balanced and
-attractive. Here are some symmetrical ones for <code>14 \times 14</code> (though
+attractive. Here are some symmetrical ones for <span class="math inline">14 \times 14</span> (though
 in general the solutions are not necessarily symmetric in this way):</p>
 <p>[diagram]</p>
-<p>
 <p>The most extensive searches for configurations so far have been done
 by <a href="http://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html">Achim
 Flammenkamp</a>
 and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="https://github.com/mvr/no-three-in-line">written
-some CUDA code</a></p>
-<p></label></p>
-<p></input></span> of my
+some CUDA code</a> of my
 own with the goal of pushing things a little further, and I’ll explain
-it in the rest of this post.</p>
-</p><p><a href="/posts/no-three-in-line.html">&gt; Read Post</a></p>]]></summary>
+it in the rest of this post.</p><p><a href="/posts/no-three-in-line.html">&gt; Read Post</a></p>]]></summary>
   </entry>
   <entry>
     <title>Linear/Nonlinear Logic and Linear Algebra</title>
@@ -88,25 +116,26 @@ it in the rest of this post.</p>
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p><!-- \newcommand{\unit}{𝟙} --></p>
+    <summary type="html"><![CDATA[<!-- \newcommand{\unit}{𝟙} -->
 <p>Benton’s <a href="https://ncatlab.org/nlab/files/BentonLinearLogic.pdf">Linear/Nonlinear
 Logic</a> has
 models in (lax) monoidal adjunctions between monoidal and cartesian
 categories.</p>
-<div class="figure">
-[diagram]
-</div>
+<p>[diagram]</p>
 <p>The tasks performed in GPU kernels often deal with linear and
 nonlinear maps between real vector spaces.</p>
-<div class="figure">
-[diagram]
-</div>
+<p>[diagram]</p>
 <p>I want to take this and run with it: let’s see what it looks like to
 define some mixed linear/nonlinear functions in a linear/nonlinear
 type theory. This feels to me so obvious that it must be written down
 somewhere already. In the literature there is work that gets close
 (and I’ll do some comparisons at the end), but none are quite what I
-want. Please let me know if I’ve missed something.</p><p><a href="/posts/lnl.html">&gt; Read Post</a></p>]]></summary>
+want. Please let me know if I’ve missed something.</p>
+<p><strong>Edit</strong>: It’s been pointed out to me that the type theory I’ve put
+together is almost exactly the <a href="https://doi.org/10.1093/logcom/exs025">Enriched Effect
+Calculus</a>, though I still
+haven’t seen the semantics in ordinary vector spaces discussed
+anywhere. And see my <a href="/posts/lnl-ad.html">follow-up</a>!</p><p><a href="/posts/lnl.html">&gt; Read Post</a></p>]]></summary>
   </entry>
   <entry>
     <title>Movie Night</title>
@@ -128,21 +157,17 @@ crystalline, sacred, with no downsides or exploitable vulnerabilities.</p>
 <ol type="1">
 <li>The nominator is the person who was previously nominator the
 longest ago.</li>
-<li>They choose two movies that haven’t been nominated before.</li>
-<li>Everybody else votes for which to watch. If the vote is a tie, the
-nominator breaks the vote.</li>
+<li>The nominator chooses two movies that haven’t been nominated
+before.</li>
+<li>Everybody else votes for which to watch. If the vote is tied, the
+nominator breaks the tie.</li>
 <li>In highly exceptional circumstances, the Benevolent Dictator For
-Life may declare that a specific movie be watched, for example, if
+Life may declare a specific movie to be watched, for example, if
 we’re all about to go watch a sequel in-theatre and some people
 need to get up to speed.</li>
 </ol>
-<p>
-<p>Here’s what we’ve watched so far</p>
-<p></label></p>
-<p></input></span>, together
-with my ratings using almost the simplest possible system.</p>
-<p></label></p>
-<p></input></span></p><p><a href="/posts/movie-night.html">&gt; Read Post</a></p>]]></summary>
+<p>Here’s what we’ve watched so far, together
+with my ratings using almost the simplest possible system.</p><p><a href="/posts/movie-night.html">&gt; Read Post</a></p>]]></summary>
   </entry>
   <entry>
     <title>The Cars In My Backyard</title>
@@ -190,19 +215,16 @@ posts to be reinstalled.)</p><p><a href="/posts/cars-in-my-backyard.html">&gt; R
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p>
+    <summary type="html"><![CDATA[
 <p><a href="https://conwaylife.com/forums/viewtopic.php?f=9&amp;t=5997">QuFince</a> is a CUDA tool written by <a href="https://cp4space.hatsya.com/">apg</a> to conduct brute-force Game
 of Life searches on the cartesian product of two sets of
 configurations. That is, each configuration from set A is combined
 with each configuration from set B, and run until stabilised. Not
 every result is reported, only those where certain criteria are met.
 Right now the options are either that the result has some interesting
-period</p>
-<p></label></p>
-<p></input></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+period (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
 <a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
 hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
-</p>
 <p>One thing that <em>can’t</em> be done currently is have QuFince report any
 combination that results in an interesting still life, but without
 knowing which still life you want in advance. It’s not so obvious what
@@ -233,7 +255,8 @@ enough.</p><p><a href="/posts/cool-still-lifes.html">&gt; Read Post</a></p>]]></
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p>As a second foray into CUDA, I’ve written a simple program to hunt for
+    <summary type="html"><![CDATA[
+<p>As a second foray into CUDA, I’ve written a simple program to hunt for
 <a href="https://conwaylife.com/wiki/Crawler">crawlers</a> in the Game of Life. The kernel itself is too revolting to
 make public, but the supporting <a href="https://github.com/mvr/LifeAPI/blob/master/cuda/LifeStateCU.cu"><code>LifeStateCU</code></a> code may be useful for
 others. (This could be seen as the first step in a GPU version of
@@ -253,32 +276,31 @@ others. (This could be seen as the first step in a GPU version of
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p>
-<p>Officers is a two-player “take-and-break” game played with heaps of
+    <summary type="html"><![CDATA[<p>Officers is a two-player “take-and-break” game played with heaps of
 coins (or if you prefer, piles of beans, or <a href="https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307">officers and their
-subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people who form indivisible couples</a></p>
-<p></label></p>
-<p></input></span>, or …). The two players
+subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people who form indivisible couples</a>, or …). The two players
 alternate turns, and every turn consists of removing a coin from a
 heap and leaving the remainder in either one or two heaps. In
 particular, taking away a lone coin is not a valid move. The winner is
 the last player who can make a move.</p>
-</p>
-<p>For example, a game starting with a single pile of <code>10</code> coins might
+<p>For example, a game starting with a single pile of <span class="math inline">10</span> coins might
 proceed</p>
-<p><code> [10] \xrightarrow{\mathcal{L}} [3, 6] \xrightarrow{\mathcal{R}} [3, 1, 4] \xrightarrow{\mathcal{L}} [1, 1, 1, 4] \xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2] \xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1] </code></p>
-<p>
-<p>at which point player <code>\mathcal{R}</code> is stuck, so player <code>\mathcal{L}</code>
-has won.</p>
-<p></label></p>
-<p></input></span> Although
+<p><span class="math display">
+[10] 
+\xrightarrow{\mathcal{L}} [3, 6] 
+\xrightarrow{\mathcal{R}} [3, 1, 4]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 4]
+\xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2]
+\xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
+</span></p>
+<p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
+has won. Although
 the total number of coins decreases by 1 each turn, the outcome of the
 game is not determined simply by the parity of the starting number of
 coins: the moment that the game ends also depends on how many piles
 are created by the players making splitting moves. As we will soon
 see, the winning move from any given position is extremely
 unpredictable.</p>
-</p>
 <p>We can solve a game of this kind by calculating the <em>Grundy value</em> for
 each position, and in this post I’m going to discuss my attempt at
 calculating these values for Officers as fast as possible.</p><p><a href="/posts/officers.html">&gt; Read Post</a></p>]]></summary>
@@ -297,7 +319,8 @@ calculating these values for Officers as fast as possible.</p><p><a href="/posts
       <email>mitchell.v.riley@gmail.com</email>
       
     </author>
-    <summary type="html"><![CDATA[<p>Conduits are a central piece of technology in Conway’s Game of Life,
+    <summary type="html"><![CDATA[
+<p>Conduits are a central piece of technology in Conway’s Game of Life,
 especially when engineering new pieces of stable circuitry. A conduit
 moves an active pattern (like a <a href="https://conwaylife.com/wiki/Herschel">Herschel</a> or <a href="https://conwaylife.com/wiki/B-heptomino">B-heptomino</a>) from one
 location to another by allowing it to react with a collection of
@@ -321,57 +344,6 @@ patterns. But the more the merrier!</p>
 Lightcone is pretty speedy: it can find apg’s <a href="https://conwaylife.com/wiki/Spartan_G-to-W-to-H">Spartan G-to-W</a> on
 <a href="https://github.com/mvr/lightcone/blob/master/tests/thessalonic.toml">this</a> input file in just a couple of seconds. In this post I’ll
 explain some of the tricks it uses to cut down the search time.</p><p><a href="/posts/lightcone.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Effective Algebraic Topology in Haskell</title>
-    <link href="https://mvr.github.io/posts/at.html" rel="alternate" />
-    <id>urn:uuid:6a785d63-1058-587c-8c50-897d7e525921</id>
-    
-    <published>2022-09-22T00:00:00Z</published>
-    
-    <updated>2022-09-22T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[<p>Code available on <a href="https://github.com/mvr/at">GitHub</a>.</p>
-<p>For a little while I have been working on this port of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a> from
-Common Lisp to Haskell. Kenzo is a collection of algorithms for
-explicit constructions on simplicial sets: the
-<a href="https://github.com/mvr/at/blob/master/README.md"><code>README</code></a> in the
-repository gives a list of what’s implemented and what should be
-possible. The algorithms and implementations in Kenzo were created by
-Francis Sergeraert, Julio Rubio Garcia, Xavier Dousson, Ana Romero and
-many collaborators.</p>
-<p>My goal was to implement just enough to compute <code>\pi_4 S^3</code>,
-and I reached it today.</p>
-<pre><code>...
-&gt; let x = totalSpace s3 (Wbar kz1) fibration
-&gt; putStrLn $ &quot;π₄ S³ is: &quot; ++ show (homology x !! 4)
-π₄ S³ is: ℤ/2</code></pre>
-<p>
-<p>A fun capability it picked up along the way is calculating the
-homology of Eilenberg-MacLane spaces <code>K(ℤ/m,n)</code>, for example, here is
-<code>K(ℤ/3,2)</code>.</p>
-<p></label></p>
-<p></input></span></p>
-</p>
-<pre><code>&gt; homology (Wbar (WbarDiscrete (Zmod 3)))
-[ℤ,0,ℤ/3,0,ℤ/3,0,ℤ/(3^2),ℤ/3,ℤ/3,ℤ/3,ℤ/3 ⊕ ℤ/3,^C</code></pre>
-<p>I have a lot of ideas for improvements and additional features if
-anybody is interested in joining in, so <mark>please email me if that’s
-you or you know a student for whom this would make a good project</mark>.
-For example, adding the construction of loop spaces and their homology
-would be nice, as would homotopy pushouts in general.</p>
-<p>On the implementation side, I have not spent any time optimising the
-code and there are some obvious places to start, like using a proper
-integer matrix library instead of a homemade one. These sorts of
-optimisations would also make a good project for an undergraduate,
-with not much mathematical background required.</p>
-<p>Below, I’ve copy-pasted a quick introduction I wrote to the ideas
-behind Kenzo.</p><p><a href="/posts/at.html">&gt; Read Post</a></p>]]></summary>
   </entry>
 
 </feed>

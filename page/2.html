@@ -52,6 +52,7 @@
       <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
+        <script defer src="../life-bg.js"></script>
 
         <link rel="icon" type="image/png" href="../favicon.png" />
 
@@ -72,11 +73,40 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
   </symbol>
       </svg>
+      <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
         <p><a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
 <h1 class="post-list-header">Page 2</h1>
 
 <section>
 <ul id="posts-list">
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/cars-in-my-backyard.html">The Cars In My Backyard</a></h1>
+        <p class="post-deets">April 21, 2025 / <a title="All pages tagged 'politics'." href="../tags/politics.html" rel="tag">politics</a>, <a title="All pages tagged 'note-to-self'." href="../tags/note-to-self.html" rel="tag">note-to-self</a></p>
+        <div class="post-content">
+            
+            <p>When I walk around my neighbourhood, I am struck by the beautiful
+character of the houses here: the draughty Queenslanders and timber
+fences, the majestic external staircases, I could go on forever. But
+something always felt off, and I finally realise what it is. How can I
+admire a house with elegant stilts and sweeping verandahs when there
+is a bright red 2019 Ford Puma sitting in the driveway? Or appreciate
+a compact, postwar masterpiece when it has a Hilux poking out around
+the side? In the hours I’ve spent positioning myself on the street so
+I can bathe in the heritage of my neighbourhood, I have not found an
+angle without some such monstrosity in my field of view.</p>
+<p>We’ve spent years fighting the vandals who want to destroy the
+heritage of our neighbourhood. Why should we make an exception for
+this? I see no other option: we must forbid residents from bringing
+any new cars into the area. This is already a compromise, as if I had
+my way we would ban every car newer than the house it is parked in
+front of. (Of course, some especially old houses would need hitching
+posts to be reinstalled.)</p>
+
+            <div class="continue-post"><a href="../posts/cars-in-my-backyard.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
     
     <li class="post-entry">
         <h1 class="post-list-title"><a href="../posts/cool-still-lifes.html">Quickly Detecting Cool Still Lifes</a></h1>
@@ -263,50 +293,6 @@ Lightcone is pretty speedy: it can find apg’s <a href="https://conwaylife.com/
 explain some of the tricks it uses to cut down the search time.</p>
 
             <div class="continue-post"><a href="../posts/lightcone.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="../posts/at.html">Effective Algebraic Topology in Haskell</a></h1>
-        <p class="post-deets">September 22, 2022 / <a title="All pages tagged 'maths'." href="../tags/maths.html" rel="tag">maths</a>, <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a></p>
-        <div class="post-content">
-            
-            <p>Code available on <a href="https://github.com/mvr/at">GitHub</a>.</p>
-<p>For a little while I have been working on this port of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a> from
-Common Lisp to Haskell. Kenzo is a collection of algorithms for
-explicit constructions on simplicial sets: the
-<a href="https://github.com/mvr/at/blob/master/README.md"><code>README</code></a> in the
-repository gives a list of what’s implemented and what should be
-possible. The algorithms and implementations in Kenzo were created by
-Francis Sergeraert, Julio Rubio Garcia, Xavier Dousson, Ana Romero and
-many collaborators.</p>
-<p>My goal was to implement just enough to compute <span class="math inline">\pi_4 S^3</span>,
-and I reached it today.</p>
-<pre><code>...
-&gt; let x = totalSpace s3 (Wbar kz1) fibration
-&gt; putStrLn $ &quot;π₄ S³ is: &quot; ++ show (homology x !! 4)
-π₄ S³ is: ℤ/2</code></pre>
-<p>A fun capability it picked up along the way is calculating the
-homology of Eilenberg-MacLane spaces <span class="math inline">K(ℤ/m,n)</span>, for example, here is
-<span class="math inline">K(ℤ/3,2)</span>.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">This makes my laptop get hot pretty quickly.<br />
-<br />
-</span></span></p>
-<pre><code>&gt; homology (Wbar (WbarDiscrete (Zmod 3)))
-[ℤ,0,ℤ/3,0,ℤ/3,0,ℤ/(3^2),ℤ/3,ℤ/3,ℤ/3,ℤ/3 ⊕ ℤ/3,^C</code></pre>
-<p>I have a lot of ideas for improvements and additional features if
-anybody is interested in joining in, so <mark>please email me if that’s
-you or you know a student for whom this would make a good project</mark>.
-For example, adding the construction of loop spaces and their homology
-would be nice, as would homotopy pushouts in general.</p>
-<p>On the implementation side, I have not spent any time optimising the
-code and there are some obvious places to start, like using a proper
-integer matrix library instead of a homemade one. These sorts of
-optimisations would also make a good project for an undergraduate,
-with not much mathematical background required.</p>
-<p>Below, I’ve copy-pasted a quick introduction I wrote to the ideas
-behind Kenzo. 
-            <div class="continue-post"><a href="../posts/at.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             
         </div>
     </li>

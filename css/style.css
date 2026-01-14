@@ -118,18 +118,18 @@ code span.at {
   color: #5e7a96;
 } /* Attribute */
 code span.bn {
-  color: #468AAD;
+  color: #2f6f93;
 } /* BaseN */
 code span.bu {
-  color: #214F66;
+  color: #214f66;
   font-weight: bold;
 } /* BuiltIn */
 code span.cf {
-  color: #214F66;
+  color: #214f66;
   font-weight: bold;
 } /* ControlFlow */
 code span.ch {
-  color: rgb(75, 135, 75);
+  color: #4a9c4a;
 } /* Char */
 code span.cn {
   color: #222222;
@@ -149,10 +149,10 @@ code span.do {
   font-style: italic;
 } /* Documentation */
 code span.dt {
-  color: #214F66;
+  color: #214f66;
 } /* DataType */
 code span.dv {
-  color: #468AAD;
+  color: #2f6f93;
 } /* DecVal */
 code span.er {
   color: #c15656;
@@ -160,7 +160,7 @@ code span.er {
 } /* Error */
 /* Extension */
 code span.fl {
-  color: #468AAD;
+  color: #2f6f93;
 } /* Float */
 code span.fu {
   color: #222222;
@@ -172,7 +172,7 @@ code span.in {
   font-style: italic;
 } /* Information */
 code span.kw {
-  color: #214F66;
+  color: #214f66;
   font-weight: bold;
 } /* Keyword */
 code span.op {
@@ -190,16 +190,16 @@ code span.sc {
   color: #222222;
 } /* SpecialChar */
 code span.ss {
-  color: rgb(75, 135, 75);
+  color: #4a9c4a;
 } /* SpecialString */
 code span.st {
-  color: rgb(75, 135, 75);
+  color: #4a9c4a;
 } /* String */
 code span.va {
   color: #222222;
 } /* Variable */
 code span.vs {
-  color: rgb(75, 135, 75);
+  color: #4a9c4a;
 } /* VerbatimString */
 code span.wa {
   color: #6e8ea3;
@@ -213,7 +213,7 @@ code span.wa {
 .definition .theorem-tag, .remark .theorem-tag, .theorem .theorem-tag, .proposition .theorem-tag, .lemma .theorem-tag, .proof .theorem-tag, .example .theorem-tag {
   font-weight: bold;
   font-style: normal;
-  color: #214F66;
+  color: #214f66;
 }
 
 .theorem, .proposition, .lemma {
@@ -301,6 +301,10 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+:root {
+  --life-bg-color: #d8e5f1;
+}
+
 body {
   color: #222222;
   background: #f0f0f5;
@@ -312,6 +316,23 @@ body {
   padding-bottom: 20px;
 }
 
+#life-bg-canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 360px;
+  height: 240px;
+  opacity: 0.9;
+  pointer-events: none;
+  image-rendering: pixelated;
+  z-index: 0;
+}
+
+@media (max-width: 1000px) {
+  #life-bg-canvas {
+    display: none;
+  }
+}
 .katex {
   font-size: 1.1em;
   line-height: 1;
@@ -330,11 +351,11 @@ a {
 }
 
 a, a:visited, a:active {
-  color: #468AAD;
+  color: #2f6f93;
 }
 
 a:hover {
-  color: #214F66;
+  color: #214f66;
 }
 
 em {
@@ -364,7 +385,7 @@ header#masthead {
 header#masthead h1 {
   display: inline-block;
   font-size: 3.5rem;
-  border-bottom: 2px solid #468AAD;
+  border-bottom: 2px solid #2f6f93;
   margin-bottom: 20px;
 }
 header#masthead p {
@@ -394,14 +415,14 @@ li.post-entry .post-content {
 
 h1.post-list-header {
   line-height: 1.1;
-  border-bottom: 2px solid #468AAD;
+  border-bottom: 2px solid #2f6f93;
   margin-top: 40px;
   width: 740px;
 }
 
 h1.post-list-title, section.post h1.post-title {
   line-height: 1.1;
-  border-bottom: 2px solid #468AAD;
+  border-bottom: 2px solid #2f6f93;
   margin-top: 40px;
   text-wrap: balance;
 }
@@ -428,7 +449,7 @@ h1.post-list-title a, h1.post-title a {
   font-size: 1rem;
   text-transform: uppercase;
   font-weight: bold;
-  color: rgb(180, 180, 180);
+  color: #b4b4b4;
 }
 .post-deets a {
   color: inherit;
@@ -450,8 +471,19 @@ h1.post-list-title a, h1.post-title a {
   margin-bottom: 20px;
   text-wrap: pretty;
 }
+.post-content blockquote {
+  margin: 0 0 20px;
+  padding: 0.6em 1em;
+  border-left: 4px solid #d8e5f1;
+  background-color: #ffffff;
+  border-radius: 6px;
+  color: #214f66;
+}
+.post-content blockquote p:last-child {
+  margin-bottom: 0;
+}
 .post-content mark {
-  background-color: rgb(217, 225, 234);
+  background-color: #d8e5f1;
   color: inherit;
   padding: 0.1em 0.2em;
 }
@@ -496,7 +528,7 @@ h1.post-list-title a, h1.post-title a {
 }
 .post-content hr {
   border: 0;
-  border-bottom: 2px solid rgb(180, 180, 180);
+  border-bottom: 2px solid #b4b4b4;
   width: 30ch;
   margin-top: 30px;
   margin-bottom: 30px;
@@ -505,7 +537,7 @@ h1.post-list-title a, h1.post-title a {
 footer {
   margin-top: 50px;
   margin-left: 100px;
-  color: rgb(180, 180, 180);
+  color: #b4b4b4;
 }
 
 .continue-post a {
@@ -519,7 +551,7 @@ footer {
 
 .post-comment-request {
   font-style: italic;
-  color: rgb(180, 180, 180);
+  color: #b4b4b4;
 }
 
 a#next-page-link {
@@ -589,17 +621,17 @@ table {
 }
 
 th {
-  background-color: rgb(217, 225, 234);
+  background-color: #d8e5f1;
   font-weight: bold;
   text-align: left;
   padding: 0.8em;
-  border-bottom: 1px solid rgb(180, 180, 180);
+  border-bottom: 1px solid #b4b4b4;
 }
 
 td {
   text-align: start;
   padding: 0.6em 0.8em;
-  border-bottom: 1px solid rgb(180, 180, 180);
+  border-bottom: 1px solid #b4b4b4;
 }
 
 tr:last-child td {
@@ -641,13 +673,13 @@ figure img {
 
 .csl-left-margin {
   float: left;
-  width: 35px;
-  color: #468AAD;
+  width: 45px;
+  color: #2f6f93;
   font-weight: bold;
 }
 
 .csl-right-inline {
-  margin-left: 35px;
+  margin-left: 45px;
 }
 
 /* Icons */

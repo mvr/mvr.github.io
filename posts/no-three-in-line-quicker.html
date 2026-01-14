@@ -52,6 +52,7 @@
       <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
+        <script defer src="../life-bg.js"></script>
 
         <link rel="icon" type="image/png" href="../favicon.png" />
 
@@ -72,6 +73,7 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
   </symbol>
       </svg>
+      <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
         <!-- <div id="header">
      <a href="/">&#171; Home</a>
      </div> -->
@@ -367,7 +369,7 @@ case the projections are always the same; the thing that makes our
 problems distinct is that certain entries of the image are forced to
 be empty in advance. There are a couple of papers in this direction
 that focus on special cases, but nothing too useful.</p>
-<div class="bibliography bib">
+<div class="bibliography">
 <!--@article {MR1355597,
     AUTHOR = {Kuba, A.},
      TITLE = {Reconstruction of unique binary matrices with prescribed
@@ -426,7 +428,6 @@ staircase of fixed zeros,”</span> <em>Linear Algebra Appl.</em>, vol.
 510, pp. 171–185, 2016, doi: <a href="https://doi.org/10.1016/j.laa.2016.08.020">10.1016/j.laa.2016.08.020</a>.</div>
 </div>
 </div>
-
 </div>
 <h3 id="cuda-wrangling">CUDA Wrangling</h3>
 <p>One head-slapper was that I was compiling for Compute Capability 8.6

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>All 23-Bit Still Lifes Are Glider Constructible</title>
+
+        
+        
+        <link rel="canonical" href="https://mvr.github.io/posts/xs23.html" />
+        
+
+        <meta property="og:title" content="All 23-Bit Still Lifes Are Glider Constructible" />
+        
+        
+        <meta property="og:url" content="https://mvr.github.io/posts/xs23.html" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Mitchell Is Typing" />
+        
+        <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
+        <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="All 23-Bit Still Lifes Are Glider Constructible" />
+        
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+      <!-- TODO: Some other font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+        <script defer src="../life-bg.js"></script>
+
+        <link rel="icon" type="image/png" href="../favicon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+      <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/xs23.html">All 23-Bit Still Lifes Are Glider Constructible</a></h1>
+<p class="post-deets">December 27, 2025   / <a title="All pages tagged 'gol'." href="../tags/gol.html" rel="tag">gol</a> </p>
+<div class="post-content">
+    <script defer src="../life/lv-plugin.js"></script>
+<p>In the Game of Life, which still lifes can be produced by crashing
+gliders together? We’ve known for a few years that the answer cannot
+be “all of them”, because in 2022 Ilkka Törmä and Ville Salo <a href="https://conwaylife.com/forums/viewtopic.php?p=140258#p140258">found</a> a
+patch of still life that, if it exists in the universe, must have
+existed since the beginning of time. And so, there is no way we could
+have produced it out of empty space through glider collisions. Similar
+such patches have been found since, with the goal of optimising size
+or population, and at the time of writing the <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=6830#p209209">record holder</a> is an
+unsynthesizable still life with population 154 produced by forum user
+“400spartans”.</p>
+<p>Finding syntheses for small still lifes is easy, but at some unknown
+point below 154 it becomes impossible. Today, we completed our
+collaborative project to notch the lower bound up from 22 to 23, by
+giving explicit syntheses for all 1,646,147 (strict)<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">A still life is
+strict when all its islands are necessary to maintain the stability of
+the pattern.<br />
+<br />
+</span></span> still lifes with population 23. <!--more--></p>
+<p>The final holdout shown below has systematic name
+<a href="https://catagolue.hatsya.com/object/xs23_g88m9icz1iu146/b3s23">xs23_g88m9icz1iu146</a>, and was <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=7031&amp;start=150#p223246">solved</a> by vilc.</p>
+<div class="lifeviewer"><textarea>
+x = 10, y = 7, rule = B3/S23
+6b2o$2b2obo2bo$2bo3bo2bo$4b2ob2o$4o2bo$o2bo2bo$4b2o!
+
+[[ ZOOM 14 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>As you might imagine, this is not the first project of this kind; all
+still lifes with 18 bits were synthesised in October 2019, 19 bits in
+February 2020, 20 bits in March 2021, 21 bits in November 2022 and 22
+bits in August 2024.</p>
+<p>As the number of bits increases, the number of distinct still lifes
+explodes exponentially, so that the 23-bit project had about 2.4× as
+many still lifes to consider as the 22-bit project. The situation is
+actually worse than that: not only are there more problems to get
+through, but each additional bit reveals knotty new ways for a still
+life to fit together.</p>
+<p>My contribution was the mass generation of synthesis recipes through
+computer searches. These disposed of roughly 99.97% of the targets,
+letting the people with actual synthesis talent focus on the ones
+where new ideas were needed. I’ll spend the rest of the post talking
+about the things I tried.</p>
+<p>Here’s the solution for that final still life, split into steps:</p>
+<div class="lifeviewer"><textarea>
+x = 115, y = 66, rule = B3/S23
+9bo54bo34bo$7b2o54bo28bo4b2o$8b2o8bo44b3o25bo6b2o$3bo15bo71b3o$2bo14b
+3o$2b3o82b3o$42b2o28b2o15bo12b2o$41bo2bo26bo2bo13bo12bo2bo$2bo39bo2bo
+26bo2bo26bo2bo$obo36b3ob2o24b3ob2o24b3ob2o$b2o36bo2bo26bo2bo26bo2bo$
+40bobo29bo7bo21bo$41bo6bo24b2o3b2o23b2o$48bobo23bo4b2o23bo$48b2o23bo
+29bo$43b3o28b3o13bo12b2o$8bo36bo30bo13b2o$7b2o35bo44bobo$7bobo62b2o$
+71bobo3b3o$24b3o12b3o31bo3bo$26bo12bo38bo$25bo14bo2$19b2o53b3o$19bobo
+54bo$19bo42bo12bo$61b2o$61bobo3$58b3o$58bo$59bo3$42bo$18b2o7b3o12bobo$
+19b2o8bo12b2o$18bo9bo29bo$59b2o$7bo20bo29b2o$8bo20bo$6b3o18b3o3$7bo4b
+2o23b2o3b2o28b2o28b2o$6bobo2bo2bo21bo2bobo2bo23b2obo2bo23b2obo2bo$7b2o
+3bo2bo21b2o3bo2bo22bo3bo2bo22bo3bo2bo$b3o5b3ob2o24b3ob2o24b3ob2o25b2ob
+2o4bobo$3bo5bo2bo26bo2bo24bobo2bo23b4o2bo6b2o$2bo9bo29bo24b2o3bo23bo2b
+o2bo7bo$13b2o28b2o12bo15b2o28b2o$14bo9b3o17bo12b2o15bo29bo7b3o$13bo12b
+o16bo12bobo2bobo9bo29bo8bo$13b2o10bo17b2o17b2o9b2o28b2o8bo$62bo$33bo
+62b3o$33b2o3bo59bo$32bobo2b2o28b2o28bo$37bobo21bobo3bobo$62b2o3bo32b2o
+$43bo18bo37bobo$31b3o8b2o50b3o3bo$33bo8bobo51bo$32bo62bo!
+
+#C [[ AUTOSTART ]]
+#C [[ HEIGHT 300 ]]
+#C [[ ZOOM 4 ]]
+#C [[ GPS 20 ]]
+#C [[ GRID LOOP 100 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>Solutions like this are typical: there is a natural reaction that
+produces a large chunk of still life, and then many “synthesis
+components” massage that into the target.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">There is an unfortunate
+clash of terminology between this kind of “component” and a connected
+component of a pattern.<br />
+<br />
+</span></span></p>
+<p>Many of these first steps are discovered via soup searches. Sometimes,
+a random soup will produce a still life of interest through the random
+collision of some simple reagents. If we are lucky, it is possible to
+reproduce the reaction by using gliders to re-create the same
+configuration of reagents. We can also find first steps by randomly
+colliding gliders directly; this was the topic of a <a href="../posts/cool-still-lifes.html">previous
+post</a>.</p>
+<p>Most of the action happens after this first step, in finding sequences
+of components that massage a known still life into the target.</p>
+<h2 id="transfer-and-stomp">Transfer and Stomp</h2>
+<p>As you can see in the above example, most synthesis steps only touch a
+small part of the still life. And because pattern behaviour in the
+Game of Life is determined locally, the incoming gliders in a
+synthesis step don’t particularly care what the rest of a still life
+looks like, only that the part they interact with is correct.</p>
+<div class="lifeviewer"><textarea>
+x = 47, y = 19, rule = B3/S23
+11bo$10bo30bo$4bobo3b3o27bo$4b2o28bobo3b3o$bo3bo28b2o$b2o28bo3bo$obo
+12b2o14b2o12b2o$14bo2bo12bobo11bobo$15bo2bo25bo$12b3ob2o27bo$12bo2bo
+26b3o$15bo26bo$16b2o$17bo$16bo$3b2o11b2o$2bobo28b2o$4bo27bobo$34bo!
+
+#C [[ AUTOSTART ]]
+#C [[ ZOOM 6 ]]
+#C [[ GPS 20 ]]
+#C [[ GRID LOOP 60 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>For this reason, there is hope of “transferring” synthesis steps from
+one still life to another. There is a <code>transfer.py</code> script in
+<a href="https://gitlab.com/parclytaxel/Shinjuku">Shinjuku</a> that does exactly this: from each component, one can
+extract a “component template” which only remembers the placements of
+the gliders and the part of the still life which is affected. Then,
+for each component template and each target, the script tests whether
+the output of the template matches any location on the target, and for
+anywhere that matches, whether the component actually effects that
+change successfully. This script, together with some <a href="https://github.com/AlexGreason/Transfer">extensions</a> by
+Alex Greason, were important in all the synthesis projects up to the
+current one.</p>
+<p>Unfortunately, <code>transfer.py</code> is a little slow, and a little limited.
+Independently, vilc and myself worked on some C++ replacements:
+<a href="https://conwaylife.com/forums/viewtopic.php?p=216201#p216201"><code>transfer.cpp</code></a> and <a href="https://github.com/mvr/LifeAPI/blob/master/tools/Stomp.cpp">Stomp</a> respectively.<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">The <code>transfer.py</code> script
+spends a lot of its time in the underlying C++ <a href="https://gitlab.com/apgoucher/lifelib"><code>lifelib</code></a> library, so
+the change of language doesn’t have as much of an impact as you might
+think.<br />
+<br />
+</span></span> Stomp is what I used to do the initial mass solving of the
+still lifes that only required one step to be transferred from a known
+component, as well as to find the long recipes that were necessary for
+some of the trickier still lifes.</p>
+<p>Stomp does a few things that make it a lot faster; the first is that
+it is multithreaded. This is easy enough: processing each target is an
+embarrassingly parallel problem. Next, it uses a more refined notion
+of “template” that also takes into account neighbourhood counts for
+cells that don’t change. This cuts down on the number of false
+positive matches a lot. The templates are also not simply applied one
+at a time, instead, Stomp builds a tree of templates, where each node
+branches on the state of an additional cell in the template (up to
+some fairly shallow depth).<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">This was apparently the intended strategy
+to be used in the <code>transfer.py</code> script; one of the crucial functions
+is called <code>apply_tree</code> but doesn’t actually use a tree.<br />
+<br />
+</span></span> This allows
+us to throw out a lot of the templates without checking individually
+whether they match, once we reach a branch in the tree that no longer
+matches any location in the target pattern.</p>
+<p>On top of all the above, Stomp is quite discerning about which
+component templates it’s willing to consider. I tried a lot of
+heuristics while working on Stomp, and here are the ones I landed on
+by the end. We ignore components in any of the following situations:</p>
+<ul>
+<li>Pure cleanup steps, where the thing being deleted is unattached to
+the remainder of the still life. Because we are doing a backwards
+search for components that lead to a target, allowing cleanup steps
+would lead to an explosion of precursors with, say, an extra block
+in all possible positions. (<code>transfer.py</code> does the same.)</li>
+<li>All the input still lifes are small (<span class="math inline">&lt;7</span> in population). These are
+likely first steps derived from soups as discussed above, and not
+generalisable.</li>
+<li>Less than 30% of the original still life survives unchanged; to
+avoid junk “components” that essentially blow up a still life and
+replace it with a new one.</li>
+<li>There are multiple disconnected changes to the still life. These
+often arise when performing symmetric changes to a symmetric base,
+and we may as well apply both steps separately.</li>
+<li>The component involves an unnecessary
+<a href="https://conwaylife.com/wiki/Boat-bit">boat-bit</a> reaction. There are
+a lot of these, and we may as well do that as a separate step.</li>
+</ul>
+<p>With all the above, we still run into trouble with the search space exploding. The biggest problem is components that create a small still life, together with additional components that just shove it around pointlessly. For this reason, we further cut down on the new synthesis components we’re willing to consider while the search is running. We skip any new component where:</p>
+<ul>
+<li>The input or output is too sparse. For these purposes, “sparse”
+means that there is some connected component that is too far away
+from the largest component by population.</li>
+<li>The gliders interact with the largest connected component but not
+any smaller ones (if there are any).</li>
+</ul>
+<p>This is all glued into a tree search, prioritising precursors with
+lowest population. At the end of this post, you can see a solution
+that required a very deep tree search to find, and which would
+certainly not have been possible without these improvements.</p>
+<p>Using the existing components extracted from the Shinjuku database got
+us a lot of the way, with only around 2000 23-bit targets resisting
+solution at this point.</p>
+<p>So, how do we find new components to feed into this machine?</p>
+<h2 id="component-farming">Component Farming</h2>
+<p>The simplest strategy is to fire some gliders at an object and hope
+that it modifies it without destroying it. I did this using a
+modification of the GPU searcher from the <a href="../posts/cool-still-lifes.html">previous
+post</a>, to iterate through a list of
+objects and all possible 3-glider collisions that interact within a
+certain time range. If the still life is still mostly present but not
+exactly identical to the starting object, the configuration is logged.
+Sometimes some extra ash is left behind, so an additional script hunts
+for a minimal cleanup.</p>
+<p>This kind of random searching surfaces components that couldn’t be
+found any other way, because they’re too weird and unexpected to have
+been dreamed up by a human. Here’s a few random examples, three of which have automatically-generated cleanup gliders:</p>
+<div class="lifeviewer"><textarea>
+x = 93, y = 29, rule = B3/S23
+41bobo$41b2o$42bo2$10bo81bo$11bo78b2o$9b3o14bo64b2o$27bo54bo$o24b3o53b
+o$b2o78b3o2b2o$2o32bo18b2o17b2ob2o9bobo$11b2o4b2o9b2o3bobobob2o13bo18b
+obobo8bo$10bo2bo2bo2bo7bobo4b2ob2obo13bob2o15bobo2bo$6b2o3b2o2bo2b2o9b
+o6bo18bo2bo4bo10bo2b2o$5bobo5b2o21bo19b2o4bo12b2o$7bo5bo20b2o26b3o11bo
+$14bo18bo20b4o17bo$15bo18bobo16bo4bo15bo$14b2o19b2o16b2o2b2o15b2o$80b
+3o$60b3o17bo$9b3o48bo20bo$9bo51bo$10bo44b3o$57bo$56bo$64b3o$64bo$65bo!
+
+#C [[ AUTOSTART ]]
+#C [[ GPS 10 ]]
+#C [[ GRID LOOP 60 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>With a little more work and a more restricted search area, going
+through 4-glider collisions is manageable, though I ended up getting
+fewer interesting results than the 3-glider set. One additional
+strategy was to place entire spark-producing configurations of gliders
+rather than individual gliders. For this, I stole a large set of such
+configurations from <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=2380">this forum thread</a>. Again, this turned up some
+interesting results, but not as many as I had hoped.</p>
+<h2 id="mr.-component">Mr. Component</h2>
+<p>Kazyan had the following idea on Discord way back in 2021:</p>
+<blockquote>
+<p>Take a look at the final step for <a href="https://catagolue.hatsya.com/object?apgcode=xs26_08o0u1eoz32q9871&amp;rule=b3s23"><code>xs26_08o0u1eoz32q9871</code></a>. It
+consists of two very distinct halves. Those two subcomponents, at
+the time, were known, but since <code>transfer.py</code> had never seen them be
+used together, it wouldn’t have known to use them if asked to take
+apart that xs26. This vaporware, which I’ve been thinking of as “Mr.
+Component”, would be supplied with a list of these halves, assemble
+as many complete pairings from that list as possible, and dump the
+resulting full components into shinjuku. Then, <code>transfer.py</code> would
+do its thing.</p>
+</blockquote>
+<p>For reference, here’s that last step that he’s referring to:</p>
+<div class="lifeviewer"><textarea>
+x = 23, y = 22, rule = LifeHistory
+13.A.A$13.2A5.A$14.A4.A$19.3A$12.A$10.A.A$11.2A4$18.2A$3.A.A11.A.A$4.
+2A11.A.A.2A$4.A10.D2.A2.A$15.3A3.A$15.A2.3A$16.A.A$17.A$.A$.2A4.3A$A.
+A6.A$8.A!
+
+#C [[ AUTOSTART ]]
+#C [[ GPS 10 ]]
+#C [[ GRID LOOP 50 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>I’ve highlighted the crucial cell in red. This cell is never active,
+but is the single spot where the two halves of the component interact.
+In a single generation this cell goes from underpopulated to
+overpopulated, and to achieve this the two halves have to be correctly
+synchronised. Applying them to the starting still life in sequence
+would not work.</p>
+<p>I wrote<span class="sidenote-wrapper"><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle" /><span class="sidenote">(For “wrote” read “vibecoded”, this worked disturbingly
+well.)<br />
+<br />
+</span></span> a small tool to realise Kazyan’s idea. This first goes through
+all known components and identifies the above situation; when there
+are two barely-interacting pieces that rely on each other to succeed.
+Each piece stores the “timing” it requires, that is, on which
+generation the above sort of neighbourhood change occurs.</p>
+<p>Then, like Stomp above, we run through some list of targets and try to
+apply all of these discovered parts to it. Each pair of matching parts
+is tested to see whether they actually succeed simultaneously, once
+their timing is aligned.</p>
+<p>Of course this is not fully general; in principle a component may have
+more than two pieces that require synchronisation at multiple
+generations. If you have any examples let me know! The two-part
+version of the tool worked well enough.</p>
+<p>Overall Mr. Component worked well, and resulted in a bunch of
+automated solutions that I think would have had to be found by hand
+otherwise. Here’s a couple of example steps, with the crucial cells
+highlighted. Notice that the cell in the rightmost example actually
+goes from overpopulated to underpopulated, giving that tricky bridge
+motif in the middle.</p>
+<div class="lifeviewer"><textarea>
+x = 116, y = 40, rule = LifeHistory
+101.A$99.2A$100.2A$89.A$90.A$88.3A2$72.A.A$72.2A$4.A68.A27.A$2.A.A35.
+2A58.A.A$3.2A10.A2.2A20.A19.2A.A35.A.A$14.A.A2.A18.2A2.A17.A.4A5.2A
+26.A$A12.A2.A.A18.A2.2A.A22.A3.2A17.A.A8.A$.2A11.3A2.3A14.A2.A2.A4.A.
+A11.2A2.A.A4.A10.A6.2A7.2A3.2A7.A.A$2A12.D2.2A2.A14.2A.A.A5.2A12.A2.A
+D2A13.A.A6.A9.D2A2.A7.2A$16.A2.A18.A.AD6.A13.A.AD16.2A17.A.2A9.A$16.A
+.A19.A19.A4.2A$17.A21.A19.A27.3A$38.2A6.2A9.3A29.A$45.2A41.A$47.A15.
+3A$34.A28.A$2.2A30.2A4.2A22.A$.A.A29.A.A4.A.A58.2A$3.A36.A59.2A8.2A$
+13.2A81.2A4.A7.A.A$12.A.A80.A.A12.A$14.A17.2A42.3A18.A$31.A.A44.A$17.
+2A14.A43.A$17.A.A$17.A81.3A$99.A$15.A84.A$15.2A$14.A.A$86.2A$85.A.A$
+87.A!
+
+#C [[ AUTOSTART ]]
+#C [[ GPS 10 ]]
+#C [[ GRID LOOP 50 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<h2 id="the-trickiest-recipe">The Trickiest Recipe</h2>
+<p>To conclude, here’s the 23-bit still life with the most complicated
+recipe at the time of writing: 47 steps and 178 gliders in total. This
+was found through a Stomp search with unlimited depth and maximum
+intermediate population of 32. If it works, it works!</p>
+<div class="lifeviewer"><textarea>
+x = 177, y = 491, rule = B3/S23
+15bo$16bo$14b3o6$47bo$46bo$46b3o4bo$52bo$52b3o11$36bo$34b2o69bo$35b2o
+66bobo$104b2o$70b2o38b2o38b2o$35b2o32bobo7b2o28bobo2bo36bo2bo$35bobo
+31bobob2o4bobo27bobobobo35bobobo$35bo32b2obob2o4bo28b2obobobo31bob2o2b
+obo$67bo2bo36bo2bo3bo32b2obobobo$67b2o7b2o29b2o43bo$77b2o72b2o$76bo26b
+3o$105bo6b3o$104bo7bo42b3o$113bo41bo$151b2o3bo$150bobo$152bo17$114bo$
+114bobo31bo$114b2o32b2o4bo$111bo35bobo2b2o$109bobo41b2o$110b2o5bo$115b
+2o$116b2o40b2o$157b2o$60bobo96bo$30b2o29b2o7b2o38b2o38b2ob2o$31bo2bo
+26bo9bo2bo36bo2bo36bobo$31bobobo35bobobo33bobobobo33bobobo$27bob2o2bob
+o22bo8bob2o2bobo32bobo2bobo32bobo2bob2o$27b2obobobo21bobo8b2obobobo32b
+o2bobobo32bo2bobobobo$32bo24b2o2b2o8bobo33b2o2bobo10bo22b2o2bobo$32b2o
+28b2o8bo39bo3b2o4b2o28bo$39bo21bo53bobo5b2o$38b2o77bo$38bobo$33b3o$35b
+o$34bo$27b2o$26bobo$28bo7$50bo$48bobo$49b2o3$27bo$25b2o$26b2o31bo$60bo
+67bo$20bo37b3o66bo$21bo100bo4b3o$19b3o32b3o64bo$56bo64b3o$55bo72bo$22b
+o104bo$22b2o103b3o$21bobo2$33b2o22b3o13b2o32b2o4b2o7b2o22b2o4b2o$30bo
+2bo25bo10bo2bo33bo2bo2bo8bobo21bo2bo2bo$29bobobo24bo10bobobo34b2obobo
+8bo24b2obobo$28bobo2bob2o28b2obobo2bob2o33bo2bob2o32bo2bobo$27bo2bobob
+obo28bob2obobobobo33bobobobo32bobobobo$27b2o2bobo37bobo37bobo36bobo2bo
+$32bo39bo39bo38bo3b2o$143bo$125b2o17bo$124b2o16b3o$b2o109b3o11bo$obo
+111bo$2bo110bo3b2o27b3o3bo7bo$16b3o98bobo28bo3b2o6bobo$18bo39b2o57bo
+29bo3bobo6b2o$17bo13b2o24bobo66b3o$31bobo25bo66bo21bo11b2o$31bo95bo20b
+2o9bobo$75b2o70bobo11bo$74b2o$76bo9$13bo$14b2o$13b2o4$16bobo45bobo$17b
+2o46b2o83bobo$17bo47bo78bobo3b2o$13b2o130b2o4bo$12bobo130bo$14bo6bo5b
+2o4b2o38b2o38b2o38b2o$22bo4bo2bo2bo36bo2bo39bo39bo$20b3o5b2obobo35bobo
+bo33b2ob2obo29bo3b2ob2obo$30bo2bobo32bobo2bobo31b2obo2bobo25bobo2bobob
+o2bobo$30bobobobo30bo2bobobobo33bobobobo25b2o3bo2bobobobo$31bobo2bo19b
+o10b2o2bobo2bo33b2obo2bo33b2obo2bo$33bobo21b2o14bobo27b3o7bobo37bobo$
+24b2o7b2o21b2o15b2o28bo9b2o38b2o$23b2o38b2o39bo$25bo36bobo$64bo25bo9b
+3o$90b2o10bo$89bobo9bo$64b3o$64bo$65bo4$11b2o$10bobo$12bo3$9b2o$8bobo$
+10bo4$147bo$145bobo$146b2o$150bo$150bobo$144bo5b2o$103bo41b2o$101bobo
+40b2o$102b2o2$25b2o6b2o30b2o6b2o38b2o38b2o$25bo7bo31bo7bo25b3o4b2o5bo
+33bo5bo$26b3ob2obo21bo10b3ob2obo27bo4bobob2obo32bobob2obo$28bobo2bobo
+20bo11bobo2bobo24bo7bobo2bobo30bobobo2bobo$30bobobobo17b3o15bobobo30b
+2o3bobobo30b2o3bobobo$30b2obo2bo32b3obo2bo32b3obo2bo20bo11b3obo2bo$33b
+obo22b3o8bo3bobo33bo3bobo22b2o4b2o3bo3bobo$33b2o25bo12b2o38b2o22b2o5bo
+bo6b2o$27bo31bo84bo$28b2o35b2o$27b2o36bobo$65bo2$28b2o$27bobo$29bo2$
+20bo$20b2o$19bobo15$64bo$62bobo$18bo44b2o$19bo$17b3o$62bo3b2o$27b2o4b
+2o28bo2bobo4b2o38b2o38b2o$28bo4bo27b3o4bo4bo33b2o4bo33b2o4bo$28bob2obo
+33b2ob2obo33bo2b2obo33bo2b2obo$25b2obobo2bobo30bo3bo2bobo27bo4bobo2bob
+o33b2o2bobo$21bo3bob2o3bobobo30b2o3bobobo27bo2b2o3bobobo35bobobo$21b2o
+6b3obo2bo23b3o6b3obo2bo25b3o4b3obo2bo32b3obo2bo$20bobo6bo3bobo26bo6bo
+3bobo33bo3bobo33bo3bobo$33b2o26bo11b2o38b2o38b2o2$104b2o$105b2o$18b3o
+83bo$20bo128bo$19bo129b2o3b2o$148bobo2b2o$155bo$139b2o$138bobo$140bo7$
+77bo$78bo$76b3o13$33b2o38b2o38b2o38b2o$27b2o4bo33b2o4bo33b2o4bo33b2o4b
+o$27bo2b2obo19bobo11bo2b2obo33bo2b2obo33bo2b2obo$29b2o2bobo18b2o13b2o
+2bobo33b2o2bobo32b3o2bobo$21bobo8bobobo17bo17bobobo35bobobo35bobobo$
+22b2o5b3obo2bo32b3obo2bo23bo8b3obo2bo33b2obo2bo$22bo5bo4bobo32bo4bobo
+14bobo5bobo7bo2bobobo33bobobobo$28b2o3b2o34bo3b2o16b2o6b2o8bobob2o33bo
+2bob2o$24bo40bo2b2o21bo11bo6bo33bo3bobo$25b2o36bobo37b2o39b2o3bo$24b2o
+38b2o36bobo38bobo$71b2o$71bobo78bo$25bo37b2o6bo74b2o3b2o$25b2o37b2o79b
+2o4bobo$24bobo36bo83bo25$33b2o38b2o38b2o38b2o$27b2o4bo33b2o4bo33b2o4bo
+33b2o4bo$27bo2b2obo33bo2b2obo33bo2b2obo33bo2b2obo$28b3o2bobo32b3o2bobo
+27bo4b3o2bobo32b3o2bobo$32bobobo35bobobo27bo7bobobo35bobobo$30b2obo2bo
+33b2obo2bo25b3o5b2obo2bo33b2obo2bo$29bobobobo35bobobo35bobobo35bobobo$
+29bobob2o21bo8bo3bobob2o35bo2b2o36bob2o$30bo26bo5bobo3b2o35bo3bobo39bo
+$55b3o6b2o38bobo4b2o37bobo$60b2o43b2o43b2o$59bobo$23bo37bo11b2o33b2o
+47bobo$24b2o4b2o40b2o34bobo46b2o$23b2o4b2o34b3o6bo33bo49bo$31bo35bo83b
+2o$66bo3b2o78bobo$23b2o44bobo80bo$24b2o45bo$23bo121b2o$146b2o$145bo$
+140bo$140b2o6b3o$139bobo6bo$149bo19b3o$169bo$170bo3b3o$174bo$175bo7$
+95bobo$96b2o$96bo$103bo$33b2o38b2o26bobo9b2o38b2o$27b2o4bo33b2o4bo28b
+2o3b2o4bo39bo$27bo2b2obo33bo2b2obo33bo2b2obo36b2obo$28b3o2bobo32b3o2bo
+bo32b3o2bobo34bo2bobo$32bobobo35bobobo35bobobo35bobobo$30b2obo2bo33b2o
+bo2bo24bo8b2obo2bo31b4obo2bo$31bobobo6bobo20bobo3bobobo23bobo8bo2bobo
+31bo2bo2bobo$31bob2o7b2o22b2o3bobob2o23b2o10b2ob2o30b2o3b2ob2o$32bo10b
+o22bo5bo31b3o$33bobo2b3o28bo36bo$34b2o2bo29b2o35bo43b2o$39bo28bobo38b
+2o37b2o$109bobo38bo$31b2o76bo$32b2o$31bo24$163bo$33b2o38b2o38b2o38b2o
+6b2o6bo$33bo39bo39bo39bo8b2o3b2o$30b2obo36b2obo36b2obo36b2obo14b2o$30b
+o2bobo34bo2bobo34bo2bobo34bo2bobo$32bobobo35bobobo35bobobo35bobobo$28b
+4obo2bo31b4obo2bo31b4obo2bo5bo25b4obo2bo$28bo2bobobo32bo2bobobo32bo2bo
+bobo6bobo23bo2bobobob2o$32b2ob2o36bob2o35bo2b2o5b2o28bo2bobo7b2o$73bo
+41bo2bo36bobo6b2o$72b2o43b2o37bo9bo2$37bo42bo4bo75b2o$32bo4bobo34b2o3b
+2o3b2o32bo42bobo$32b2o3b2o36b2o2bobo2bobo31b2o2b3o36bo$31bobo40bo42bob
+o2bo33b2o$26b2o95bo31bobo$27b2o128bo$26bo133b2o$160bobo$160bo17$125bo$
+124bo$40bo83b3o$41b2o$33b2o5b2o3bobo25b2o38b2o38b2o$33bo11b2o26bo39bo
+39bo$30b2obo12bo23b2obo6b2o28b2obo6b2o28b2obo$30bo2bobo2b2o30bo2bobo3b
+obo28bo2bobo3bobo28bo2bobo$32bobobo2bo32bobobobo33bobobobo33bobobob2o
+6bo$28b4obo2b2o30b4obo2b2o30b4obo2b2o8bo21b4obo2b2obo4b2o$28bo2bobobo
+32bo2bobobo32bo2bobobo9b2o21bo2bobobo9b2o$32bo2bo36bo2bo37bobo4b2o3bob
+o25bobo$35b2o38b2o36b2o4bobo31b2o$121bo37b2o$160b2o$159bo$68b2o8bo$69b
+2o6b2o87b3o$68bo8bobo69bo7b2o7bo$72b3o74b2o6bobo7bo$74bo73bobo6bo$73bo
+$155bo$155b2o$144b2o8bobo$143bobo$145bo13$87bo$85b2o$86b2o3$33b2o38b2o
+38b2o$33bo39bo39bo$30b2obo36b2obo36b2obo$30bo2bobo2b2o30bo2bobo2b2o30b
+o2bobo7bo4bo$32bobobo2bo32bobobo2bo32bobobo4b2o3b2o$28b4obo2bobo29b4ob
+o2bobo29b4obo2bo5b2o3b2o$28bo2bobobobo30bo2bobobobo30bo2bobobo$33bobo
+37bo2bo36bo2b3o$33bobo3bo32b2o38b2o4bo$34bo4bobo81b3o$39b2o82bo$124bo$
+36b2o70b3o4b3o$35b2o73bo4bo$37bo71bo6bo$80bo$75bo3b2o$75b2o2bobo$74bob
+o3$80b2o$79bobo$81bo!
+
+#C [[ AUTOSTART ]]
+#C [[ HEIGHT 1600 ]]
+#C [[ ZOOM 3 ]]
+#C [[ GPS 20 ]]
+#C [[ GRID LOOP 140 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a><!-- , source on <a href="https://github.com/mvr/blog">Github</a> -->. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

@@ -52,6 +52,7 @@
       <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
 
         <link rel="stylesheet" type="text/css" href="./css/style.css" />
+        <script defer src="./life-bg.js"></script>
 
         <link rel="icon" type="image/png" href="./favicon.png" />
 
@@ -72,6 +73,7 @@
     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
   </symbol>
       </svg>
+      <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
         <header id="masthead">
     <h1>Mitchell Is Typing</h1>
     <p>I work on dependent type theory.</p>
@@ -85,6 +87,35 @@
 
 <section>
 <ul id="posts-list">
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="./posts/xs23.html">All 23-Bit Still Lifes Are Glider Constructible</a></h1>
+        <p class="post-deets">December 27, 2025 / <a title="All pages tagged 'gol'." href="./tags/gol.html" rel="tag">gol</a></p>
+        <div class="post-content">
+            
+            <script defer src="./life/lv-plugin.js"></script>
+<p>In the Game of Life, which still lifes can be produced by crashing
+gliders together? We’ve known for a few years that the answer cannot
+be “all of them”, because in 2022 Ilkka Törmä and Ville Salo <a href="https://conwaylife.com/forums/viewtopic.php?p=140258#p140258">found</a> a
+patch of still life that, if it exists in the universe, must have
+existed since the beginning of time. And so, there is no way we could
+have produced it out of empty space through glider collisions. Similar
+such patches have been found since, with the goal of optimising size
+or population, and at the time of writing the <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=6830#p209209">record holder</a> is an
+unsynthesizable still life with population 154 produced by forum user
+“400spartans”.</p>
+<p>Finding syntheses for small still lifes is easy, but at some unknown
+point below 154 it becomes impossible. Today, we completed our
+collaborative project to notch the lower bound up from 22 to 23, by
+giving explicit syntheses for all 1,646,147 (strict)<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">A still life is
+strict when all its islands are necessary to maintain the stability of
+the pattern.<br />
+<br />
+</span></span> still lifes with population 23. 
+            <div class="continue-post"><a href="./posts/xs23.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
     
     <li class="post-entry">
         <h1 class="post-list-title"><a href="./posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a></h1>
@@ -192,6 +223,11 @@ type theory. This feels to me so obvious that it must be written down
 somewhere already. In the literature there is work that gets close
 (and I’ll do some comparisons at the end), but none are quite what I
 want. Please let me know if I’ve missed something.</p>
+<p><strong>Edit</strong>: It’s been pointed out to me that the type theory I’ve put
+together is almost exactly the <a href="https://doi.org/10.1093/logcom/exs025">Enriched Effect
+Calculus</a>, though I still
+haven’t seen the semantics in ordinary vector spaces discussed
+anywhere. And see my <a href="./posts/lnl-ad.html">follow-up</a>!</p>
 
             <div class="continue-post"><a href="./posts/lnl.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             
@@ -209,11 +245,12 @@ crystalline, sacred, with no downsides or exploitable vulnerabilities.</p>
 <ol type="1">
 <li>The nominator is the person who was previously nominator the
 longest ago.</li>
-<li>They choose two movies that haven’t been nominated before.</li>
-<li>Everybody else votes for which to watch. If the vote is a tie, the
-nominator breaks the vote.</li>
+<li>The nominator chooses two movies that haven’t been nominated
+before.</li>
+<li>Everybody else votes for which to watch. If the vote is tied, the
+nominator breaks the tie.</li>
 <li>In highly exceptional circumstances, the Benevolent Dictator For
-Life may declare that a specific movie be watched, for example, if
+Life may declare a specific movie to be watched, for example, if
 we’re all about to go watch a sequel in-theatre and some people
 need to get up to speed.</li>
 </ol>
@@ -227,34 +264,6 @@ see than the average person.<br />
 <br />
 </span></span> 
             <div class="continue-post"><a href="./posts/movie-night.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="./posts/cars-in-my-backyard.html">The Cars In My Backyard</a></h1>
-        <p class="post-deets">April 21, 2025 / <a title="All pages tagged 'politics'." href="./tags/politics.html" rel="tag">politics</a>, <a title="All pages tagged 'note-to-self'." href="./tags/note-to-self.html" rel="tag">note-to-self</a></p>
-        <div class="post-content">
-            
-            <p>When I walk around my neighbourhood, I am struck by the beautiful
-character of the houses here: the draughty Queenslanders and timber
-fences, the majestic external staircases, I could go on forever. But
-something always felt off, and I finally realise what it is. How can I
-admire a house with elegant stilts and sweeping verandahs when there
-is a bright red 2019 Ford Puma sitting in the driveway? Or appreciate
-a compact, postwar masterpiece when it has a Hilux poking out around
-the side? In the hours I’ve spent positioning myself on the street so
-I can bathe in the heritage of my neighbourhood, I have not found an
-angle without some such monstrosity in my field of view.</p>
-<p>We’ve spent years fighting the vandals who want to destroy the
-heritage of our neighbourhood. Why should we make an exception for
-this? I see no other option: we must forbid residents from bringing
-any new cars into the area. This is already a compromise, as if I had
-my way we would ban every car newer than the house it is parked in
-front of. (Of course, some especially old houses would need hitching
-posts to be reinstalled.)</p>
-
-            <div class="continue-post"><a href="./posts/cars-in-my-backyard.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             
         </div>
     </li>

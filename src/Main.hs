@@ -86,13 +86,16 @@ run action = hakyllWith config $ do
   matchMetadata postsPattern postsMetadataFilter $ do
     route   $ setExtension ".html"
     let ctx = postCtx tags <> siteCtx -- <> field "tags" (\_ -> renderTagList tags)
-    compile $ pandocCustomCompiler
-      >>= saveSnapshot "body"
-      >>= loadAndApplyTemplate "templates/post.html" ctx
-      -- >>= saveSnapshot "rendered"
-      >>= loadAndApplyTemplate "templates/post-page.html" ctx
-      >>= loadAndApplyTemplate "templates/default.html" ctx
-      >>= relativizeUrls
+    compile $ do
+      feed <- pandocFeedCompiler
+      _ <- saveSnapshot "feed" feed
+      pandocCustomCompiler
+        >>= saveSnapshot "body"
+        >>= loadAndApplyTemplate "templates/post.html" ctx
+        -- >>= saveSnapshot "rendered"
+        >>= loadAndApplyTemplate "templates/post-page.html" ctx
+        >>= loadAndApplyTemplate "templates/default.html" ctx
+        >>= relativizeUrls
 
   -- Post list
   create ["archive.html"] $ do
@@ -205,9 +208,8 @@ run action = hakyllWith config $ do
                       <> bodyField "description"
                       <> constField "icon" iconUrl
 
-        posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "body"
-        cleaned <- mapM Feed.sanitizeFeedItem posts
-        Feed.customRenderAtom feedConfiguration feedCtx cleaned
+        posts <- fmap (take 10) . recentFirst =<< loadAllSnapshots "posts/*" "feed"
+        Feed.customRenderAtom feedConfiguration feedCtx posts
 
 maybeField :: String -> (Item a -> Compiler (Maybe String)) -> Context a
 maybeField key value = field key $ maybe empty return <=< value
@@ -282,31 +284,22 @@ canonicalUrlField key = field key $ \item -> do
     Nothing    -> pure root
     Just route -> pure (root ++ toUrl route)
 
+pandocReaderOptions :: ReaderOptions
+pandocReaderOptions =
+  defaultHakyllReaderOptions {
+    readerExtensions = foldr enableExtension (readerExtensions defaultHakyllReaderOptions) [Ext_mark]
+  }
+
+pandocWriterOptions :: WriterOptions
+pandocWriterOptions =
+  defaultHakyllWriterOptions {
+    writerHTMLMathMethod = KaTeX ""
+  }
+
 pandocCustomCompiler :: Compiler (Item String)
 pandocCustomCompiler = do
-  -- identifier <- getUnderlying
-  -- metadata <- getMetadata identifier
-  
-  let readerOptions = defaultHakyllReaderOptions {
-                        readerExtensions = foldr enableExtension (readerExtensions defaultHakyllReaderOptions) [Ext_mark]
-                      }
-      writerOptions = defaultHakyllWriterOptions {
-                        writerHTMLMathMethod = KaTeX ""
-                      }
-
-      -- addMetaFromConfig :: Pandoc -> Compiler Pandoc
-      -- addMetaFromConfig doc =
-      --   case (lookupString "csl" metadata, lookupString "bibliography" metadata) of
-      --     (Just cslFile, Just bibFile) -> do
-      --       result <- (unsafeCompiler . Pandoc.runIO . Pandoc.processCitations . setMeta "csl" cslFile . setMeta "bibliography" bibFile) doc
-      --       case result of
-      --         Left  e -> compilerThrow ["Error during processCitations: " ++ show e]
-      --         Right x -> return x
-      --     _ -> return doc
-
-      transform =
-        -- addMetaFromConfig <=<
-        Tikz.filterTikz <=< 
+  let transform =
+        Tikz.filterTikz <=<
         Bibliography.filterBibliography <=<
         return
         . LifeViewer.filterLifeViewer
@@ -314,7 +307,25 @@ pandocCustomCompiler = do
         . Theorem.filterThms
         . usingSideNotes
 
-  pandocCompilerWithTransformM readerOptions writerOptions transform
+  pandocCompilerWithTransformM pandocReaderOptions pandocWriterOptions transform
+
+pandocFeedCompiler :: Compiler (Item String)
+pandocFeedCompiler = do
+  let transform =
+        return . Feed.simplifyFeedPandoc <=<
+        Bibliography.filterBibliography <=<
+        return
+        . Hyphen.filterHyphen
+        . Theorem.filterThms
+
+  item <- getResourceBody
+  let teaserItem = fmap trimAtMore item
+  doc <- readPandocWith pandocReaderOptions teaserItem
+  doc' <- traverse transform doc
+  return $ writePandocWith pandocWriterOptions doc'
+
+trimAtMore :: String -> String
+trimAtMore raw = T.unpack $ fst $ T.breakOn "<!--more-->" (T.pack raw)
 
 config :: Configuration
 config = defaultConfiguration

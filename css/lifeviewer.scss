@@ -9,3 +9,10 @@
     min-height: 265px;
     margin-bottom: 20px; // Same as p
 }
+
+@media screen and (max-width: 760px) {
+    .lifeviewer {
+        min-height: 0;
+        margin-bottom: 16px;
+    }
+}

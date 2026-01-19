@@ -44,6 +44,10 @@ html {
   text-rendering: optimizeLegibility;
 }
 
+:root {
+  --life-bg-color: #{$life-bg-color};
+}
+
 body {
   color: $offblack;
   background: $offwhite;
@@ -55,6 +59,24 @@ body {
   padding-top: 100px;
   padding-left: 80px;
   padding-bottom: 20px;
+}
+
+#life-bg-canvas {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 360px;
+  height: 240px;
+  opacity: 0.9;
+  pointer-events: none;
+  image-rendering: pixelated;
+  z-index: 0;
+}
+
+@media (max-width: 1000px) {
+  #life-bg-canvas {
+    display: none;
+  }
 }
 
 .katex { font-size: 1.1em; line-height: 1; }

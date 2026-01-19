@@ -6,6 +6,8 @@ import Control.Monad (filterM, liftM, (<=<), (>=>), msum)
 import Control.Applicative (empty)
 import Data.Monoid
 import System.Environment (getArgs)
+import System.Directory (doesDirectoryExist, doesFileExist)
+import System.Exit (exitFailure)
 import qualified Data.Set as S
 import qualified Data.Map as M
 import Data.Text.Titlecase
@@ -34,6 +36,7 @@ import qualified Feed
 
 main :: IO ()
 main = do
+  checkRepoRoot
   args <- getArgs
   case args of
     (h:_) -> run h
@@ -41,6 +44,17 @@ main = do
 
 perPage :: Int
 perPage = 5
+
+-- PEBKAC
+checkRepoRoot :: IO ()
+checkRepoRoot = do
+  hasPosts <- doesDirectoryExist "posts"
+  hasIndex <- doesFileExist "package.yaml"
+  if hasPosts && hasIndex
+    then pure ()
+    else do
+      putStrLn "Expected repo root (missing posts/ or package.yaml). Are you in the root directory?"
+      exitFailure
 
 grouper :: (MonadMetadata m, MonadFail m) => (Metadata -> Bool) -> [Identifier] -> m [[Identifier]]
 grouper predicate ids = do

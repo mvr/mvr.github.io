@@ -3,14 +3,15 @@
 $offblack: #222222; // For text
 $offwhite: #f0f0f5; // For background
 $boxwhite: #ffffff; // For diagram backgrounds
-$lightgrey: rgb(180, 180, 180); // For footers/metadata
-$blue: #468AAD; // For links and highlights
-$lightblue: rgb(217,225,234);
-$darkblue: #214F66;
+$lightgrey: #b4b4b4; // For footers/metadata
+$blue: #2f6f93; // For links and highlights
+$lightblue: #d8e5f1;
+$darkblue: #214f66;
 $brown: #803300;    // For syntax highlighting
 $lightbrown: #e0ae8f;
-$green: rgb(75, 135, 75);
-$lightgreen: rgb(180, 210, 180);
+$green: #4a9c4a;
+$lightgreen: #c7e1c7;
+$life-bg-color: $lightblue;
 // Remember to adjust the colours in LifeViewer.hs if necessary
 
 /* fonts:

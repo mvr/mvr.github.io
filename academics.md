@@ -2,15 +2,6 @@
 title: Academics
 ---
 
-## Papers and Preprints
-
-### Dissertation
-
-- **A Bunched Homotopy Type Theory for Synthetic Stable Homotopy Theory.**  
-  Advisor: Dan Licata.  
-  Wesleyan University, May 2022.  
-  [[pdf](pubs/thesis.pdf)]
-
 ### Articles and Preprints
 
 - **Learners are Almost Compact Closed.**  
@@ -39,8 +30,19 @@ title: Academics
   FSCD, 2017.  
   [[short pdf](pubs/lsr17multi.pdf)] [[extended pdf](pubs/lsr17multi-ex.pdf)]
 
-## Talks
+### Dissertation
 
+- **A Bunched Homotopy Type Theory for Synthetic Stable Homotopy Theory.**  
+  Advisor: Dan Licata.  
+  Wesleyan University, May 2022.  
+  [[pdf](pubs/thesis.pdf)]
+
+### Talks
+
+- **Tiny Types and Cubical Type Theory**  
+  [HoTTEST](https://hottest-seminar.github.io/), April 2025.  
+  [[slides](https://hottest-seminar.github.io/hottestfiles/Mitchell-2025-04-17-HoTTEST.pdf)]  
+  [[video](https://www.youtube.com/watch?v=qRfkxYgMZn0)]
 - **Learners are Almost Compact Closed.**  
   [ACT 2024](https://oxford24.github.io/), June 2024.  
   [[slides](slides/act2024.pdf)]
@@ -92,11 +94,17 @@ title: Academics
   Brisbane Functional Programming Group, May 2015.  
   [[video](https://www.youtube.com/watch?v=LJQgYBQFtSE)] [[code](https://github.com/mvr/cf)]
 
-## Reviewing
+### Reviewing
+
+I was an organiser of [HoTT/UF 2024](https://hott-uf.github.io/2024/)
+and [HoTT/UF 2025](https://hott-uf.github.io/2025/), and helped
+organise the [Running
+HoTT](https://ncatlab.org/nlab/show/Center+for+Quantum+and+Topological+Systems#RunningHoTT2024)
+conference at NYUAD.
 
 I have acted as a reviewer for LICS, ACT, and FSCD.
 
-## Teaching
+### Teaching
 
 - Spring 2022: TA for COMP301, Automata Theory and Formal Languages.
 - Fall 2021: TA for COMP321, Principles of Programming Languages.

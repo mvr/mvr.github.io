@@ -15,6 +15,14 @@ executables:
   mvr:
     main:                Main.hs
     source-dirs:         src
+    other-modules:
+      - Feed
+      - Bibliography
+      - Hyphen
+      - LifeViewer
+      - Sidenote
+      - Theorem
+      - Tikz
     dependencies:
       - base >=4.7 && <5.0
       - containers >= 0.5.5.1
@@ -33,3 +41,4 @@ executables:
       - cryptohash-md5
       - base16-bytestring
       - directory
+      - uuid

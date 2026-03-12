@@ -41,8 +41,15 @@ getThenIncr = do
 
 -- Extract inlines from blocks. Note has a [Block], but Span needs [Inline].
 coerceToInline :: [Block] -> [Inline]
-coerceToInline = concatMap deBlock . walk deNote
+coerceToInline = trimTrailingBreaks . concatMap deBlock . walk deNote
  where
+  trimTrailingBreaks :: [Inline] -> [Inline]
+  trimTrailingBreaks = reverse . dropWhile isLineBreak . reverse
+
+  isLineBreak :: Inline -> Bool
+  isLineBreak LineBreak = True
+  isLineBreak _         = False
+
   deBlock :: Block -> [Inline]
   deBlock (Plain ls) = ls
   -- Simulate paragraphs with double LineBreak

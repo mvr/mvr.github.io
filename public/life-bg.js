@@ -118,17 +118,6 @@
     return false;
   };
 
-  const hasVisibleCells = () => {
-    for (let y = 0; y < config.rows; y += 1) {
-      for (let x = 0; x < config.cols; x += 1) {
-        if (grid[index(x, y)] === 1) {
-          return true;
-        }
-      }
-    }
-    return false;
-  };
-
   const countVisibleCells = () => {
     let count = 0;
     for (let y = 0; y < config.rows; y += 1) {
@@ -159,8 +148,8 @@
   };
 
   const applySizing = () => {
-    const width = config.cols * config.cellSize - config.cellGap;
-    const height = config.rows * config.cellSize - config.cellGap;
+    const width = config.cols * config.cellSize;
+    const height = config.rows * config.cellSize;
     canvas.width = width;
     canvas.height = height;
     canvas.style.width = `${width}px`;

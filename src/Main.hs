@@ -23,7 +23,7 @@ import qualified Data.UUID.V5 as UUID.V5
 
 import Hakyll
 import Text.Pandoc.Options
-import Text.Pandoc.SideNote
+import Sidenote (usingSideNotes)
 -- import Hakyll.Core.Compiler.Internal (compilerThrow)
 -- import Text.Pandoc.Builder (setMeta)
 -- import Text.Pandoc as Pandoc (runIO)

@@ -24,8 +24,8 @@ executables:
       - time-locale-compat
       - titlecase
       - text
+      - mtl
       - pandoc-types
-      - pandoc-sidenote
       - bytestring
       - uri-encode
       - process

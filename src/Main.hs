@@ -11,6 +11,7 @@ import System.Exit (exitFailure)
 import qualified Data.Set as S
 import qualified Data.Map as M
 import Data.Text.Titlecase
+import qualified Data.Text as T
 
 import Data.Time.Clock (UTCTime (..))
 import Data.Time.Format (formatTime, parseTimeM)

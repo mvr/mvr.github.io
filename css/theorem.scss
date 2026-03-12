@@ -1,3 +1,5 @@
+@use 'tokens' as *;
+
 .definition, .remark, .theorem, .proposition, .lemma, .proof, .example {
   margin-bottom: 18px;
   display: block;

@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>All 23-Bit Still Lifes Are Glider Constructible</title>
 
         
@@ -16,6 +17,8 @@
         
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
         
         <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
         <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
@@ -23,6 +26,15 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="All 23-Bit Still Lifes Are Glider Constructible" />
         
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
@@ -44,7 +56,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
 
       <!-- TODO: Some other font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
@@ -54,11 +66,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         <script defer src="../life-bg.js"></script>
 
-        <link rel="icon" type="image/png" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
     </head>
 
     <body>
@@ -99,9 +114,7 @@ point below 154 it becomes impossible. Today, we completed our
 collaborative project to notch the lower bound up from 22 to 23, by
 giving explicit syntheses for all 1,646,147 (strict)<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">A still life is
 strict when all its islands are necessary to maintain the stability of
-the pattern.<br />
-<br />
-</span></span> still lifes with population 23. <!--more--></p>
+the pattern.</span></span> still lifes with population 23. <!--more--></p>
 <p>The final holdout shown below has systematic name
 <a href="https://catagolue.hatsya.com/object/xs23_g88m9icz1iu146/b3s23">xs23_g88m9icz1iu146</a>, and was <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=7031&amp;start=150#p223246">solved</a> by vilc.</p>
 <div class="lifeviewer"><textarea>
@@ -180,18 +193,18 @@ $43bo18bo37bobo$31b3o8b2o50b3o3bo$33bo8bobo51bo$32bo62bo!
 produces a large chunk of still life, and then many “synthesis
 components” massage that into the target.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">There is an unfortunate
 clash of terminology between this kind of “component” and a connected
-component of a pattern.<br />
-<br />
-</span></span></p>
+component of a pattern.</span></span></p>
 <p>Many of these first steps are discovered via soup searches. Sometimes,
 a random soup will produce a still life of interest through the random
 collision of some simple reagents. If we are lucky, it is possible to
-reproduce the reaction by using gliders to re-create the same
+reproduce the reaction by using gliders to recreate the same
 configuration of reagents. We can also find first steps by randomly
 colliding gliders directly; this was the topic of a <a href="../posts/cool-still-lifes.html">previous
 post</a>.</p>
 <p>Most of the action happens after this first step, in finding sequences
-of components that massage a known still life into the target.</p>
+of components that massage a known still life into the target. In the
+above solution, the final step was the new one, handcrafted by vilc
+for this problem.</p>
 <h2 id="transfer-and-stomp">Transfer and Stomp</h2>
 <p>As you can see in the above example, most synthesis steps only touch a
 small part of the still life. And because pattern behaviour in the
@@ -199,10 +212,10 @@ Game of Life is determined locally, the incoming gliders in a
 synthesis step don’t particularly care what the rest of a still life
 looks like, only that the part they interact with is correct.</p>
 <div class="lifeviewer"><textarea>
-x = 47, y = 19, rule = B3/S23
-11bo$10bo30bo$4bobo3b3o27bo$4b2o28bobo3b3o$bo3bo28b2o$b2o28bo3bo$obo
-12b2o14b2o12b2o$14bo2bo12bobo11bobo$15bo2bo25bo$12b3ob2o27bo$12bo2bo
-26b3o$15bo26bo$16b2o$17bo$16bo$3b2o11b2o$2bobo28b2o$4bo27bobo$34bo!
+x = 47, y = 18, rule = B3/S23
+11bo29bo$10bo29bo$4bobo3b3o21bobo3b3o$4b2o28b2o$bo3bo25bo3bo$b2o28b2o
+12b2o$obo12b2o13bobo11bobo$14bo2bo26bo$15bo2bo26bo$12b3ob2o24b3o$12bo
+2bo26bo$15bo$16b2o$17bo$16bo$3b2o11b2o15b2o$2bobo27bobo$4bo29bo!
 
 #C [[ AUTOSTART ]]
 #C [[ ZOOM 6 ]]
@@ -238,28 +251,35 @@ Independently, vilc and myself worked on some C++ replacements:
 <a href="https://conwaylife.com/forums/viewtopic.php?p=216201#p216201"><code>transfer.cpp</code></a> and <a href="https://github.com/mvr/LifeAPI/blob/master/tools/Stomp.cpp">Stomp</a> respectively.<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">The <code>transfer.py</code> script
 spends a lot of its time in the underlying C++ <a href="https://gitlab.com/apgoucher/lifelib"><code>lifelib</code></a> library, so
 the change of language doesn’t have as much of an impact as you might
-think.<br />
-<br />
-</span></span> Stomp is what I used to do the initial mass solving of the
+think.</span></span> Stomp is what I used to do the initial mass solving of the
 still lifes that only required one step to be transferred from a known
 component, as well as to find the long recipes that were necessary for
 some of the trickier still lifes.</p>
-<p>Stomp does a few things that make it a lot faster; the first is that
-it is multithreaded. This is easy enough: processing each target is an
+<p>Stomp does a few things that make it a lot faster; the first is adding
+multithreading. This is easy enough: processing each target is an
 embarrassingly parallel problem. Next, it uses a more refined notion
 of “template” that also takes into account neighbourhood counts for
 cells that don’t change. This cuts down on the number of false
-positive matches a lot. The templates are also not simply applied one
-at a time, instead, Stomp builds a tree of templates, where each node
-branches on the state of an additional cell in the template (up to
-some fairly shallow depth).<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">This was apparently the intended strategy
-to be used in the <code>transfer.py</code> script; one of the crucial functions
-is called <code>apply_tree</code> but doesn’t actually use a tree.<br />
-<br />
-</span></span> This allows
-us to throw out a lot of the templates without checking individually
-whether they match, once we reach a branch in the tree that no longer
-matches any location in the target pattern.</p>
+positive matches a lot, and so reduces the amount of generation
+stepping that needs to be done.</p>
+<p>Even so, the process of matching a template against a pattern is quite
+expensive: ultimately we have to do a series of convolution of one
+64×64 board against another, finding all locations where a template
+might match. I’ve spent some time trying to get this convolution
+operation <a href="https://github.com/mvr/LifeAPI/blob/a62aa1073514135d27d314667ebf705f3c805c82/LifeAPI.hpp#L1356">reasonably
+fast</a>,
+but it’s still the place where Stomp spends most of its time.</p>
+<p>To minimise the number of convolutions we actually have to do, the
+templates are also not simply applied one at a time. Instead, Stomp
+builds a tree of templates, where each node branches on the state of
+an additional cell in the template (up to some fairly shallow
+depth).<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">This was apparently the intended strategy to be used in the
+<code>transfer.py</code> script; one of the crucial functions is called
+<code>apply_tree</code> but doesn’t actually use a tree.</span></span> This allows us to throw
+out a lot of the templates without checking individually whether they
+match. Once we reach a node in the tree that doesn’t match any
+location in the target pattern, we can immediately prune all templates
+below it.</p>
 <p>On top of all the above, Stomp is quite discerning about which
 component templates it’s willing to consider. I tried a lot of
 heuristics while working on Stomp, and here are the ones I landed on
@@ -289,7 +309,10 @@ a lot of these, and we may as well do that as a separate step.</li>
 means that there is some connected component that is too far away
 from the largest component by population.</li>
 <li>The gliders interact with the largest connected component but not
-any smaller ones (if there are any).</li>
+any smaller ones (if there are any). This forces an order between
+some steps which commute. For example, we can only create additional
+small still lifes just before the step they are used, rather than
+letting them sit while we continue to work on the largest component.</li>
 </ul>
 <p>This is all glued into a tree search, prioritising precursors with
 lowest population. At the end of this post, you can see a solution
@@ -301,8 +324,8 @@ solution at this point.</p>
 <p>So, how do we find new components to feed into this machine?</p>
 <h2 id="component-farming">Component Farming</h2>
 <p>The simplest strategy is to fire some gliders at an object and hope
-that it modifies it without destroying it. I did this using a
-modification of the GPU searcher from the <a href="../posts/cool-still-lifes.html">previous
+that it modifies it without destroying it. I did this using a version
+of the GPU searcher from the <a href="../posts/cool-still-lifes.html">previous
 post</a>, to iterate through a list of
 objects and all possible 3-glider collisions that interact within a
 certain time range. If the still life is still mostly present but not
@@ -385,15 +408,13 @@ A6.A$8.A!
 </div>
 
 <p>I’ve highlighted the crucial cell in red. This cell is never active,
-but is the single spot where the two halves of the component interact.
+but is the unique spot where the two halves of the component interact.
 In a single generation this cell goes from underpopulated to
 overpopulated, and to achieve this the two halves have to be correctly
 synchronised. Applying them to the starting still life in sequence
 would not work.</p>
 <p>I wrote<span class="sidenote-wrapper"><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle" /><span class="sidenote">(For “wrote” read “vibecoded”, this worked disturbingly
-well.)<br />
-<br />
-</span></span> a small tool to realise Kazyan’s idea. This first goes through
+well.)</span></span> a small tool to realise Kazyan’s idea. This first goes through
 all known components and identifies the above situation; when there
 are two barely-interacting pieces that rely on each other to succeed.
 Each piece stores the “timing” it requires, that is, on which
@@ -406,12 +427,12 @@ their timing is aligned.</p>
 more than two pieces that require synchronisation at multiple
 generations. If you have any examples let me know! The two-part
 version of the tool worked well enough.</p>
-<p>Overall Mr. Component worked well, and resulted in a bunch of
-automated solutions that I think would have had to be found by hand
-otherwise. Here’s a couple of example steps, with the crucial cells
-highlighted. Notice that the cell in the rightmost example actually
-goes from overpopulated to underpopulated, giving that tricky bridge
-motif in the middle.</p>
+<p>Overall Mr. Component worked well, and the discovered components
+allowed Stomp to find a bunch of solutions that would have needed to
+be found by hand otherwise. Here’s a couple of example steps, with the
+crucial cells highlighted. Notice that the cell in the rightmost
+example actually goes from overpopulated to underpopulated, resulting
+in that tricky bridge motif in the middle.</p>
 <div class="lifeviewer"><textarea>
 x = 116, y = 40, rule = LifeHistory
 101.A$99.2A$100.2A$89.A$90.A$88.3A2$72.A.A$72.2A$4.A68.A27.A$2.A.A35.
@@ -446,9 +467,11 @@ D2A13.A.A6.A9.D2A2.A7.2A$16.A2.A18.A.AD6.A13.A.AD16.2A17.A.2A9.A$16.A
 
 <h2 id="the-trickiest-recipe">The Trickiest Recipe</h2>
 <p>To conclude, here’s the 23-bit still life with the most complicated
-recipe at the time of writing: 47 steps and 178 gliders in total. This
-was found through a Stomp search with unlimited depth and maximum
-intermediate population of 32. If it works, it works!</p>
+recipe at the time of writing:
+<a href="https://catagolue.hatsya.com/object/xs23_09fg4cz259a5113/b3s23">xs23_09fg4cz259a5113</a>,
+which takes 47 steps and 178 gliders in total. This was found through
+a Stomp search with unlimited depth and maximum intermediate
+population of 32. If it works, it works!</p>
 <div class="lifeviewer"><textarea>
 x = 177, y = 491, rule = B3/S23
 15bo$16bo$14b3o6$47bo$46bo$46b3o4bo$52bo$52b3o11$36bo$34b2o69bo$35b2o

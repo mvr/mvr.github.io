@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Officers on the GPU</title>
 
         
@@ -16,6 +17,8 @@
         
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
         
         <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
         <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
@@ -23,6 +26,15 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Officers on the GPU" />
         
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
@@ -44,7 +56,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
 
       <!-- TODO: Some other font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
@@ -54,11 +66,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         <script defer src="../life-bg.js"></script>
 
-        <link rel="icon" type="image/png" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
     </head>
 
     <body>
@@ -89,9 +104,7 @@ subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people 
 the equivalent game Couples-are-Forever, a move is to choose a heap
 and split it into two, with the proviso that you may not split a heap
 of size 2. An Officers heap of size <span class="math inline">n</span> is equivalent to a
-Couples-are-Forever heap of size <span class="math inline">n+1</span>.<br />
-<br />
-</span></span>, or …). The two players
+Couples-are-Forever heap of size <span class="math inline">n+1</span>.</span></span>, or …). The two players
 alternate turns, and every turn consists of removing a coin from a
 heap and leaving the remainder in either one or two heaps. In
 particular, taking away a lone coin is not a valid move. The winner is
@@ -107,9 +120,7 @@ proceed</p>
 \xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
 </span></p>
 <p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
-has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.<br />
-<br />
-</span></span> Although
+has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.</span></span> Although
 the total number of coins decreases by 1 each turn, the outcome of the
 game is not determined simply by the parity of the starting number of
 coins: the moment that the game ends also depends on how many piles
@@ -122,9 +133,7 @@ calculating these values for Officers as fast as possible.</p>
 <!--more-->
 <p>Officers is the only unsolved “single-digit octal game”,<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">Achim
 Flammenkamp has the most up-to-date <a href="https://wwwhomes.uni-bielefeld.de/achim/octal.html">status page</a>, to the best of my
-knowledge.<br />
-<br />
-</span></span> and like all finite octal games, its values are
+knowledge.</span></span> and like all finite octal games, its values are
 conjectured to be eventually periodic. J. P. Grossman has calculated
 140 trillion values, with no signs of periodicity yet! In the first
 few sections I’ll recapitulate some of the strategies Grossman used,
@@ -133,9 +142,7 @@ before moving to the world of CUDA.</p>
 or ideas.</p>
 <h2 id="spraguegrundy-theory">Sprague–Grundy Theory</h2>
 <p>Here’s a very compressed outline of Sprague-Grundy theory, just what
-we need to work on Officers.<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">See the references for more details.<br />
-<br />
-</span></span></p>
+we need to work on Officers.<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">See the references for more details.</span></span></p>
 <p>The <em>Grundy value</em> of an Officers position is the equivalent size of
 heap in the game of <em>Nim</em>. This this value must exist thanks to the
 Sprague–Grundy theorem, which states that every “impartial game” (both
@@ -168,9 +175,7 @@ any of <span class="math inline">\{0 ⊕ 2, 1 ⊕ 1, 1 ⊕ 0\}</span>, which hav
 little further,<span class="sidenote-wrapper"><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle" /><span class="sidenote">Computing these MEXes also reveals the winning
 strategy for each sum: move to a position with value 0. So for these
 sums, <span class="math inline">1 ⊕ 3 \rightsquigarrow 1 ⊕ 1</span> and <span class="math inline">2 ⊕ 3 \rightsquigarrow 2 ⊕
-2</span>.<br />
-<br />
-</span></span></p>
+2</span>.</span></span></p>
 <p><span class="math display">\begin{align*}
 1 ⊕ 3 &amp;= \mathrm{mex}(0⊕3, 1⊕2, 1⊕1, 1⊕0) &amp;&amp;= \mathrm{mex}(3, 3, 0, 1) &amp;&amp;= 2 \\
 2 ⊕ 3 &amp;= \mathrm{mex}(1⊕3, 0⊕3, 2⊕2, 2⊕1, 2⊕0) &amp;&amp;= \mathrm{mex}(2, 3, 0, 3, 2) &amp;&amp;= 1
@@ -232,9 +237,7 @@ underselling it: there are a handful of values that occur a finite
 number of times and then never seem to appear again.<span class="sidenote-wrapper"><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle" /><span class="sidenote">Notably the
 value 0 is one of these, so there are only finitely many (known)
 positions that are losing for the first player. These are positions 0,
-1, 4, 12, 20, 30, 46, 72, 98, 124, 150, 176, 314 and 408.<br />
-<br />
-</span></span> There are
+1, 4, 12, 20, 30, 46, 72, 98, 124, 150, 176, 314 and 408.</span></span> There are
 exactly <span class="math inline">1584</span> (known) positions that have “rare” values, the final
 one occurring at <span class="math inline">G(20627)=277</span>.</p>
 <p>The sequence of rare values (not positions) begins</p>
@@ -355,9 +358,7 @@ it were correct. Only rarely (i.e. apparently never) is this
 assumption violated, at which point you can redo the later ones that
 relied on that incorrect value. And we had better hope it never
 actually happens, because a new rare value out past 140 trillion will
-make solving the game basically impossible.<br />
-<br />
-</span></span>, so if our goal is push
+make solving the game basically impossible.</span></span>, so if our goal is push
 the calculation further than Grossman then getting these candidate
 values as fast as possible is the whole ballgame.</p>
 <h2 id="values-as-bytes">Values as Bytes</h2>
@@ -390,9 +391,7 @@ compression when we want to present the output.</p>
 now it’s time to do something GPU specific.</p>
 <p>In CUDA, operations are performed in “blocks” of “threads”, with a
 block executed collectively on a “streaming multiprocessor”.<span class="sidenote-wrapper"><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle" /><span class="sidenote">I am
-going to stop with the scare quotes now.<br />
-<br />
-</span></span> For hardware reasons, it is
+going to stop with the scare quotes now.</span></span> For hardware reasons, it is
 best for a block to have some multiple of 32 threads; a typical number
 might be 256. Our plan is to have each thread compute one additional
 Officers value. Let’s focus on a single block to keep things simple
@@ -407,9 +406,7 @@ threads. For each rare position <span class="math inline">p</span>, all threads 
 \oplus G(x - 1 - p)</span> for that rare value<span class="sidenote-wrapper"><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle" /><span class="sidenote">These rare values and their
 locations can be stored in <code>__constant__</code> memory, luckily it is fast
 to broadcast a single value from constant memory to all threads in a
-block.<br />
-<br />
-</span></span>, and record the result as ruled out for the MEX. In other
+block.</span></span>, and record the result as ruled out for the MEX. In other
 words, at each step we are using a <span class="math inline">B</span> sized window over the previous
 values, whose location is determined by the position of each rare
 value. We’ll run through the rare positions largest to smallest, so
@@ -421,9 +418,7 @@ the last known rare value.</p>
 aren’t actually known yet, they’re what we’re calculating right now.
 The computation naturally splits into two phases:<span class="sidenote-wrapper"><label for="sn-9" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-9" class="margin-toggle" /><span class="sidenote">These diagrams may
 not be very helpful, but it was satisfying to get TiKZ working on this
-page.<br />
-<br />
-</span></span></p>
+page.</span></span></p>
 <ol type="1">
 <li><p><strong>Backwards:</strong> For all threads simultaneously, compute the sums
 involving a rare value and an already-known common value. So for
@@ -556,9 +551,7 @@ there’s a risk that this <code>array</code> will end up in local memory rather
 than in registers if the compiler can’t figure out this can be written
 as an unrolled loop.<span class="sidenote-wrapper"><label for="sn-10" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-10" class="margin-toggle" /><span class="sidenote">Despite the name, local memory is actually a
 thread-specific piece of <em>global</em> memory. It’s where, for example,
-spilled registers get stored.<br />
-<br />
-</span></span> For reasons mysterious to me, sometimes
+spilled registers get stored.</span></span> For reasons mysterious to me, sometimes
 the compiler can do this and sometimes not. Just in case, we’ll do the
 optimisation by hand.</p>
 <p>We can manually write the operation as a loop:</p>
@@ -668,9 +661,7 @@ speculate on what its MEX will be given the past values it’s seen so
 far. This can be done simultaneously over all threads. Then, we can
 use these speculative values to mark the MEX arrays, and recalculate
 the MEXes (again simultaneously).<span class="sidenote-wrapper"><label for="sn-11" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-11" class="margin-toggle" /><span class="sidenote">This is so obviously the right
-thing to do that it’s embarrassing I didn’t do it to begin with.<br />
-<br />
-</span></span>
+thing to do that it’s embarrassing I didn’t do it to begin with.</span></span>
 Here’s the trick: if we get the <em>same</em> answer as the first round of
 MEXes, then in fact this is the right answer. If our blocks are of
 size 256, we’ve replaced 256 sequential MEX calculations and 256
@@ -681,9 +672,7 @@ values get monotonically more correct from left to right after each
 round, and so this is guaranteed to reach a fixed point. In principle
 we could get very unlucky, but most of the time it only takes two or
 three rounds.<span class="sidenote-wrapper"><label for="sn-12" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-12" class="margin-toggle" /><span class="sidenote">In a quick test, the chance of a block being done after
-<span class="math inline">n</span> rounds was 0%, 10%, 62%, 84%, 96%, 99%.<br />
-<br />
-</span></span></p>
+<span class="math inline">n</span> rounds was 0%, 10%, 62%, 84%, 96%, 99%.</span></span></p>
 <p>Because the values within the block are changing, we have to store a
 second <code>mex_array</code> for these final values so that it can be easily
 reset between rounds.</p>
@@ -745,9 +734,7 @@ the suffix of the values that are still unconfirmed. Unfortunately,
 the extra bookkeeping involved makes this slightly slower than just
 doing the whole loop every time.<span class="sidenote-wrapper"><label for="sn-13" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-13" class="margin-toggle" /><span class="sidenote">It is extremely demoralising when
 this happens, when making the code smarter ends up being a total
-waste.<br />
-<br />
-</span></span></p>
+waste.</span></span></p>
 <h2 id="synchronising-properly">Synchronising Properly</h2>
 <p>This code works on my machine and with these particular parameters,
 but it possibly shouldn’t. The CUDA programming model makes no

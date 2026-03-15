@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Linear/Nonlinear Logic and Linear Algebra</title>
 
         
@@ -16,6 +17,8 @@
         
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
         
         <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
         <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
@@ -23,6 +26,15 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Linear/Nonlinear Logic and Linear Algebra" />
         
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
@@ -44,7 +56,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
 
       <!-- TODO: Some other font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
@@ -54,11 +66,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         <script defer src="../life-bg.js"></script>
 
-        <link rel="icon" type="image/png" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
     </head>
 
     <body>
@@ -108,7 +123,7 @@ want. Please let me know if I’ve missed something.</p>
 together is almost exactly the <a href="https://doi.org/10.1093/logcom/exs025">Enriched Effect
 Calculus</a>, though I still
 haven’t seen the semantics in ordinary vector spaces discussed
-anywhere. And see my <a href="../posts/lnl-ad.html">follow-up</a>!</p>
+anywhere. <!-- And see my [follow-up](/posts/lnl-ad.html)! --></p>
 <!--more-->
 <h2 id="the-setting">The Setting</h2>
 <p>To be totally explicit, what we want to capture is:</p>
@@ -140,9 +155,7 @@ logics, because bunching only arises when <span class="math inline">\to</span> a
 the same mode/category, which is not the case here.</p>
 <p>I’ll be consistent about using serif and <span class="math inline">:</span> for nonlinear
 definitions, and sans-serif and <span class="math inline">::</span> for linear definitions.<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Because
-linear is bouba and non-linear is kiki.<br />
-<br />
-</span></span></p>
+linear is bouba and non-linear is kiki.</span></span></p>
 <h3 id="tensor-and-unit-type">Tensor and Unit Type</h3>
 <p>Standard rules:</p>
 <div class="figure">
@@ -169,9 +182,7 @@ generalise the <span class="math inline">\mathsf{F}</span> and <span class="math
 <p>First the copower, a kind of mixed pairing of a nonlinear and linear
 type.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">This kind of mixed paring isn’t novel, a dependent version of
 this was used in the <span class="math inline">LNL_D</span> theory of Krishnaswami, Pradic and Benton
-(cited below).<br />
-<br />
-</span></span></p>
+(cited below).</span></span></p>
 <div class="figure">
 <!--\inferrule*{\Gamma \yields n : X \and \Gamma \mid \Lambda \yields a :: A}{\Gamma \mid \Lambda \yields n \odot a :: X \odot A} \and
 \inferrule*{\Gamma, x : X \mid \Lambda, a :: A \yields c :: C \\\\ \Gamma \mid \Lambda' \yields p :: X \odot A}{\Gamma \mid \Lambda, \Lambda' \yields \ind{p}{x \odot a}{c} :: C}-->
@@ -179,17 +190,13 @@ this was used in the <span class="math inline">LNL_D</span> theory of Krishnaswa
 </div>
 <p>We will use this type former to define <span class="math inline">ℝ^{\bold{n}} :\equiv\bold{n}
 \odot ℝ</span>.<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">Though the classical notation <span class="math inline">ℝ^{\bold{n}}</span> does suggest
-using the power here…<br />
-<br />
-</span></span> Any time we feel the need to say “pick a
+using the power here…</span></span> Any time we feel the need to say “pick a
 basis for <span class="math inline">A</span>”, that is a sign we should be using <span class="math inline">X \odot ℝ</span> instead
 (where <span class="math inline">X</span> can certainly be infinite).</p>
 <p>This copower has two different right adjoints, depending on which side
 of the <span class="math inline">\odot</span> we transpose. If we transpose the linear side, we get
 the <em>nonlinear</em> type of homomorphisms between linear types.<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">Distinct
-from the linear type <span class="math inline">\multimap</span> of homomorphisms between linear types.<br />
-<br />
-</span></span></p>
+from the linear type <span class="math inline">\multimap</span> of homomorphisms between linear types.</span></span></p>
 <div class="figure">
 <!--\inferrule*{\Gamma \mid x :: A \yields b :: B}{\Gamma \yields \partial x. b : \mathrm{Vec}_{\mathbb{R}}(A, B)} \and
 \inferrule*{\Gamma \yields h : \mathrm{Vec}_{\mathbb{R}}(A, B) \\\\ \Gamma \mid \Lambda \yields a :: A}
@@ -224,9 +231,7 @@ the unit type <span class="math inline">ℝ</span> involved in both of these con
 <p>For the other right adjoint, if we transpose the nonlinear side of
 <span class="math inline">\odot</span> we get the power <span class="math inline">X \pitchfork B</span>. This is the <em>linear</em> type
 given by the <span class="math inline">X</span>-fold product of <span class="math inline">B</span> with itself.<span class="sidenote-wrapper"><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle" /><span class="sidenote">Where does this
-pitchfork notation come from originally?<br />
-<br />
-</span></span></p>
+pitchfork notation come from originally?</span></span></p>
 <div class="figure">
 <!--\inferrule*{\Gamma, x : X \mid \Lambda \yields b :: B}{\Gamma \mid \Lambda \yields \lambda x. b :: X \pitchfork B} \and
 \inferrule*{\Gamma \mid \Lambda \yields p :: X \pitchfork B \and \Gamma \yields n : X}{\Gamma \mid \Lambda \yields p(n) :: B}-->
@@ -235,9 +240,7 @@ pitchfork notation come from originally?<br />
 <p>To summarise the four function types we have now:<span class="sidenote-wrapper"><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle" /><span class="sidenote">It seems harmless
 to have all of these as independent type formers, though you could
 define some of them in terms of the others, like <span class="math inline">\mathrm{Vec}_{\mathbb{R}}(A, B) \cong
-\mathrm{U}(A \multimap B)</span>.<br />
-<br />
-</span></span></p>
+\mathrm{U}(A \multimap B)</span>.</span></span></p>
 <table>
 <thead>
 <tr>
@@ -283,9 +286,7 @@ when binding a nonlinear variable, so for <span class="math inline">\to</span> a
 <p>We’ll need to be able to eliminate nonlinear inductive types into the
 linear term judgement.<span class="sidenote-wrapper"><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle" /><span class="sidenote">In Mike’s terminology this is asking that the
 mode morphism from nonlinear types into linear ones is “transparent”.
-(I think.)<br />
-<br />
-</span></span> This should be derivable because <span class="math inline">\mathsf{F}</span> is a left
+(I think.)</span></span> This should be derivable because <span class="math inline">\mathsf{F}</span> is a left
 adjoint, but it’s convenient to just have it as a rule. For example,
 for <span class="math inline">\mathrm{Bool}</span>:</p>
 <div class="figure">
@@ -314,9 +315,7 @@ linear type formers.</p>
 add in global “additivity” rules for <em>all</em> linear types. This will
 turn the products we just put in above into biproducts.<span class="sidenote-wrapper"><label for="sn-7" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-7" class="margin-toggle" /><span class="sidenote">And note also
 that “addition is additive”, in that the linear context is not split
-into two pieces by the <span class="math inline">+</span> rule.<br />
-<br />
-</span></span></p>
+into two pieces by the <span class="math inline">+</span> rule.</span></span></p>
 <div class="figure">
 <!--\inferrule*{~}{\Gamma \mid \Lambda \yields 0 :: A} \and
 \inferrule*{\Gamma \mid \Lambda \yields a_1 :: A \and \Gamma \mid \Lambda \yields a_2 :: A}{\Gamma \mid \Lambda \yields a_1 + a_2 :: A}-->
@@ -381,9 +380,7 @@ linear and nonlinear types.</p>
 <span class="math inline">\pitchfork</span>: nonlinear functoriality on the underlying sets. This is
 a genuinely different construction to the above, not just its image
 under some bijection, because the provided function could nonlinearly
-scramble all the elements of <span class="math inline">\mathrm{U}A</span>.<span class="sidenote-wrapper"><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle" /><span class="sidenote">What a mess!<br />
-<br />
-</span></span></p>
+scramble all the elements of <span class="math inline">\mathrm{U}A</span>.<span class="sidenote-wrapper"><label for="sn-8" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-8" class="margin-toggle" /><span class="sidenote">What a mess!</span></span></p>
 <p><span class="math display">\begin{align*}
 &amp;\mathrm{func}_\pitchfork : (Y \to X) \to (\mathrm{U}A \to \mathrm{U}B) \to \mathrm{U}(X \pitchfork A) \to \mathrm{U}(Y \pitchfork B) \\
 &amp;\mathrm{func}_\pitchfork(f, g, u)(r)(y) :\equiv g(\partial r'. u(r')(f(y)))(r)
@@ -479,9 +476,7 @@ j</span>.</p>
 could write the term/pattern <span class="math inline">(i \odot \mathsf{e})</span> as <span class="math inline">\mathsf{e}_i</span>: it really
 is like we’re pattern-matching on basis vectors. But I’ll resist doing
 that in this post, to make it easier to remember that it’s really
-<span class="math inline">\odot</span>.<br />
-<br />
-</span></span></p>
+<span class="math inline">\odot</span>.</span></span></p>
 <p><span class="math display">\begin{align*}
 &amp;\mathsf{dot}((i \odot \mathsf{e}) \otimes (j \odot \mathsf{e})) :\equiv\mathsf{if}\;{i=j}\;\mathsf{then}\;{\mathsf{e}}\;\mathsf{else}\;{0}
 
@@ -521,16 +516,12 @@ nonlinearly:</p>
 <h3 id="iteration">Iteration</h3>
 <p>How do we iterate over a vector of real numbers? Realistically, we
 probably want iteration over a vector to be a primitive<span class="sidenote-wrapper"><label for="sn-10" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-10" class="margin-toggle" /><span class="sidenote">As it is in
-<a href="https://futhark-lang.org/">Futhark</a>, for example.<br />
-<br />
-</span></span>, but assuming some
+<a href="https://futhark-lang.org/">Futhark</a>, for example.</span></span>, but assuming some
 reasonable rules for the finite types <span class="math inline">\bold{n}</span> we can do it by
 induction.<span class="sidenote-wrapper"><label for="sn-11" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-11" class="margin-toggle" /><span class="sidenote">These examples do need proper nonlinear dependent types to
 make sense, but hopefully you get the idea. We are doing dependent
 elimination on the <span class="math inline">n : \mathbb{N}</span> parameter of the finite type
-former.<br />
-<br />
-</span></span></p>
+former.</span></span></p>
 <p>The linear isomorphism</p>
 <p><span class="math display">\begin{align*}
 &amp;\mathsf{cons} :: ℝ \oplus ℝ^\bold{n} \multimap ℝ^\bold{n+1} \\
@@ -544,9 +535,7 @@ former.<br />
 <p>suggests that we can pattern match on elements of <span class="math inline">ℝ^\bold{n+1}</span> as <span class="math inline">ℝ
 \oplus ℝ^\bold{n}</span><span class="sidenote-wrapper"><label for="sn-12" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-12" class="margin-toggle" /><span class="sidenote">I’m cheating here, officially we are accessing
 elements of <span class="math inline">A \oplus B</span> by projection rather than pattern matching,
-but the projection syntax is a bit noisy.<br />
-<br />
-</span></span>. Then, for example:</p>
+but the projection syntax is a bit noisy.</span></span>. Then, for example:</p>
 <p><span class="math display">\begin{align*}
 &amp;\mathrm{sum}_\bold{n} : \mathrm{U}ℝ^\bold{n} \to \mathrm{U}ℝ \\
 &amp;\mathrm{sum}_\bold{0}(v) :\equiv\partial r. 0 \\
@@ -581,9 +570,7 @@ This can’t be done generically, in the sense of defining a map</p>
 depend on a choice of basis for <span class="math inline">A</span>. This is easiest to do if we first
 take the inputs in unexploded form.<span class="sidenote-wrapper"><label for="sn-13" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-13" class="margin-toggle" /><span class="sidenote">Using <span class="math inline">X \odot ℝ</span> makes clear
 that this function <em>does</em> require us to pick a basis, but <em>doesn’t</em>
-require the vector space to be finite dimensional.<br />
-<br />
-</span></span></p>
+require the vector space to be finite dimensional.</span></span></p>
 <p><span class="math display">\begin{align*}
 &amp;\mathrm{along} : (\mathrm{U}B \to \mathrm{U}C) \to \mathrm{Vec}_{\mathbb{R}}(X \odot ℝ, B) \to \mathrm{Vec}_{\mathbb{R}}(X \odot ℝ, C) \\
 &amp;\mathrm{along}(f, h)(i \odot r) :\equiv f(\partial r'. h(i \odot r'))(r)\\
@@ -592,9 +579,7 @@ require the vector space to be finite dimensional.<br />
 underlying set of) the tensor type, we unexplode the matrix into a
 homomorphism, compose, and then re-explode:<span class="sidenote-wrapper"><label for="sn-14" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-14" class="margin-toggle" /><span class="sidenote">And here, we see that the
 final exploding step is the only place we actually need that
-<span class="math inline">\mathbb{R}^\mathbf{q}</span> is finite dimensional.<br />
-<br />
-</span></span></p>
+<span class="math inline">\mathbb{R}^\mathbf{q}</span> is finite dimensional.</span></span></p>
 <p><span class="math display">\begin{align*}
 \mathrm{U}(\mathbb{R}^\mathbf{q} \otimes B) \longrightarrow \mathrm{Vec}_{\mathbb{R}}(\mathbb{R}^\mathbf{q}, B) \longrightarrow \mathrm{Vec}_{\mathbb{R}}(\mathbb{R}^\mathbf{q}, C) \longrightarrow \mathrm{U}(\mathbb{R}^\mathbf{q} \otimes C)
 \end{align*}</span></p>
@@ -614,9 +599,7 @@ when mixing linear/nonlinear maps and the meaning of a diagram is not
 invariant under isotopy. In other words, the relative horizontal
 position of the nodes matters; even when the nodes are completely
 disconnected from one other. Here, pulling the upper cap past the
-<span class="math inline">\mathrm{softmax}</span> results in a different map.<br />
-<br />
-</span></span></p>
+<span class="math inline">\mathrm{softmax}</span> results in a different map.</span></span></p>
 <figure>
 <img src="../diagrams/attention.png" alt="Attention as a “neural circuit diagram”, from https://arxiv.org/abs/2505.09326 by Abbott et al." />
 <figcaption aria-hidden="true">Attention as a “neural circuit diagram”, from
@@ -627,9 +610,7 @@ al.</figcaption>
 involves the non-linear <span class="math inline">\mathrm{softmax}: \mathrm{U}ℝ^\bold{n} \to \mathrm{U}ℝ</span>.<span class="sidenote-wrapper"><label for="sn-16" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-16" class="margin-toggle" /><span class="sidenote">We
 could define <span class="math inline">\mathrm{softmax}</span> ourselves using iteration, if we assume we
 have <span class="math inline">\mathrm{exp} : \mathrm{U}ℝ \to \mathrm{U}ℝ</span> and <span class="math inline">\mathrm{recip} : \mathrm{U}
-ℝ \to \mathrm{U}ℝ</span>, say.<br />
-<br />
-</span></span> Taken literally, that diagram is</p>
+ℝ \to \mathrm{U}ℝ</span>, say.</span></span> Taken literally, that diagram is</p>
 <p><span class="math display">\begin{align*}
 &amp;\mathrm{attention} : \mathrm{U}(ℝ^\bold{q} \otimes ℝ^\bold{k}) \times \mathrm{U}(ℝ^\bold{x} \otimes ℝ^\bold{k}) \times \mathrm{U}(ℝ^\bold{x} \otimes ℝ^\bold{k}) \to \mathrm{U}(ℝ^\bold{q} \otimes ℝ^\bold{k})
 \end{align*}</span></p>
@@ -841,9 +822,7 @@ linear/nonlinear “target” language for their source transformation.
 Unfortunately the linear context zone in this type theory is a
 “stoup”, meaning that it contains exactly one linear variable.<span class="sidenote-wrapper"><label for="sn-17" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-17" class="margin-toggle" /><span class="sidenote">If
 there’s some CHAD work that I missed which covers the properly linear
-tensor product, please let me know!<br />
-<br />
-</span></span> As a result, that language is not
+tensor product, please let me know!</span></span> As a result, that language is not
 able to express the linear tensor product, which is something I
 definitely want to have.</p>
 <p>Separately, additivity and the <span class="math inline">\lambda</span>-calculus has been considered

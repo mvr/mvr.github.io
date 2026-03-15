@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>No‑Three‑In‑Line</title>
 
         
@@ -16,6 +17,8 @@
         
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
         
         <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
         <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
@@ -23,6 +26,15 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="No‑Three‑In‑Line" />
         
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
@@ -44,7 +56,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
 
       <!-- TODO: Some other font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
@@ -54,11 +66,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         <script defer src="../life-bg.js"></script>
 
-        <link rel="icon" type="image/png" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
     </head>
 
     <body>
@@ -132,9 +147,7 @@ Flammenkamp</a>
 and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="https://github.com/mvr/no-three-in-line">written
 some CUDA code</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">By the way,
 the existing <code>cuda-mode</code> for Emacs is a bit messed up, I have a fork
-with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.<br />
-<br />
-</span></span> of my
+with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.</span></span> of my
 own with the goal of pushing things a little further, and I’ll explain
 it in the rest of this post.</p>
 <!--more-->
@@ -154,9 +167,7 @@ discard the configuration. Doing this check accurately is slightly
 less straightforward than it sounds, because of cells whose state is
 still unknown.</p>
 <p>As we did<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">Or rather, as APG
-<a href="https://gitlab.com/apgoucher/lifelib/-/blob/master/cuda2/cudagol.h">did</a>.<br />
-<br />
-</span></span>
+<a href="https://gitlab.com/apgoucher/lifelib/-/blob/master/cuda2/cudagol.h">did</a>.</span></span>
 when representing <a href="../posts/cool-still-lifes.html">Game of Life
 configurations</a> on the GPU, we’re going
 to be representing a <span class="math inline">32 \times 32</span> board by storing a single
@@ -165,9 +176,7 @@ threads in a warp (which we might imagine stacked vertically), these
 values represent the whole board.<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">In this problem we’ll only be using
 a <span class="math inline">n \times n</span> subset of the full <span class="math inline">32 \times 32</span> board available, but
 trying to be more lane-efficient here would be hugely complex for
-almost no gain.<br />
-<br />
-</span></span> There are a handful of warp-level primitives that
+almost no gain.</span></span> There are a handful of warp-level primitives that
 make manipulating such boards easy. We just have to make sure that
 execution stays synchronised across the warp at all times or it will
 hang.</p>
@@ -215,24 +224,18 @@ clamped at a maximum of 2 per line, we might be able to determine
 early that a position is not completable even if each row and column
 individually looks alright.<span class="sidenote-wrapper"><label for="sn-3" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-3" class="margin-toggle" /><span class="sidenote">There are <span class="math inline">2n-1</span> diagonal lines
 in each direction compared with <span class="math inline">n</span> orthogonal lines, so a lot more
-“room” to fit points in.<br />
-<br />
-</span></span> But after some experiments, it seems doing
+“room” to fit points in.</span></span> But after some experiments, it seems doing
 this check is not a time improvement.</p>
 <h2 id="eliminating-lines">Eliminating Lines</h2>
 <p>The above handles orthogonal lines, but we also have to update the
 known-empty cells caused by lines of all other slopes. I couldn’t come
 up with an efficient way to do this simultaneously for all points, as
 we did for the orthogonal lines<span class="sidenote-wrapper"><label for="sn-4" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-4" class="margin-toggle" /><span class="sidenote">But maybe there’s a better way to do
-it, please let me know!<br />
-<br />
-</span></span>. For each new point, we handle the lines
+it, please let me know!</span></span>. For each new point, we handle the lines
 through all other points one by one.</p>
 <p>So let’s suppose two points <span class="math inline">p = (p_0, p_1)</span>, <span class="math inline">q = (q_0, q_1)</span>, and
 let’s say that <span class="math inline">p</span> is above <span class="math inline">q</span>, so <span class="math inline">p_1 &lt; q_1</span><span class="sidenote-wrapper"><label for="sn-5" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-5" class="margin-toggle" /><span class="sidenote">We’ve already handled
-the case where two points are in the same row.<br />
-<br />
-</span></span>. The first step is to
+the case where two points are in the same row.</span></span>. The first step is to
 bring <span class="math inline">q</span> as close as possible to <span class="math inline">p</span> on the same line, because we
 don’t want to accidentally miss the points <em>between</em> <span class="math inline">p</span> and <span class="math inline">q</span>:</p>
 <div class="lifeviewer"><textarea>
@@ -266,9 +269,7 @@ to read.</p>
 <p>So far the same calculation has been done in all threads. Now, each
 thread checks whether its row contains a point on the line<span class="sidenote-wrapper"><label for="sn-6" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-6" class="margin-toggle" /><span class="sidenote">Again, by
 assumption the line is not horizontal, so at most one point in each
-row is on the line.<br />
-<br />
-</span></span>. Not all rows will, because for some rows the
+row is on the line.</span></span>. Not all rows will, because for some rows the
 line falls between integer points (as in the example above). If the
 row does contain a point, a little algebra gives us which bit needs to
 be set. It doesn’t seem possible to avoid integer division/modulus

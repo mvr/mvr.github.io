@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Quickly Detecting Cool Still Lifes</title>
 
         
@@ -16,6 +17,8 @@
         
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
         
         <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
         <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
@@ -23,6 +26,15 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Quickly Detecting Cool Still Lifes" />
         
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
@@ -44,7 +56,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
 
       <!-- TODO: Some other font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
@@ -54,11 +66,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         <script defer src="../life-bg.js"></script>
 
-        <link rel="icon" type="image/png" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
     </head>
 
     <body>
@@ -92,9 +107,7 @@ every result is reported, only those where certain criteria are met.
 Right now the options are either that the result has some interesting
 period<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Interesting period here typically means period not dividing
 120, to rule out <a href="https://conwaylife.com/wiki/Blinker">blinkers</a>, <a href="https://conwaylife.com/wiki/Pulsar">pulsars</a>, <a href="https://conwaylife.com/wiki/Pentadecathlon">pentadecathlons</a> and <a href="https://conwaylife.com/wiki/Figure_eight">figure
-eights</a>, among other things.<br />
-<br />
-</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+eights</a>, among other things.</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
 <a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
 hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
 <p>One thing that <em>can’t</em> be done currently is have QuFince report any
@@ -146,9 +159,7 @@ first place.</p>
 most common still lifes. We’ll declare any still life with population
 <span class="math inline">\geq 18</span> to be “interesting”, and any still life with population
 <span class="math inline">\leq 10</span> to be a deal-breaker that <em>must</em> be rejected.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">These
-thresholds are somewhat arbitrary.<br />
-<br />
-</span></span> Our goal is to correctly classify
+thresholds are somewhat arbitrary.</span></span> Our goal is to correctly classify
 as many of the remaining 10,000 as possible.</p>
 <h2 id="chunky-regions">Chunky Regions</h2>
 <p>The first thing that comes to mind is that rare still lifes are often
@@ -192,9 +203,7 @@ obo3bo2bo32bobo16bobo2bo2bo$bo3bob2o11b3o3b3o14bo17bobo2bobo$4bobo11bo
 systematically, I defined a handful of “neighbourhoods” and tried all
 combinations. Some of the neighbourhoods I tried are things like:<span class="sidenote-wrapper"><label for="sn-2" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-2" class="margin-toggle" /><span class="sidenote">I
 also threw in some more exotic neighbourhoods, but none turned out to
-help.<br />
-<br />
-</span></span></p>
+help.</span></span></p>
 <div class="lifeviewer"><textarea>
 x = 25, y = 12, rule = LifeHistory
 .3D8.D8.D.D$.DAD7.DAD8.A$.3D8.D8.D.D5$5D7.D7.D3.D$5D6.3D7.D.D$2DA2D5.

@@ -6,7 +6,7 @@
   <link href="https://mvr.github.io/atom.xml" rel="self" />
   <link href="https://mvr.github.io" />
   <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
-  <updated>2025-12-27T00:00:00Z</updated>
+  <updated>2026-02-03T00:00:00Z</updated>
   <author>
     <name>Mitchell Riley</name>
     
@@ -14,6 +14,58 @@
     
   </author>
     <entry>
+    <title>No‑Three‑In‑Line, Dumber</title>
+    <link href="https://mvr.github.io/posts/no-three-in-line-dumber.html" rel="alternate" />
+    <id>urn:uuid:3096047d-0840-5efd-bb46-e9fa91ca8b7c</id>
+    
+    <published>2026-02-03T00:00:00Z</published>
+    
+    <updated>2026-02-03T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[
+<p>(<a href="/posts/no-three-in-line.html">Previously</a>, <a href="/posts/no-three-in-line-quicker.html">previously</a>)</p>
+<p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:</p>
+<p><span class="math display"> a(19) = 32577 </span></p>
+<p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
+<a href="https://www.runpod.io/">Runpod</a>.</p>
+<p>Not only that! With help from <a href="https://webspace.maths.qmul.ac.uk/t.prellberg/">Thomas Prellberg</a> and the <a href="https://docs.hpc.qmul.ac.uk/">GPU cluster</a>
+at Queen Mary University of London, we’ve been able to find some
+solutions with record-breaking sizes. The largest at the time I’m
+writing this is 64×64, shown below, with hopefully more on the way.</p>
+<p>[diagram]</p><p><a href="/posts/no-three-in-line-dumber.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
+    <title>What Makes Tametsi So Satisfying?</title>
+    <link href="https://mvr.github.io/posts/tametsi.html" rel="alternate" />
+    <id>urn:uuid:0251b026-9180-5b8c-8c98-2e0b68284d4a</id>
+    
+    <published>2026-01-19T00:00:00Z</published>
+    
+    <updated>2026-01-19T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[<p>For the last month I’ve been completely addicted to the logic puzzle
+game <a href="https://store.steampowered.com/app/709920/Tametsi/">Tametsi</a>. Put briefly, it’s ordinary <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)">Minesweeper</a> but with a
+set of 160 hand-crafted puzzles rather than a randomly generated
+starting board. Beyond the Minesweeper rules that we’re all familiar
+with, there are only a couple of additions: non-square/irregular grids
+for many of the puzzles, and “global” constraints, such as a fixed
+number of mines in cells of a particular colour or along a specified
+line.</p>
+<p>I finally finished all the available puzzles and so Tametsi has
+released its grip on me. I’ve been trying to figure out what made it
+so compelling, and here’s the best I could come up with.</p><p><a href="/posts/tametsi.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
     <title>All 23-Bit Still Lifes Are Glider Constructible</title>
     <link href="https://mvr.github.io/posts/xs23.html" rel="alternate" />
     <id>urn:uuid:ea29baf2-f143-5c5c-aa91-4381bec7b7fb</id>
@@ -135,7 +187,7 @@ want. Please let me know if I’ve missed something.</p>
 together is almost exactly the <a href="https://doi.org/10.1093/logcom/exs025">Enriched Effect
 Calculus</a>, though I still
 haven’t seen the semantics in ordinary vector spaces discussed
-anywhere. And see my <a href="/posts/lnl-ad.html">follow-up</a>!</p><p><a href="/posts/lnl.html">&gt; Read Post</a></p>]]></summary>
+anywhere. <!-- And see my [follow-up](/posts/lnl-ad.html)! --></p><p><a href="/posts/lnl.html">&gt; Read Post</a></p>]]></summary>
   </entry>
   <entry>
     <title>Movie Night</title>
@@ -261,89 +313,6 @@ enough.</p><p><a href="/posts/cool-still-lifes.html">&gt; Read Post</a></p>]]></
 make public, but the supporting <a href="https://github.com/mvr/LifeAPI/blob/master/cuda/LifeStateCU.cu"><code>LifeStateCU</code></a> code may be useful for
 others. (This could be seen as the first step in a GPU version of
 <code>CatForce</code>/<code>LightCone</code>…)</p><p><a href="/posts/crawlers.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Officers on the GPU</title>
-    <link href="https://mvr.github.io/posts/officers.html" rel="alternate" />
-    <id>urn:uuid:4b74364c-2348-56b3-b704-e5c432d0911f</id>
-    
-    <published>2025-03-08T00:00:00Z</published>
-    
-    <updated>2025-03-08T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[<p>Officers is a two-player “take-and-break” game played with heaps of
-coins (or if you prefer, piles of beans, or <a href="https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307">officers and their
-subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people who form indivisible couples</a>, or …). The two players
-alternate turns, and every turn consists of removing a coin from a
-heap and leaving the remainder in either one or two heaps. In
-particular, taking away a lone coin is not a valid move. The winner is
-the last player who can make a move.</p>
-<p>For example, a game starting with a single pile of <span class="math inline">10</span> coins might
-proceed</p>
-<p><span class="math display">
-[10] 
-\xrightarrow{\mathcal{L}} [3, 6] 
-\xrightarrow{\mathcal{R}} [3, 1, 4]
-\xrightarrow{\mathcal{L}} [1, 1, 1, 4]
-\xrightarrow{\mathcal{R}} [1, 1, 1, 1, 2]
-\xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
-</span></p>
-<p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
-has won. Although
-the total number of coins decreases by 1 each turn, the outcome of the
-game is not determined simply by the parity of the starting number of
-coins: the moment that the game ends also depends on how many piles
-are created by the players making splitting moves. As we will soon
-see, the winning move from any given position is extremely
-unpredictable.</p>
-<p>We can solve a game of this kind by calculating the <em>Grundy value</em> for
-each position, and in this post I’m going to discuss my attempt at
-calculating these values for Officers as fast as possible.</p><p><a href="/posts/officers.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Searching for Conduits at Lightspeed</title>
-    <link href="https://mvr.github.io/posts/lightcone.html" rel="alternate" />
-    <id>urn:uuid:3f31d245-cb29-5aa4-87b0-a1bc4abf250b</id>
-    
-    <published>2025-02-09T00:00:00Z</published>
-    
-    <updated>2025-02-09T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[
-<p>Conduits are a central piece of technology in Conway’s Game of Life,
-especially when engineering new pieces of stable circuitry. A conduit
-moves an active pattern (like a <a href="https://conwaylife.com/wiki/Herschel">Herschel</a> or <a href="https://conwaylife.com/wiki/B-heptomino">B-heptomino</a>) from one
-location to another by allowing it to react with a collection of
-stable catalysts. Along the way, it may release some gliders, produce
-additional active patterns or perform some other useful interaction,
-and so new pieces of machinery can be constructed by chaining conduits
-together.</p>
-<p>As one very famous example we have the <a href="https://conwaylife.com/wiki/Fx77">Fx77</a> conduit discovered by
-Dave Buckingham, which moves a Herschel forwards in 77 generations,
-also flipping it.</p>
-<p>[diagram]</p>
-<p>Many software tools have been written to search for new conduits:
-<a href="https://github.com/conwaylife/ptbsearch"><code>ptbsearch</code></a> by Paul Callahan, <a href="https://github.com/dvgrn/b3s23life/tree/main/catgl">Catalyst</a> by Gabriel Nivasch, <code>catgl</code> by
-Dave Greene, <a href="https://github.com/simsim314/CatForce">CatForce</a> by Michael Simkin and <a href="https://github.com/nicobrownmath/LocalForce">LocalForce</a> by Nico Brown,
-to name a few. Typically these tools are handed an active pattern and
-a collection of catalysts, and spit out all placements of catalysts
-that interact with the active pattern and recover. At this point,
-hundreds of conduits are known, converting to and from various active
-patterns. But the more the merrier!</p>
-<p>I’ve been working on yet another search tool, called <a href="https://github.com/mvr/lightcone">Lightcone</a>.
-Lightcone is pretty speedy: it can find apg’s <a href="https://conwaylife.com/wiki/Spartan_G-to-W-to-H">Spartan G-to-W</a> on
-<a href="https://github.com/mvr/lightcone/blob/master/tests/thessalonic.toml">this</a> input file in just a couple of seconds. In this post I’ll
-explain some of the tricks it uses to cut down the search time.</p><p><a href="/posts/lightcone.html">&gt; Read Post</a></p>]]></summary>
   </entry>
 
 </feed>

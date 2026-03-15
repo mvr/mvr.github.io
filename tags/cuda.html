@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Posts Tagged ‘Cuda’</title>
 
         
@@ -16,6 +17,8 @@
         
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
         
         <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
         <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
@@ -23,6 +26,15 @@
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Posts Tagged ‘Cuda’" />
         
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
         <script defer src="../katex.js" crossorigin="anonymous"></script>
@@ -44,7 +56,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
 
       <!-- TODO: Some other font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
@@ -54,11 +66,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css" />
         <script defer src="../life-bg.js"></script>
 
-        <link rel="icon" type="image/png" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
 
         <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
 
-        <link rel="alternate" type="application/atom+xml" title="mvr Blog Posts" href="../atom.xml" />
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
     </head>
 
     <body>
@@ -79,6 +94,58 @@
 
 <section>
 <ul id="posts-list">
+    
+    <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/no-three-in-line-dumber.html">No‑Three‑In‑Line, Dumber</a></h1>
+        <p class="post-deets">February  3, 2026 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a></p>
+        <div class="post-content">
+            
+            <script defer src="../life/lv-plugin.js"></script>
+<p>(<a href="../posts/no-three-in-line.html">Previously</a>, <a href="../posts/no-three-in-line-quicker.html">previously</a>)</p>
+<p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">And its corollary <a href="https://oeis.org/A000755">A000755</a>.</span></span></p>
+<p><span class="math display"> a(19) = 32577 </span></p>
+<p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
+<a href="https://www.runpod.io/">Runpod</a>.</p>
+<p>Not only that! With help from <a href="https://webspace.maths.qmul.ac.uk/t.prellberg/">Thomas Prellberg</a> and the <a href="https://docs.hpc.qmul.ac.uk/">GPU cluster</a>
+at Queen Mary University of London, we’ve been able to find some
+solutions with record-breaking sizes. The largest at the time I’m
+writing this is 64×64, shown below, with hopefully more on the way.</p>
+<div class="lifeviewer"><textarea>
+x = 64, y = 64, rule = LifeHistory
+32BA16BA14B$34BA6BA22B$24BABA37B$16BA17BA29B$38BA13BA11B$7BA33BA22B$
+12BA22BA28B$31BA26BA5B$35BA16BA11B$20BA26BA16B$21BABA40B$4BA3BA55B$
+49BA7BA6B$42BA3BA17B$A11BA51B$33BA9BA20B$9BA50BA3B$13BA9BA40B$27BA5BA
+30B$27BA11BA24B$15BA38BA9B$13BA39BA10B$BA3BA58B$46BA6BA10B$19BA41BA2B
+$4BA32BA26B$25BA35BA2B$44B2A18B$6BABA55B$BABA60B$15BA2BA45B$A55BA7B$
+7BA55BA$45BA2BA15B$60BABAB$55BABA6B$18B2A44B$2BA35BA25B$26BA32BA4B$2B
+A41BA19B$10BA6BA46B$58BA3BAB$10BA39BA13B$9BA38BA15B$24BA11BA27B$30BA
+5BA27B$40BA9BA13B$3BA50BA9B$20BA9BA33B$51BA11BA$17BA3BA42B$6BA7BA49B$
+55BA3BA4B$40BABA21B$16BA26BA20B$11BA16BA35B$5BA26BA31B$28BA22BA12B$
+22BA33BA7B$11BA13BA38B$29BA17BA16B$37BABA24B$22BA6BA34B$14BA16BA32B!
+
+#C [[ HEIGHT 400 ]]
+#C [[ ZOOM 5 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR HISTORY #dfebf6 ]]
+#C [[ COLOR MARK1 #803300 ]]
+#C [[ COLOR MARKOFF #e0ae8f ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+
+            <div class="continue-post"><a href="../posts/no-three-in-line-dumber.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
     
     <li class="post-entry">
         <h1 class="post-list-title"><a href="../posts/no-three-in-line-quicker.html">No‑Three‑In‑Line, Quicker</a></h1>
@@ -149,9 +216,7 @@ Flammenkamp</a>
 and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="https://github.com/mvr/no-three-in-line">written
 some CUDA code</a><span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">By the way,
 the existing <code>cuda-mode</code> for Emacs is a bit messed up, I have a fork
-with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.<br />
-<br />
-</span></span> of my
+with some bugfixes <a href="https://github.com/mvr/cuda-mode">here</a>.</span></span> of my
 own with the goal of pushing things a little further, and I’ll explain
 it in the rest of this post.</p>
 
@@ -174,9 +239,7 @@ every result is reported, only those where certain criteria are met.
 Right now the options are either that the result has some interesting
 period<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Interesting period here typically means period not dividing
 120, to rule out <a href="https://conwaylife.com/wiki/Blinker">blinkers</a>, <a href="https://conwaylife.com/wiki/Pulsar">pulsars</a>, <a href="https://conwaylife.com/wiki/Pentadecathlon">pentadecathlons</a> and <a href="https://conwaylife.com/wiki/Figure_eight">figure
-eights</a>, among other things.<br />
-<br />
-</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+eights</a>, among other things.</span></span> (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
 <a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
 hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
 <p>One thing that <em>can’t</em> be done currently is have QuFince report any
@@ -252,9 +315,7 @@ subordinates</a>, or <a href="https://doi.org/10.2307/2589561">groups of people 
 the equivalent game Couples-are-Forever, a move is to choose a heap
 and split it into two, with the proviso that you may not split a heap
 of size 2. An Officers heap of size <span class="math inline">n</span> is equivalent to a
-Couples-are-Forever heap of size <span class="math inline">n+1</span>.<br />
-<br />
-</span></span>, or …). The two players
+Couples-are-Forever heap of size <span class="math inline">n+1</span>.</span></span>, or …). The two players
 alternate turns, and every turn consists of removing a coin from a
 heap and leaving the remainder in either one or two heaps. In
 particular, taking away a lone coin is not a valid move. The winner is
@@ -270,9 +331,7 @@ proceed</p>
 \xrightarrow{\mathcal{L}} [1, 1, 1, 1, 1]
 </span></p>
 <p>at which point player <span class="math inline">\mathcal{R}</span> is stuck, so player <span class="math inline">\mathcal{L}</span>
-has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.<br />
-<br />
-</span></span> Although
+has won.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">In fact, he was following the winning strategy.</span></span> Although
 the total number of coins decreases by 1 each turn, the outcome of the
 game is not determined simply by the parity of the starting number of
 coins: the moment that the game ends also depends on how many piles

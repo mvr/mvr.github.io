@@ -57,6 +57,12 @@ somewhere already. In the literature there is work that gets close
 (and I'll do some comparisons at the end), but none are quite what I
 want. Please let me know if I've missed something.
 
+**Edit**: It's been pointed out to me that the type theory I've put
+together is almost exactly the [Enriched Effect
+Calculus](https://doi.org/10.1093/logcom/exs025), though I still
+haven't seen the semantics in ordinary vector spaces discussed
+anywhere. <!-- And see my [follow-up](/posts/lnl-ad.html)! -->
+
 <!--more-->
 
 

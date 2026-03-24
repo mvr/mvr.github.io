@@ -1,6 +1,6 @@
 ---
 title: No‑Three‑In‑Line, Dumber
-published: February 3, 2026
+published: March 15, 2026
 tags: code, cuda
 ---
 

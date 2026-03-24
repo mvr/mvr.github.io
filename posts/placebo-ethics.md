@@ -2,6 +2,7 @@
 title: Should You Discuss The Placebo Effect?
 published: July 5, 2019
 tags: note-to-self, infohazard
+draft: true
 ---
 
 Is it ethical to write articles discussing the [placebo
@@ -15,21 +16,20 @@ Since the placebo effect was popularised in the medical community by
 Henry Beecher in 1955, the standing assumption has been that for a
 placebo to be effective the patient must be unaware that their
 treatment was a sham. A lot of ink has been spilled on the ethics of
-administering placebos&mdash;whether it is ethical to deceive a
-patient for their own good&mdash;but this is not what I am thinking
-of.
+administering placebos—whether it is ethical to deceive a patient for
+their own good—but this is not what I am thinking of.
 
 <!--more-->
 
 Instead, if a placebo needs to be a secret to be effective, then just
 *knowing* about the existence of placebos could change their efficacy
 on you. If you are given a placebo to treat a condition, you may
-suspect that the treatment is a placebo, making it less
-effective. Worse, you may incorrectly guess that a real treatment is a
-placebo, making it less effective than it should be!
+suspect that the treatment is a placebo, making it less effective.
+Worse, you may incorrectly guess that a real treatment is a placebo,
+making it less effective than it should be!
 
 In science fiction, information that can harm you just by knowing it
-is sometimes called a `infohazard'. The placebo effect is the only
+is sometimes called a "infohazard". The placebo effect is the only
 example of a real-world infohazard that I know of. It is not clear to
 me whether the authors of pop-science articles on placebos considered
 this possible negative consequence of discussing placebos.

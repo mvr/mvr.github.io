@@ -10,11 +10,12 @@ crystalline, sacred, with no downsides or exploitable vulnerabilities.
 
 1. The nominator is the person who was previously nominator the
    longest ago.
-2. They choose two movies that haven't been nominated before.
-3. Everybody else votes for which to watch. If the vote is a tie, the
-   nominator breaks the vote.
+2. The nominator chooses two movies that haven't been nominated
+   before.
+3. Everybody else votes for which to watch. If the vote is tied, the
+   nominator breaks the tie.
 4. In highly exceptional circumstances, the Benevolent Dictator For
-   Life may declare that a specific movie be watched, for example, if
+   Life may declare a specific movie to be watched, for example, if
    we're all about to go watch a sequel in-theatre and some people
    need to get up to speed.
 

@@ -1,7 +1,7 @@
 ---
-title: Songs
+title: Catchy Songs
 published: April 27, 2015
-tags: note-to-self, music, rolling
+tags: note-to-self, music, rolling, retroactive
 ---
 
 I get songs stuck in my head for weeks at a time. I hope this list
@@ -28,6 +28,7 @@ Chronologically:
 * Flume - Insane
 * TMBG - ECNALUMBA
 * Kygo - Stay
+* Barenaked Ladies - It's All Been Done
 * Missy Higgins - 100 Round The Bends
 * Lemon Demon - Touch Tone Telephone
 * Tame Impala - The Less I Know The Better
@@ -53,6 +54,24 @@ Chronologically:
 * The Kooks - Do You Love Me Still?
 * The Bird and the Bee - Birthday
 * UMO - Swim and Sleep (Like a Shark)
+* Carols in the Domain 1998 - We Three Kings
 * I DONT KNOW HOW BUT THEY FOUND ME - Do It All The Time
+* Thirsty Merc - In The Summertime
+* Juanes - La Camisa Negra
+* Private Island - Turbulence
+* TMBG - Microphone
+* Joan Manuel Serrat - Mediterraneo
+* The Knocks - Classic
+* Paramore - This Is Why
 * Pendulum - Crush
+* The Cat Empire - One Four Five
+* Birds of Tokyo - Head in my Hands
+* TMBG - Stone Cold Coup d'Etat
+* Mario Kart World - Boo Cinema^[I wish I was kidding.]
+* Jimmy Webb - The Highwayman 
 
+
+Notes
+-----
+
+So far, 3 songs about reincarnation. Should I be worried?

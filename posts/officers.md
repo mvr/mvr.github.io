@@ -16,6 +16,9 @@ heap and leaving the remainder in either one or two heaps. In
 particular, taking away a lone coin is not a valid move. The winner is
 the last player who can make a move.
 
+[officers and their subordinates]: https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307
+[groups of people who form indivisible couples]: https://doi.org/10.2307/2589561
+
 For example, a game starting with a single pile of $10$ coins might
 proceed
 
@@ -54,8 +57,6 @@ before moving to the world of CUDA.
 I'm a newcomer to GPU programming, so I would appreciate any comments
 or ideas.
 
-[officers and their subordinates]: https://www.routledge.com/Winning-Ways-for-Your-Mathematical-Plays-Volume-1/Berlekamp-Conway-Guy/p/book/9781568811307
-[groups of people who form indivisible couples]: https://doi.org/10.2307/2589561
 [status page]: https://wwwhomes.uni-bielefeld.de/achim/octal.html
 
 

@@ -2,6 +2,7 @@
 title: SCP-XXX1
 published: January 1, 2000
 tags: cringe, retroactive
+draft: true
 ---
 
 **Item #:** SCP-XXX1

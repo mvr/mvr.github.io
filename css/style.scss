@@ -169,6 +169,52 @@ li.post-entry {
   }
 }
 
+.archive-page {
+  max-width: $body-width;
+  margin-top: 26px;
+}
+
+.archive-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archive-entry + .archive-entry {
+  border-top: 1px solid rgba($lightgrey, 0.45);
+}
+
+.archive-entry-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem 1.5rem;
+  align-items: baseline;
+  padding: 0.95rem 0;
+  text-decoration: none;
+}
+
+.archive-entry-title {
+  font-family: $serif;
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  line-height: 1.2;
+  color: $offblack;
+  text-wrap: balance;
+}
+
+.archive-entry-date {
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $lightgrey;
+  white-space: nowrap;
+}
+
+.archive-entry-link:hover .archive-entry-title,
+.archive-entry-link:focus-visible .archive-entry-title {
+  color: $blue;
+}
+
 h1.post-list-header {
   line-height: 1.1;
   border-bottom: 2px solid $blue;
@@ -340,6 +386,13 @@ footer {
   footer {
     margin-left: auto;
     margin-right: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .archive-entry-link {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
   }
 }
 

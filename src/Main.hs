@@ -118,7 +118,7 @@ run action = hakyllWith config $ do
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
-        >>= loadAndApplyTemplate "templates/post-list-page.html" ctx
+        >>= loadAndApplyTemplate "templates/post-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 

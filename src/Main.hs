@@ -336,8 +336,10 @@ pandocWriterOptions =
 
 pandocCustomCompiler :: Compiler (Item String)
 pandocCustomCompiler = do
-  let transform =
-        Tikz.filterTikz <=<
+  item <- getResourceBody
+  let diagramMacros = extractDiagramMacros (T.pack $ itemBody item)
+      transform =
+        Tikz.filterTikz diagramMacros <=<
         Bibliography.filterBibliography <=<
         return
         . LifeViewer.filterLifeViewer
@@ -345,7 +347,9 @@ pandocCustomCompiler = do
         . Theorem.filterThms
         . usingSideNotes
 
-  pandocCompilerWithTransformM pandocReaderOptions pandocWriterOptions transform
+  doc <- readPandocWith pandocReaderOptions item
+  doc' <- traverse transform doc
+  return $ writePandocWith pandocWriterOptions doc'
 
 pandocFeedCompiler :: Compiler (Item String)
 pandocFeedCompiler = do
@@ -364,6 +368,31 @@ pandocFeedCompiler = do
 
 trimAtMore :: String -> String
 trimAtMore raw = T.unpack $ fst $ T.breakOn "<!--more-->" (T.pack raw)
+
+extractDiagramMacros :: T.Text -> T.Text
+extractDiagramMacros =
+  T.unlines
+  . filter (not . isCommentLine . T.strip)
+  . takeWhile keepLine
+  . T.lines
+  . dropFrontMatter
+  where
+    keepLine line =
+      let stripped = T.strip line
+      in T.null stripped || isTeXPreambleLine stripped || isCommentLine stripped
+
+    isTeXPreambleLine line =
+      "\\" `T.isPrefixOf` line
+
+    isCommentLine line =
+      any (`T.isPrefixOf` line) ["<!--", "%"]
+
+    dropFrontMatter txt = case T.lines txt of
+      first:rest | T.strip first == "---" ->
+        case dropWhile ((/= "---") . T.strip) rest of
+          _:after -> T.unlines after
+          []      -> txt
+      _ -> txt
 
 config :: Configuration
 config = defaultConfiguration

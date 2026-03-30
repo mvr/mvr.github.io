@@ -22,8 +22,8 @@ import qualified Data.ByteString.Base16 as B16
 import Control.Monad (unless)
 import System.Directory (createDirectoryIfMissing, doesFileExist)
 
-filterTikz :: Pandoc -> Compiler Pandoc
-filterTikz = walkM convertBlock
+filterTikz :: Text -> Pandoc -> Compiler Pandoc
+filterTikz macros = walkM (convertBlock macros)
 
 -- Mashing https://taeer.bar-yam.me/blog/posts/hakyll-tikz/
 -- With https://github.com/the1lab/1lab/blob/main/support/shake/app/Shake/Diagram.hs
@@ -35,13 +35,13 @@ diagramHash :: Text -> Text -> String
 diagramHash templateContent input =
   T.unpack $ T.decodeUtf8 $ B16.encode $ MD5.hash $ T.encodeUtf8 $ input `T.append` templateContent
 
-buildDiagram :: FilePath -> Text -> IO Text
-buildDiagram templatePath input = do
+buildDiagram :: FilePath -> Text -> Text -> IO Text
+buildDiagram templatePath macros input = do
   createDirectoryIfMissing True tempDir
   
   template <- T.readFile templatePath
   
-  let hash = diagramHash template input
+  let hash = diagramHash template (macros `T.append` input)
   let svgCachePath = tempDir </> (hash ++ ".svg")
   
   cacheExists <- doesFileExist svgCachePath
@@ -50,7 +50,9 @@ buildDiagram templatePath input = do
     then
       T.readFile svgCachePath
     else do
-      let texContent = T.replace "__BODY__" input template
+      let texContent =
+            T.replace "__BODY__" input $
+            T.replace "__MACROS__" macros template
       
       T.writeFile filledPath texContent
       
@@ -66,9 +68,9 @@ buildDiagram templatePath input = do
       
       return svg
 
-convertCodeBlock :: FilePath -> Attr -> Text -> Compiler Block
-convertCodeBlock templatePath (id, extraClasses, namevals) contents = do
-  svg <- unsafeCompiler (buildDiagram templatePath contents)
+convertCodeBlock :: Text -> FilePath -> Attr -> Text -> Compiler Block
+convertCodeBlock macros templatePath (id, extraClasses, namevals) contents = do
+  svg <- unsafeCompiler (buildDiagram templatePath macros contents)
   let comment = RawBlock (Format "html") ("<!--" `T.append` contents `T.append` "-->")
   let encoded = "data:image/svg+xml;utf8," <> URI.encodeText (T.filter (/= '\n') svg)
   return $ Div ("", ["figure"], []) [comment, Plain [Image (id, "tikzpicture":extraClasses, namevals) [] (encoded, "")]]
@@ -79,8 +81,11 @@ convertCodeBlock templatePath (id, extraClasses, namevals) contents = do
 
   -- return $ Div ("", ["figure"], []) [RawBlock "html" svg]
 
-convertBlock :: Block -> Compiler Block
-convertBlock (CodeBlock attrs@(id, "tikzpicture":extraClasses, namevals) contents) = convertCodeBlock "templates/diagram.tex" attrs contents
-convertBlock (CodeBlock attrs@(id, "tikzcd":extraClasses, namevals) contents) = convertCodeBlock "templates/cd.tex" attrs contents
-convertBlock (CodeBlock attrs@(id, "mathpar":extraClasses, namevals) contents) = convertCodeBlock "templates/mathpar.tex" attrs contents
-convertBlock x = return x
+convertBlock :: Text -> Block -> Compiler Block
+convertBlock macros (CodeBlock attrs@(id, "tikzpicture":extraClasses, namevals) contents) =
+  convertCodeBlock macros "templates/diagram.tex" attrs contents
+convertBlock macros (CodeBlock attrs@(id, "tikzcd":extraClasses, namevals) contents) =
+  convertCodeBlock macros "templates/cd.tex" attrs contents
+convertBlock macros (CodeBlock attrs@(id, "mathpar":extraClasses, namevals) contents) =
+  convertCodeBlock macros "templates/mathpar.tex" attrs contents
+convertBlock _ x = return x

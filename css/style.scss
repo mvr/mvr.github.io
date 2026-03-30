@@ -148,6 +148,12 @@ header#masthead {
     display: inline-flex;
     text-decoration: none;
   }
+
+  #links a + a::before {
+    content: "·";
+    color: $lightgrey;
+    margin-right: 1rem;
+  }
 }
 
 section {

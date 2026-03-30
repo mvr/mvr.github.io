@@ -615,6 +615,11 @@ header#masthead #links a {
   display: inline-flex;
   text-decoration: none;
 }
+header#masthead #links a + a::before {
+  content: "·";
+  color: #b4b4b4;
+  margin-right: 1rem;
+}
 
 section {
   max-width: var(--content-max);
@@ -632,6 +637,52 @@ li.post-entry {
 }
 li.post-entry .post-content {
   margin-top: 25px;
+}
+
+.archive-page {
+  max-width: 65ch;
+  margin-top: 26px;
+}
+
+.archive-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.archive-entry + .archive-entry {
+  border-top: 1px solid rgba(180, 180, 180, 0.45);
+}
+
+.archive-entry-link {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem 1.5rem;
+  align-items: baseline;
+  padding: 0.95rem 0;
+  text-decoration: none;
+}
+
+.archive-entry-title {
+  font-family: Iowan Old Style, Apple Garamond, "EB Garamond", Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  line-height: 1.2;
+  color: #222222;
+  text-wrap: balance;
+}
+
+.archive-entry-date {
+  font-size: 0.9rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #b4b4b4;
+  white-space: nowrap;
+}
+
+.archive-entry-link:hover .archive-entry-title,
+.archive-entry-link:focus-visible .archive-entry-title {
+  color: #2f6f93;
 }
 
 h1.post-list-header {
@@ -774,6 +825,12 @@ footer {
   footer {
     margin-left: auto;
     margin-right: auto;
+  }
+}
+@media (max-width: 640px) {
+  .archive-entry-link {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
   }
 }
 .continue-post a {

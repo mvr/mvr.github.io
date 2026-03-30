@@ -886,6 +886,7 @@ figure {
   background-color: #ffffff;
   border-radius: var(--surface-radius);
   padding: 1.4em;
+  padding-bottom: 0.9em;
   margin-bottom: 20px;
   text-align: center;
 }

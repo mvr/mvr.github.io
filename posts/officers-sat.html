@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Constraining the Period of Officers</title>
+
+        
+        
+        <link rel="canonical" href="https://mvr.github.io/posts/officers-sat.html" />
+        
+
+        <meta property="og:title" content="Constraining the Period of Officers" />
+        
+        
+        <meta property="og:url" content="https://mvr.github.io/posts/officers-sat.html" />
+        
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Mitchell Is Typing" />
+        <meta name="application-name" content="Mitchell Is Typing" />
+        <meta name="apple-mobile-web-app-title" content="Mitchell Is Typing" />
+        
+        <meta property="og:image" content="https://mvr.github.io/cards/default.png" />
+        <meta name="twitter:image" content="https://mvr.github.io/cards/default.png" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Constraining the Period of Officers" />
+        
+
+        <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mitchell Is Typing",
+            "url": "https://mvr.github.io/"
+          }
+        </script>
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
+        <script defer src="../katex.js" crossorigin="anonymous"></script>
+        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var mathElements = document.getElementsByClassName("math");
+            for (var i = 0; i < mathElements.length; i++) {
+              var texText = mathElements[i].firstChild;
+              if (mathElements[i].tagName == "SPAN") {
+                katex.render(texText.data, mathElements[i], {
+                  displayMode: mathElements[i].classList.contains('display'),
+                  throwOnError: false,
+                  fleqn: false
+                });
+              }}});
+        </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
+
+      <!-- TODO: Some other font candidates. Maybe Nunito? -->
+      <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+      <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+      <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
+
+        <link rel="stylesheet" type="text/css" href="../css/style.css" />
+        <script defer src="../life-bg.js"></script>
+
+        <link rel="icon" type="image/png" sizes="32x32" href="../favicon.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="../favicon-48.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="../favicon-192.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+
+        <meta name="LifeViewer" content="lifeviewer textarea 30 hide limit">
+
+        <link rel="alternate" type="application/atom+xml" title="Mitchell Is Typing" href="../atom.xml" />
+    </head>
+
+    <body>
+      <svg style="display: none;">
+  <!-- Right Chevron -->
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"></path>
+  </symbol>
+
+  <!-- Left Chevron -->
+  <symbol id="icon-chevron-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5l-7.5-7.5 7.5-7.5"></path>
+  </symbol>
+      </svg>
+      <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
+        <!-- <div id="header">
+     <a href="/">&#171; Home</a>
+     </div> -->
+
+<section class="post">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title"><a href="../posts/officers-sat.html">Constraining the Period of Officers</a></h1>
+<p class="post-deets">March 23, 2026   / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'sat'." href="../tags/sat.html" rel="tag">sat</a>, <a title="All pages tagged 'officers'." href="../tags/officers.html" rel="tag">officers</a> </p>
+<div class="post-content">
+    <p>The values of the impartial game <a href="../posts/officers.html">Officers</a> are probably periodic
+eventually. Can we say anything about what the period could be?<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">I’ll
+be assuming you’re up to speed on the previous post.</span></span></p>
+<!--more-->
+<p>If we assume there are no further rare values, we can put a
+(ludicrous) bound on what it’s possible for the eventual period to be.
+Let’s say that there are <span class="math inline">R</span> rare values, and the last rare value
+occurs at position <span class="math inline">k</span>. After this point, any additional value depends
+only on the previous <span class="math inline">k+1</span> values, adding one because the rules of
+Officers require us to remove a coin from the heap, so looking one
+further back into previous values. When calculating the <span class="math inline">\mathrm{mex}</span>
+in order to get the next value, we can only rule out <span class="math inline">R</span> common values
+each time, so there are only <span class="math inline">R+1</span> possible values that can occur in
+the periodic segment.</p>
+<p>All together, we end up with a strange kind of shift-register with
+only <span class="math inline">(R+1)^{k+1}</span> possible states. The actual (conjectured) values
+for Officers here are <span class="math inline">R = 1584</span> and <span class="math inline">k = 20627</span>, so our upper bound
+on the period is: <span class="math display">1585^{20628} \approx 1.6\times 10^{66010}</span> Not
+very useful in practice, unfortunately.</p>
+<p>On the flip side, there’s an easy way to rule out some small periods.
+Positions with value 0 are rare (they’re the losing positions), and
+have a special role. For such a position <span class="math inline">G(l)=0</span>, when computing the
+value of a new position <span class="math inline">n</span> we end up including the value
+<span class="math inline">G(l)⊕G(n-l-1) = 0⊕G(n-l-1) = G(n-l-1)</span> in the <span class="math inline">\mathrm{mex}</span>, and so
+<span class="math inline">G(n-l-1)</span> and <span class="math inline">G(n)</span> cannot be the same value. This excludes <span class="math inline">l+1</span> as
+a possible period, indeed, any divisor of <span class="math inline">l+1</span>.</p>
+<p>So almost for free, this excludes the periods <span class="math display">1, 2, 3, 5, 7, 9, 11,
+13, 15, 21, 25, \dots, 314, 409</span> by looking at all the known losing
+positions.</p>
+<h2 id="sat">SAT</h2>
+<p>Can we say anything else? Is the problem constraining enough that other eventual periods can be ruled out?</p>
+<p>The first unknown period is 4, and to search for a solution I decided
+to give SAT solving a go. To keep things even simpler, I make another
+unjustified assumption; that the values permanently stay below 512.
+This holds, at least for the first 14 trillion values, as checked by
+Grossman.</p>
+<p>The encoding I used is fairly simple: we have <span class="math inline">p</span> values with 256
+possibilities<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">Remember that all values are common, so one bit is
+knocked out.</span></span> to find, with each represented by a one-hot encoding.
+Calculating the <span class="math inline">\mathrm{mex}</span> is done via another 256 variables,
+tracking whether each possible value is hit by a rare value/common
+value combination. The rare values and their positions are read from a
+file, and the XOR calculation for each one is hardcoded directly into
+the SAT problem.</p>
+<p>And, disappointingly, we quickly find a solution: <span class="math display">[121, 156, 126,
+155]</span> I continued this calculation out to <span class="math inline">p = 26</span>, and for every
+case that’s not excluded by the presence of a losing position, there’s
+a feasible pattern of values with that period:</p>
+<span class="math display">\begin{aligned}
+p = 1 &amp;\quad \text{None} \\
+p = 2 &amp;\quad \text{None} \\
+p = 3 &amp;\quad \text{None} \\
+p = 4 &amp;\quad [121, 156, 126, 155] \\
+p = 5 &amp;\quad \text{None} \\
+p = 6 &amp;\quad [43, 230, 262, 64, 141, 323] \\
+p = 7 &amp;\quad \text{None} \\
+p = 8 &amp;\quad [32, 75, 362, 134, 65, 42, 296, 134] \\
+p = 9 &amp;\quad \text{None} \\
+p = 10 &amp;\quad [21, 184, 116, 217, 307, 86, 251, 55, 154, 285]  \\
+p = 11 &amp;\quad \text{None} \\
+p = 12 &amp;\quad [18, 292, 272, 180, 101, 138, 91, 363, 351, 253, 44, 195]  \\
+p = 13 &amp;\quad \text{None} \\
+p = 14 &amp;\quad [30, 272, 33, 495, 30, 128, 207, 272, 292, 60, 504, 455, 207, 128]  \\
+p = 15 &amp;\quad \text{None} \\
+p = 16 &amp;\quad [2, 185, 59, 128, 2, 190, 5, 135, 262, 128, 2, 283, 5, 135, 60, 128]  \\
+p = 17 &amp;\quad [19, 55, 236, 169, 114, 423, 157, 216, 269, 328, 335, 266, 90, 426, 24, 485, 488]  \\
+p = 18 &amp;\quad [65, 117, 251, 393, 252, 114, 70, 117, 251, 273, 252, 374, 313, 444, 251, 273, 252, 114]  \\
+p = 19 &amp;\quad [21, 60, 426, 324, 121, 155, 178, 345, 423, 247, 222, 283, 156, 59, 459, 217, 126, 87, 262]  \\
+p = 20 &amp;\quad [44, 211, 422, 323, 49, 290, 127, 211, 402, 157, 98, 211, 445, 344, 127, 313, 49, 211, 393, 157]  \\
+p = 21 &amp;\quad \text{None} \\
+p = 22 &amp;\quad [3, 195, 328, 325, 100, 302, 98, 322, 135, 195, 129, 386, 352, 38, 230, 32, 224, 162, 267, 71, 5, 65]  \\
+p = 23 &amp;\quad [65, 324, 179, 303, 76, 138, 344, 324, 185, 150, 110, 65, 180, 70, 90, 156, 363, 90, 156, 128, 120, 387, 257]  \\
+p = 24 &amp;\quad [3, 64, 256, 195, 175, 9, 352, 196, 101, 71, 358, 269, 135, 38, 4, 165, 201, 104, 206, 162, 256, 33, 262, 290] \\
+p = 25 &amp;\quad \text{None} \\
+p = 26 &amp;\quad [5, 71, 179, 241, 141, 246, 138, 200, 319, 392, 99, 324, 100, 24, 90, 378, 236, 323, 257, 151, 313, 378, 399, 126, 392, 121]
+\end{aligned}</span>
+<p>These were all found relatively quickly, in under a minute each. The
+first unclear case is <span class="math inline">p = 27</span> which I ran overnight without result;
+it would be interesting to know whether it’s UNSAT, though again not
+especially useful!</p>
+</div>
+
+</section>
+
+        <footer>
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a><!-- , source on <a href="https://github.com/mvr/blog">Github</a> -->. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+        </footer>
+
+    </body>
+</html>

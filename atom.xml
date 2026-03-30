@@ -6,7 +6,7 @@
   <link href="https://mvr.github.io/atom.xml" rel="self" />
   <link href="https://mvr.github.io" />
   <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
-  <updated>2026-03-15T00:00:00Z</updated>
+  <updated>2026-03-23T00:00:00Z</updated>
   <author>
     <name>Mitchell Riley</name>
     
@@ -14,6 +14,23 @@
     
   </author>
     <entry>
+    <title>Constraining the Period of Officers</title>
+    <link href="https://mvr.github.io/posts/officers-sat.html" rel="alternate" />
+    <id>urn:uuid:be5e1906-9213-56c9-a90e-b56479995380</id>
+    
+    <published>2026-03-23T00:00:00Z</published>
+    
+    <updated>2026-03-23T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[<p>The values of the impartial game <a href="/posts/officers.html">Officers</a> are probably periodic
+eventually. Can we say anything about what the period could be?</p><p><a href="/posts/officers-sat.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
     <title>No‑Three‑In‑Line, Dumber</title>
     <link href="https://mvr.github.io/posts/no-three-in-line-dumber.html" rel="alternate" />
     <id>urn:uuid:3096047d-0840-5efd-bb46-e9fa91ca8b7c</id>
@@ -292,27 +309,6 @@ hundreds of billions of configurations, and full object separation is
 simply too slow.</p>
 <p>Here I’ll present an alternative, a simple heuristic that works well
 enough.</p><p><a href="/posts/cool-still-lifes.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Crawlers</title>
-    <link href="https://mvr.github.io/posts/crawlers.html" rel="alternate" />
-    <id>urn:uuid:01e859e2-d0a9-55c8-a081-12f448abf247</id>
-    
-    <published>2025-04-02T00:00:00Z</published>
-    
-    <updated>2025-04-02T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[
-<p>As a second foray into CUDA, I’ve written a simple program to hunt for
-<a href="https://conwaylife.com/wiki/Crawler">crawlers</a> in the Game of Life. The kernel itself is too revolting to
-make public, but the supporting <a href="https://github.com/mvr/LifeAPI/blob/master/cuda/LifeStateCU.cu"><code>LifeStateCU</code></a> code may be useful for
-others. (This could be seen as the first step in a GPU version of
-<code>CatForce</code>/<code>LightCone</code>…)</p><p><a href="/posts/crawlers.html">&gt; Read Post</a></p>]]></summary>
   </entry>
 
 </feed>

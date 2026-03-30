@@ -5,9 +5,10 @@ module Main (main) where
 import Control.Monad (filterM, liftM, (<=<), (>=>), msum)
 import Control.Applicative (empty)
 import Data.Monoid
-import System.Environment (getArgs)
+import System.Environment (getArgs, getExecutablePath)
 import System.Directory (doesDirectoryExist, doesFileExist)
 import System.Exit (exitFailure)
+import System.Process (callProcess)
 import qualified Data.Set as S
 import qualified Data.Map as M
 import Data.Text.Titlecase
@@ -40,8 +41,9 @@ main = do
   checkRepoRoot
   args <- getArgs
   case args of
-    (h:_) -> run h
-    []    -> run "blank"
+    ("deploy":rest) -> deploy rest
+    (h:_)           -> run h
+    []              -> run "blank"
 
 perPage :: Int
 perPage = 5
@@ -56,6 +58,13 @@ checkRepoRoot = do
     else do
       putStrLn "Expected repo root (missing posts/ or package.yaml). Are you in the root directory?"
       exitFailure
+
+deploy :: [String] -> IO ()
+deploy extraArgs = do
+  exe <- getExecutablePath
+  callProcess exe ["clean"]
+  callProcess exe ["build"]
+  callProcess "scripts/deploy.sh" extraArgs
 
 grouper :: (MonadMetadata m, MonadFail m) => (Metadata -> Bool) -> [Identifier] -> m [[Identifier]]
 grouper predicate ids = do
@@ -330,8 +339,6 @@ trimAtMore raw = T.unpack $ fst $ T.breakOn "<!--more-->" (T.pack raw)
 
 config :: Configuration
 config = defaultConfiguration
-    { deployCommand = "scripts/deploy.sh"
-    }
 
 feedConfiguration :: FeedConfiguration
 feedConfiguration = FeedConfiguration

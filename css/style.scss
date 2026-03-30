@@ -454,6 +454,7 @@ tr:last-child td {
 
 figure {
   @include surface(1.4em);
+  padding-bottom: 0.9em;
   margin-bottom: 20px;
   text-align: center;
 }

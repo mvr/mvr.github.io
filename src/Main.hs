@@ -5,7 +5,7 @@ module Main (main) where
 import Control.Monad (filterM, liftM, (<=<), (>=>), msum)
 import Control.Applicative (empty)
 import Data.Monoid
-import System.Environment (getArgs, getExecutablePath)
+import System.Environment (getArgs, getExecutablePath, withArgs)
 import System.Directory (doesDirectoryExist, doesFileExist)
 import System.Exit (exitFailure)
 import System.Process (callProcess)
@@ -36,14 +36,21 @@ import qualified Tikz
 import qualified Bibliography
 import qualified Feed
 
+data CliOptions = CliOptions
+  { cliAction :: String
+  , cliWithDrafts :: Bool
+  , cliExtraArgs :: [String]
+  , cliPassthroughArgs :: [String]
+  }
+
 main :: IO ()
 main = do
   checkRepoRoot
   args <- getArgs
-  case args of
-    ("deploy":rest) -> deploy rest
-    (h:_)           -> run h
-    []              -> run "blank"
+  let opts = parseArgs args
+  case cliAction opts of
+    "deploy" -> deploy (cliExtraArgs opts)
+    action   -> withArgs (cliPassthroughArgs opts) $ run action (cliWithDrafts opts)
 
 perPage :: Int
 perPage = 5
@@ -66,6 +73,27 @@ deploy extraArgs = do
   callProcess exe ["build"]
   callProcess "scripts/deploy.sh" extraArgs
 
+parseArgs :: [String] -> CliOptions
+parseArgs args =
+  let withDrafts = "--with-drafts" `elem` args
+      passthroughArgs = filter (/= "--with-drafts") args
+      positional = filter (not . isFlag) passthroughArgs
+      action = case positional of
+        (x:_) -> x
+        []    -> "blank"
+      extraArgs = case positional of
+        (_:xs) -> xs
+        []     -> []
+  in CliOptions
+    { cliAction = action
+    , cliWithDrafts = withDrafts
+    , cliExtraArgs = extraArgs
+    , cliPassthroughArgs = passthroughArgs
+    }
+  where
+    isFlag ('-':_) = True
+    isFlag _ = False
+
 grouper :: (MonadMetadata m, MonadFail m) => (Metadata -> Bool) -> [Identifier] -> m [[Identifier]]
 grouper predicate ids = do
   filtered <- filterM (fmap predicate . getMetadata) ids
@@ -82,12 +110,12 @@ compressScssCompiler = do
                                         ])
 
 -- Much is stolen from https://github.com/jaspervdj/jaspervdj
-run :: String -> IO ()
-run action = hakyllWith config $ do
+run :: String -> Bool -> IO ()
+run action withDrafts = hakyllWith config $ do
   let postsPattern = if action == "watch"
                      then "posts/*" .||. "inprogress/*"
                      else "posts/*"
-  let postsMetadataFilter m = (action == "watch") || (lookupString "draft" m /= Just "true")
+  let postsMetadataFilter m = action == "watch" || withDrafts || (lookupString "draft" m /= Just "true")
 
   pag <- buildPaginateWith (grouper postsMetadataFilter) postsPattern makeId
   tags <- buildTags postsPattern (fromCapture "tags/*.html")

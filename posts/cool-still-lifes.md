@@ -1,7 +1,7 @@
 ---
 title: Quickly Detecting Cool Still Lifes
 published: April 8, 2025
-tags: code, cuda, gol
+tags: code, cuda, game-of-life
 ---
 
 <script defer src="/life/lv-plugin.js"></script>

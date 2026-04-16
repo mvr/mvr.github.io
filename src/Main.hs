@@ -2,14 +2,13 @@
 
 module Main (main) where
 
-import Control.Monad (filterM, liftM, (<=<), (>=>), msum)
+import Control.Monad (filterM, (<=<), (>=>), msum)
 import Control.Applicative (empty)
 import Data.Monoid
 import System.Environment (getArgs, getExecutablePath, withArgs)
 import System.Directory (doesDirectoryExist, doesFileExist)
 import System.Exit (exitFailure)
 import System.Process (callProcess)
-import qualified Data.Set as S
 import qualified Data.Map as M
 import Data.Text.Titlecase
 import qualified Data.Text as T
@@ -23,8 +22,9 @@ import qualified Data.UUID as UUID
 import qualified Data.UUID.V5 as UUID.V5
 
 import Hakyll
+import Text.Pandoc.Definition (Pandoc)
 import Text.Pandoc.Options
-import Sidenote (usingSideNotes)
+import Sidenote (usingSideNotes, withoutNotes)
 -- import Hakyll.Core.Compiler.Internal (compilerThrow)
 -- import Text.Pandoc.Builder (setMeta)
 -- import Text.Pandoc as Pandoc (runIO)
@@ -123,13 +123,17 @@ run action withDrafts = hakyllWith config $ do
   -- Compile posts
   matchMetadata postsPattern postsMetadataFilter $ do
     route   $ setExtension ".html"
-    let ctx = postCtx tags <> siteCtx -- <> field "tags" (\_ -> renderTagList tags)
+    let ctx = postCtx tags
     compile $ do
-      feed <- pandocFeedCompiler
+      source <- getResourceBody
+      _ <- saveSnapshot "raw" source
+      feed <- pandocFeedCompiler source
       _ <- saveSnapshot "feed" feed
-      pandocCustomCompiler
-        >>= saveSnapshot "body"
-        >>= loadAndApplyTemplate "templates/post.html" ctx
+      body <- renderPostItem usingSideNotes source
+      _ <- saveSnapshot "body" body
+      teaser <- pandocTeaserCompiler source
+      _ <- saveSnapshot "teaser" teaser
+      loadAndApplyTemplate "templates/post.html" ctx body
         -- >>= saveSnapshot "rendered"
         >>= loadAndApplyTemplate "templates/post-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -139,7 +143,7 @@ run action withDrafts = hakyllWith config $ do
   create ["archive.html"] $ do
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAll postsPattern
+      posts <- recentFirst =<< loadAllSnapshots postsPattern "raw"
       let ctx = constField "title" "All Posts" <>
                 listField "posts" (postCtx tags) (return posts) <>
                 siteCtx <>
@@ -154,12 +158,12 @@ run action withDrafts = hakyllWith config $ do
   paginateRules pag $ \pageNum pattern -> do
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAllSnapshots pattern "body"
+      posts <- recentFirst =<< loadAllSnapshots pattern "raw"
       let paginateCtx = paginateContext pag pageNum
           ctx =
             field "tags" (\_ -> renderTagList tags) <>
             constField "title" ("Page " ++ show pageNum) <>
-            listField "posts" (postCtx tags) (return posts) <>
+            listField "posts" (postListCtx tags) (return posts) <>
             paginateCtx <>
             siteCtx <>
             defaultContext
@@ -171,19 +175,19 @@ run action withDrafts = hakyllWith config $ do
 
   -- Tags
   tagsRules tags $ \tag pattern -> do
-    let title = "Posts Tagged ‘" ++ titlecase (fmap (\c -> if c == '-' then ' ' else c) tag) ++ "’"
+    let title = "Posts Tagged ‘" ++ displayTagName tag ++ "’"
 
     route idRoute
     compile $ do
-      posts <- recentFirst =<< loadAllSnapshots pattern "body"
+      posts <- recentFirst =<< loadAllSnapshots pattern "raw"
       let ctx = constField "title" title <>
                 listField "posts" (postCtx tags) (return posts) <>
                 field "tags" (\_ -> renderTagList tags) <>
                 siteCtx <>
                 defaultContext
       makeItem ""
-        >>= loadAndApplyTemplate "templates/post-list.html" ctx
-        >>= loadAndApplyTemplate "templates/post-list-page.html" ctx
+        >>= loadAndApplyTemplate "templates/archive.html" ctx
+        >>= loadAndApplyTemplate "templates/post-page.html" ctx
         >>= loadAndApplyTemplate "templates/default.html" ctx
         >>= relativizeUrls
 
@@ -191,8 +195,8 @@ run action withDrafts = hakyllWith config $ do
   match "index.html" $ do
     route idRoute
     compile $ do
-      posts <- fmap (take perPage) . recentFirst =<< loadAllSnapshots postsPattern "body"
-      let ctx = listField "posts" (postCtx tags) (return posts)
+      posts <- fmap (take perPage) . recentFirst =<< loadAllSnapshots postsPattern "raw"
+      let ctx = listField "posts" (postListCtx tags) (return posts)
                 <> field "tags" (\_ -> renderTagList tags)
                 <> constField "title" "Mitchell Is Typing"
                 -- <> boolField "isIndex" (const True)
@@ -305,9 +309,14 @@ postCtx :: Tags -> Context String
 postCtx tags = dateField "date" "%B %e, %Y"
                <> writtenField "written" "%B %e, %Y"
                <> tagsField "tags" tags
-               <> teaserField "teaser" "body"
                <> siteCtx
                <> defaultContext
+
+postListCtx :: Tags -> Context String
+postListCtx tags = snapshotBodyField "body" "body"
+                   <> snapshotBodyField "teaser" "teaser"
+                   <> boolFieldM "hasTeaser" hasTeaserField
+                   <> postCtx tags
 
 siteCtx :: Context a
 siteCtx = constField "siteRoot" (feedRoot feedConfiguration)
@@ -337,6 +346,27 @@ pandocWriterOptions =
 pandocCustomCompiler :: Compiler (Item String)
 pandocCustomCompiler = do
   item <- getResourceBody
+  renderPostItem usingSideNotes item
+
+pandocFeedCompiler :: Item String -> Compiler (Item String)
+pandocFeedCompiler item = do
+  let transform =
+        return . Feed.simplifyFeedPandoc <=<
+        Bibliography.filterBibliography <=<
+        return
+        . Hyphen.filterHyphen
+        . Theorem.filterThms
+
+  let teaserItem = fmap trimAtMore item
+  doc <- readPandocWith pandocReaderOptions teaserItem
+  doc' <- traverse transform doc
+  return $ writePandocWith pandocWriterOptions doc'
+
+pandocTeaserCompiler :: Item String -> Compiler (Item String)
+pandocTeaserCompiler = renderPostItem withoutNotes . fmap trimAtMore
+
+renderPostItem :: (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
+renderPostItem noteTransform item = do
   let diagramMacros = extractDiagramMacros (T.pack $ itemBody item)
       transform =
         Tikz.filterTikz diagramMacros <=<
@@ -345,26 +375,34 @@ pandocCustomCompiler = do
         . LifeViewer.filterLifeViewer
         . Hyphen.filterHyphen
         . Theorem.filterThms
-        . usingSideNotes
+        . noteTransform
 
   doc <- readPandocWith pandocReaderOptions item
   doc' <- traverse transform doc
-  return $ writePandocWith pandocWriterOptions doc'
+  pure $ writePandocWith pandocWriterOptions doc'
 
-pandocFeedCompiler :: Compiler (Item String)
-pandocFeedCompiler = do
-  let transform =
-        return . Feed.simplifyFeedPandoc <=<
-        Bibliography.filterBibliography <=<
-        return
-        . Hyphen.filterHyphen
-        . Theorem.filterThms
+snapshotBodyField :: String -> Snapshot -> Context String
+snapshotBodyField key snapshot = field key $ \item ->
+  loadSnapshotBody (setVersion Nothing (itemIdentifier item)) snapshot
 
-  item <- getResourceBody
-  let teaserItem = fmap trimAtMore item
-  doc <- readPandocWith pandocReaderOptions teaserItem
-  doc' <- traverse transform doc
-  return $ writePandocWith pandocWriterOptions doc'
+hasTeaserField :: Item a -> Compiler Bool
+hasTeaserField item = do
+  raw <- loadSnapshotBody (setVersion Nothing $ itemIdentifier item) "raw"
+  pure $ "<!--more-->" `T.isInfixOf` T.pack raw
+
+displayTagName :: String -> String
+displayTagName tag =
+  M.findWithDefault defaultName tag tagDisplayNames
+  where
+    defaultName = titlecase (fmap (\c -> if c == '-' then ' ' else c) tag)
+
+tagDisplayNames :: M.Map String String
+tagDisplayNames = M.fromList
+  [ ("cgt", "CGT")
+  , ("cuda", "CUDA")
+  , ("gol", "Game of Life")
+  , ("sat", "SAT")
+  ]
 
 trimAtMore :: String -> String
 trimAtMore raw = T.unpack $ fst $ T.breakOn "<!--more-->" (T.pack raw)

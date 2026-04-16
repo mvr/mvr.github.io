@@ -1,7 +1,7 @@
 ---
 title: Crawlers 
 published: April 2, 2025
-tags: code, cuda, gol
+tags: code, cuda, game-of-life
 ---
 
 <script defer src="/life/lv-plugin.js"></script>

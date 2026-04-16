@@ -5,11 +5,9 @@
         <h1 class="post-list-title"><a href="$url$">$title$</a></h1>
         <p class="post-deets">$date$ / $tags$</p>
         <div class="post-content">
-            $if(teaser)$
             $teaser$
+            $if(hasTeaser)$
             <div class="continue-post"><a href="$url$">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            $else$
-            $body$
             $endif$
         </div>
     </li>

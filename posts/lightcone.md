@@ -1,7 +1,7 @@
 ---
 title: Searching for Conduits at Lightspeed
 published: February 9, 2025
-tags: gol, code
+tags: game-of-life, code
 ---
 
 <script defer src="/life/lv-plugin.js"></script>

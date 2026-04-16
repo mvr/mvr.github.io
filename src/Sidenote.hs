@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Sidenote (usingSideNotes) where
+module Sidenote (usingSideNotes, withoutNotes) where
 
 import Data.List (intercalate)
 import Data.Text (append, pack)
@@ -112,3 +112,10 @@ filterInline inline = return inline
 usingSideNotes :: Pandoc -> Pandoc
 usingSideNotes (Pandoc meta blocks) =
   Pandoc meta (evalState (walkM filterInline blocks) 0)
+
+withoutNotes :: Pandoc -> Pandoc
+withoutNotes = walk stripNote
+  where
+    stripNote :: Inline -> Inline
+    stripNote (Note _) = Str ""
+    stripNote inline   = inline

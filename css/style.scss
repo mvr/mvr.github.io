@@ -428,6 +428,11 @@ a#next-page-link {
   margin-right: 30px;
 }
 
+#next-page-link,
+#prev-page-link {
+  vertical-align: middle;
+}
+
 /* Blocks */
 
 pre, .figure {
@@ -558,11 +563,11 @@ figcaption {
 }
 
 #home-page-link > .chevron-icon,
-#next-page-link > .chevron-icon {
+#next-page-link > .chevron-icon,
+#prev-page-link > .chevron-icon {
   top: -0.01rem;
 }
 
-#prev-page-link > .chevron-icon,
 .continue-post a > .chevron-icon {
   top: 0.2rem;
 }

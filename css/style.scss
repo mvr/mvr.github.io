@@ -222,15 +222,6 @@ li.post-entry {
   color: $blue;
 }
 
-h1.post-list-header {
-  line-height: 1.1;
-  border-bottom: 2px solid $blue;
-  margin-top: 40px;
-  margin-bottom: 0;
-  max-width: $body-width;
-  width: 100%;
-}
-
 h1.post-list-title, section.post h1.post-title {
   line-height: 1.1;
   border-bottom: 2px solid $blue;
@@ -250,6 +241,10 @@ section.post h1.post-title {
   font-size: clamp(2.2rem, 6vw, 3rem);
   padding-bottom: 6px;
   margin-bottom: 8px;
+}
+
+section.post-list-page-header {
+  margin-bottom: 48px;
 }
 
 h1.post-list-title a, h1.post-title a {

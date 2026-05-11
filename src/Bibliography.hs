@@ -51,7 +51,8 @@ buildBibliography :: Text -> IO Text
 buildBibliography input = do
   createDirectoryIfMissing True tempDir
   
-  let hash = bibHash input
+  cacheSalt <- katexCacheSalt
+  let hash = bibHash ("katex-html-v4\n" <> cacheSalt <> "\n" <> input)
   let mdCachePath = tempDir </> (hash ++ ".md")
   
   cacheExists <- doesFileExist mdCachePath
@@ -60,12 +61,30 @@ buildBibliography input = do
     T.readFile mdCachePath
   else do
     T.writeFile tempBibFile input
-    md <- T.pack <$> readProcess "pandoc"
+    rawHtml <- readProcess "pandoc"
           [tempBibFile, "-C", "--katex", "--csl=" ++ cslPath, "-t", "html"]
           ""
+    md <- T.pack <$> readProcess "node" ["scripts/render-katex.mjs", "--html"] rawHtml
 
     T.writeFile mdCachePath md
     return md
+
+katexCacheSalt :: IO Text
+katexCacheSalt =
+  T.intercalate "\n" <$> traverse readSaltFile
+    [ "scripts/render-katex.mjs"
+    , "package-lock.json"
+    , "package.json"
+    ]
+
+readSaltFile :: FilePath -> IO Text
+readSaltFile path = do
+  exists <- doesFileExist path
+  if exists
+    then do
+      contents <- T.readFile path
+      return $ T.pack path <> "\n" <> contents
+    else return $ T.pack path <> "\n"
 
 collectBibliography :: Block -> [Text]
 collectBibliography (CodeBlock (_, classes, _) contents)

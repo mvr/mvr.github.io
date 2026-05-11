@@ -21,6 +21,7 @@ executables:
       - Hyphen
       - LifeViewer
       - Sidenote
+      - ServerKaTeX
       - Theorem
       - Tikz
     dependencies:

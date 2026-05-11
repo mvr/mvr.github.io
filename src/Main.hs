@@ -35,6 +35,7 @@ import qualified LifeViewer
 import qualified Tikz
 import qualified Bibliography
 import qualified Feed
+import qualified ServerKaTeX
 
 data CliOptions = CliOptions
   { cliAction :: String
@@ -350,7 +351,9 @@ pandocCustomCompiler = do
 
 pandocFeedCompiler :: Item String -> Compiler (Item String)
 pandocFeedCompiler item = do
+  let katexMacros = extractDiagramMacros (T.pack $ itemBody item)
   let transform =
+        ServerKaTeX.renderMath katexMacros <=<
         return . Feed.simplifyFeedPandoc <=<
         Bibliography.filterBibliography <=<
         return
@@ -368,7 +371,9 @@ pandocTeaserCompiler = renderPostItem withoutNotes . fmap trimAtMore
 renderPostItem :: (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
 renderPostItem noteTransform item = do
   let diagramMacros = extractDiagramMacros (T.pack $ itemBody item)
+      katexMacros = diagramMacros
       transform =
+        ServerKaTeX.renderMath katexMacros <=<
         Tikz.filterTikz diagramMacros <=<
         Bibliography.filterBibliography <=<
         return

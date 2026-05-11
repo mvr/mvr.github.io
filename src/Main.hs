@@ -31,6 +31,7 @@ import Sidenote (usingSideNotes, withoutNotes)
 
 import qualified Theorem
 import qualified Hyphen
+import qualified HeaderPermalinks
 import qualified LifeViewer
 import qualified Tikz
 import qualified Bibliography
@@ -130,7 +131,7 @@ run action withDrafts = hakyllWith config $ do
       _ <- saveSnapshot "raw" source
       feed <- pandocFeedCompiler source
       _ <- saveSnapshot "feed" feed
-      body <- renderPostItem usingSideNotes source
+      body <- renderPostItem True usingSideNotes source
       _ <- saveSnapshot "body" body
       teaser <- pandocTeaserCompiler source
       _ <- saveSnapshot "teaser" teaser
@@ -347,7 +348,7 @@ pandocWriterOptions =
 pandocCustomCompiler :: Compiler (Item String)
 pandocCustomCompiler = do
   item <- getResourceBody
-  renderPostItem usingSideNotes item
+  renderPostItem True usingSideNotes item
 
 pandocFeedCompiler :: Item String -> Compiler (Item String)
 pandocFeedCompiler item = do
@@ -366,12 +367,16 @@ pandocFeedCompiler item = do
   return $ writePandocWith pandocWriterOptions doc'
 
 pandocTeaserCompiler :: Item String -> Compiler (Item String)
-pandocTeaserCompiler = renderPostItem withoutNotes . fmap trimAtMore
+pandocTeaserCompiler = renderPostItem False withoutNotes . fmap trimAtMore
 
-renderPostItem :: (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
-renderPostItem noteTransform item = do
+renderPostItem :: Bool -> (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
+renderPostItem withHeaderPermalinks noteTransform item = do
   let diagramMacros = extractDiagramMacros (T.pack $ itemBody item)
       katexMacros = diagramMacros
+      headerTransform =
+        if withHeaderPermalinks
+          then HeaderPermalinks.addHeaderPermalinks
+          else id
       transform =
         ServerKaTeX.renderMath katexMacros <=<
         Tikz.filterTikz diagramMacros <=<
@@ -380,6 +385,7 @@ renderPostItem noteTransform item = do
         . LifeViewer.filterLifeViewer
         . Hyphen.filterHyphen
         . Theorem.filterThms
+        . headerTransform
         . noteTransform
 
   doc <- readPandocWith pandocReaderOptions item

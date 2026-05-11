@@ -340,6 +340,14 @@ h1.post-list-title a, h1.post-title a {
     margin-bottom: 1rem;
   }
 
+  h1,
+  h2,
+  h3,
+  h4 {
+    position: relative;
+    scroll-margin-top: 1.5rem;
+  }
+
   h1 {
     font-size: 2rem;
     margin-top: 1.4em;
@@ -360,6 +368,46 @@ h1.post-list-title a, h1.post-title a {
     font-size: 1.1rem;
     margin-top: 1.2em;
     margin-bottom: 0.6rem;
+  }
+
+  .heading-permalink {
+    position: absolute;
+    top: 50%;
+    left: -1.6em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 1.65em;
+    height: 1.4em;
+    color: $lightgrey;
+    font-family: $sansserif;
+    font-size: 0.75em;
+    font-weight: normal;
+    line-height: 1;
+    text-decoration: none;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition:
+      color 120ms ease,
+      opacity 120ms ease;
+  }
+
+  h1:hover .heading-permalink,
+  h2:hover .heading-permalink,
+  h3:hover .heading-permalink,
+  h4:hover .heading-permalink,
+  h1:focus-within .heading-permalink,
+  h2:focus-within .heading-permalink,
+  h3:focus-within .heading-permalink,
+  h4:focus-within .heading-permalink,
+  .heading-permalink:hover,
+  .heading-permalink:focus-visible {
+    opacity: 1;
+  }
+
+  .heading-permalink:hover,
+  .heading-permalink:focus-visible {
+    color: $blue;
   }
 
   hr {
@@ -391,6 +439,14 @@ footer {
   .archive-entry-link {
     grid-template-columns: 1fr;
     gap: 0.35rem;
+  }
+
+  .post-content .heading-permalink {
+    position: static;
+    display: inline;
+    margin-left: 0.35em;
+    transform: none;
+    opacity: 0.55;
   }
 }
 

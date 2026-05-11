@@ -29,7 +29,6 @@ filterTikz macros = walkM (convertBlock macros)
 -- With https://github.com/the1lab/1lab/blob/main/support/shake/app/Shake/Diagram.hs
 
 tempDir = "_cache/tikz"
-filledPath = tempDir ++ "/filled_template.tex"
 
 diagramHash :: Text -> Text -> String
 diagramHash templateContent input =
@@ -42,7 +41,10 @@ buildDiagram templatePath macros input = do
   template <- T.readFile templatePath
   
   let hash = diagramHash template (macros `T.append` input)
+  let filledPath = tempDir </> (hash ++ ".tex")
+  let pdfPath = tempDir </> (hash ++ ".pdf")
   let svgCachePath = tempDir </> (hash ++ ".svg")
+  let svgPath = tempDir </> (hash ++ "-raw.svg")
   
   cacheExists <- doesFileExist svgCachePath
   
@@ -57,10 +59,6 @@ buildDiagram templatePath macros input = do
       T.writeFile filledPath texContent
       
       _ <- readProcess "pdflatex" ["-output-directory=" ++ tempDir, "-synctex=1", "-interaction=nonstopmode", filledPath] ""
-      
-      let pdfPath = dropExtension filledPath ++ ".pdf"
-      let svgPath = dropExtension filledPath ++ ".svg"
-      
       _ <- readProcess "pdftocairo" ["-svg", pdfPath, svgPath] ""
       svg <- T.readFile svgPath
       

@@ -27,20 +27,17 @@ import Text.HTML.TagSoup.Tree (TagTree(..), parseTree, renderTree)
 
 filterBibliography :: Pandoc -> Compiler Pandoc
 filterBibliography doc = do
-  let bibContents = query collectBibliography doc
-  if null bibContents
+  let bibBlocks = query collectBibliography doc
+  if null bibBlocks
     then return doc
     else do
-      let counts = fmap countEntries bibContents
-          combined = T.intercalate "\n\n" bibContents
-      html <- unsafeCompiler (buildBibliography combined)
-      chunks <- case splitBibliographyHtml html counts of
-        Left err -> fail err
-        Right cs -> return cs
-      evalStateT (walkM replaceBibBlock doc) chunks
+      let globalBlocks = filter ((== GlobalBib) . bibBlockMode) bibBlocks
+          localBlocks = filter ((== LocalBib) . bibBlockMode) bibBlocks
+      globalChunks <- renderBibliographyChunks globalBlocks
+      localChunks <- traverse renderLocalBibliography localBlocks
+      evalStateT (walkM replaceBibBlock doc) (RenderChunks globalChunks localChunks)
 
 tempDir = "_cache/bib"
-tempBibFile = tempDir ++ "/file.bib"
 cslPath = "bibstyle.csl"
 
 bibHash :: Text -> String
@@ -51,9 +48,12 @@ buildBibliography :: Text -> IO Text
 buildBibliography input = do
   createDirectoryIfMissing True tempDir
   
-  cacheSalt <- katexCacheSalt
+  cacheSalt <- bibliographyCacheSalt
   let hash = bibHash ("katex-html-v4\n" <> cacheSalt <> "\n" <> input)
   let mdCachePath = tempDir </> (hash ++ ".md")
+  let tempBibFile = tempDir </> (hash ++ ".bib")
+  let tempHtmlFile = tempDir </> (hash ++ ".html")
+  let tempRenderedFile = tempDir </> (hash ++ ".rendered.html")
   
   cacheExists <- doesFileExist mdCachePath
   
@@ -64,15 +64,18 @@ buildBibliography input = do
     rawHtml <- readProcess "pandoc"
           [tempBibFile, "-C", "--katex", "--csl=" ++ cslPath, "-t", "html"]
           ""
-    md <- T.pack <$> readProcess "node" ["scripts/render-katex.mjs", "--html"] rawHtml
+    T.writeFile tempHtmlFile (T.pack rawHtml)
+    callProcess "node" ["scripts/render-katex.mjs", "--html-file", tempHtmlFile, "--out", tempRenderedFile]
+    md <- T.readFile tempRenderedFile
 
     T.writeFile mdCachePath md
     return md
 
-katexCacheSalt :: IO Text
-katexCacheSalt =
+bibliographyCacheSalt :: IO Text
+bibliographyCacheSalt =
   T.intercalate "\n" <$> traverse readSaltFile
-    [ "scripts/render-katex.mjs"
+    [ cslPath
+    , "scripts/render-katex.mjs"
     , "package-lock.json"
     , "package.json"
     ]
@@ -86,27 +89,76 @@ readSaltFile path = do
       return $ T.pack path <> "\n" <> contents
     else return $ T.pack path <> "\n"
 
-collectBibliography :: Block -> [Text]
+data BibMode = GlobalBib | LocalBib
+  deriving (Eq)
+
+data BibBlock = BibBlock
+  { bibBlockMode :: BibMode
+  , bibBlockContents :: Text
+  , bibBlockCount :: Int
+  }
+
+data RenderChunks = RenderChunks
+  { renderGlobalChunks :: [Text]
+  , renderLocalChunks :: [Text]
+  }
+
+renderBibliographyChunks :: [BibBlock] -> Compiler [Text]
+renderBibliographyChunks [] = return []
+renderBibliographyChunks bibBlocks = do
+  let counts = fmap bibBlockCount bibBlocks
+      combined = T.intercalate "\n\n" (fmap bibBlockContents bibBlocks)
+  html <- unsafeCompiler (buildBibliography combined)
+  case splitBibliographyHtml html counts of
+    Left err -> fail err
+    Right chunks -> return chunks
+
+renderLocalBibliography :: BibBlock -> Compiler Text
+renderLocalBibliography bibBlock = do
+  chunks <- renderBibliographyChunks [bibBlock]
+  case chunks of
+    [chunk] -> return chunk
+    _ -> fail "Local bibliography conversion mismatch: expected one rendered chunk."
+
+collectBibliography :: Block -> [BibBlock]
 collectBibliography (CodeBlock (_, classes, _) contents)
-  | "bib" `elem` classes = [contents]
+  | Just mode <- bibliographyMode classes = [BibBlock mode contents (countEntries contents)]
 collectBibliography _ = []
 
-replaceBibBlock :: Block -> StateT [Text] Compiler Block
+replaceBibBlock :: Block -> StateT RenderChunks Compiler Block
 replaceBibBlock (CodeBlock (ident, classes, namevals) contents)
-  | "bib" `elem` classes = do
-      chunks <- get
-      case chunks of
-        (current:rest) -> do
-          put rest
-          let extraClasses = filter (/= "bib") classes
-              comment = RawBlock (Format "html") ("<!--" <> contents <> "-->")
-          return $
-            Div
-              (ident, "bibliography" : extraClasses, namevals)
-              [comment, RawBlock (Format "html") current]
-        [] ->
-          lift $ fail "Bibliography conversion mismatch: exhausted rendered chunks."
+  | Just mode <- bibliographyMode classes = do
+      current <- popRenderedChunk mode
+      let extraClasses = filter (`notElem` ["bib", "biblocal"]) classes
+          comment = RawBlock (Format "html") ("<!--" <> contents <> "-->")
+      return $
+        Div
+          (ident, "bibliography" : extraClasses, namevals)
+          [comment, RawBlock (Format "html") current]
 replaceBibBlock block = return block
+
+bibliographyMode :: [Text] -> Maybe BibMode
+bibliographyMode classes
+  | "biblocal" `elem` classes = Just LocalBib
+  | "bib" `elem` classes = Just GlobalBib
+  | otherwise = Nothing
+
+popRenderedChunk :: BibMode -> StateT RenderChunks Compiler Text
+popRenderedChunk mode = do
+  chunks <- get
+  case mode of
+    GlobalBib ->
+      case renderGlobalChunks chunks of
+        (current:rest) -> do
+          put chunks { renderGlobalChunks = rest }
+          return current
+        [] -> lift $ fail "Global bibliography conversion mismatch: exhausted rendered chunks."
+    LocalBib ->
+      case renderLocalChunks chunks of
+        (current:rest) -> do
+          put chunks { renderLocalChunks = rest }
+          return current
+        [] -> lift $ fail "Local bibliography conversion mismatch: exhausted rendered chunks."
 
 countEntries :: Text -> Int
 countEntries = length . filter isEntryLine . T.lines
@@ -135,7 +187,8 @@ splitBibliographyHtml html counts
           groupedSegments <- splitSegments counts segments
           let renderChunk segs =
                 let chunkTrees = leading <> concatMap flattenSegment segs <> trailing
-                 in T.pack . renderTree $ [TagBranch name attrs chunkTrees]
+                    chunkAttrs = removeAttr "id" attrs
+                 in T.pack . renderTree $ [TagBranch name chunkAttrs chunkTrees]
           pure $ fmap renderChunk groupedSegments
         _ -> Left "Unexpected HTML node while splitting bibliography output."
   where
@@ -189,6 +242,9 @@ hasClass target attrs =
   case lookup "class" attrs of
     Nothing -> False
     Just cls -> target `elem` words cls
+
+removeAttr :: String -> [(String, String)] -> [(String, String)]
+removeAttr name = filter ((/= name) . fst)
 
 isEntryTree :: TagTree String -> Bool
 isEntryTree (TagBranch _ attrs _) = hasClass "csl-entry" attrs

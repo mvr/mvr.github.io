@@ -69,10 +69,19 @@ function renderHtmlFragment(html) {
   );
 }
 
-const input = fs.readFileSync(0, "utf8");
+const htmlFileIndex = process.argv.indexOf("--html-file");
+const input = htmlFileIndex === -1
+  ? fs.readFileSync(0, "utf8")
+  : fs.readFileSync(process.argv[htmlFileIndex + 1], "utf8");
 
-if (process.argv.includes("--html")) {
-  process.stdout.write(renderHtmlFragment(input));
+if (process.argv.includes("--html") || htmlFileIndex !== -1) {
+  const rendered = renderHtmlFragment(input);
+  const outFileIndex = process.argv.indexOf("--out");
+  if (outFileIndex === -1) {
+    process.stdout.write(rendered);
+  } else {
+    fs.writeFileSync(process.argv[outFileIndex + 1], rendered);
+  }
   process.exit(0);
 }
 

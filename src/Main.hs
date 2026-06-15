@@ -2,11 +2,11 @@
 
 module Main (main) where
 
-import Control.Monad (filterM, (<=<), (>=>), msum)
+import Control.Monad (filterM, (<=<), (>=>), msum, when)
 import Control.Applicative (empty)
 import Data.Monoid
 import System.Environment (getArgs, getExecutablePath, withArgs)
-import System.Directory (doesDirectoryExist, doesFileExist)
+import System.Directory (createDirectoryIfMissing, doesDirectoryExist, doesFileExist, removePathForcibly)
 import System.Exit (exitFailure)
 import System.Process (callProcess)
 import qualified Data.Map as M
@@ -114,10 +114,14 @@ compressScssCompiler = do
 
 -- Much is stolen from https://github.com/jaspervdj/jaspervdj
 run :: String -> Bool -> IO ()
-run action withDrafts = hakyllWith config $ do
-  let postsPattern = if action == "watch"
-                     then "posts/*" .||. "inprogress/*"
-                     else "posts/*"
+run action withDrafts = do
+  let bakeKaTeX = action /= "watch" && not withDrafts
+  ensureBuildModeCache bakeKaTeX
+  hakyllWith config (siteRules action withDrafts bakeKaTeX)
+
+siteRules :: String -> Bool -> Bool -> Rules ()
+siteRules action withDrafts bakeKaTeX = do
+  let postsPattern = "posts/*"
   let postsMetadataFilter m = action == "watch" || withDrafts || (lookupString "draft" m /= Just "true")
 
   pag <- buildPaginateWith (grouper postsMetadataFilter) postsPattern makeId
@@ -126,15 +130,15 @@ run action withDrafts = hakyllWith config $ do
   -- Compile posts
   matchMetadata postsPattern postsMetadataFilter $ do
     route   $ setExtension ".html"
-    let ctx = postCtx tags
+    let ctx = postCtx bakeKaTeX tags
     compile $ do
       source <- getResourceBody
       _ <- saveSnapshot "raw" source
-      feed <- pandocFeedCompiler source
+      feed <- pandocFeedCompiler bakeKaTeX source
       _ <- saveSnapshot "feed" feed
-      body <- renderPostItem True usingSideNotes source
+      body <- renderPostItem bakeKaTeX True usingSideNotes source
       _ <- saveSnapshot "body" body
-      teaser <- pandocTeaserCompiler source
+      teaser <- pandocTeaserCompiler bakeKaTeX source
       _ <- saveSnapshot "teaser" teaser
       loadAndApplyTemplate "templates/post.html" ctx body
         -- >>= saveSnapshot "rendered"
@@ -148,8 +152,8 @@ run action withDrafts = hakyllWith config $ do
     compile $ do
       posts <- recentFirst =<< loadAllSnapshots postsPattern "raw"
       let ctx = constField "title" "All Posts" <>
-                listField "posts" (postCtx tags) (return posts) <>
-                siteCtx <>
+                listField "posts" (postCtx bakeKaTeX tags) (return posts) <>
+                siteCtx bakeKaTeX <>
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
@@ -166,9 +170,9 @@ run action withDrafts = hakyllWith config $ do
           ctx =
             field "tags" (\_ -> renderTagList tags) <>
             constField "title" ("Page " ++ show pageNum) <>
-            listField "posts" (postListCtx tags) (return posts) <>
+            listField "posts" (postListCtx bakeKaTeX tags) (return posts) <>
             paginateCtx <>
-            siteCtx <>
+            siteCtx bakeKaTeX <>
             defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/post-list.html" ctx
@@ -184,9 +188,9 @@ run action withDrafts = hakyllWith config $ do
     compile $ do
       posts <- recentFirst =<< loadAllSnapshots pattern "raw"
       let ctx = constField "title" title <>
-                listField "posts" (postCtx tags) (return posts) <>
+                listField "posts" (postCtx bakeKaTeX tags) (return posts) <>
                 field "tags" (\_ -> renderTagList tags) <>
-                siteCtx <>
+                siteCtx bakeKaTeX <>
                 defaultContext
       makeItem ""
         >>= loadAndApplyTemplate "templates/archive.html" ctx
@@ -199,12 +203,12 @@ run action withDrafts = hakyllWith config $ do
     route idRoute
     compile $ do
       posts <- fmap (take perPage) . recentFirst =<< loadAllSnapshots postsPattern "raw"
-      let ctx = listField "posts" (postListCtx tags) (return posts)
+      let ctx = listField "posts" (postListCtx bakeKaTeX tags) (return posts)
                 <> field "tags" (\_ -> renderTagList tags)
                 <> constField "title" "Mitchell Is Typing"
                 -- <> boolField "isIndex" (const True)
                 <> paginateContext pag 1
-                <> siteCtx
+                <> siteCtx bakeKaTeX
                 <> defaultContext
       getResourceBody
         >>= applyAsTemplate ctx
@@ -216,8 +220,8 @@ run action withDrafts = hakyllWith config $ do
 
   match (fromList simplePages) $ do
     route (setExtension "html")
-    let ctx = siteCtx <> defaultContext
-    compile $ pandocCustomCompiler
+    let ctx = siteCtx bakeKaTeX <> defaultContext
+    compile $ pandocCustomCompiler bakeKaTeX
       >>= loadAndApplyTemplate "templates/simple.html" ctx
       >>= loadAndApplyTemplate "templates/post-page.html" ctx
       >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -249,7 +253,7 @@ run action withDrafts = hakyllWith config $ do
         let iconUrl = feedRoot feedConfiguration ++ "/favicon.png"
             feedCtx = uuidField "uuid"
                       <> rfc3339PublishedField "published"
-                      <> postCtx tags
+                      <> postCtx bakeKaTeX tags
                       <> bodyField "description"
                       <> constField "icon" iconUrl
 
@@ -308,23 +312,24 @@ uuidField key = field key $ \item -> do
         uuid = UUID.V5.generateNamed UUID.V5.namespaceURL identifierBytes
     pure (UUID.toString uuid)
 
-postCtx :: Tags -> Context String
-postCtx tags = dateField "date" "%B %e, %Y"
-               <> writtenField "written" "%B %e, %Y"
-               <> tagsField "tags" tags
-               <> siteCtx
-               <> defaultContext
+postCtx :: Bool -> Tags -> Context String
+postCtx bakeKaTeX tags = dateField "date" "%B %e, %Y"
+                         <> writtenField "written" "%B %e, %Y"
+                         <> tagsField "tags" tags
+                         <> siteCtx bakeKaTeX
+                         <> defaultContext
 
-postListCtx :: Tags -> Context String
-postListCtx tags = snapshotBodyField "body" "body"
-                   <> snapshotBodyField "teaser" "teaser"
-                   <> boolFieldM "hasTeaser" hasTeaserField
-                   <> postCtx tags
+postListCtx :: Bool -> Tags -> Context String
+postListCtx bakeKaTeX tags = snapshotBodyField "body" "body"
+                             <> snapshotBodyField "teaser" "teaser"
+                             <> boolFieldM "hasTeaser" hasTeaserField
+                             <> postCtx bakeKaTeX tags
 
-siteCtx :: Context a
-siteCtx = constField "siteRoot" (feedRoot feedConfiguration)
-          <> constField "siteName" (feedTitle feedConfiguration)
-          <> canonicalUrlField "canonicalUrl"
+siteCtx :: Bool -> Context a
+siteCtx bakeKaTeX = constField "siteRoot" (feedRoot feedConfiguration)
+                    <> constField "siteName" (feedTitle feedConfiguration)
+                    <> (if bakeKaTeX then mempty else constField "clientRenderMath" "true")
+                    <> canonicalUrlField "canonicalUrl"
 
 canonicalUrlField :: String -> Context a
 canonicalUrlField key = field key $ \item -> do
@@ -346,18 +351,22 @@ pandocWriterOptions =
     writerHTMLMathMethod = KaTeX ""
   }
 
-pandocCustomCompiler :: Compiler (Item String)
-pandocCustomCompiler = do
+pandocCustomCompiler :: Bool -> Compiler (Item String)
+pandocCustomCompiler bakeKaTeX = do
   item <- getResourceBody
-  renderPostItem True usingSideNotes item
+  renderPostItem bakeKaTeX True usingSideNotes item
 
-pandocFeedCompiler :: Item String -> Compiler (Item String)
-pandocFeedCompiler item = do
+pandocFeedCompiler :: Bool -> Item String -> Compiler (Item String)
+pandocFeedCompiler bakeKaTeX item = do
   let katexMacros = extractDiagramMacros (T.pack $ itemBody item)
+      mathTransform =
+        if bakeKaTeX
+          then ServerKaTeX.renderMath katexMacros
+          else return
   let transform =
-        ServerKaTeX.renderMath katexMacros <=<
+        mathTransform <=<
         return . Feed.simplifyFeedPandoc <=<
-        Bibliography.filterBibliography <=<
+        Bibliography.filterBibliography bakeKaTeX <=<
         return
         . Hyphen.filterHyphen
         . Theorem.filterThms
@@ -367,21 +376,25 @@ pandocFeedCompiler item = do
   doc' <- traverse transform doc
   return $ writePandocWith pandocWriterOptions doc'
 
-pandocTeaserCompiler :: Item String -> Compiler (Item String)
-pandocTeaserCompiler = renderPostItem False withoutNotes . fmap trimAtMore
+pandocTeaserCompiler :: Bool -> Item String -> Compiler (Item String)
+pandocTeaserCompiler bakeKaTeX = renderPostItem bakeKaTeX False withoutNotes . fmap trimAtMore
 
-renderPostItem :: Bool -> (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
-renderPostItem withHeaderPermalinks noteTransform item = do
+renderPostItem :: Bool -> Bool -> (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
+renderPostItem bakeKaTeX withHeaderPermalinks noteTransform item = do
   let diagramMacros = extractDiagramMacros (T.pack $ itemBody item)
       katexMacros = diagramMacros
       headerTransform =
         if withHeaderPermalinks
           then HeaderPermalinks.addHeaderPermalinks
           else id
+      mathTransform =
+        if bakeKaTeX
+          then ServerKaTeX.renderMath katexMacros
+          else return
       transform =
-        ServerKaTeX.renderMath katexMacros <=<
+        mathTransform <=<
         Tikz.filterTikz diagramMacros <=<
-        Bibliography.filterBibliography <=<
+        Bibliography.filterBibliography bakeKaTeX <=<
         return
         . LifeViewer.filterLifeViewer
         . Hyphen.filterHyphen
@@ -455,3 +468,19 @@ feedConfiguration = FeedConfiguration
     , feedAuthorEmail = "mitchell.v.riley@gmail.com"
     , feedRoot        = "https://mvr.github.io"
     }
+
+ensureBuildModeCache :: Bool -> IO ()
+ensureBuildModeCache bakeKaTeX = do
+  let mode = if bakeKaTeX then "baked-katex\n" else "client-katex\n"
+      modePath = "_cache/build-mode"
+  modeExists <- doesFileExist modePath
+  oldMode <- if modeExists then readFile modePath else pure ""
+  when (oldMode /= mode) $ do
+    mapM_ removeDirectoryIfPresent ["_cache", "_site"]
+    createDirectoryIfMissing True "_cache"
+    writeFile modePath mode
+
+removeDirectoryIfPresent :: FilePath -> IO ()
+removeDirectoryIfPresent path = do
+  exists <- doesDirectoryExist path
+  when exists (removePathForcibly path)

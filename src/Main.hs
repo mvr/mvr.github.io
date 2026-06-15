@@ -22,6 +22,7 @@ import qualified Data.UUID as UUID
 import qualified Data.UUID.V5 as UUID.V5
 
 import Hakyll
+import Hakyll.Core.Dependencies (DependencyKind (KindContent))
 import Text.Pandoc.Definition (Pandoc)
 import Text.Pandoc.Options
 import Sidenote (usingSideNotes, withoutNotes)
@@ -228,7 +229,7 @@ run action withDrafts = hakyllWith config $ do
   match "css/*.scss" $ do
         compile getResourceBody
 
-  scssDependency <- makePatternDependency "css/*.scss"
+  scssDependency <- makePatternDependency KindContent "css/*.scss"
   rulesExtraDependencies [scssDependency] $ create ["css/style.css"] $ do
     route idRoute
     compile $ loadBody "css/style.scss"

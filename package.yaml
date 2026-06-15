@@ -7,6 +7,8 @@ maintainer:          "mitchell.v.riley@gmail.com"
 
 dependencies:
 - base >= 4.7 && < 5
+- tagsoup
+- transformers
 
 # library:
 #   source-dirs: src

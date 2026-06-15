@@ -25,16 +25,16 @@ import Control.Monad.Trans.State.Strict (StateT, evalStateT, get, put)
 import System.Directory (createDirectoryIfMissing, doesFileExist)
 import Text.HTML.TagSoup.Tree (TagTree(..), parseTree, renderTree)
 
-filterBibliography :: Pandoc -> Compiler Pandoc
-filterBibliography doc = do
+filterBibliography :: Bool -> Pandoc -> Compiler Pandoc
+filterBibliography bakeKaTeX doc = do
   let bibBlocks = query collectBibliography doc
   if null bibBlocks
     then return doc
     else do
       let globalBlocks = filter ((== GlobalBib) . bibBlockMode) bibBlocks
           localBlocks = filter ((== LocalBib) . bibBlockMode) bibBlocks
-      globalChunks <- renderBibliographyChunks globalBlocks
-      localChunks <- traverse renderLocalBibliography localBlocks
+      globalChunks <- renderBibliographyChunks bakeKaTeX globalBlocks
+      localChunks <- traverse (renderLocalBibliography bakeKaTeX) localBlocks
       evalStateT (walkM replaceBibBlock doc) (RenderChunks globalChunks localChunks)
 
 tempDir = "_cache/bib"
@@ -44,12 +44,13 @@ bibHash :: Text -> String
 bibHash input =
   T.unpack $ T.decodeUtf8 $ B16.encode $ MD5.hash $ T.encodeUtf8 input
 
-buildBibliography :: Text -> IO Text
-buildBibliography input = do
+buildBibliography :: Bool -> Text -> IO Text
+buildBibliography bakeKaTeX input = do
   createDirectoryIfMissing True tempDir
   
   cacheSalt <- bibliographyCacheSalt
-  let hash = bibHash ("katex-html-v4\n" <> cacheSalt <> "\n" <> input)
+  let renderMode = if bakeKaTeX then "katex-html-v4" else "pandoc-katex-span-v1"
+  let hash = bibHash (renderMode <> "\n" <> cacheSalt <> "\n" <> input)
   let mdCachePath = tempDir </> (hash ++ ".md")
   let tempBibFile = tempDir </> (hash ++ ".bib")
   let tempHtmlFile = tempDir </> (hash ++ ".html")
@@ -64,9 +65,13 @@ buildBibliography input = do
     rawHtml <- readProcess "pandoc"
           [tempBibFile, "-C", "--katex", "--csl=" ++ cslPath, "-t", "html"]
           ""
-    T.writeFile tempHtmlFile (T.pack rawHtml)
-    callProcess "node" ["scripts/render-katex.mjs", "--html-file", tempHtmlFile, "--out", tempRenderedFile]
-    md <- T.readFile tempRenderedFile
+    md <-
+      if bakeKaTeX
+        then do
+          T.writeFile tempHtmlFile (T.pack rawHtml)
+          callProcess "node" ["scripts/render-katex.mjs", "--html-file", tempHtmlFile, "--out", tempRenderedFile]
+          T.readFile tempRenderedFile
+        else return (T.pack rawHtml)
 
     T.writeFile mdCachePath md
     return md
@@ -103,19 +108,19 @@ data RenderChunks = RenderChunks
   , renderLocalChunks :: [Text]
   }
 
-renderBibliographyChunks :: [BibBlock] -> Compiler [Text]
-renderBibliographyChunks [] = return []
-renderBibliographyChunks bibBlocks = do
+renderBibliographyChunks :: Bool -> [BibBlock] -> Compiler [Text]
+renderBibliographyChunks _ [] = return []
+renderBibliographyChunks bakeKaTeX bibBlocks = do
   let counts = fmap bibBlockCount bibBlocks
       combined = T.intercalate "\n\n" (fmap bibBlockContents bibBlocks)
-  html <- unsafeCompiler (buildBibliography combined)
+  html <- unsafeCompiler (buildBibliography bakeKaTeX combined)
   case splitBibliographyHtml html counts of
     Left err -> fail err
     Right chunks -> return chunks
 
-renderLocalBibliography :: BibBlock -> Compiler Text
-renderLocalBibliography bibBlock = do
-  chunks <- renderBibliographyChunks [bibBlock]
+renderLocalBibliography :: Bool -> BibBlock -> Compiler Text
+renderLocalBibliography bakeKaTeX bibBlock = do
+  chunks <- renderBibliographyChunks bakeKaTeX [bibBlock]
   case chunks of
     [chunk] -> return chunk
     _ -> fail "Local bibliography conversion mismatch: expected one rendered chunk."

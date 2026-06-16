@@ -123,9 +123,14 @@ siteRules :: String -> Bool -> Bool -> Rules ()
 siteRules action withDrafts bakeKaTeX = do
   let postsPattern = "posts/*"
   let postsMetadataFilter m = action == "watch" || withDrafts || (lookupString "draft" m /= Just "true")
+  let getPublishedTags identifier = do
+        metadata <- getMetadata identifier
+        if postsMetadataFilter metadata
+          then getTags identifier
+          else pure []
 
   pag <- buildPaginateWith (grouper postsMetadataFilter) postsPattern makeId
-  tags <- buildTags postsPattern (fromCapture "tags/*.html")
+  tags <- buildTagsWith getPublishedTags postsPattern (fromCapture "tags/*.html")
 
   -- Compile posts
   matchMetadata postsPattern postsMetadataFilter $ do

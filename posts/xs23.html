@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -205,7 +194,7 @@ post</a>.</p>
 of components that massage a known still life into the target. In the
 above solution, the final step was the new one, handcrafted by vilc
 for this problem.</p>
-<h2 id="transfer-and-stomp">Transfer and Stomp</h2>
+<h2 id="transfer-and-stomp">Transfer and Stomp <a href="#transfer-and-stomp" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>As you can see in the above example, most synthesis steps only touch a
 small part of the still life. And because pattern behaviour in the
 Game of Life is determined locally, the incoming gliders in a
@@ -290,7 +279,7 @@ the remainder of the still life. Because we are doing a backwards
 search for components that lead to a target, allowing cleanup steps
 would lead to an explosion of precursors with, say, an extra block
 in all possible positions. (<code>transfer.py</code> does the same.)</li>
-<li>All the input still lifes are small (<span class="math inline">&lt;7</span> in population). These are
+<li>All the input still lifes are small (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&lt;</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">&lt;7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span></span></span></span> in population). These are
 likely first steps derived from soups as discussed above, and not
 generalisable.</li>
 <li>Less than 30% of the original still life survives unchanged; to
@@ -322,7 +311,7 @@ certainly not have been possible without these improvements.</p>
 us a lot of the way, with only around 2000 23-bit targets resisting
 solution at this point.</p>
 <p>So, how do we find new components to feed into this machine?</p>
-<h2 id="component-farming">Component Farming</h2>
+<h2 id="component-farming">Component Farming <a href="#component-farming" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>The simplest strategy is to fire some gliders at an object and hope
 that it modifies it without destroying it. I did this using a version
 of the GPU searcher from the <a href="../posts/cool-still-lifes.html">previous
@@ -368,7 +357,7 @@ strategy was to place entire spark-producing configurations of gliders
 rather than individual gliders. For this, I stole a large set of such
 configurations from <a href="https://conwaylife.com/forums/viewtopic.php?f=2&amp;t=2380">this forum thread</a>. Again, this turned up some
 interesting results, but not as many as I had hoped.</p>
-<h2 id="mr.-component">Mr. Component</h2>
+<h2 id="mr.-component">Mr. Component <a href="#mr.-component" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>Kazyan had the following idea on Discord way back in 2021:</p>
 <blockquote>
 <p>Take a look at the final step for <a href="https://catagolue.hatsya.com/object?apgcode=xs26_08o0u1eoz32q9871&amp;rule=b3s23"><code>xs26_08o0u1eoz32q9871</code></a>. It
@@ -465,7 +454,7 @@ D2A13.A.A6.A9.D2A2.A7.2A$16.A2.A18.A.AD6.A13.A.AD16.2A17.A.2A9.A$16.A
 <canvas width="600px"></canvas>
 </div>
 
-<h2 id="the-trickiest-recipe">The Trickiest Recipe</h2>
+<h2 id="the-trickiest-recipe">The Trickiest Recipe <a href="#the-trickiest-recipe" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>To conclude, here’s the 23-bit still life with the most complicated
 recipe at the time of writing:
 <a href="https://catagolue.hatsya.com/object/xs23_09fg4cz259a5113/b3s23">xs23_09fg4cz259a5113</a>,

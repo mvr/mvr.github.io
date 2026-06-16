@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,14 +87,14 @@
     <h1 class="post-title"><a href="../posts/winston.html">2 + 2</a></h1>
 <p class="post-deets">October 14, 2020   / <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a>, <a title="All pages tagged 'note-to-self'." href="../tags/note-to-self.html" rel="tag">note-to-self</a> </p>
 <div class="post-content">
-    <p>If you are a professional mathematician and you are asked whether <span class="math inline">2 +
-2 = 4</span>, the only answer you should give is “Yes, obviously.” <!--more--></p>
+    <p>If you are a professional mathematician and you are asked whether <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2 +
+2 = 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>, the only answer you should give is “Yes, obviously.” <!--more--></p>
 <p><em>Of course</em>, in mathematics the symbols are arbitrary and can be used
 to mean whatever you choose. And <em>of course</em>, there are countless
 settings where the addition and equality symbols are reused to mean
 something other than the addition and equality of integers. When you
 write your next paper on commutative unital semirings, you can tell us
-all about how <span class="math inline">2 + 2</span> can equal <span class="math inline">5</span>.</p>
+all about how <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2 + 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> can equal <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn></mrow><annotation encoding="application/x-tex">5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span>.</p>
 <p>But we are already living in a time when respect for experts is low.
 Now is not the time for this kind of pointless sophistry. Mathematics
 is already misunderstood by the general public, but they at least have
@@ -113,11 +102,11 @@ a fuzzy sense that it provides a bedrock of absolute truths; an
 indisputable foundation used by all the natural sciences. This is a
 reputation worth protecting.</p>
 <p>Allowing basic arithmetical facts to seem up for debate, even when
-they obviously aren’t, risks destroying this image. The <span class="math inline">2 + 2 = 5</span>
+they obviously aren’t, risks destroying this image. The <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">2 + 2 = 5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span>
 ruckus began, as far as I can tell, from an argument about to what
 extent mathematics is a purely cultural product. There is something
 worth discussing here, but the way some working mathematicians twisted
-into knots to defend <span class="math inline">2 + 2 = 5</span> was genuinely reckless. It is not
+into knots to defend <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>5</mn></mrow><annotation encoding="application/x-tex">2 + 2 = 5</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5</span></span></span></span> was genuinely reckless. It is not
 hard to find tweets from people who are dismayed that “the rot of
 academia has even reached mathematics”.</p>
 <hr />

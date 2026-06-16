@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,7 +142,7 @@ explain some of the tricks it uses to cut down the search time.</p>
 so you can paste them into Golly. I’m using Chris Rowett’s
 <a href="https://github.com/rowett/lifeviewer">LifeViewer</a> to display the
 patterns.</p>
-<h2 id="brute-force-and-just-in-time">Brute Force and Just-in-time</h2>
+<h2 id="brute-force-and-just-in-time">Brute Force and Just-in-time <a href="#brute-force-and-just-in-time" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>To search for conduits, an obvious method is brute force: simply test
 each possible arrangement of catalysts and check whether all the
 catalysts recover. This is the approach taken by the original version
@@ -249,7 +238,7 @@ A7.11B$43.3A5.11B$46.A4.12B$17.4B24.2A3.B.11B$16.2D5B22.18B$16.2D5B2D
 catalyst positions. At each node of the search tree, we either place a
 catalyst which interacts on the current generation, or advance to the
 next generation.</p>
-<h2 id="contacts-and-approaches">Contacts and Approaches</h2>
+<h2 id="contacts-and-approaches">Contacts and Approaches <a href="#contacts-and-approaches" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>The first new idea, which functions independently of the others, is to
 only try placements where the active pattern is in the right shape for
 the catalysis to succeed. Consider the ordinary eater:</p>
@@ -363,7 +352,7 @@ collectively we might be cutting out a lot of interesting results.
 Checking approaches really does make a huge difference to performance,
 so the reader will have to decide whether losing out on these
 serendipitous results is worth it.</p>
-<h2 id="problems-and-their-lightcones">Problems and their Lightcones</h2>
+<h2 id="problems-and-their-lightcones">Problems and their Lightcones <a href="#problems-and-their-lightcones" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>If a non-transparent catalyst is destroyed, it is unlikely to reform
 by chance. For this reason, most search tools allow the user to
 specify <em>required</em> cells of the catalyst, which are not allowed to
@@ -585,7 +574,7 @@ all the work we’ve already done: the new active reaction can only be
 different from the previous one within the future lightcone of the
 placement we just made. Outside that lightcone, the determinations we
 made for whether a placement is valid can be reused.</p>
-<h2 id="bloom-filter">Bloom Filter</h2>
+<h2 id="bloom-filter">Bloom Filter <a href="#bloom-filter" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>Some catalysts interact in similar ways and can cause the same
 perturbation of an active pattern. The eater 1 and eater 2 are
 notorious examples.</p>
@@ -676,12 +665,12 @@ was placed, and</li>
 catch as many repeated reactions as possible, but not accidentally
 consider some dying sparks as a repeated reaction if they were
 actually arrived at by different means.</p>
-<h2 id="future-ideas">Future Ideas</h2>
+<h2 id="future-ideas">Future Ideas <a href="#future-ideas" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>Lightcone is certainly not the last word in conduit searching. It’s
 much smarter than a brute force search, but still makes choices that
 are obviously silly to the human eye. I’d love to hear ideas on any of
 the following topics:</p>
-<h3 id="catalyst-welding">Catalyst Welding</h3>
+<h3 id="catalyst-welding">Catalyst Welding <a href="#catalyst-welding" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <p>Lightcone only tries placing complete catalysts, and excludes any
 placement that will cause two catalysts to interact. This inevitably
 misses some solutions that involve non-trivial welds to pack catalysts
@@ -695,7 +684,7 @@ SAT solver could make short work of this.</p>
 <p>In a branch, I’ve had a go at implementing this, but the performance
 hit is unreasonably high (at least with the method I’m using
 currently).</p>
-<h3 id="avoiding-hopeless-placements">Avoiding Hopeless Placements</h3>
+<h3 id="avoiding-hopeless-placements">Avoiding Hopeless Placements <a href="#avoiding-hopeless-placements" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <p>Currently, some time is spent on placements where the recovery
 sequence of one catalyst leads to a cascade of interactions with
 additional catalysts. For example, the following completely hopeless
@@ -752,7 +741,7 @@ x = 10, y = 11, rule = LifeHistory
 <canvas width="600px"></canvas>
 </div>
 
-<h3 id="beyond-tree-search">Beyond Tree Search</h3>
+<h3 id="beyond-tree-search">Beyond Tree Search <a href="#beyond-tree-search" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <p>Lightcone always tackles the chronologically earliest <em>problem</em> that
 occurs with the current configuration. In some situations this leads
 to poor performance, especially when the active region splits into two
@@ -791,7 +780,7 @@ when it’s easy to show that the problem on the right is unsolvable.</p>
 <p>This may be an opportunity for some parallelism: if there are multiple
 problems that are lightcone separated, we could attempt to resolve
 them in different threads.</p>
-<h2 id="results">Results</h2>
+<h2 id="results">Results <a href="#results" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>Finally, the fruits of our labour.</p>
 <p>Sep 13rd, 2024: <a href="https://conwaylife.com/wiki/Lx65_duplicator">Lx65
 duplicator</a></p>

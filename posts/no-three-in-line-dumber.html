@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -101,7 +90,7 @@
     <script defer src="../life/lv-plugin.js"></script>
 <p>(<a href="../posts/no-three-in-line.html">Previously</a>, <a href="../posts/no-three-in-line-quicker.html">previously</a>)</p>
 <p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">And its corollary <a href="https://oeis.org/A000755">A000755</a>.</span></span></p>
-<p><span class="math display"> a(19) = 32577 </span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>a</mi><mo stretchy="false">(</mo><mn>19</mn><mo stretchy="false">)</mo><mo>=</mo><mn>32577</mn></mrow><annotation encoding="application/x-tex"> a(19) = 32577 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord">19</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32577</span></span></span></span></span></p>
 <p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
 <a href="https://www.runpod.io/">Runpod</a>.</p>
 <p>Not only that! With help from <a href="https://webspace.maths.qmul.ac.uk/t.prellberg/">Thomas Prellberg</a> and the <a href="https://docs.hpc.qmul.ac.uk/">GPU cluster</a>
@@ -143,19 +132,19 @@ A41BA19B$10BA6BA46B$58BA3BAB$10BA39BA13B$9BA38BA15B$24BA11BA27B$30BA
 <p>Getting these results involved some further improvements over what was
 detailed in the previous posts, and I’ll go through some of them in
 the rest of this post.</p>
-<h2 id="getting-smarter">Getting Smarter</h2>
+<h2 id="getting-smarter">Getting Smarter <a href="#getting-smarter" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>Let’s return to the step that eliminates the remaining points on a
 line that go through two given points. <a href="https://cp4space.hatsya.com/">APG</a> pointed out that there’s
 a way to do this simultaneously for all lines with a given slope,
 similarly to orthogonal propagation handling all vertical or
-horizontal lines simultaneously. For a slope <span class="math inline">(x, y)</span>, the idea is to
+horizontal lines simultaneously. For a slope <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(x, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mclose">)</span></span></span></span>, the idea is to
 count the number of points on those lines by doing a warp reduction
-down to the first <span class="math inline">y</span> lanes and <span class="math inline">x</span> columns. Like a normal warp
+down to the first <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi></mrow><annotation encoding="application/x-tex">y</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span></span></span></span> lanes and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> columns. Like a normal warp
 reduction, this can be done in the shape of a binary tree, adding
-lanes of distance <span class="math inline">y, 2y, 4y, \dots</span>, until we’ve covered the full
+lanes of distance <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>y</mi><mo separator="true">,</mo><mn>2</mn><mi>y</mi><mo separator="true">,</mo><mn>4</mn><mi>y</mi><mo separator="true">,</mo><mo>…</mo></mrow><annotation encoding="application/x-tex">y, 2y, 4y, \dots</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mord mathnormal" style="margin-right:0.0359em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner">…</span></span></span></span>, until we’ve covered the full
 32-lane warp. At each step, we shift the values by the appropriate
-multiple of <span class="math inline">x</span> to match the slope. Here’s an illustration for a 8×8
-grid on lines of slope <span class="math inline">(1, 2)</span>. Each arrow represents adding the
+multiple of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">x</span></span></span></span> to match the slope. Here’s an illustration for a 8×8
+grid on lines of slope <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(1, 2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">2</span><span class="mclose">)</span></span></span></span>. Each arrow represents adding the
 current tally from the source square into the tally for the target
 square, and this can be done simultaneously for all squares using the
 same sorts of shuffles and bit operations from the previous post.</p>
@@ -250,11 +239,11 @@ of points with identical slopes for it to be worth it, and the
 bookkeeping to collect those slopes also takes some time. So that idea
 was a bust, sadly, though I don’t think we could have known before
 trying it.</p>
-<h2 id="getting-dumber">Getting Dumber</h2>
+<h2 id="getting-dumber">Getting Dumber <a href="#getting-dumber" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>So much for trying to be smarter. Here’s a much dumber way to
 eliminate the line through two points: precompute a giant table with a
-line mask for every possible pair of points. This table occupies <span class="math inline">n^2
-\times n^2 \times 32 \times 32</span> bits, which for <span class="math inline">n = 19</span> comes out to
+line mask for every possible pair of points. This table occupies <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>n</mi><mn>2</mn></msup><mo>×</mo><msup><mi>n</mi><mn>2</mn></msup><mo>×</mo><mn>32</mn><mo>×</mo><mn>32</mn></mrow><annotation encoding="application/x-tex">n^2
+\times n^2 \times 32 \times 32</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord mathnormal">n</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">32</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32</span></span></span></span> bits, which for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>19</mn></mrow><annotation encoding="application/x-tex">n = 19</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">19</span></span></span></span> comes out to
 16.7 megabytes, perfectly reasonable to store in global memory.</p>
 <p>Then, when eliminating the line through a pair, we just look up the
 mask for that pair, add it to the current known-off set, and we’re
@@ -271,7 +260,7 @@ Not only that, but it also makes obsolete the “one-hop” optimisation I
 described in the previous post; it’s no longer worth doing over just
 eliminating the lines this braindead way. A little disappointing, but
 being able to reach new results smooths over any psychic pain caused.</p>
-<h2 id="getting-semivulnerable">Getting Semivulnerable</h2>
+<h2 id="getting-semivulnerable">Getting Semivulnerable <a href="#getting-semivulnerable" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>In the first post I mentioned that preferring to branch on
 “vulnerable” cells helps a lot. These were the cells in a row or
 column that when assumed to be off force at least one other cell to be
@@ -289,13 +278,13 @@ way we make up for the first “wasted” move.</p>
 <p>Looking for semivulnerable cells after not finding vulnerable ones
 gives a nice speedup. Experimenting further than that and hunting for
 zero points and five unknowns is over the hill of diminishing returns.</p>
-<h2 id="getting-symmetric">Getting Symmetric</h2>
+<h2 id="getting-symmetric">Getting Symmetric <a href="#getting-symmetric" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>The record breaking solution at the top of this post has obvious
 rotational symmetry, and that’s no coincidence. Hunting for such
 symmetric solutions has advantages: we only have to store one
 quarter of the grid, and each additional point introduces a large
 number of new constraints involving its images under the symmetry.</p>
-<p>For the fundamental region of a <span class="math inline">2n \times 2n</span> board, I’m taking the square <span class="math inline">[0, n) \times [0, n)</span>, stored across the warp like before.</p>
+<p>For the fundamental region of a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>n</mi><mo>×</mo><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">2n \times 2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span> board, I’m taking the square <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mi>n</mi><mo stretchy="false">)</mo><mo>×</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mi>n</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">[0, n) \times [0, n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">n</span><span class="mclose">)</span></span></span></span>, stored across the warp like before.</p>
 <div class="lifeviewer"><textarea>
 x = 6, y = 6, rule = LifeHistory
 6B$6B$6B$3B3D$3B3D$3B3D!
@@ -367,7 +356,7 @@ x = 6, y = 6, rule = LifeHistory
 <p>The piece of code that truly needs to be customised for the
 symmetrical case is orthogonal propagation. Specifically, we’d like to
 do the counting along rows and columns using the fundamental domain
-directly, without materialising the full <span class="math inline">2n \times 2n</span> grid. This is
+directly, without materialising the full <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>n</mi><mo>×</mo><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">2n \times 2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span> grid. This is
 easy enough: for each row of the fundamental domain, the missing part
 of the row in the full grid is exactly one of the columns of the
 fundamental domain, if you imagine rotating the grid anticlockwise
@@ -413,7 +402,7 @@ rather than the expected four.</p>
 and counting methods for this layout, as well as the various other
 possible symmetry groups of configurations on the grid. Details are
 perhaps better left to a separate post.</p>
-<h2 id="summary">Summary</h2>
+<h2 id="summary">Summary <a href="#summary" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>All together, we have another large jump in performance over the
 previous post. And this is on top of code that I already thought was
 pretty good—shows what I know!<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">Remember, these timings are on the

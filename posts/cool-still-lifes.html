@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,11 +146,11 @@ useless results, which defeats the purpose of using QuFince in the
 first place.</p>
 <p>To evaluate how we’re doing, we’ll test the heuristic on the 10,000
 most common still lifes. We’ll declare any still life with population
-<span class="math inline">\geq 18</span> to be “interesting”, and any still life with population
-<span class="math inline">\leq 10</span> to be a deal-breaker that <em>must</em> be rejected.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">These
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>18</mn></mrow><annotation encoding="application/x-tex">\geq 18</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">18</span></span></span></span> to be “interesting”, and any still life with population
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>10</mn></mrow><annotation encoding="application/x-tex">\leq 10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span> to be a deal-breaker that <em>must</em> be rejected.<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">These
 thresholds are somewhat arbitrary.</span></span> Our goal is to correctly classify
 as many of the remaining 10,000 as possible.</p>
-<h2 id="chunky-regions">Chunky Regions</h2>
+<h2 id="chunky-regions">Chunky Regions <a href="#chunky-regions" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>The first thing that comes to mind is that rare still lifes are often
 dense, so we should devise a fast check for dense regions. If we fill
 in the “holes” in the ash, a dense region will show up as a place
@@ -169,7 +158,7 @@ where we can fit a decently sized square. Or stated a different way,
 if we inflate the ash a bit, and then deflate the result a bit more,
 the only way anything can remain is if there was some thing decently
 sized to begin with. Here, the <code>zoi()</code> method blows up every cell in a
-pattern into its <span class="math inline">3 \times 3</span> neighbourhood.</p>
+pattern into its <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">3 \times 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">3</span></span></span></span> neighbourhood.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>chunky_locations <span class="op">=</span> <span class="op">~(~</span>pattern<span class="op">.</span>zoi<span class="op">()).</span>zoi<span class="op">().</span>zoi<span class="op">();</span></span></code></pre></div>
 <p>This is quite efficient to evaluate when the state is represented by
 as a bitplane (as it is in QuFince and LifeAPI). It’s a good start and
@@ -249,7 +238,7 @@ x = 14, y = 5, rule = LifeHistory
 
 <p>This correctly classifies 6017/10000, but with none of the painful
 false positives of the previous version.</p>
-<h2 id="the-line-of-five-rule">The Line-of-five Rule</h2>
+<h2 id="the-line-of-five-rule">The Line-of-five Rule <a href="#the-line-of-five-rule" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>Let’s inspect some of the still lifes that don’t get picked up by
 this.</p>
 <div class="lifeviewer"><textarea>

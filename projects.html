@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="./katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="./katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="./katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="./katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="./katex/katex.min.css">
+        
+        <script defer src="./katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,7 +86,7 @@
     <a href="./" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
     <h1 class="post-title"><a href="./projects.html">Projects</a></h1>
 <div class="post-content">
-    <h2 id="introduction-to-cubical-agda">Introduction to Cubical Agda</h2>
+    <h2 id="introduction-to-cubical-agda">Introduction to Cubical Agda <a href="#introduction-to-cubical-agda" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p><a href="https://www.davidjaz.com/">David</a> and I ran a summer course on
 Cubical Agda for the few years we were at NYUAD. We put together some
 lecture notes, which are <a href="https://cqts.github.io/introduction-to-cubical/">now available
@@ -105,13 +94,13 @@ here</a>.</p>
 <p>I like to think of them as a much-expanded and smoothed out version of
 <a href="https://thehottgameguide.readthedocs.io/">The HoTT Game</a> from a few
 years ago, where as much as possible is left as exercises.</p>
-<h2 id="at-effective-algebraic-topology"><code>at</code> – Effective Algebraic Topology</h2>
+<h2 id="at-effective-algebraic-topology"><code>at</code> – Effective Algebraic Topology <a href="#at-effective-algebraic-topology" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>A <a href="https://github.com/mvr/at">Haskell library</a> for explicit constructions on simplicial sets. This is a port of <a href="https://www-fourier.ujf-grenoble.fr/~sergerar/Kenzo/">Kenzo</a> from Common Lisp. More details in <a href="posts/at.html">this post</a>.</p>
 <pre><code>...
 &gt; let x = totalSpace s3 (Wbar kz1) fibration
 &gt; putStrLn $ &quot;π₄ S³ is: &quot; ++ show (homology x !! 4)
 π₄ S³ is: ℤ/2</code></pre>
-<h2 id="conways-game-of-life-tools">Conway’s Game of Life Tools</h2>
+<h2 id="conways-game-of-life-tools">Conway’s Game of Life Tools <a href="#conways-game-of-life-tools" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>I’ve written a handful of C++ search tools, most of which use a vastly
 expanded fork of the <a href="https://github.com/mvr/LifeAPI">LifeAPI</a> library
 by Michael Simkin. The first two tools in this list were central in
@@ -156,7 +145,7 @@ lifes</a>,
 though human ingenuity (of other people, not me) was still necessary
 for the last couple of hundred.</p></li>
 </ul>
-<h2 id="cf-continued-fractions"><code>cf</code> – Continued Fractions</h2>
+<h2 id="cf-continued-fractions"><code>cf</code> – Continued Fractions <a href="#cf-continued-fractions" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>A <a href="https://github.com/mvr/cf">Haskell library</a> for Gosper’s algorithms
 on continued fractions with possibly non-positive terms. Some tricks
 from Vuillemin and Lester are used to compute transcendental functions
@@ -176,12 +165,12 @@ done. The downside is that it is very slow!</p>
 <li>Vuillemin, Jean E. “Exact real computer arithmetic with continued fractions.” Computers, IEEE Transactions on 39.8 (1990): 1087-1105.</li>
 <li>Lester, David R. “Vuillemin’s exact real arithmetic.” Functional Programming, Glasgow 1991. Springer London, 1992. 225-238.</li>
 </ul>
-<h2 id="cgt-combinatorial-game-theory"><code>cgt</code> – Combinatorial Game Theory</h2>
+<h2 id="cgt-combinatorial-game-theory"><code>cgt</code> – Combinatorial Game Theory <a href="#cgt-combinatorial-game-theory" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>A <a href="https://github.com/mvr/cgt">Haskell library</a> for some combinatorial
 game theory, based on algorithms from the <a href="http://cgsuite.sourceforge.net/">Combinatorial Game
 Suite</a> by Aaron Siegel. More details
 in <a href="./posts/cgt.html">this post</a>, which describes the basic ideas.</p>
-<h2 id="epeen">epeen</h2>
+<h2 id="epeen">epeen <a href="#epeen" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>A <a href="./epeen/index.html">dumb joke</a> that translates your Dota 2 MMR (as
 of 2016) into to a certain anatomical measurement. Written in Elm to
 try the language out, didn’t come away a fan.</p>

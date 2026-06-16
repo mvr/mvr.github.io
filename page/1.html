@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,8 +78,10 @@
   </symbol>
       </svg>
       <canvas id="life-bg-canvas" aria-hidden="true"></canvas>
-        <p><a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a></p>
-<h1 class="post-list-header">Page 1</h1>
+        <section class="post post-list-page-header">
+    <a href="../" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
+    <h1 class="post-title">Page 1</h1>
+</section>
 
 <section>
 <ul id="posts-list">
@@ -114,7 +105,7 @@ eventually. Can we say anything about what the period could be?</p>
             <script defer src="../life/lv-plugin.js"></script>
 <p>(<a href="../posts/no-three-in-line.html">Previously</a>, <a href="../posts/no-three-in-line-quicker.html">previously</a>)</p>
 <p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:</p>
-<p><span class="math display"> a(19) = 32577 </span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>a</mi><mo stretchy="false">(</mo><mn>19</mn><mo stretchy="false">)</mo><mo>=</mo><mn>32577</mn></mrow><annotation encoding="application/x-tex"> a(19) = 32577 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord">19</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32577</span></span></span></span></span></p>
 <p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
 <a href="https://www.runpod.io/">Runpod</a>.</p>
 <p>Not only that! With help from <a href="https://webspace.maths.qmul.ac.uk/t.prellberg/">Thomas Prellberg</a> and the <a href="https://docs.hpc.qmul.ac.uk/">GPU cluster</a>

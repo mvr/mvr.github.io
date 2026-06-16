@@ -47,7 +47,7 @@ eventually. Can we say anything about what the period could be?</p><p><a href="/
     <summary type="html"><![CDATA[
 <p>(<a href="/posts/no-three-in-line.html">Previously</a>, <a href="/posts/no-three-in-line-quicker.html">previously</a>)</p>
 <p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:</p>
-<p><span class="math display"> a(19) = 32577 </span></p>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>a</mi><mo stretchy="false">(</mo><mn>19</mn><mo stretchy="false">)</mo><mo>=</mo><mn>32577</mn></mrow><annotation encoding="application/x-tex"> a(19) = 32577 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord">19</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32577</span></span></span></span></span></p>
 <p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
 <a href="https://www.runpod.io/">Runpod</a>.</p>
 <p>Not only that! With help from <a href="https://webspace.maths.qmul.ac.uk/t.prellberg/">Thomas Prellberg</a> and the <a href="https://docs.hpc.qmul.ac.uk/">GPU cluster</a>
@@ -148,19 +148,19 @@ keep a record here of things I’ve tried and whether they worked.</p><p><a href
     <summary type="html"><![CDATA[
 <p>The <a href="https://en.wikipedia.org/wiki/No-three-in-line_problem">No-three-in-line
 problem</a> asks
-how many points can be placed on a <span class="math inline">n \times n</span> grid so that no three
+how many points can be placed on a <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">n \times n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span> grid so that no three
 points are on the same line, where the lines considered are of any
 slope and not just orthogonal and diagonal. Each row/column can
-contain at most 2 points, so clearly the answer is at most <span class="math inline">2n</span>. The
-real question is, can we actually achieve <span class="math inline">2n</span> for every grid size?
+contain at most 2 points, so clearly the answer is at most <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span>. The
+real question is, can we actually achieve <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span> for every grid size?
 It’s <a href="https://doi.org/10.4153%2FCMB-1968-062-3">conjectured</a> that the
 answer is “no” for grids large enough, but we don’t know where the
 crossover point is and there’s <a href="http://web.archive.org/web/20131027174807/http://wso.williams.edu/~bchaffin/no_three_in_line/index.htm">no
 indication</a>
-that the number of <span class="math inline">2n</span>-point solutions is falling away from
-exponential growth, at least up to <span class="math inline">18 \times 18</span>!</p>
+that the number of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mi>n</mi></mrow><annotation encoding="application/x-tex">2n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mord mathnormal">n</span></span></span></span>-point solutions is falling away from
+exponential growth, at least up to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><mo>×</mo><mn>18</mn></mrow><annotation encoding="application/x-tex">18 \times 18</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">18</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">18</span></span></span></span>!</p>
 <p>To my eye, the configurations that work can be quite balanced and
-attractive. Here are some symmetrical ones for <span class="math inline">14 \times 14</span> (though
+attractive. Here are some symmetrical ones for <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>14</mn><mo>×</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">14 \times 14</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">14</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">14</span></span></span></span> (though
 in general the solutions are not necessarily symmetric in this way):</p>
 <p>[diagram]</p>
 <p>The most extensive searches for configurations so far have been done

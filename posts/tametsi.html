@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,7 +102,7 @@ so compelling, and here’s the best I could come up with. <!--more--></p>
 <img src="../images/tametsi.png" alt="A typical starting board" />
 <figcaption aria-hidden="true">A typical starting board</figcaption>
 </figure>
-<h2 id="the-good">The Good</h2>
+<h2 id="the-good">The Good <a href="#the-good" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>First, there’s surprising variety in the puzzles. I don’t mean just in
 their shape and layout (which is often attractive), but in the
 techniques required to solve them. This is what sustains the game
@@ -156,7 +145,7 @@ hard at the moment.</p>
 <p>Re-reading what I’ve just written in this section, none of it sounds
 particularly special, and certainly many puzzle games have similar
 features. But somehow it all fits together especially well.</p>
-<h2 id="the-less-good">The Less Good</h2>
+<h2 id="the-less-good">The Less Good <a href="#the-less-good" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>A game like Tametsi has an unavoidable dilemma. What should happen if
 you uncover a mine? In ordinary Minesweeper there’s no issue: you just
 lose and have to randomly generate a new board. But in Tametsi,

@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="../katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="../katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="../katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="../katex/katex.min.css">
+        
+        <script defer src="../katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -177,7 +166,7 @@ clearly does not correspond to a number.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> star <span class="ot">=</span> <span class="dt">Game</span> [zero] [zero]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">-- fuzzyZero star ==&gt; True</span></span></code></pre></div>
-<h1 id="arithmetic-and-ordering">Arithmetic and Ordering</h1>
+<h1 id="arithmetic-and-ordering">Arithmetic and Ordering <a href="#arithmetic-and-ordering" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h1>
 <p>Now we consider the sum of two games. In the game <code>G + H</code>, a player has
 the choice of which component they wish to move in. For example, Left
 can choose one of the <code>L</code> moves in <code>G</code>, leaving <code>H</code> the same, or one of the
@@ -288,7 +277,7 @@ is <code>&lt;</code> every Right option.</p>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber one ==&gt; True</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber (fromRational (3%8)) ==&gt; True</span></span>
 <span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="co">-- isNumber star ==&gt; False</span></span></code></pre></div>
-<h1 id="non-numbers">Non-Numbers</h1>
+<h1 id="non-numbers">Non-Numbers <a href="#non-numbers" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h1>
 <p>It’s time to go back and look at some strange infinitesimal games.</p>
 <p>Let’s consider <code>G = { 0 | ∗ }</code>, written <code>↑</code>. <code>↑</code> is clearly positive, as
 Left always wins. To see this, note that if Left moves first, he moves
@@ -380,7 +369,7 @@ of two in each summand cancel out.</p>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co">-- 1 `nimPlus` 3 ==&gt; 2</span></span></code></pre></div>
 <p>Even more impressive is that you can define a product on nimbers,
 meaning impartial games form a field.</p>
-<h1 id="simplifying-games">Simplifying Games</h1>
+<h1 id="simplifying-games">Simplifying Games <a href="#simplifying-games" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h1>
 <p>One issue we’ve skimmed over is that there are lots of different ways
 of representing a single game. For example, <code>{ 1 | } = { 0, 1 | } = 2</code></p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Game [one] [] == two ==&gt; True</span></span>
@@ -549,7 +538,7 @@ this fails, we just print its left and right options.</p>
 try yourself to combine the games we already have. Some of the
 identities are very surprising!</p>
 <div class="sourceCode" id="cb40"><pre class="sourceCode haskell literate"><code class="sourceCode haskell"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Game [0] [up] ==&gt; ↑↑∗</span></span></code></pre></div>
-<h1 id="toads-and-frogs">Toads and Frogs</h1>
+<h1 id="toads-and-frogs">Toads and Frogs <a href="#toads-and-frogs" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h1>
 <p>Now let’s work on analysing a real game. The game of Toads and Frogs
 is played on a strip of squares. Each square is either empty, or has a
 Toad or a Frog in it. Whenever it’s lefT’s turn, he can either move a
@@ -604,7 +593,7 @@ is, what’s the best move from a given position?</p>
 <span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- bestLeftMove [E,T,T,E,F,F,E] ==&gt; ([E,T,E,T,F,F,E], (1/4))</span></span></code></pre></div>
 <p>With this up your sleeve, you should be able to beat pretty much
 anyone.</p>
-<h1 id="references">References</h1>
+<h1 id="references">References <a href="#references" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h1>
 <p>For a much better written, much more rigorous and much more
 entertaining introduction to combinatorial games, see:</p>
 <ul>

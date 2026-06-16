@@ -36,23 +36,12 @@
           }
         </script>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous">
-        <script defer src="./katex.js" crossorigin="anonymous"></script>
-        <!-- <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script> -->
-
-        <script>
-          document.addEventListener("DOMContentLoaded", function () {
-            var mathElements = document.getElementsByClassName("math");
-            for (var i = 0; i < mathElements.length; i++) {
-              var texText = mathElements[i].firstChild;
-              if (mathElements[i].tagName == "SPAN") {
-                katex.render(texText.data, mathElements[i], {
-                  displayMode: mathElements[i].classList.contains('display'),
-                  throwOnError: false,
-                  fleqn: false
-                });
-              }}});
-        </script>
+        <link rel="preload" href="./katex/fonts/KaTeX_Main-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="./katex/fonts/KaTeX_Math-Italic.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="preload" href="./katex/fonts/KaTeX_AMS-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+        <link rel="stylesheet" href="./katex/katex.min.css">
+        
+        <script defer src="./katex/copy-tex.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,7 +86,7 @@
     <a href="./" id="home-page-link"><svg class="chevron-icon"><use href="#icon-chevron-left"></use></svg> Home</a>
     <h1 class="post-title"><a href="./academics.html">Academics</a></h1>
 <div class="post-content">
-    <h3 id="articles-and-preprints">Articles and Preprints</h3>
+    <h3 id="articles-and-preprints">Articles and Preprints <a href="#articles-and-preprints" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <ul>
 <li><strong>Learners are Almost Compact Closed.</strong><br />
 ACT 2024, June 2024.<br />
@@ -125,14 +114,14 @@ With Dan Licata and Mike Shulman.<br />
 FSCD, 2017.<br />
 [<a href="pubs/lsr17multi.pdf">short pdf</a>] [<a href="pubs/lsr17multi-ex.pdf">extended pdf</a>]</li>
 </ul>
-<h3 id="dissertation">Dissertation</h3>
+<h3 id="dissertation">Dissertation <a href="#dissertation" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <ul>
 <li><strong>A Bunched Homotopy Type Theory for Synthetic Stable Homotopy Theory.</strong><br />
 Advisor: Dan Licata.<br />
 Wesleyan University, May 2022.<br />
 [<a href="pubs/thesis.pdf">pdf</a>]</li>
 </ul>
-<h3 id="talks">Talks</h3>
+<h3 id="talks">Talks <a href="#talks" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <ul>
 <li><strong>Tiny Types and Cubical Type Theory</strong><br />
 <a href="https://hottest-seminar.github.io/">HoTTEST</a>, April 2025.<br />
@@ -189,14 +178,14 @@ Wesleyan Graduate Student Seminar, January 2019.</li>
 Brisbane Functional Programming Group, May 2015.<br />
 [<a href="https://www.youtube.com/watch?v=LJQgYBQFtSE">video</a>] [<a href="https://github.com/mvr/cf">code</a>]</li>
 </ul>
-<h3 id="reviewing">Reviewing</h3>
+<h3 id="reviewing">Reviewing <a href="#reviewing" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <p>I was an organiser of <a href="https://hott-uf.github.io/2024/">HoTT/UF 2024</a>
 and <a href="https://hott-uf.github.io/2025/">HoTT/UF 2025</a>, and helped
 organise the <a href="https://ncatlab.org/nlab/show/Center+for+Quantum+and+Topological+Systems#RunningHoTT2024">Running
 HoTT</a>
 conference at NYUAD.</p>
 <p>I have acted as a reviewer for LICS, ACT, and FSCD.</p>
-<h3 id="teaching">Teaching</h3>
+<h3 id="teaching">Teaching <a href="#teaching" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h3>
 <ul>
 <li>Spring 2022: TA for COMP301, Automata Theory and Formal Languages.</li>
 <li>Fall 2021: TA for COMP321, Principles of Programming Languages.</li>

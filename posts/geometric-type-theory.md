@@ -2,7 +2,6 @@
 title: Geometric Type Theory, Done Two Ways 
 published: June 16, 2026
 tags: types, maths
-draft: true
 ---
 
 I have a [new

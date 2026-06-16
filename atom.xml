@@ -6,7 +6,7 @@
   <link href="https://mvr.github.io/atom.xml" rel="self" />
   <link href="https://mvr.github.io" />
   <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
-  <updated>2026-03-23T00:00:00Z</updated>
+  <updated>2026-06-16T00:00:00Z</updated>
   <author>
     <name>Mitchell Riley</name>
     
@@ -14,6 +14,32 @@
     
   </author>
     <entry>
+    <title>Geometric Type Theory, Done Two Ways</title>
+    <link href="https://mvr.github.io/posts/geometric-type-theory.html" rel="alternate" />
+    <id>urn:uuid:bb2446ab-0114-5e80-b360-c8da988fdbaa</id>
+    
+    <published>2026-06-16T00:00:00Z</published>
+    
+    <updated>2026-06-16T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[<p>I have a <a href="https://topos.institute/blog/2026-06-15-geometric-type-theory-done-two-ways/">new
+post</a>
+on the Topos blog.</p>
+<blockquote>
+<p>A topos can be specified by the geometric theory that it
+classifies. Though the sequents of a theory are described formally
+and syntactically, its interaction with the world of sets (through
+set-indexed disjunctions and axiom schemas) is often a little
+hand-wavy. In this post I describe two ways of doing this more
+precisely using type theory.</p>
+</blockquote><p><a href="/posts/geometric-type-theory.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
     <title>Constraining the Period of Officers</title>
     <link href="https://mvr.github.io/posts/officers-sat.html" rel="alternate" />
     <id>urn:uuid:be5e1906-9213-56c9-a90e-b56479995380</id>
@@ -269,46 +295,6 @@ any new cars into the area. This is already a compromise, as if I had
 my way we would ban every car newer than the house it is parked in
 front of. (Of course, some especially old houses would need hitching
 posts to be reinstalled.)</p><p><a href="/posts/cars-in-my-backyard.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Quickly Detecting Cool Still Lifes</title>
-    <link href="https://mvr.github.io/posts/cool-still-lifes.html" rel="alternate" />
-    <id>urn:uuid:54fc7952-7492-5e36-9dcd-3cdfa9271a03</id>
-    
-    <published>2025-04-08T00:00:00Z</published>
-    
-    <updated>2025-04-08T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[
-<p><a href="https://conwaylife.com/forums/viewtopic.php?f=9&amp;t=5997">QuFince</a> is a CUDA tool written by <a href="https://cp4space.hatsya.com/">apg</a> to conduct brute-force Game
-of Life searches on the cartesian product of two sets of
-configurations. That is, each configuration from set A is combined
-with each configuration from set B, and run until stabilised. Not
-every result is reported, only those where certain criteria are met.
-Right now the options are either that the result has some interesting
-period (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
-<a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
-hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
-<p>One thing that <em>can’t</em> be done currently is have QuFince report any
-combination that results in an interesting still life, but without
-knowing which still life you want in advance. It’s not so obvious what
-“interesting still life” should mean exactly, but here are some
-randomly chosen examples of things that should qualify:</p>
-<p>[diagram]</p>
-<p>We can’t use a population threshold as our criterion for
-interestingness, because the typical result of one of these QuFince
-trials is a bunch of uninteresting junk. One option is to do proper
-object separation, like <a href="https://gitlab.com/apgoucher/apgmera">apgsearch</a>, and then report any object that
-is sufficiently rare. But a QuFince search can conceivably test
-hundreds of billions of configurations, and full object separation is
-simply too slow.</p>
-<p>Here I’ll present an alternative, a simple heuristic that works well
-enough.</p><p><a href="/posts/cool-still-lifes.html">&gt; Read Post</a></p>]]></summary>
   </entry>
 
 </feed>

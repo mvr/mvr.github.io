@@ -87,6 +87,66 @@
 <ul id="posts-list">
     
     <li class="post-entry">
+        <h1 class="post-list-title"><a href="../posts/cool-still-lifes.html">Quickly Detecting Cool Still Lifes</a></h1>
+        <p class="post-deets">April  8, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'game-of-life'." href="../tags/game-of-life.html" rel="tag">game-of-life</a></p>
+        <div class="post-content">
+            <script defer src="../life/lv-plugin.js"></script>
+<p><a href="https://conwaylife.com/forums/viewtopic.php?f=9&amp;t=5997">QuFince</a> is a CUDA tool written by <a href="https://cp4space.hatsya.com/">apg</a> to conduct brute-force Game
+of Life searches on the cartesian product of two sets of
+configurations. That is, each configuration from set A is combined
+with each configuration from set B, and run until stabilised. Not
+every result is reported, only those where certain criteria are met.
+Right now the options are either that the result has some interesting
+period (to hunt for <a href="https://conwaylife.com/wiki/Glider_synthesis">glider syntheses</a> of
+<a href="https://conwaylife.com/wiki/Oscillator">oscillators</a>), or that the result contains a specified pattern (to
+hunt for <a href="https://conwaylife.com/wiki/Synthesis_component">synthesis components</a> for specific still lifes).</p>
+<p>One thing that <em>can’t</em> be done currently is have QuFince report any
+combination that results in an interesting still life, but without
+knowing which still life you want in advance. It’s not so obvious what
+“interesting still life” should mean exactly, but here are some
+randomly chosen examples of things that should qualify:</p>
+<div class="lifeviewer"><textarea>
+x = 88, y = 30, rule = B3/S23
+2o2b2o16b2o16b2o18b2ob2o19b2o$o4bo15bo2bo15bobo18bobobo14b2obo2bo$b4o
+15bo2b2o17bo2b2o14bo3bo14b2obob2o$20b3o19bobobo15b3o18bo$b4o18b2o16b2o
+bo35b2obob2o$o4bo14b2obobo16bobobo15b3o15bo2bobo$b4o15b2obobo16bo2b2o
+14bo2bo16b2o2bo$24bo15bobo17bo2bo21bobo$3b2o35b2o19b2o23b2o$3b2o11$5b
+2o16b2o19b2o14b2ob2o15b2o$b2obo2bo14bo2bo18bo16bobobo14bobo$obobobo15b
+ob2o15b2obo16bo3bo16bo$o4bo15b2obo17bob2o16b3o16bo$b4o15bo3bo17bobo36b
+2o$20b4o17b2obobo15b3o$b2o39bo2b2o14bo3bo15b4o$bobo18b2o16bobo18bobobo
+14bo4bo$2bo18bobo16b2o18b2ob2o16b3obo$22bo60bob2o!
+
+#C [[ ZOOM 4 ]]
+#C Colours are set in src/LifeViewer.hs
+#C [[ NOGUI ]]
+#C [[ COLOR BACKGROUND #f8f8f8 ]]
+#C [[ COLOR ALIVE #000000 ]]
+#C [[ COLOR ALIVERAMP #000000 ]]
+#C [[ COLOR DEADRAMP #dfebf6 ]]
+#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ GRID ]]
+#C [[ GRIDMAJOR 0 ]]
+#C [[ COLOR DEAD #dfebf6 ]]
+</textarea>
+<canvas width="600px"></canvas>
+</div>
+
+<p>We can’t use a population threshold as our criterion for
+interestingness, because the typical result of one of these QuFince
+trials is a bunch of uninteresting junk. One option is to do proper
+object separation, like <a href="https://gitlab.com/apgoucher/apgmera">apgsearch</a>, and then report any object that
+is sufficiently rare. But a QuFince search can conceivably test
+hundreds of billions of configurations, and full object separation is
+simply too slow.</p>
+<p>Here I’ll present an alternative, a simple heuristic that works well
+enough.</p>
+            
+            <div class="continue-post"><a href="../posts/cool-still-lifes.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
+            
+        </div>
+    </li>
+    
+    <li class="post-entry">
         <h1 class="post-list-title"><a href="../posts/crawlers.html">Crawlers</a></h1>
         <p class="post-deets">April  2, 2025 / <a title="All pages tagged 'code'." href="../tags/code.html" rel="tag">code</a>, <a title="All pages tagged 'cuda'." href="../tags/cuda.html" rel="tag">cuda</a>, <a title="All pages tagged 'game-of-life'." href="../tags/game-of-life.html" rel="tag">game-of-life</a></p>
         <div class="post-content">
@@ -268,18 +328,6 @@ with not much mathematical background required.</p>
 behind Kenzo.</p>
             
             <div class="continue-post"><a href="../posts/at.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
-            
-        </div>
-    </li>
-    
-    <li class="post-entry">
-        <h1 class="post-list-title"><a href="../posts/winston.html">2 + 2</a></h1>
-        <p class="post-deets">October 14, 2020 / <a title="All pages tagged 'retroactive'." href="../tags/retroactive.html" rel="tag">retroactive</a>, <a title="All pages tagged 'note-to-self'." href="../tags/note-to-self.html" rel="tag">note-to-self</a></p>
-        <div class="post-content">
-            <p>If you are a professional mathematician and you are asked whether <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">2 +
-2 = 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>, the only answer you should give is “Yes, obviously.”</p>
-            
-            <div class="continue-post"><a href="../posts/winston.html">Read post <svg class="chevron-icon"><use href="#icon-chevron-right"></use></svg></a></div>
             
         </div>
     </li>

@@ -68,10 +68,5 @@ Chronologically:
 * Birds of Tokyo - Head in my Hands
 * TMBG - Stone Cold Coup d'Etat
 * Mario Kart World - Boo Cinema^[I wish I was kidding.]
-* Jimmy Webb - The Highwayman 
-
-
-Notes
------
-
-So far, 3 songs about reincarnation. Should I be worried?
+* Jimmy Webb - The Highwayman
+* Tripod - The Only Shepherd

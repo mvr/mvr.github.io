@@ -96,6 +96,6 @@ p = 26 &\quad [5, 71, 179, 241, 141, 246, 138, 200, 319, 392, 99, 324, 100, 24, 
 \end{aligned}
 
 These were all found relatively quickly, in under a minute each. The
-first unclear case is $p = 27$, which I ran overnight without result;
+first unclear case is $p = 27$ which I ran overnight without result;
 it would be interesting to know whether it's UNSAT, though again not
 especially useful!

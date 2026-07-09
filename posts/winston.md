@@ -1,7 +1,7 @@
 ---
 title: 2 + 2
 published: October 14, 2020
-tags: retroactive, note-to-self
+tags: retroactive, note-to-self, pamphleteering
 ---
 
 If you are a professional mathematician and you are asked whether $2 +

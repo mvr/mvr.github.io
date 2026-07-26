@@ -3,10 +3,9 @@
   if (!canvas) return;
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (prefersReducedMotion.matches) return;
+  const hasRoom = window.matchMedia("(min-width: 1100px)");
 
   const config = {
-    minScreenWidth: 1100,
     cols: 30,
     extraCols: 10, // Off screen
     rows: 30,
@@ -26,8 +25,7 @@
   let grid = new Uint8Array(totalCols * config.rows);
   let nextGrid = new Uint8Array(totalCols * config.rows);
   let seedMask = new Uint8Array(totalCols * config.rows);
-  let ctx = canvas.getContext("2d");
-  let running = false;
+  const ctx = canvas.getContext("2d");
   let rafId = null;
   let lastFrame = 0;
   let generation = 0;
@@ -37,7 +35,7 @@
 
   const index = (x, y) => y * totalCols + x;
 
-  const shouldRun = () => window.innerWidth >= config.minScreenWidth;
+  const shouldRun = () => hasRoom.matches && !prefersReducedMotion.matches;
 
   const clearGrid = () => {
     grid.fill(0);
@@ -96,6 +94,7 @@
     let bestSeedMask = null;
     for (let attempt = 0; attempt < config.maxTries; attempt += 1) {
       seedRandom();
+      generation = 0;
       const initialGrid = grid.slice();
       const initialSeedMask = seedMask.slice();
       for (let t = 0; t < config.testSteps; t += 1) {
@@ -152,8 +151,6 @@
     const height = config.rows * config.cellSize;
     canvas.width = width;
     canvas.height = height;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
   };
 
   const init = () => {
@@ -164,7 +161,7 @@
   };
 
   const loop = (timestamp) => {
-    if (!running) return;
+    if (rafId === null) return;
     if (timestamp - lastFrame >= config.frameMs) {
       step();
       render();
@@ -174,35 +171,31 @@
   };
 
   const start = () => {
-    if (running) return;
-    running = true;
+    if (rafId !== null) return;
     lastFrame = 0;
     init();
     rafId = window.requestAnimationFrame(loop);
   };
 
   const stop = () => {
-    if (!running) return;
-    running = false;
-    if (rafId) {
+    if (rafId !== null) {
       window.cancelAnimationFrame(rafId);
       rafId = null;
     }
   };
 
-  const handleResize = () => {
+  const syncAnimation = () => {
     if (!shouldRun()) {
       canvas.style.display = "none";
       stop();
       return;
     }
     canvas.style.display = "block";
-    stop();
     start();
   };
 
-  prefersReducedMotion.addEventListener("change", handleResize);
-  window.addEventListener("resize", handleResize);
+  prefersReducedMotion.addEventListener("change", syncAnimation);
+  hasRoom.addEventListener("change", syncAnimation);
 
-  handleResize();
+  syncAnimation();
 })();

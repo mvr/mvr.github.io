@@ -23,12 +23,14 @@ html {
 :root {
   --life-bg-color: #{$life-bg-color};
   --content-max: #{$body-width};
-  --surface-radius: 10px;
+  --surface-radius: 4px;
+  --content-offset: clamp(0px, 8vw, 100px);
+  --masthead-offset: clamp(0px, 4vw, 50px);
 
-  --page-pad-left: clamp(16px, 6vw, 80px);
-  --page-pad-right: clamp(16px, 8vw, 80px);
-  --page-pad-top: clamp(40px, 10vh, 100px);
-  --page-pad-bottom: clamp(16px, 4vh, 20px);
+  --page-pad-left: clamp(20px, 6vw, 80px);
+  --page-pad-right: clamp(20px, 7vw, 80px);
+  --page-pad-top: clamp(40px, 9vh, 96px);
+  --page-pad-bottom: clamp(24px, 5vh, 48px);
 
   --sidenote-width: clamp(14rem, 31vw, 20rem);
   --sidenote-gap: clamp(2.7rem, 5.6vw, 5rem);
@@ -55,6 +57,11 @@ body {
   padding-right: var(--page-pad-right);
   padding-bottom: var(--page-pad-bottom);
   padding-left: var(--page-pad-left);
+}
+
+::selection {
+  color: $offblack;
+  background: $lightblue;
 }
 
 img {
@@ -119,29 +126,36 @@ sup {
 }
 
 header#masthead {
-  margin-bottom: clamp(48px, 10vh, 100px);
-  margin-left: 14px;
+  margin-top: clamp(24px, 4vh, 40px);
+  margin-bottom: clamp(56px, 9vh, 84px);
+  margin-left: var(--masthead-offset);
   max-width: var(--content-max);
   width: min(100%, var(--content-max));
 
   h1 {
     display: inline-block;
-    font-size: clamp(2.5rem, 6vw, 3.5rem);
-    padding-bottom: 8px;
-    border-bottom: 2px solid $blue;
-    margin-bottom: 20px;
+    font-size: clamp(2.5rem, 5.75vw, 3.4rem);
+    line-height: 1;
+    font-weight: 600;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba($blue, 0.8);
+    margin-top: 0;
+    margin-bottom: 18px;
     text-wrap: balance;
   }
 
   p {
-    margin-top: 10px;
-    font-size: 1.2rem;
+    margin-block: 0 12px;
+    font-size: 1.1rem;
+    line-height: 1.5;
   }
 
   #links {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem 1rem;
+    font-size: 0.95rem;
+    letter-spacing: 0.025em;
   }
 
   #links a {
@@ -159,7 +173,7 @@ header#masthead {
 section {
   max-width: var(--content-max);
   width: min(100%, var(--content-max));
-  margin-left: 100px;
+  margin-left: var(--content-offset);
 }
 
 ul#posts-list {
@@ -168,11 +182,16 @@ ul#posts-list {
 }
 
 li.post-entry {
-  margin-bottom: 66px;
+  margin-bottom: 4rem;
 
   .post-content {
-    margin-top: 25px;
+    margin-top: 1.35rem;
   }
+}
+
+li.post-entry + li.post-entry {
+  padding-top: 3rem;
+  border-top: 1px solid rgba($lightgrey, 0.24);
 }
 
 .archive-page {
@@ -208,9 +227,9 @@ li.post-entry {
 }
 
 .archive-entry-date {
-  font-size: 0.9rem;
-  font-weight: bold;
-  letter-spacing: 0.04em;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: $lightgrey;
   white-space: nowrap;
@@ -223,23 +242,34 @@ li.post-entry {
 
 h1.post-list-title, section.post h1.post-title {
   line-height: 1.1;
-  border-bottom: 2px solid $blue;
-  margin-top: 40px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 12px;
 
   text-wrap: balance; // Works better for title
+
+  &::after {
+    content: "";
+    display: block;
+    width: clamp(8rem, 35%, 14rem);
+    height: 1px;
+    margin-top: 0.45rem;
+    background: rgba($blue, 0.8);
+  }
 }
 
 h1.post-list-title {
-  font-size: clamp(1.6rem, 4vw, 2rem);
-  padding-bottom: 6px;
-  margin-bottom: 10px;
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
   max-width: $body-width;
 }
 
 section.post h1.post-title {
-  font-size: clamp(2.2rem, 6vw, 3rem);
-  padding-bottom: 7px;
-  margin-bottom: 12px;
+  font-size: clamp(2.35rem, 6vw, 3.15rem);
+  margin-top: 2.4rem;
+
+  &::after {
+    width: 100%;
+  }
 }
 
 section.post-list-page-header {
@@ -254,9 +284,11 @@ h1.post-list-title a, h1.post-title a {
 .post-deets {
   margin-block: 0;
   font-family: $sansserif;
-  font-size: 1rem;
+  font-size: 0.76rem;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: 600;
+  line-height: 1.45;
+  letter-spacing: 0.08em;
   color: $lightgrey;
 
   a {
@@ -266,14 +298,14 @@ h1.post-list-title a, h1.post-title a {
 }
 
 .post-content {
-  text-align: justify;
-  hyphens: auto;
-  hyphenate-limit-chars: 6 3 3;
-  hyphenate-limit-lines: 2; // Not supported in most browsers but can't hurt
+  text-align: left;
+  hyphens: none;
 
+  font-family: $sansserif;
   font-size: 1rem;
+  font-weight: 400;
 
-  margin-top: 40px;
+  margin-top: 2.35rem;
 
   a {
     text-decoration: underline;
@@ -290,18 +322,15 @@ h1.post-list-title a, h1.post-title a {
   // }
 
   p {
-    line-height: 1.47;
-    margin-block: 0 20px;
+    line-height: 1.62;
+    margin-block: 0 1.35rem;
     text-wrap: pretty; // Avoid orphans
   }
 
   blockquote {
-    margin: 0 0 20px;
-    padding: 0.6em 1em;
-    border-left: 4px solid $lightblue;
-    background-color: $boxwhite;
-    border-radius: 6px;
-    color: $darkblue;
+    margin: 0 0 1.35rem;
+    padding: 0.15em 0 0.15em 1.2em;
+    border-left: 2px solid $blue;
 
     p:last-child {
       margin-bottom: 0;
@@ -419,11 +448,20 @@ h1.post-list-title a, h1.post-title a {
   }
 }
 
+#posts-list .post-content {
+  p {
+    line-height: 1.55;
+  }
+}
+
 footer {
-  margin-top: 50px;
+  margin-top: 5rem;
+  margin-left: var(--content-offset);
   color: $lightgrey;
   max-width: var(--content-max);
   width: min(100%, var(--content-max));
+  font-size: 0.82rem;
+  line-height: 1.5;
 }
 
 @media (max-width: 900px) {
@@ -435,7 +473,20 @@ footer {
   }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @media (max-width: 640px) {
+  header#masthead #links a + a::before {
+    content: none;
+  }
+
   .archive-entry-link {
     grid-template-columns: 1fr;
     gap: 0.35rem;
@@ -447,6 +498,13 @@ footer {
     margin-left: 0.35em;
     transform: none;
     opacity: 0.55;
+  }
+
+  table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
   }
 }
 

@@ -31,7 +31,7 @@
   let generation = 0;
 
   const rootStyles = getComputedStyle(document.documentElement);
-  const color = rootStyles.getPropertyValue("--life-bg-color").trim() || "#d8e5f1";
+  const color = rootStyles.getPropertyValue("--life-bg-color").trim() || "#dbe5ef";
 
   const index = (x, y) => y * totalCols + x;
 

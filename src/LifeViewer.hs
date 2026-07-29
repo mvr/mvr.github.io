@@ -23,19 +23,19 @@ convertBlock (CodeBlock (ids, classes, kvs) string) | "lifeviewer" `elem` classe
   `T.append` "#C Colours are set in src/LifeViewer.hs\n"
   -- `T.append` "#C [[ THUMBSIZE 1 THUMBLAUNCH ]]\n"
   `T.append` "#C [[ NOGUI ]]\n"
-  `T.append` "#C [[ COLOR BACKGROUND #f8f8f8 ]]\n"
-  `T.append` "#C [[ COLOR ALIVE #000000 ]]\n"
-  `T.append` "#C [[ COLOR ALIVERAMP #000000 ]]\n"
-  `T.append` "#C [[ COLOR DEADRAMP #dfebf6 ]]\n"
-  `T.append` "#C [[ COLOR GRID #f0f0f0 ]]\n"
+  `T.append` "#C [[ COLOR BACKGROUND #ffffff ]]\n"
+  `T.append` "#C [[ COLOR ALIVE #24231f ]]\n"
+  `T.append` "#C [[ COLOR ALIVERAMP #24231f ]]\n"
+  `T.append` "#C [[ COLOR DEADRAMP #dbe5ef ]]\n"
+  `T.append` "#C [[ COLOR GRID #f0f0f5 ]]\n"
   `T.append` "#C [[ GRID ]]\n"
   `T.append` "#C [[ GRIDMAJOR 0 ]]\n"
   `T.append` (if "LifeHistory" `T.isInfixOf` string then
-                 "#C [[ COLOR HISTORY #dfebf6 ]]\n"
-      `T.append` "#C [[ COLOR MARK1 #803300 ]]\n"
-      `T.append` "#C [[ COLOR MARKOFF #e0ae8f ]]\n"
+                 "#C [[ COLOR HISTORY #dbe5ef ]]\n"
+      `T.append` "#C [[ COLOR MARK1 #8b4d31 ]]\n"
+      `T.append` "#C [[ COLOR MARKOFF #e4b89f ]]\n"
       else
-                 "#C [[ COLOR DEAD #dfebf6 ]]\n" )
+                 "#C [[ COLOR DEAD #dbe5ef ]]\n" )
   `T.append` "</textarea>\n"
   `T.append` "<canvas width=\"600px\"></canvas>\n"
   `T.append` "</div>\n")

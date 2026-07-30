@@ -18,7 +18,7 @@
     seedRefreshInterval: 16,
     maxTries: 20,
     testSteps: 40,
-    frameMs: 300
+    frameMs: 450
   };
 
   const totalCols = config.cols + config.extraCols;

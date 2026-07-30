@@ -6,9 +6,9 @@
   const hasRoom = window.matchMedia("(min-width: 1100px)");
 
   const config = {
-    cols: 30,
+    cols: 36,
     extraCols: 10, // Off screen
-    rows: 30,
+    rows: 36,
     cellSize: 16,
     cellGap: 2,
     seedCols: 6,
@@ -29,6 +29,7 @@
   let rafId = null;
   let lastFrame = 0;
   let generation = 0;
+  let previousPointerCell = null;
 
   const rootStyles = getComputedStyle(document.documentElement);
   const color = rootStyles.getPropertyValue("--life-bg-color").trim() || "#dbe5ef";
@@ -153,6 +154,48 @@
     canvas.height = height;
   };
 
+  const paintLine = (from, to) => {
+    let x = from.x;
+    let y = from.y;
+    const dx = Math.abs(to.x - from.x);
+    const dy = -Math.abs(to.y - from.y);
+    const stepX = from.x < to.x ? 1 : -1;
+    const stepY = from.y < to.y ? 1 : -1;
+    let error = dx + dy;
+
+    while (true) {
+      grid[index(x, y)] = 1;
+      if (x === to.x && y === to.y) break;
+
+      const doubledError = error * 2;
+      if (doubledError >= dy) {
+        error += dy;
+        x += stepX;
+      }
+      if (doubledError <= dx) {
+        error += dx;
+        y += stepY;
+      }
+    }
+  };
+
+  const setCellsAtPointer = (event) => {
+    if (!shouldRun()) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const canvasX = (event.clientX - rect.left) * (canvas.width / rect.width);
+    const canvasY = (event.clientY - rect.top) * (canvas.height / rect.height);
+    const x = Math.floor(canvasX / config.cellSize);
+    const y = Math.floor(canvasY / config.cellSize);
+
+    if (x < 0 || x >= config.cols || y < 0 || y >= config.rows) return;
+
+    const currentPointerCell = { x, y };
+    paintLine(previousPointerCell || currentPointerCell, currentPointerCell);
+    previousPointerCell = currentPointerCell;
+    render();
+  };
+
   const init = () => {
     applySizing();
     generation = 0;
@@ -196,6 +239,10 @@
 
   prefersReducedMotion.addEventListener("change", syncAnimation);
   hasRoom.addEventListener("change", syncAnimation);
+  canvas.addEventListener("pointermove", setCellsAtPointer);
+  canvas.addEventListener("pointerleave", () => {
+    previousPointerCell = null;
+  });
 
   syncAnimation();
 })();

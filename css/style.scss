@@ -82,7 +82,7 @@ img {
     linear-gradient(to right, transparent 0, black 18%),
     linear-gradient(to bottom, black 72%, transparent 100%);
   mask-composite: intersect;
-  pointer-events: none;
+  pointer-events: auto;
   image-rendering: pixelated;
   z-index: 0;
 }

@@ -31,6 +31,9 @@ html {
   --page-pad-right: clamp(20px, 7vw, 80px);
   --page-pad-top: clamp(40px, 9vh, 96px);
   --page-pad-bottom: clamp(24px, 5vh, 48px);
+  --page-sheet-gutter: clamp(20px, 2.5vw, 32px);
+  --page-sheet-max-width: 932px;
+  --page-sheet-width: min(var(--page-sheet-max-width), calc(100% - var(--page-sheet-gutter)));
 
   --sidenote-width: clamp(14rem, 31vw, 20rem);
   --sidenote-gap: clamp(2.7rem, 5.6vw, 5rem);
@@ -45,7 +48,13 @@ html {
 
 body {
   color: $offblack;
-  background: $offwhite;
+  background: linear-gradient(
+    to right,
+    mix($boxwhite, $offwhite, 22%) 0,
+    mix($boxwhite, $offwhite, 22%) var(--page-sheet-width),
+    $offwhite var(--page-sheet-width),
+    $offwhite 100%
+  );
   font-family: $sansserif;
 
   font-feature-settings: "kern" 1;
@@ -57,6 +66,12 @@ body {
   padding-right: var(--page-pad-right);
   padding-bottom: var(--page-pad-bottom);
   padding-left: var(--page-pad-left);
+}
+
+@media (max-width: 760px) {
+  body {
+    background: $offwhite;
+  }
 }
 
 ::selection {

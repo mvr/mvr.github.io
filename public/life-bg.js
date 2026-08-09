@@ -6,9 +6,9 @@
   const hasRoom = window.matchMedia("(min-width: 1100px)");
 
   const config = {
-    cols: 36,
+    cols: 42,
     extraCols: 10, // Off screen
-    rows: 36,
+    rows: 42,
     cellSize: 16,
     cellGap: 2,
     seedCols: 6,
@@ -18,7 +18,7 @@
     seedRefreshInterval: 16,
     maxTries: 20,
     testSteps: 40,
-    frameMs: 450
+    frameMs: 550
   };
 
   const totalCols = config.cols + config.extraCols;

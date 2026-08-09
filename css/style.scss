@@ -89,14 +89,16 @@ img {
   top: 0;
   right: 0;
   opacity: 0.9;
-  -webkit-mask-image:
-    linear-gradient(to right, transparent 0, black 18%),
-    linear-gradient(to bottom, black 72%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(to right, transparent 0, black 18%),
-    linear-gradient(to bottom, black 72%, transparent 100%);
-  mask-composite: intersect;
+  -webkit-mask-image: radial-gradient(
+    ellipse 105% 105% at 105% -5%,
+    black 0 72%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 105% 105% at 105% -5%,
+    black 0 72%,
+    transparent 100%
+  );
   pointer-events: auto;
   image-rendering: pixelated;
   z-index: 0;

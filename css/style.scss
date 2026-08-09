@@ -323,6 +323,7 @@ h1.post-list-title a, h1.post-title a {
 .post-content {
   text-align: left;
   hyphens: none;
+  text-wrap: pretty;
 
   font-family: $sansserif;
   font-size: 1rem;
@@ -347,7 +348,6 @@ h1.post-list-title a, h1.post-title a {
   p {
     line-height: 1.62;
     margin-block: 0 1.35rem;
-    text-wrap: pretty; // Avoid orphans
   }
 
   blockquote {

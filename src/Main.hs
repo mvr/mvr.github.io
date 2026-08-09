@@ -58,6 +58,17 @@ main = do
 perPage :: Int
 perPage = 5
 
+pandocHelperIdentifiers :: [Identifier]
+pandocHelperIdentifiers = fmap fromFilePath
+  [ "templates/diagram.tex"
+  , "templates/cd.tex"
+  , "templates/mathpar.tex"
+  , "bibstyle.csl"
+  , "scripts/render-katex.mjs"
+  , "package.json"
+  , "package-lock.json"
+  ]
+
 -- PEBKAC
 checkRepoRoot :: IO ()
 checkRepoRoot = do
@@ -137,6 +148,7 @@ siteRules action withDrafts bakeKaTeX = do
     route   $ setExtension ".html"
     let ctx = postCtx bakeKaTeX tags
     compile $ do
+      _ <- traverse (loadBody :: Identifier -> Compiler String) pandocHelperIdentifiers
       source <- getResourceBody
       _ <- saveSnapshot "raw" source
       feed <- pandocFeedCompiler bakeKaTeX source
@@ -234,6 +246,9 @@ siteRules action withDrafts bakeKaTeX = do
 
   -- Compile templates
   match ("templates/*.html" .||. "templates/*.xml") $ compile templateCompiler
+
+  -- Track Pandoc's non-routed inputs so loadBody can record dependencies on them.
+  match (fromList pandocHelperIdentifiers) $ compile getResourceBody
 
   match "css/*.scss" $ do
         compile getResourceBody
@@ -358,6 +373,7 @@ pandocWriterOptions =
 
 pandocCustomCompiler :: Bool -> Compiler (Item String)
 pandocCustomCompiler bakeKaTeX = do
+  _ <- traverse (loadBody :: Identifier -> Compiler String) pandocHelperIdentifiers
   item <- getResourceBody
   renderPostItem bakeKaTeX True usingSideNotes item
 

@@ -12,6 +12,7 @@ import System.Process (callProcess)
 import qualified Data.Map as M
 import Data.Text.Titlecase
 import qualified Data.Text as T
+import qualified Data.Text.Lazy as TL
 
 import Data.Time.Clock (UTCTime (..))
 import Data.Time.Format (formatTime, parseTimeM)
@@ -25,6 +26,7 @@ import Hakyll
 import Hakyll.Core.Dependencies (DependencyKind (KindContent))
 import Text.Pandoc.Definition (Pandoc)
 import Text.Pandoc.Options
+import Skylighting (Syntax, addSyntaxDefinition, parseSyntaxDefinitionFromText)
 import Sidenote (usingSideNotes, withoutNotes)
 -- import Hakyll.Core.Compiler.Internal (compilerThrow)
 -- import Text.Pandoc.Builder (setMeta)
@@ -58,6 +60,9 @@ main = do
 perPage :: Int
 perPage = 5
 
+quintSyntaxIdentifier :: Identifier
+quintSyntaxIdentifier = fromFilePath "syntax/quint.xml"
+
 pandocHelperIdentifiers :: [Identifier]
 pandocHelperIdentifiers = fmap fromFilePath
   [ "templates/diagram.tex"
@@ -68,6 +73,9 @@ pandocHelperIdentifiers = fmap fromFilePath
   , "package.json"
   , "package-lock.json"
   ]
+
+pandocInputIdentifiers :: [Identifier]
+pandocInputIdentifiers = quintSyntaxIdentifier : pandocHelperIdentifiers
 
 -- PEBKAC
 checkRepoRoot :: IO ()
@@ -148,14 +156,14 @@ siteRules action withDrafts bakeKaTeX = do
     route   $ setExtension ".html"
     let ctx = postCtx bakeKaTeX tags
     compile $ do
-      _ <- traverse (loadBody :: Identifier -> Compiler String) pandocHelperIdentifiers
+      writerOptions <- loadPandocWriterOptions
       source <- getResourceBody
       _ <- saveSnapshot "raw" source
-      feed <- pandocFeedCompiler bakeKaTeX source
+      feed <- pandocFeedCompiler writerOptions bakeKaTeX source
       _ <- saveSnapshot "feed" feed
-      body <- renderPostItem bakeKaTeX True usingSideNotes source
+      body <- renderPostItem writerOptions bakeKaTeX True usingSideNotes source
       _ <- saveSnapshot "body" body
-      teaser <- pandocTeaserCompiler bakeKaTeX source
+      teaser <- pandocTeaserCompiler writerOptions bakeKaTeX source
       _ <- saveSnapshot "teaser" teaser
       loadAndApplyTemplate "templates/post.html" ctx body
         -- >>= saveSnapshot "rendered"
@@ -248,7 +256,7 @@ siteRules action withDrafts bakeKaTeX = do
   match ("templates/*.html" .||. "templates/*.xml") $ compile templateCompiler
 
   -- Track Pandoc's non-routed inputs so loadBody can record dependencies on them.
-  match (fromList pandocHelperIdentifiers) $ compile getResourceBody
+  match (fromList pandocInputIdentifiers) $ compile getResourceBody
 
   match "css/*.scss" $ do
         compile getResourceBody
@@ -365,20 +373,32 @@ pandocReaderOptions =
     readerExtensions = foldr enableExtension (readerExtensions defaultHakyllReaderOptions) [Ext_mark]
   }
 
-pandocWriterOptions :: WriterOptions
-pandocWriterOptions =
-  defaultHakyllWriterOptions {
-    writerHTMLMathMethod = KaTeX ""
+pandocWriterOptions :: Syntax -> WriterOptions
+pandocWriterOptions quintSyntax =
+  let defaults = defaultHakyllWriterOptions
+  in defaults {
+    writerHTMLMathMethod = KaTeX "",
+    writerSyntaxMap = addSyntaxDefinition quintSyntax (writerSyntaxMap defaults)
   }
+
+loadPandocWriterOptions :: Compiler WriterOptions
+loadPandocWriterOptions = do
+  quintXml <- loadBody quintSyntaxIdentifier
+  _ <- traverse (loadBody :: Identifier -> Compiler String) pandocHelperIdentifiers
+  quintSyntax <- either fail pure $
+    parseSyntaxDefinitionFromText
+      (toFilePath quintSyntaxIdentifier)
+      (TL.pack quintXml)
+  pure $ pandocWriterOptions quintSyntax
 
 pandocCustomCompiler :: Bool -> Compiler (Item String)
 pandocCustomCompiler bakeKaTeX = do
-  _ <- traverse (loadBody :: Identifier -> Compiler String) pandocHelperIdentifiers
+  writerOptions <- loadPandocWriterOptions
   item <- getResourceBody
-  renderPostItem bakeKaTeX True usingSideNotes item
+  renderPostItem writerOptions bakeKaTeX True usingSideNotes item
 
-pandocFeedCompiler :: Bool -> Item String -> Compiler (Item String)
-pandocFeedCompiler bakeKaTeX item = do
+pandocFeedCompiler :: WriterOptions -> Bool -> Item String -> Compiler (Item String)
+pandocFeedCompiler writerOptions bakeKaTeX item = do
   let katexMacros = extractDiagramMacros (T.pack $ itemBody item)
       mathTransform =
         if bakeKaTeX
@@ -395,13 +415,14 @@ pandocFeedCompiler bakeKaTeX item = do
   let teaserItem = fmap trimAtMore item
   doc <- readPandocWith pandocReaderOptions teaserItem
   doc' <- traverse transform doc
-  return $ writePandocWith pandocWriterOptions doc'
+  return $ writePandocWith writerOptions doc'
 
-pandocTeaserCompiler :: Bool -> Item String -> Compiler (Item String)
-pandocTeaserCompiler bakeKaTeX = renderPostItem bakeKaTeX False withoutNotes . fmap trimAtMore
+pandocTeaserCompiler :: WriterOptions -> Bool -> Item String -> Compiler (Item String)
+pandocTeaserCompiler writerOptions bakeKaTeX =
+  renderPostItem writerOptions bakeKaTeX False withoutNotes . fmap trimAtMore
 
-renderPostItem :: Bool -> Bool -> (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
-renderPostItem bakeKaTeX withHeaderPermalinks noteTransform item = do
+renderPostItem :: WriterOptions -> Bool -> Bool -> (Pandoc -> Pandoc) -> Item String -> Compiler (Item String)
+renderPostItem writerOptions bakeKaTeX withHeaderPermalinks noteTransform item = do
   let diagramMacros = extractDiagramMacros (T.pack $ itemBody item)
       katexMacros = diagramMacros
       headerTransform =
@@ -425,7 +446,7 @@ renderPostItem bakeKaTeX withHeaderPermalinks noteTransform item = do
 
   doc <- readPandocWith pandocReaderOptions item
   doc' <- traverse transform doc
-  pure $ writePandocWith pandocWriterOptions doc'
+  pure $ writePandocWith writerOptions doc'
 
 snapshotBodyField :: String -> Snapshot -> Context String
 snapshotBodyField key snapshot = field key $ \item ->

@@ -179,7 +179,7 @@ header#masthead {
     display: flex;
     flex-wrap: wrap;
     gap: 0.6rem 1rem;
-    font-size: 0.95rem;
+    font-size: 1rem;
     letter-spacing: 0.025em;
   }
 
@@ -207,16 +207,11 @@ ul#posts-list {
 }
 
 li.post-entry {
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 
   .post-content {
-    margin-top: 1.35rem;
+    margin-top: 1.55rem;
   }
-}
-
-li.post-entry + li.post-entry {
-  padding-top: 3rem;
-  border-top: 1px solid rgba($lightgrey, 0.24);
 }
 
 .archive-page {
@@ -276,7 +271,7 @@ h1.post-list-title, section.post h1.post-title {
   &::after {
     content: "";
     display: block;
-    width: clamp(8rem, 35%, 14rem);
+    width: 100%;
     height: 1px;
     margin-top: 0.45rem;
     background: rgba($blue, 0.8);
@@ -291,10 +286,6 @@ h1.post-list-title {
 section.post h1.post-title {
   font-size: clamp(2.35rem, 6vw, 3.15rem);
   margin-top: 2.4rem;
-
-  &::after {
-    width: 100%;
-  }
 }
 
 section.post-list-page-header {
@@ -309,11 +300,11 @@ h1.post-list-title a, h1.post-title a {
 .post-deets {
   margin-block: 0;
   font-family: $sansserif;
-  font-size: 0.76rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
   font-weight: 600;
   line-height: 1.45;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
   color: $lightgrey;
 
   a {

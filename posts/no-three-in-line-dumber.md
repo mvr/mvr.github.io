@@ -8,7 +8,9 @@ tags: code, cuda
 
 ([Previously](/posts/no-three-in-line.html), [previously](/posts/no-three-in-line-quicker.html))
 
-To not bury the lede, we finally have our first new value for the OEIS sequence [A000769](https://oeis.org/A000769):^[And its corollary [A000755](https://oeis.org/A000755).]
+To not bury the lede, we finally have our first new value for the OEIS
+sequence [A000769](https://oeis.org/A000769) (and its corollary
+[A000755](https://oeis.org/A000755)):
 
 $$ a(19) = 32577 $$
 

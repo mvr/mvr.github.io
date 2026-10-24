@@ -131,16 +131,17 @@
 
   const render = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
     const cellDraw = Math.max(1, config.cellSize - config.cellGap);
     for (let y = 0; y < config.rows; y += 1) {
       for (let x = 0; x < config.cols; x += 1) {
         if (grid[index(x, y)] === 1) {
-          ctx.fillRect(
-            x * config.cellSize,
-            y * config.cellSize,
-            cellDraw,
-            cellDraw
+          ctx.strokeRect(
+            x * config.cellSize + 0.5,
+            y * config.cellSize + 0.5,
+            cellDraw - 1,
+            cellDraw - 1
           );
         }
       }

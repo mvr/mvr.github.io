@@ -33,13 +33,14 @@ Most importantly, these techniques are never written out or explained.
 Rather, they are discovered out of necessity as you go through.
 Indeed, I can't even be sure whether I even figured out all the
 "intended" techniques and strategies, or whether I came up with any
-unintended ones. There's likely several different ways to reason your way to the same conclusion.
+unintended ones. There's likely several different ways to reason your
+way to the same conclusion.
 
-Once a technique has been (tacitly) established in a puzzle, places to
-use it pop up frequently in future puzzles. I think this is the key to
-what makes these techniques satisfying: it's not so much from figuring
+Once a technique has been (tacitly) established by a puzzle, places to
+use it pop up frequently in future puzzles. I think this is the key 
+that makes these techniques satisfying: it's not so much from figuring
 the trick out the first time, but rather from "powering up" and being
-able to use it fluidly when opportunities appear in future puzzles.
+able to use it fluidly when opportunities arise in future puzzles.
 
 Often, the reasoning required is local to a few cells. This means that
 an overall board often splits into many smaller puzzles that one can
@@ -59,16 +60,16 @@ point did I feel totally overwhelmed. There is a built in facility for
 making annotations on the board and this was enough to get by; it's
 not the sort of puzzle where you need to take notes on a sheet of
 paper and really focus. This made it work nicely as a "second-screen"
-game, to listen to a podcast or watch TV alongside. (If your attention
-is as fried as mine has become.)
+game, alongside listening to a podcast or watching TV. (If your attention
+span is as fried as mine has become.)
 
 Similar to a lot of other puzzle games these days, there are always a
 few different puzzles unlocked at any given time, so if you're truly
-stumped you can just bail and try a different one for now. Another
-game I remember this working very well for is [A Monster's
+stumped you can bail and try a different one for the time being.
+Another game I remember this working very well for is [A Monster's
 Expedition], though in that case it's a bit more literal: your
 character can literally walk away from any puzzle you're finding too
-hard at the moment.
+hard in the moment.
 
 [A Monster's Expedition]: https://store.steampowered.com/app/1052990/A_Monsters_Expedition/
 
@@ -94,8 +95,8 @@ misclick), I'd have to decide whether I could truly un-see what I just
 saw. Often I decided this was possible, or I could immediately find a
 valid deduction for that mine. Sometimes it did truly feel like a
 spoiler and the only fair thing to do was reset the whole puzzle and
-leave to work on a different one in the hope that by the time I came
-back to it I will have forgotten that mine.
+leave to work on a different one, in the hope that by the time I came
+back to it I will have forgotten what I learned.
 
 There were two boards where I repeatedly made some bad deduction and
 had to reset, like the one screenshotted below. I don't actually know
@@ -119,14 +120,14 @@ it may not be feasible.
 
 [Clues by Sam]: https://cluesbysam.com/
 
-I played Tametsi on a [Steam Deck]^[There's no Mac,
+I played Tametsi on a [Steam Deck]^[There's no Mac port,
 unfortunately.], using the trackpad and triggers as a replacement for
 a mouse. This worked fine but not perfectly: using the built-in pen
 was fiddly and inaccurate and I would sometimes overshoot the tile I
 intended to click on, causing unearned "mistakes". This may have been
-fixable by tweaking the options on the Steam Deck side more than I
-did. By default, the game doesn't launch at the correct resolution for
-the screen. Fixing this makes it look slightly crisper and nicer,
-though I didn't actually notice until I was half way through.
+fixable by tweaking the options on the Steam Deck more than I tried. By
+default, the game doesn't launch at the correct resolution for the
+screen. Fixing this makes it look slightly crisper and nicer, though I
+didn't actually notice until I was half way through.
 
 [Steam Deck]: https://store.steampowered.com/steamdeck

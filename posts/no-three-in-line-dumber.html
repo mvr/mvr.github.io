@@ -45,9 +45,10 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&display=block" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Goudy+Bookletter+1911&display=block" rel="stylesheet">
 
-      <!-- TODO: Some other font candidates. Maybe Nunito? -->
+      <!-- TODO: Some font candidates. Maybe Nunito? -->
       <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
       <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
       <!-- <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> -->
@@ -89,7 +90,9 @@
 <div class="post-content">
     <script defer src="../life/lv-plugin.js"></script>
 <p>(<a href="../posts/no-three-in-line.html">Previously</a>, <a href="../posts/no-three-in-line-quicker.html">previously</a>)</p>
-<p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">And its corollary <a href="https://oeis.org/A000755">A000755</a>.</span></span></p>
+<p>To not bury the lede, we finally have our first new value for the OEIS
+sequence <a href="https://oeis.org/A000769">A000769</a> (and its corollary
+<a href="https://oeis.org/A000755">A000755</a>):</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>a</mi><mo stretchy="false">(</mo><mn>19</mn><mo stretchy="false">)</mo><mo>=</mo><mn>32577</mn></mrow><annotation encoding="application/x-tex"> a(19) = 32577 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord">19</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32577</span></span></span></span></span></p>
 <p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
 <a href="https://www.runpod.io/">Runpod</a>.</p>
@@ -114,16 +117,16 @@ A41BA19B$10BA6BA46B$58BA3BAB$10BA39BA13B$9BA38BA15B$24BA11BA27B$30BA
 #C [[ ZOOM 5 ]]
 #C Colours are set in src/LifeViewer.hs
 #C [[ NOGUI ]]
-#C [[ COLOR BACKGROUND #f8f8f8 ]]
-#C [[ COLOR ALIVE #000000 ]]
-#C [[ COLOR ALIVERAMP #000000 ]]
-#C [[ COLOR DEADRAMP #dfebf6 ]]
-#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ COLOR BACKGROUND #ffffff ]]
+#C [[ COLOR ALIVE #24231f ]]
+#C [[ COLOR ALIVERAMP #24231f ]]
+#C [[ COLOR DEADRAMP #dbe5ef ]]
+#C [[ COLOR GRID #f0f0f5 ]]
 #C [[ GRID ]]
 #C [[ GRIDMAJOR 0 ]]
-#C [[ COLOR HISTORY #dfebf6 ]]
-#C [[ COLOR MARK1 #803300 ]]
-#C [[ COLOR MARKOFF #e0ae8f ]]
+#C [[ COLOR HISTORY #dbe5ef ]]
+#C [[ COLOR MARK1 #8b4d31 ]]
+#C [[ COLOR MARKOFF #e4b89f ]]
 </textarea>
 <canvas width="600px"></canvas>
 </div>
@@ -290,16 +293,16 @@ x = 6, y = 6, rule = LifeHistory
 6B$6B$6B$3B3D$3B3D$3B3D!
 #C Colours are set in src/LifeViewer.hs
 #C [[ NOGUI ]]
-#C [[ COLOR BACKGROUND #f8f8f8 ]]
-#C [[ COLOR ALIVE #000000 ]]
-#C [[ COLOR ALIVERAMP #000000 ]]
-#C [[ COLOR DEADRAMP #dfebf6 ]]
-#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ COLOR BACKGROUND #ffffff ]]
+#C [[ COLOR ALIVE #24231f ]]
+#C [[ COLOR ALIVERAMP #24231f ]]
+#C [[ COLOR DEADRAMP #dbe5ef ]]
+#C [[ COLOR GRID #f0f0f5 ]]
 #C [[ GRID ]]
 #C [[ GRIDMAJOR 0 ]]
-#C [[ COLOR HISTORY #dfebf6 ]]
-#C [[ COLOR MARK1 #803300 ]]
-#C [[ COLOR MARKOFF #e0ae8f ]]
+#C [[ COLOR HISTORY #dbe5ef ]]
+#C [[ COLOR MARK1 #8b4d31 ]]
+#C [[ COLOR MARKOFF #e4b89f ]]
 </textarea>
 <canvas width="600px"></canvas>
 </div>
@@ -319,16 +322,16 @@ BA4B4.BA4B4.BA4B4.BA4B$2BA3B4.6B4.6B4.BD4B$3BD2B4.4BAB4.2BD3B4.BD4B$
 #C [[ ZOOM 6 ]]
 #C Colours are set in src/LifeViewer.hs
 #C [[ NOGUI ]]
-#C [[ COLOR BACKGROUND #f8f8f8 ]]
-#C [[ COLOR ALIVE #000000 ]]
-#C [[ COLOR ALIVERAMP #000000 ]]
-#C [[ COLOR DEADRAMP #dfebf6 ]]
-#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ COLOR BACKGROUND #ffffff ]]
+#C [[ COLOR ALIVE #24231f ]]
+#C [[ COLOR ALIVERAMP #24231f ]]
+#C [[ COLOR DEADRAMP #dbe5ef ]]
+#C [[ COLOR GRID #f0f0f5 ]]
 #C [[ GRID ]]
 #C [[ GRIDMAJOR 0 ]]
-#C [[ COLOR HISTORY #dfebf6 ]]
-#C [[ COLOR MARK1 #803300 ]]
-#C [[ COLOR MARKOFF #e0ae8f ]]
+#C [[ COLOR HISTORY #dbe5ef ]]
+#C [[ COLOR MARK1 #8b4d31 ]]
+#C [[ COLOR MARKOFF #e4b89f ]]
 </textarea>
 <canvas width="600px"></canvas>
 </div>
@@ -339,16 +342,16 @@ x = 6, y = 6, rule = LifeHistory
 6B$6B$6B$3B2DB$3BA2D$4BAB!
 #C Colours are set in src/LifeViewer.hs
 #C [[ NOGUI ]]
-#C [[ COLOR BACKGROUND #f8f8f8 ]]
-#C [[ COLOR ALIVE #000000 ]]
-#C [[ COLOR ALIVERAMP #000000 ]]
-#C [[ COLOR DEADRAMP #dfebf6 ]]
-#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ COLOR BACKGROUND #ffffff ]]
+#C [[ COLOR ALIVE #24231f ]]
+#C [[ COLOR ALIVERAMP #24231f ]]
+#C [[ COLOR DEADRAMP #dbe5ef ]]
+#C [[ COLOR GRID #f0f0f5 ]]
 #C [[ GRID ]]
 #C [[ GRIDMAJOR 0 ]]
-#C [[ COLOR HISTORY #dfebf6 ]]
-#C [[ COLOR MARK1 #803300 ]]
-#C [[ COLOR MARKOFF #e0ae8f ]]
+#C [[ COLOR HISTORY #dbe5ef ]]
+#C [[ COLOR MARK1 #8b4d31 ]]
+#C [[ COLOR MARKOFF #e4b89f ]]
 </textarea>
 <canvas width="600px"></canvas>
 </div>
@@ -366,16 +369,16 @@ x = 6, y = 6, rule = LifeHistory
 6B$6B$6B$4BDB$3D3A$4BDB!
 #C Colours are set in src/LifeViewer.hs
 #C [[ NOGUI ]]
-#C [[ COLOR BACKGROUND #f8f8f8 ]]
-#C [[ COLOR ALIVE #000000 ]]
-#C [[ COLOR ALIVERAMP #000000 ]]
-#C [[ COLOR DEADRAMP #dfebf6 ]]
-#C [[ COLOR GRID #f0f0f0 ]]
+#C [[ COLOR BACKGROUND #ffffff ]]
+#C [[ COLOR ALIVE #24231f ]]
+#C [[ COLOR ALIVERAMP #24231f ]]
+#C [[ COLOR DEADRAMP #dbe5ef ]]
+#C [[ COLOR GRID #f0f0f5 ]]
 #C [[ GRID ]]
 #C [[ GRIDMAJOR 0 ]]
-#C [[ COLOR HISTORY #dfebf6 ]]
-#C [[ COLOR MARK1 #803300 ]]
-#C [[ COLOR MARKOFF #e0ae8f ]]
+#C [[ COLOR HISTORY #dbe5ef ]]
+#C [[ COLOR MARK1 #8b4d31 ]]
+#C [[ COLOR MARKOFF #e4b89f ]]
 </textarea>
 <canvas width="600px"></canvas>
 </div>
@@ -405,7 +408,7 @@ perhaps better left to a separate post.</p>
 <h2 id="summary">Summary <a href="#summary" class="heading-permalink" aria-label="Permalink to this section" title="Permalink">§</a></h2>
 <p>All together, we have another large jump in performance over the
 previous post. And this is on top of code that I already thought was
-pretty good—shows what I know!<span class="sidenote-wrapper"><label for="sn-1" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-1" class="margin-toggle" /><span class="sidenote">Remember, these timings are on the
+pretty good—shows what I know!<span class="sidenote-wrapper"><label for="sn-0" class="margin-toggle sidenote-number"></label><input type="checkbox" id="sn-0" class="margin-toggle" /><span class="sidenote">Remember, these timings are on the
 tiny machine I have at home, not a beefy rented GPU. A good machine
 with a few GPUs is another 250× speedup “for free”.</span></span></p>
 <table>
@@ -470,7 +473,7 @@ to 15×.</p>
 </section>
 
         <footer>
-          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a><!-- , source on <a href="https://github.com/mvr/blog">Github</a> -->. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. -->
+          Please <a href="mailto:mitchell.v.riley@gmail.com">email</a> me any comments or suggestions. Site built using <a href="https://jaspervdj.be/hakyll/">Hakyll</a><!-- , source on <a href="https://github.com/mvr/blog">Github</a> -->. <!-- Some design elements cribbed from <a href="https://github.com/coletownsend/balzac-for-jekyll">Cole Townsend</a>. --> No text on this site was generated by an LLM, though I do use LLMs for other things.
         </footer>
 
     </body>

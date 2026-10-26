@@ -3,13 +3,12 @@
   if (!canvas) return;
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-  if (prefersReducedMotion.matches) return;
+  const hasRoom = window.matchMedia("(min-width: 1100px)");
 
   const config = {
-    minScreenWidth: 1100,
-    cols: 30,
+    cols: 42,
     extraCols: 10, // Off screen
-    rows: 30,
+    rows: 42,
     cellSize: 16,
     cellGap: 2,
     seedCols: 6,
@@ -19,25 +18,25 @@
     seedRefreshInterval: 16,
     maxTries: 20,
     testSteps: 40,
-    frameMs: 300
+    frameMs: 550
   };
 
   const totalCols = config.cols + config.extraCols;
   let grid = new Uint8Array(totalCols * config.rows);
   let nextGrid = new Uint8Array(totalCols * config.rows);
   let seedMask = new Uint8Array(totalCols * config.rows);
-  let ctx = canvas.getContext("2d");
-  let running = false;
+  const ctx = canvas.getContext("2d");
   let rafId = null;
   let lastFrame = 0;
   let generation = 0;
+  let previousPointerCell = null;
 
   const rootStyles = getComputedStyle(document.documentElement);
-  const color = rootStyles.getPropertyValue("--life-bg-color").trim() || "#d8e5f1";
+  const color = rootStyles.getPropertyValue("--life-bg-color").trim() || "#dbe5ef";
 
   const index = (x, y) => y * totalCols + x;
 
-  const shouldRun = () => window.innerWidth >= config.minScreenWidth;
+  const shouldRun = () => hasRoom.matches && !prefersReducedMotion.matches;
 
   const clearGrid = () => {
     grid.fill(0);
@@ -96,6 +95,7 @@
     let bestSeedMask = null;
     for (let attempt = 0; attempt < config.maxTries; attempt += 1) {
       seedRandom();
+      generation = 0;
       const initialGrid = grid.slice();
       const initialSeedMask = seedMask.slice();
       for (let t = 0; t < config.testSteps; t += 1) {
@@ -131,16 +131,17 @@
 
   const render = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = color;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
     const cellDraw = Math.max(1, config.cellSize - config.cellGap);
     for (let y = 0; y < config.rows; y += 1) {
       for (let x = 0; x < config.cols; x += 1) {
         if (grid[index(x, y)] === 1) {
-          ctx.fillRect(
-            x * config.cellSize,
-            y * config.cellSize,
-            cellDraw,
-            cellDraw
+          ctx.strokeRect(
+            x * config.cellSize + 0.5,
+            y * config.cellSize + 0.5,
+            cellDraw - 1,
+            cellDraw - 1
           );
         }
       }
@@ -152,8 +153,48 @@
     const height = config.rows * config.cellSize;
     canvas.width = width;
     canvas.height = height;
-    canvas.style.width = `${width}px`;
-    canvas.style.height = `${height}px`;
+  };
+
+  const paintLine = (from, to) => {
+    let x = from.x;
+    let y = from.y;
+    const dx = Math.abs(to.x - from.x);
+    const dy = -Math.abs(to.y - from.y);
+    const stepX = from.x < to.x ? 1 : -1;
+    const stepY = from.y < to.y ? 1 : -1;
+    let error = dx + dy;
+
+    while (true) {
+      grid[index(x, y)] = 1;
+      if (x === to.x && y === to.y) break;
+
+      const doubledError = error * 2;
+      if (doubledError >= dy) {
+        error += dy;
+        x += stepX;
+      }
+      if (doubledError <= dx) {
+        error += dx;
+        y += stepY;
+      }
+    }
+  };
+
+  const setCellsAtPointer = (event) => {
+    if (!shouldRun()) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const canvasX = (event.clientX - rect.left) * (canvas.width / rect.width);
+    const canvasY = (event.clientY - rect.top) * (canvas.height / rect.height);
+    const x = Math.floor(canvasX / config.cellSize);
+    const y = Math.floor(canvasY / config.cellSize);
+
+    if (x < 0 || x >= config.cols || y < 0 || y >= config.rows) return;
+
+    const currentPointerCell = { x, y };
+    paintLine(previousPointerCell || currentPointerCell, currentPointerCell);
+    previousPointerCell = currentPointerCell;
+    render();
   };
 
   const init = () => {
@@ -164,7 +205,7 @@
   };
 
   const loop = (timestamp) => {
-    if (!running) return;
+    if (rafId === null) return;
     if (timestamp - lastFrame >= config.frameMs) {
       step();
       render();
@@ -174,35 +215,35 @@
   };
 
   const start = () => {
-    if (running) return;
-    running = true;
+    if (rafId !== null) return;
     lastFrame = 0;
     init();
     rafId = window.requestAnimationFrame(loop);
   };
 
   const stop = () => {
-    if (!running) return;
-    running = false;
-    if (rafId) {
+    if (rafId !== null) {
       window.cancelAnimationFrame(rafId);
       rafId = null;
     }
   };
 
-  const handleResize = () => {
+  const syncAnimation = () => {
     if (!shouldRun()) {
       canvas.style.display = "none";
       stop();
       return;
     }
     canvas.style.display = "block";
-    stop();
     start();
   };
 
-  prefersReducedMotion.addEventListener("change", handleResize);
-  window.addEventListener("resize", handleResize);
+  prefersReducedMotion.addEventListener("change", syncAnimation);
+  hasRoom.addEventListener("change", syncAnimation);
+  canvas.addEventListener("pointermove", setCellsAtPointer);
+  canvas.addEventListener("pointerleave", () => {
+    previousPointerCell = null;
+  });
 
-  handleResize();
+  syncAnimation();
 })();

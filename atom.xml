@@ -6,7 +6,7 @@
   <link href="https://mvr.github.io/atom.xml" rel="self" />
   <link href="https://mvr.github.io" />
   <id>urn:uuid:84a94671-fda4-46c5-a91f-c9188dc0ee67</id>
-  <updated>2026-06-16T00:00:00Z</updated>
+  <updated>2026-10-26T00:00:00Z</updated>
   <author>
     <name>Mitchell Riley</name>
     
@@ -14,6 +14,68 @@
     
   </author>
     <entry>
+    <title>Profunctor Learners</title>
+    <link href="https://mvr.github.io/posts/profunctor-learners.html" rel="alternate" />
+    <id>urn:uuid:a3d22a7c-7cb6-5de1-956c-b417bfa3e8de</id>
+    
+    <published>2026-10-26T00:00:00Z</published>
+    
+    <updated>2026-10-26T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[<p><a href="https://arxiv.org/abs/1809.00738">Optics</a> have a very nice
+formulation used in some
+<a href="https://hackage.haskell.org/package/optics">Haskell</a> (and
+<a href="https://pursuit.purescript.org/packages/purescript-profunctor-lenses/8.0.0">PureScript</a>!)
+libraries; the so-called “profunctor representation”. Learners,
+defined a <a href="https://doi.org/10.4204/eptcs.429.3">certain way</a>, look an
+awful lot like some kind of two-sided or symmetric optic. Let’s see if
+we can devise a profunctor representation for them. This post was
+prompted by a chat with <a href="https://bartoszmilewski.com/">Bartosz Milewski</a>.</p><p><a href="/posts/profunctor-learners.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
+    <title>No‑Three‑In‑Line, Rarer</title>
+    <link href="https://mvr.github.io/posts/no-three-in-line-rarer.html" rel="alternate" />
+    <id>urn:uuid:ff2f05b1-92fb-5550-aea5-88d1e7fc1aa5</id>
+    
+    <published>2026-10-15T00:00:00Z</published>
+    
+    <updated>2026-10-15T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[
+<p>There has been a lot of progress since my <a href="/posts/no-three-in-line-dumber.html">last update</a>, catalogued on Achim Flammenkamp’s <a href="https://wwwhomes.uni-bielefeld.de/achim/no3in/readme.html">page</a>. Most notably, <a href="https://www.cs.cmu.edu/~mheule/">Marijn Heule</a> has come out of nowhere and smashed the size records using a new SAT solver; the record now stands at 76×76 (with four-fold rotational symmetry).</p>
+<p>As for my GPU code, there hasn’t been any change there, just running it on larger systems for a longer time. One interesting result: the unique 47×47 solution with four-fold diagonal symmetry, displayed below. <a href="https://webspace.maths.qmul.ac.uk/t.prellberg/">Thomas Prellberg</a> has continued the search up to 57×57, but there hasn’t been another. Could this be the last in the symmetry class?</p>
+<p>[diagram]</p><p><a href="/posts/no-three-in-line-rarer.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
+    <title>“We” is Other People</title>
+    <link href="https://mvr.github.io/posts/we-is-other-people.html" rel="alternate" />
+    <id>urn:uuid:467f9e6b-4248-5fdb-b324-ac7689642c56</id>
+    
+    <published>2026-08-05T00:00:00Z</published>
+    
+    <updated>2026-08-05T00:00:00Z</updated>
+    <author>
+      <name>Mitchell Riley</name>
+      
+      <email>mitchell.v.riley@gmail.com</email>
+      
+    </author>
+    <summary type="html"><![CDATA[<p>There’s a pattern I’ve seen more and more in political commentary,
+especially the Australian sources I pay attention to, where someone
+will make a sweeping diagnosis of a social problem in the language of
+things that <em>we</em> do wrong.</p><p><a href="/posts/we-is-other-people.html">&gt; Read Post</a></p>]]></summary>
+  </entry>
+  <entry>
     <title>Geometric Type Theory, Done Two Ways</title>
     <link href="https://mvr.github.io/posts/geometric-type-theory.html" rel="alternate" />
     <id>urn:uuid:bb2446ab-0114-5e80-b360-c8da988fdbaa</id>
@@ -72,7 +134,9 @@ eventually. Can we say anything about what the period could be?</p><p><a href="/
     </author>
     <summary type="html"><![CDATA[
 <p>(<a href="/posts/no-three-in-line.html">Previously</a>, <a href="/posts/no-three-in-line-quicker.html">previously</a>)</p>
-<p>To not bury the lede, we finally have our first new value for the OEIS sequence <a href="https://oeis.org/A000769">A000769</a>:</p>
+<p>To not bury the lede, we finally have our first new value for the OEIS
+sequence <a href="https://oeis.org/A000769">A000769</a> (and its corollary
+<a href="https://oeis.org/A000755">A000755</a>):</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>a</mi><mo stretchy="false">(</mo><mn>19</mn><mo stretchy="false">)</mo><mo>=</mo><mn>32577</mn></mrow><annotation encoding="application/x-tex"> a(19) = 32577 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord">19</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">32577</span></span></span></span></span></p>
 <p>This was calculated in 255 GPU-hours using eight RTX 4090s rented from
 <a href="https://www.runpod.io/">Runpod</a>.</p>
@@ -196,105 +260,6 @@ and later by <a href="https://benchaffin.com/">Ben Chaffin</a>. I’ve <a href="
 some CUDA code</a> of my
 own with the goal of pushing things a little further, and I’ll explain
 it in the rest of this post.</p><p><a href="/posts/no-three-in-line.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Linear/Nonlinear Logic and Linear Algebra</title>
-    <link href="https://mvr.github.io/posts/lnl.html" rel="alternate" />
-    <id>urn:uuid:7f4b793c-0ee8-5068-85e4-1f69dc93abfc</id>
-    
-    <published>2025-05-29T00:00:00Z</published>
-    
-    <updated>2025-05-29T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[<!-- \newcommand{\unit}{𝟙} -->
-<p>Benton’s <a href="https://ncatlab.org/nlab/files/BentonLinearLogic.pdf">Linear/Nonlinear
-Logic</a> has
-models in (lax) monoidal adjunctions between monoidal and cartesian
-categories.</p>
-<p>[diagram]</p>
-<p>The tasks performed in GPU kernels often deal with linear and
-nonlinear maps between real vector spaces.</p>
-<p>[diagram]</p>
-<p>I want to take this and run with it: let’s see what it looks like to
-define some mixed linear/nonlinear functions in a linear/nonlinear
-type theory. This feels to me so obvious that it must be written down
-somewhere already. In the literature there is work that gets close
-(and I’ll do some comparisons at the end), but none are quite what I
-want. Please let me know if I’ve missed something.</p>
-<p><strong>Edit</strong>: It’s been pointed out to me that the type theory I’ve put
-together is almost exactly the <a href="https://doi.org/10.1093/logcom/exs025">Enriched Effect
-Calculus</a>, though I still
-haven’t seen the semantics in ordinary vector spaces discussed
-anywhere. <!-- And see my [follow-up](/posts/lnl-ad.html)! --></p><p><a href="/posts/lnl.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>Movie Night</title>
-    <link href="https://mvr.github.io/posts/movie-night.html" rel="alternate" />
-    <id>urn:uuid:4b0a6c5b-69f4-5081-aab7-ca674fbc0799</id>
-    
-    <published>2025-05-15T00:00:00Z</published>
-    
-    <updated>2025-05-15T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[<p>For years now I’ve been watching a movie in-person with friends every
-weekend that I’ve been able to. The movie selection system is perfect,
-crystalline, sacred, with no downsides or exploitable vulnerabilities.</p>
-<ol type="1">
-<li>The nominator is the person who was previously nominator the
-longest ago.</li>
-<li>The nominator chooses two movies that haven’t been nominated
-before.</li>
-<li>Everybody else votes for which to watch. If the vote is tied, the
-nominator breaks the tie.</li>
-<li>In highly exceptional circumstances, the Benevolent Dictator For
-Life may declare a specific movie to be watched, for example, if
-we’re all about to go watch a sequel in-theatre and some people
-need to get up to speed.</li>
-</ol>
-<p>Here’s what we’ve watched so far, together
-with my ratings using almost the simplest possible system.</p><p><a href="/posts/movie-night.html">&gt; Read Post</a></p>]]></summary>
-  </entry>
-  <entry>
-    <title>The Cars In My Backyard</title>
-    <link href="https://mvr.github.io/posts/cars-in-my-backyard.html" rel="alternate" />
-    <id>urn:uuid:5a4e2c2e-db5e-5e22-a7af-495474d60214</id>
-    
-    <published>2025-04-21T00:00:00Z</published>
-    
-    <updated>2025-04-21T00:00:00Z</updated>
-    <author>
-      <name>Mitchell Riley</name>
-      
-      <email>mitchell.v.riley@gmail.com</email>
-      
-    </author>
-    <summary type="html"><![CDATA[<p>When I walk around my neighbourhood, I am struck by the beautiful
-character of the houses here: the draughty Queenslanders and timber
-fences, the majestic external staircases, I could go on forever. But
-something always felt off, and I finally realise what it is. How can I
-admire a house with elegant stilts and sweeping verandahs when there
-is a bright red 2019 Ford Puma sitting in the driveway? Or appreciate
-a compact, postwar masterpiece when it has a Hilux poking out around
-the side? In the hours I’ve spent positioning myself on the street so
-I can bathe in the heritage of my neighbourhood, I have not found an
-angle without some such monstrosity in my field of view.</p>
-<p>We’ve spent years fighting the vandals who want to destroy the
-heritage of our neighbourhood. Why should we make an exception for
-this? I see no other option: we must forbid residents from bringing
-any new cars into the area. This is already a compromise, as if I had
-my way we would ban every car newer than the house it is parked in
-front of. (Of course, some especially old houses would need hitching
-posts to be reinstalled.)</p><p><a href="/posts/cars-in-my-backyard.html">&gt; Read Post</a></p>]]></summary>
   </entry>
 
 </feed>
